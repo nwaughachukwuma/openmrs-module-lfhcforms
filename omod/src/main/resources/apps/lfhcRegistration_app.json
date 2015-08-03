@@ -1,0 +1,104 @@
+[
+   {
+      "id":"${project.parent.artifactId}.registrationapp.registerPatient",
+      "instanceOf":"registrationapp.registerPatient",
+      "label":"Register Patient",
+      "description":"Create a new Patient Record",
+      "extensions":[
+         {
+            "id": "${project.parent.artifactId}.registrationapp.registerPatient.homepageLink",
+            "extensionPointId":"org.openmrs.referenceapplication.homepageLink",
+            "type":"link",
+            "label":"${project.parent.artifactId}.app.registerPatient.label",
+            //"url":"registrationapp/registerPatient.page?appId=lfhcforms.registrationapp.registerPatient",
+            "url":"registrationapp/registerPatient.page?appId=${project.parent.artifactId}.registrationapp.registerPatient",
+            "icon":"icon-user",
+            "order":1,
+            "requiredPrivilege":"App: registrationapp.registerPatient"
+         }
+      ],
+      "config":{
+         "registrationEncounter":{
+            "encounterType":"bfcf0344-f70b-455b-8f03-a270d810001e",
+            "encounterRole":"a0b03050-c99b-11e0-9572-0800200c9a66"
+         },
+         "allowUnknownPatients":false,
+         "allowManualIdentifier":true,
+         "allowRetrospectiveEntry":true,
+         "sections": [
+            {
+              "id": "contactInfo",
+              "label": "registrationapp.patient.contactInfo.label",
+              "questions": [
+                  {
+                      "legend": "Person.address",
+                      "fields": [
+                          {
+                              "type": "personAddress",
+                              "label": "registrationapp.patient.address.question",
+                              "widget": {
+                                  //"providerName": "uicommons",
+                                  //"fragmentId": "field/personAddress"
+                                  "providerName": "registrationapp",
+                                  "fragmentId": "field/personAddressWithHierarchy",
+                                  "config": {
+                                  	"manualFields": [
+                                  		"Foobar"
+                                  	]
+                                  }
+                              }
+                          }
+                      ]
+                  },
+                  {
+                      "legend": "Phone",
+                      "id": "phoneNumberLabel",
+                      "fields": [
+                          {
+                              "type": "personAttribute",
+                              "label": "Patient Phone Number",
+                              "formFieldName": "phoneNumber",
+                              "uuid": "14d4f066-15f5-102d-96e4-000c29c2a5d7",
+                              "widget": {
+                                  "providerName": "uicommons",
+                                  "fragmentId": "field/text"
+                              },
+                              "cssClasses": ["number"]
+                          }
+                      ]
+                  }
+               ]
+            },
+            {
+               "id":"ethnicity",
+               "label":"Ethnicity",
+               "questions":[
+                  {
+                     "legend":"Ethnicity",
+                     "fields":[
+                        {
+                           "type":"obs",
+                           "formFieldName":"obs.202001AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                           "label":"Ethnicity?",
+                           "widget":{
+                              "providerName":"lfhcforms",
+                              "fragmentId":"field/ethnicity"
+                           }
+                        },
+                        {
+                           "type":"obs",
+                           "formFieldName":"obs.202101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                           "label":"Language spoken",
+                           "widget":{
+                              "providerName":"lfhcforms",
+                              "fragmentId":"field/language"
+                           }
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   }
+]
