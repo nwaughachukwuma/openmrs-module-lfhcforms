@@ -4,13 +4,13 @@
         <span>(${ ui.message("emr.formValidation.messages.requiredField.label") })</span>
     </label>
     <select name="${config.formFieldName}" size="6">
-        <option value ="202102AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Lao</option>
-        <option value ="202103AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Hmong</option>
-        <option value ="202104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Khmu</option>
-        <option value ="202105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Chinese</option>
-        <option value ="202106AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Thai</option>
-        <option value ="202107AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">English</option>
-        <option value ="202108AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">Other</option>
+        <option value ="LFHC:913">Lao</option>
+        <option value ="LFHC:914">Hmong</option>
+        <option value ="LFHC:915">Khmu</option>
+        <option value ="LFHC:916">Chinese</option>
+        <option value ="LFHC:917">Thai</option>
+        <option value ="LFHC:918">English</option>
+        <option value ="LFHC:919">Other</option>
     </select>
     <span class="field-error"></span>
 </p>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<htmlform formUuid="a000cb34-1222-4344-a1c8-f692232f6edd"
+	formName="Triage"
+	formEncounterType="d7151f82-c1f3-4152-a605-2f9ea7414a79"
+	formVersion="0.1">
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label> <uimessage code="coreapps.patientDashBoard.provider" />
+			</label> <span> <encounterProvider default="currentUser"
+					required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label> <uimessage code="coreapps.patientDashBoard.location" />
+			</label> <span> <encounterLocation
+					default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label> <uimessage code="coreapps.patientDashBoard.date" />
+			</label> <span> <encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	<section id="triage" sectionTag="section" headerStyle="title"
+		headerCode="Triage">
+		<!-- Main Problem fieldset -->
+		<fieldset field-separator=", ">
+			<legend>
+				Main Problem
+				<!--<lookup expression="fn.getConcept('CIEL:5219').name" />-->
+			</legend>
+			<h3>
+				Main Problem
+				<!--<lookup expression="fn.getConcept('CIEL:5219').name" />-->
+			</h3>
+			<p>
+				<!-- Display the main problems as checkboxes -->
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:140238" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:143264" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:142412" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:122983" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:151" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:122496" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:112234" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:158420" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:136443" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:139084" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:118876" />
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" style="checkbox"
+					answerConceptId="CIEL:206" />
+			</p>
+			<p>
+				<!-- And an 'Other' list dropdown -->
+				<obs conceptId="CIEL:5219" labelText="Other"
+					answerClasses="Diagnosis" style="autocomplete" />
+			</p>
+		</fieldset>
+	
+		<!-- Appearance fieldset -->
+		<fieldset field-separator=", ">
+			<legend>
+				Appearance
+				<!--<lookup expression="fn.getConcept('159640').name" />-->
+			</legend>
+			<h3>
+				Appearance
+				<!--<lookup expression="fn.getConcept('159640').name" />-->
+			</h3>
+			<small>**This will be radio buttons**</small> <br />
+			<p>
+				<obs id="sick" conceptId="CIEL:162741"
+					answerConceptIds="CIEL:1065,CIEL:1066"
+					answerLabels="Very sick,Not very sick" size="3"> <controls>
+				<when value="CIEL:1065" thenDisplay="#very-sick" /> </controls> </obs>
+				<span id="very-sick"> <font color="red"><strong>
+							Take urgently to doctor</strong></font>
+				</span>
+			</p>
+			<p>
+				<obs id="cry" conceptId="CIEL:159860"
+					answerConceptIds="CIEL:110540,CIEL:1066"
+					answerLabels="Crying,Not crying" size="3"> </obs>
+			</p>
+		</fieldset>
+	</section>
+	<submit/>
+</htmlform>

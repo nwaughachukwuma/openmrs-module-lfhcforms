@@ -946,8 +946,8 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<description>Initial set of OpenMRS customisations for the LFHC.</description>
 	<scm>
 		<developerConnection>http://www.mekomsolutions.com</developerConnection>
 	</scm>
+	<description>Patient Registration, HFE forms and basic reporting for the LFHC implementation.</description>
 </project>

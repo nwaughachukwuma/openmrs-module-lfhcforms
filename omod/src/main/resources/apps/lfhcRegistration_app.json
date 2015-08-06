@@ -78,7 +78,7 @@
                      "fields":[
                         {
                            "type":"obs",
-                           "formFieldName":"obs.202001AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                           "formFieldName":"obs.LFHC:912",
                            "label":"Ethnicity?",
                            "widget":{
                               "providerName":"lfhcforms",
@@ -87,7 +87,7 @@
                         },
                         {
                            "type":"obs",
-                           "formFieldName":"obs.202101AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                           "formFieldName":"obs.LFHC:920",
                            "label":"Language spoken",
                            "widget":{
                               "providerName":"lfhcforms",
