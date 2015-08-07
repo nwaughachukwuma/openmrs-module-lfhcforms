@@ -1,0 +1,548 @@
+<htmlform formUuid="a000cb34-1333-4344-a1c8-f692232f6edd" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.2">
+
+<!-- Temporarily and poorly handle "Add" and "Remove" buttons when there is more than one toggleContainer
+TODO: Separate the Logic from the Display
+-->
+
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
+				jQuery('#1-removeEntry').remove();
+				jQuery('#10-addEntry').remove();
+				jQuery('#1-toggleContainer').show();
+	
+				jQuery('#101-removeEntry').remove();
+				jQuery('#101-toggleContainer').show();
+	
+				jQuery('#201-toggleContainer').show();
+				jQuery('#201-removeEntry').remove();
+	
+	
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+			});
+	
+	
+			jQuery(document).ready(function(){
+				jQuery('i.addEntry').live("click", function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
+	
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').live("click", function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+	
+					return false;});
+	
+			});
+		}
+	</script>
+	
+	
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	<section id="general" sectionTag="section" headerStyle="title" headerCode="General">
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Problem description
+				<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			</legend>
+			<h3>
+				Main Problem
+			</h3>
+	
+			<style type="text/css">
+				.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+				.tg table{width: 100%;}
+				.tg td{width:50%;padding:1px 1px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+	
+			</style>
+	
+			
+			<table class="tg">
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:140238" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:143264" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:122983" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:151" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:122496" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:112234" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:158420" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:136443" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:139084" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:118876" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:206" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:6023" /></p></td>
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:832" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:460" /></p></td>
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:825" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:125063" /></p></td>
+				</tr>
+	
+			</table>
+	
+			<p>
+				<br/>
+			</p>
+			<p>
+				<obs conceptId="CIEL:5219" labelText="Other: "  answerClasses="Diagnosis" style="autocomplete" />
+			</p>
+	
+		</fieldset>
+	
+	
+		<!-- Appearance fieldset -->
+		<fieldset field-separator=", ">
+			<legend>
+				Appearance
+			</legend>
+			<h3>
+				Appearance
+			</h3>
+			<p>
+				<obs id="sick" conceptId="CIEL:162741" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Very sick,Not very sick" size="3">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#very-sick" />
+					</controls>
+				</obs>
+				<span id="very-sick">
+					<font color="red"><strong> Take urgently to doctor</strong></font>
+				</span>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Crying
+			</legend>
+			<h3>
+				Crying
+			</h3>
+			<p>
+				<obs id="cry" conceptId="CIEL:159860" answerConceptIds="CIEL:110540,CIEL:1066" answerLabels="Crying,Not crying" size="3">
+				</obs>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>
+				Days sick
+			</legend>
+			<h3>
+				Number of days sick
+			</h3>
+	
+			<p>
+				<obs conceptId="CIEL:1553" id="duration" showUnits="true" />
+			</p>
+	
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Previous admission
+				<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			</legend>
+			<h3>
+				Hospital admission during last year
+			</h3>
+	
+			<p>
+				<obs conceptId="CIEL:5703" id="previous-admission" style="yes_no_dropdown">
+					<controls>
+						<when value="true" thenDisplay="#previous-admission-yes" />
+					</controls>
+				</obs>
+			</p>
+			<span id="previous-admission-yes">
+				<p>
+					<obs conceptId="CIEL:5704" labelText="Number of times"/>
+				</p>
+				<repeat>
+					<template>
+						<div id="{n}-toggleContainer" style="display:none;">
+							<p>
+								<obs conceptId="CIEL:1273" labelText="Where"/>                                   
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							</p>
+	
+						</div>
+					</template>
+					<render n="1"/>
+					<render n="2"/>
+					<render n="3"/>
+					<render n="4"/>
+					
+				</repeat>
+	
+			</span>
+	
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>
+				Medication
+				<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			</legend>
+			<h3>
+				Medication taking now
+			</h3>
+	
+			<p>
+				<obs conceptId="CIEL:159367" id="medication-now" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" size="4">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#medication-now-all" />
+					</controls>
+				</obs>
+			</p>
+	
+			<p>
+			</p>
+	
+			<span id="medication-now-all">
+				<p>
+					<repeat>
+						<template>
+							<div id="{n}-toggleContainer" style="display:none;">
+								<p>
+									<obs conceptId="CIEL:1193" labelText="Medication Family"/>                                   
+									<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+									<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+								</p>
+	
+							</div>
+						</template>
+						<render n="101"/>
+						<render n="102"/>
+						<render n="103"/>
+						<render n="104"/>
+					</repeat>
+				</p>
+	
+	
+				<span id="medication-now-other">
+				<repeat>
+						<template>
+							<div id="{n}-toggleContainer" style="display:none;">
+								<p>
+						<obs conceptId="CIEL:160632" labelText="Other" />
+									<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+									<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+								</p>
+	
+							</div>
+						</template>
+						<render n="201"/>
+						<render n="202"/>
+						<render n="203"/>
+						<render n="204"/>
+					</repeat>
+				
+				</span>
+			</span>
+		</fieldset>
+	
+	</section>
+	
+	
+	
+	<section id="newborn" sectionTag="section" headerStyle="title" headerCode="Newborn (&lt; 3 months old)">
+		
+	
+		<fieldset field-separator=", ">
+			<legend>
+	
+				Gestation term
+			</legend>
+			<h3>
+				Full term gestation
+			</h3>
+			<!-- The following will use a different Concept if the patient is a Male or a female -->
+			<includeIf velocityTest="$patient.gender == 'F' ">
+				<p>
+					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+						<controls>
+							<when value="CIEL:1066" thenDisplay="#gestation-term" />
+						</controls>
+					</obs>
+				</p>
+			</includeIf>
+			<includeIf velocityTest="$patient.gender == 'M' ">
+				<p>
+					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+						<controls>
+							<when value="CIEL:1066" thenDisplay="#gestation-term" />
+						</controls>
+					</obs>
+				</p>
+			</includeIf>
+			<span id="gestation-term">
+				<p>
+					<obs conceptId="CIEL:159926" labelText="Gestation term" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
+				</p>
+			</span>
+	
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Maternal problems
+			</legend>
+			<h3>
+				Maternal problems before birth
+			</h3>
+			<p>
+				<obs id="gestation-problems" conceptId="1576" />
+			</p>
+	
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Maternal medication
+			</legend>
+			<h3>
+				Maternal medication during pregnancy
+			</h3>
+			<p>
+				<small>** concept to be defined **<br/></small>
+				<obs id="pregnancy-medication" conceptId="159640" answerConceptIds="1065,1066,1067">
+					<controls>
+						<when value="1065" thenDisplay="#pregnancy-medication-describe" />
+					</controls>
+				</obs>
+			</p>
+	
+	
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Birth weight
+			</legend>
+			<h3>
+				Birth weight
+			</h3>
+			<p>
+				<obs conceptId="CIEL:5916" showUnits="true" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Birth length
+			</legend>
+			<h3>
+				Birth length
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1503" showUnits="true" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Birth HC
+			</legend>
+			<h3>
+				Birth head circumference
+			</h3>
+			<p>
+				<obs conceptId="CIEL:5314"
+				showUnits="true" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Birth location
+			</legend>
+			<h3>
+				Birth location
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1572" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Birth attendant
+			</legend>
+			<h3>
+				Birth attendant
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1573" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Delivery route
+			</legend>
+			<h3>
+				Delivery route
+			</h3>
+			<p>
+				<obs conceptId="CIEL:5630" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Problems before birth
+			</legend>
+			<h3>
+				Newborn problems after birth
+			</h3>
+			<p>
+				<obs conceptId="CIEL:162134" />
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				BCG vaccine
+			</legend>
+			<h3>
+				BCG vaccine given
+			</h3>
+			<p>
+				<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067">
+					<controls>
+						<when value="1066" thenDisplay="#bcg-no" />
+						<when value="1067" thenDisplay="#bcg-unkown" />
+					</controls>
+				</obs>
+			</p>
+			<span id="bcg-no">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</span>
+			<span id="bcg-unkown">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</span>
+		</fieldset>
+	
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Hepatitis B vaccine
+			</legend>
+			<h3>
+				Hepatitis B vaccine given
+			</h3>
+			<small>** waiting for concept **</small>
+			<p>
+				<obs id="hepatitis-b" conceptId="1198" answerConceptIds="782,1066,1067">
+					<controls>
+						<when value="1066" thenDisplay="#hepatitis-b-no" />
+						<when value="1067" thenDisplay="#hepatitis-b-unknown" />
+					</controls>
+				</obs>
+			</p>
+			<span id="hepatitis-b-no">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</span>
+			<span id="hepatitis-b-unknown">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</span>
+		</fieldset>
+	
+	
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Feeding history
+			</legend>
+			<h3>
+				Feeding history
+			</h3>
+			<!-- TODO: Display checkboxes instead of list -->
+			<p>
+				<obs id="feeding-history" conceptId="1151" style="checkbox">
+					<controls>
+						<when value="5254" thenDisplay="#feeding-history-formula" />
+					</controls>
+				</obs>
+			</p>
+			<span id="feeding-history-formula">
+				<br />
+				<p>
+					<obs id="feeding-history" conceptId="1151"/>
+				</p>	
+			</span>
+	
+		</fieldset>
+	
+	</section>
+	
+	<redirectOnSave url="/allergyui/allergies.page?patientId={{patient.id}}&amp;"/>
+	
+	<submit />
+
+</htmlform>	

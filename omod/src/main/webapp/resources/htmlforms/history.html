@@ -1,0 +1,438 @@
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.1">
+
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
+				
+				jQuery('#10-addEntry').remove();
+				for (var i=1 ; i &lt; 10 ; i++) {
+	
+					jQuery("#"+i+"01-removeEntry").remove();
+					jQuery("#"+i+"01-toggleContainer").show();
+				}
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+	
+			});
+			jQuery(document).ready(function(){
+	
+				jQuery('i.addEntry').live("click", function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
+	
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
+	
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').live("click", function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+	
+					return false;});
+	
+			});
+		}
+	</script>
+	
+	
+	
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	<section id="history" sectionTag="section" headerStyle="title" headerCode="History">
+	
+		<fieldset>
+			<legend>
+				Referal site
+			</legend>
+			<h3>
+				Referal site
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1045"></obs>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Chief complaint
+				<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			</legend>
+			<h3>
+				Chief complaint
+			</h3>
+	
+			<style type="text/css">
+				.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
+				.tg table{width: 100%;}
+				.tg td{width:50%;padding:1px 1px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
+	
+			</style>
+	
+	
+			<table class="tg">
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:140238" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:143264" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:122983" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:151" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:122496" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:112234" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:158420" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:136443" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:139084" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:118876" /></p></td>
+	
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:206" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:6023" /></p></td>
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:832" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:460" /></p></td>
+				</tr>
+				<tr>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:825" /></p></td>
+					<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:125063" /></p></td>
+				</tr>
+	
+			</table>
+	
+			<p>
+				<br/>
+			</p>
+			<repeat>
+				<template>
+	
+					<div id="{n}-toggleContainer" style="display:none;">
+						<p>
+							<obs conceptId="CIEL:5219" labelText="Other: "  answerClasses="Diagnosis" style="autocomplete" />
+						</p>
+	
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						<br/>
+	
+					</div>
+	
+				</template>
+				<render n="201"/>
+				<render n="202"/>
+				<render n="203"/>
+				<render n="204"/>
+			</repeat>
+	
+	
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				History of present illness
+			</legend>
+			<h3>
+				History of present illness
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1390" rows="5" cols="60"></obs>
+			</p>
+		</fieldset>
+	
+	
+		<fieldset>
+			<legend>
+				Duration of illness
+			</legend>
+			<h3>
+				Duration of illness
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1553" showUnits="true"></obs>
+			</p>
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				Signs and symptoms
+			</legend>
+			<h3>
+				Signs and symptoms
+			</h3>
+			<repeat>
+				<template>
+					<obsgroup groupingConceptId="CIEL:1727">
+						<div id="{n}-toggleContainer" style="display:none;">
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1728').name" />
+								<obs conceptId="CIEL:1728" ></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1729').name" />
+								<obs conceptId="CIEL:1729"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1730').name" />
+								<obs conceptId="CIEL:1730"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:162868').name" />
+								<obs conceptId="CIEL:162868"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1731').name" />
+								<obs conceptId="CIEL:1731"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1732').name" />
+								<obs conceptId="CIEL:1732"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1838').name" />
+								<obs conceptId="CIEL:1838"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1869').name" />
+								<obs conceptId="CIEL:1869"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:162642').name" />
+								<obs conceptId="CIEL:162642"></obs>
+							</p>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<br/>
+						</div>
+					</obsgroup>
+				</template>
+				<render n="301"/>
+				<render n="302"/>
+				<render n="303"/>
+				<render n="304"/>
+			</repeat>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>
+				Beriberi risk
+			</legend>
+			<h3>
+				Beriberi risk
+			</h3>
+			<p>
+			</p>
+			<p>
+				<obs id="beriberi-risk" conceptId="LFHC:1003" labelText="Beriberi risk">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#beriberi-risk-yes"/>
+					</controls>
+				</obs>
+			</p>
+			<span id="beriberi-risk-yes">
+				<p>
+					<br/>
+					<font color="red">Needs Vitamin B1</font>
+				</p>
+			</span>
+			<br/>
+			<h6>
+				Risk factors :
+			</h6>
+			<em>
+				<lookup expression="fn.getConcept('CIEL:158420').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:6023').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:122980').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:832').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:460').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:825').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:125063').name" />
+	
+			</em>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>
+				Tuberculosis risk
+			</legend>
+			<h3>
+				Tuberculosis risk
+			</h3>
+			<p>
+				<obs id="tb-risk" conceptId="CIEL:1496" labelText="Tuberculosis risk" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#tb-risk-yes"/>
+					</controls>
+				</obs>
+			</p>
+			<span id="tb-risk-yes">
+				<br/>
+				<em><lookup expression="fn.getConcept('CIEL:1496').name" /></em>
+			</span>
+			<p>
+				<lookup expression="fn.getConcept('CIEL:162633').name" />
+				<obs conceptId="162633"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Medical history
+			</legend>
+			<h3>
+				Past medical history
+			</h3>
+			<repeat>
+				<template>
+					<obsgroup groupingConceptId="160714">
+						<div id="{n}-toggleContainer" style="display:none;">
+							<p>
+								<small>auto-complete field</small>
+								<obs conceptId="CIEL:1628" answerClasses="Diagnosis" style="autocomplete"></obs>
+							</p>
+	
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<br/>
+	
+						</div>
+					</obsgroup>
+				</template>
+				<render n="101"/>
+				<render n="102"/>
+				<render n="103"/>
+				<render n="104"/>
+			</repeat>
+	
+	
+		</fieldset>
+	
+	
+		<fieldset>
+			<legend>
+				Surgical history
+			</legend>
+			<h3>
+				Past surgical history
+			</h3>
+	
+	
+			<repeat>
+				<template>
+					<obsgroup groupingConceptId="160714">
+						<div id="{n}-toggleContainer" style="display:none;">
+							<p>
+								<lookup expression="fn.getConcept('CIEL:1651').name" />
+								<obs conceptId="CIEL:1651"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:160715').name" />
+								<obs conceptId="CIEL:160715" allowTime="false"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:160721').name" />
+								<obs conceptId="CIEL:160721"></obs>
+							</p>
+							<p>
+								<lookup expression="fn.getConcept('CIEL:160716').name" />
+								<obs conceptId="CIEL:160716"></obs>
+							</p>
+	
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<br/>
+	
+						</div>
+					</obsgroup>
+				</template>
+				<render n="1"/>
+				<render n="2"/>
+				<render n="3"/>
+				<render n="4"/>
+			</repeat>
+	
+	
+		</fieldset>
+		<fieldset>
+			<legend>
+				History added
+			</legend>
+			<h3>
+				Past history added
+			</h3>
+			<p>
+				<obs conceptId="CIEL:160221" rows="4" cols="50"></obs>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Family history
+			</legend>
+			<h3>
+				Past family history comments
+			</h3>
+			<p>
+				<obs conceptId="CIEL:160618" rows="4" cols="50"></obs>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Social situation
+			</legend>
+			<h3>
+				Social situation
+			</h3>
+			<p>
+				<obs conceptId="CIEL:162143" rows="4" cols="50"></obs>
+			</p>
+		</fieldset>
+	
+	
+	
+	</section>
+	<submit/>
+</htmlform>

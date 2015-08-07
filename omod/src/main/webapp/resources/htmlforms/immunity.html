@@ -1,0 +1,512 @@
+<htmlform formUuid="b44b99a5-2048-4d45-bf75-40e2eba29c8c" formName="Immunity and Infection" formEncounterType="e864f775-d1d0-4936-85df-557ad5c44ae1" formVersion="0.1">
+
+	<script type="text/javascript">
+	
+		jQuery(function () {
+			$(".check").click(function(){
+	
+				var obs = this.getAttribute("name");
+				var yesValue = this.getAttribute("yesValue");
+	
+				if (this.checked) {
+	
+					setValue(this.getAttribute("value")+"-"+obs+'.value', yesValue);
+					setValue(this.getAttribute("value")+"-"+obs+'-age.value', this.getAttribute("value"));
+					setValue(this.getAttribute("value")+"-"+obs+'-age-unit.value', this.getAttribute("unit"));
+				}
+				else {
+					setValue(this.getAttribute("value")+"-"+obs+'.value', "");
+					setValue(this.getAttribute("value")+"-"+obs+'-age.value', "");
+					setValue(this.getAttribute("value")+"-"+obs+'-age-unit.value', "");
+				};
+	
+			});
+	
+	
+		});
+	
+		jQuery( function(){
+			$("table").each(function() {
+				var $this = $(this);
+				var newrows = [];
+				$this.find("tr").each(function(){
+					var i = 0;
+					$(this).find("td").each(function(){
+						i++;
+						if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+						newrows[i].append($(this));
+					});
+				});
+				$this.find("tr").remove();
+				$.each(newrows, function(){
+					$this.append(this);
+				});
+			});
+	
+		});
+	</script>
+	
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	
+	<style type="text/css">
+	
+	
+		.tg  {table-layout:100%,}
+		.tg td {width:10%;background-color:#fff;}
+	
+	
+	</style>
+	
+	<section id="immunization" sectionTag="section" headerStyle="title" headerCode="Immunity and Infection">
+		<fieldset>
+			<legend>
+				Immunity
+			</legend>
+			<h3>
+				Immunity
+			</h3>
+	
+			<p>
+				<obs conceptId="CIEL:156753" labelText="Is the patient Immunosuppressed ? "></obs>
+			</p>
+	
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				Completed immunizations
+			</legend>
+			<h3>
+				Completed immunizations
+			</h3>
+	
+			<table class="tg">
+				<tbody>
+					<tr>
+						<td>
+	
+						</td>
+						<td class="tg">
+							Birth
+						</td>
+						<td class="tg">
+							6 weeks
+						</td>
+						<td class="tg">
+							10 weeks
+						</td>
+						<td class="tg">
+							14 weeks
+						</td>
+						<td class="tg">
+							9 months
+						</td>
+						<td  class="tg">
+							15/45 years
+						</td>
+					</tr>
+	
+	Change the display to remove checkboxes in grey cells
+					<tr>
+						<td>
+	
+							BCG Vaccine
+	
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="bcg" yesValue="886" value="0" unit="Days"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="bcg" yesValue="886" value="6" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="bcg"  yesValue="886" value="10" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="bcg"  yesValue="886" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="bcg" yesValue="886" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="bcg" yesValue="886" value="15" unit="Years"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+	
+							Hepatits B Vaccine
+	
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="0" unit="Days"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="6" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="10" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="hep-b" yesValue="782" value="15" unit="Years"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+	
+							DPT-HepB-HIB
+	
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="dpt" value="0" yesValue="1685" unit="Days"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="dpt" value="6" yesValue="1685" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="dpt" yesValue="1685" value="10" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="dpt" yesValue="1685" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="dpt" yesValue="1685" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="dpt" yesValue="1685" value="15" unit="Years"/>
+						</td>
+					</tr>
+	
+					<tr>
+						<td>
+	
+							OPV
+	
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="0" unit="Days"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="6" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="10" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="opv" yesValue="783" value="15" unit="Years"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+	
+							PCV 13
+	
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="0" unit="Days"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="6" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="10" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="pcv" yesValue="82215" value="15" unit="Years"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+	
+							MR
+	
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="0" unit="Days"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="6" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="10" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="14" unit="Weeks"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="9" unit="Months"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="mr" yesValue="162586" value="15" unit="Years"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+	
+							Td
+	
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="0" unit="Days"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="6" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="10" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="14" unit="Weeks"/>
+						</td>
+						<td style="background-color: gainsboro;">
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="9" unit="Months"/>
+						</td>
+						<td>
+							<input class="check" type="checkbox" name="td" yesValue="75045" value="15" unit="Years"/>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p>
+				<input type="text" style="display:none;"/>
+			</p>
+	
+			<div style="display:none;">
+				<span>
+					BCG
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-bcg" conceptId="CIEL:1198"/>
+									<obs id="{n}-bcg-age" conceptId="21" />
+									<obs id="{n}-bcg-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+	
+				</span>
+	
+				<span>
+					HepB
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-hep-b" conceptId="CIEL:1198"/>
+									<obs id="{n}-hep-b-age" conceptId="21" />
+									<obs id="{n}-hep-b-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+				</span>
+	
+				<span>
+					DPT
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-dpt" conceptId="CIEL:1198" answerConceptIds="CIEL:1685"/>
+									<obs id="{n}-dpt-age" conceptId="21" />
+									<obs id="{n}-dpt-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+				</span>		
+	
+				<span>
+					OPV
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-opv" conceptId="CIEL:1198" answerConceptIds="CIEL:783"/>
+									<obs id="{n}-opv-age" conceptId="21" />
+									<obs id="{n}-opv-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+							<render n="15"/>
+					</repeat>
+				</span>		
+				<span>
+					PCV 13
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-pcv" conceptId="CIEL:1198" answerConceptIds="CIEL:82215"/>
+									<obs id="{n}-pcv-age" conceptId="21" />
+									<obs id="{n}-pcv-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+				</span>		
+				<span>
+					MR
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-mr" conceptId="CIEL:1198" answerConceptIds="CIEL:162586"/>
+									<obs id="{n}-mr-age" conceptId="21" />
+									<obs id="{n}-mr-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+				</span>		
+				<span>
+					Td
+					<repeat>
+						<template>
+							<obsgroup groupingConceptId="CIEL:1421">
+								<p>
+									<obs id="{n}-td" conceptId="CIEL:1198" answerConceptIds="CIEL:75045"/>
+									<obs id="{n}-td-age" conceptId="21" />
+									<obs id="{n}-td-age-unit" conceptId="CIEL:161244"/>
+								</p>
+							</obsgroup>
+						</template>
+						<render n="0"/>
+						<render n="6"/>
+						<render n="10"/>
+						<render n="14"/>
+						<render n="9"/>
+						<render n="15"/>
+					</repeat>
+				</span>		
+			</div>
+	
+		</fieldset>
+		<fieldset>
+			<legend>
+				Stools
+			</legend>
+			<h3>
+				Loose stools ?
+			</h3>
+			<p>
+				<obs id="loose-stools" conceptId="CIEL:142412">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#loose-stools-yes"/>
+					</controls>
+				</obs>
+	
+			</p>
+			<br/>
+			<p>
+				<strong id="loose-stools-yes"><i class="icon-">&#xf071;</i> Needs enteric isolation</strong>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Infectious contact
+			</legend>
+			<h3>
+				Infectious contact
+			</h3>
+			<p>
+				<obs conceptId="CIEL:162633"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Other Infectious Concerns
+			</legend>
+			<h3>
+				Other infectious concerns
+			</h3>
+			<p>
+				<obs conceptId="CIEL:159395" rows="4" cols="50"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<submit/>
+</htmlform>	

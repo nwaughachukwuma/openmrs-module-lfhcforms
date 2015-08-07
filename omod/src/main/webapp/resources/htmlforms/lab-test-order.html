@@ -1,0 +1,867 @@
+<htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="39deb891-8dc6-451b-9361-dbf564f27250" formVersion="0.2">
+
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
+				jQuery('#1-removeEntry').remove();
+				jQuery('#10-addEntry').remove();
+				jQuery('#1-toggleContainer').show();
+	
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+			});
+	
+	
+			jQuery(document).ready(function(){
+				jQuery('i.addEntry').live("click", function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
+	
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').live("click", function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+	
+					return false;});
+	
+			});
+		}
+	</script>
+	
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	<ifMode mode="ENTER" >
+		<section id="lab-order" sectionTag="section" headerStyle="title" headerCode="Lab Order">
+			<fieldset field-separator=", ">
+				<legend>
+					Lab test order
+				</legend>
+				<h3>
+					Select a Lab Test
+				</h3>
+	
+				<repeat>
+					<template>
+						<div id="{n}-toggleContainer" style="display:none;" >
+							<p>
+								<obs id="{n}-test-order" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1125,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i><i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							</p>
+						</div>
+					</template>
+					<render n="1"/>
+					<render n="2"/>
+					<render n="3"/>
+					<render n="4"/>
+					<render n="5"/>
+					<render n="6"/>
+					<render n="7"/>
+					<render n="8"/>
+					<render n="9"/>
+	
+				</repeat>
+				<p>
+	
+				</p>
+	
+	
+			</fieldset>
+		</section>
+		<submit/>
+	</ifMode>
+	
+	
+	
+	
+	
+	
+	<ifMode mode="EDIT">
+	
+	
+		<style type="text/css">
+	
+			.tg {
+				table-layout: fixed;
+				width: 50%;
+				margin-left: 10px;
+			}
+	
+			.tg td {
+				width: 35%;
+			}
+	
+			.customSubmit {
+				background-color: green;
+			}
+	
+			
+	
+		</style>
+	
+		<section>
+			<h3>Test sets</h3>
+			<fieldset>
+	
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<h3><obs id="28-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1019"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+									<table>
+	
+										<tbody>
+	
+											<tr>
+												<td>
+													<obs id="37-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1015"/>
+													<obs id="37-test-result" conceptId="CIEL:1015" />
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="39-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:21"/>
+													<obs id="39-test-result" conceptId="CIEL:21" />
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="40-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1017"/>
+													<obs id="40-test-result" conceptId="CIEL:1017" />
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="41-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1018"/>
+													<obs id="41-test-result" conceptId="CIEL:1018" />
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="42-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:851"/>
+													<obs id="42-test-result" conceptId="CIEL:851" />
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="43-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:729"/>
+													<obs id="43-test-result" conceptId="CIEL:729" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="44-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:679"/>
+													<obs id="44-test-result" conceptId="CIEL:679" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="45-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1016"/>
+													<obs id="45-test-result" conceptId="CIEL:1016" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:678"/>
+													<obs id="46-test-result" conceptId="CIEL:678" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:952"/>
+													<obs id="46-test-result" conceptId="CIEL:952" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1022"/>
+													<obs id="46-test-result" conceptId="CIEL:1022" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1336"/>
+													<obs id="46-test-result" conceptId="CIEL:1336" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1024"/>
+													<obs id="46-test-result" conceptId="CIEL:1024" showUnits="true"/>
+												</td>
+	
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1023"/>
+													<obs id="46-test-result" conceptId="CIEL:1023" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1025"/>
+													<obs id="46-test-result" conceptId="CIEL:1025" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="46-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1127"/>
+													<obs id="46-test-result" conceptId="LFHC:1127" showUnits="true"/>
+												</td>
+											</tr>
+	
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+	
+					</tbody>
+				</table>
+				<br/>
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td >
+								<h3><obs id="101-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:953"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td >
+													<obs id="4-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:655"/>              
+													<obs id="4-test-result" conceptId="CIEL:655" showUnits="true" unitsCssClass="append-to-value"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="5-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:654"/>              
+	
+													<obs id="5-test-result" conceptId="CIEL:654"  showUnits="true"/>                 
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="6-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:653"/>              
+													<obs id="6-test-result" conceptId="CIEL:653"  showUnits="true"/>                 
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="7-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:785"/>
+													<obs id="7-test-result" conceptId="CIEL:785" showUnits="true"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="8-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:717"/>
+													<obs id="8-test-result" conceptId="CIEL:717" showUnits="true"/>
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="9-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159430"/>
+													<obs id="9-test-result" conceptId="CIEL:159430"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1325"/>
+													<obs id="10-test-result" conceptId="CIEL:1325"/>
+												</td>
+	
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159829"/>
+													<obs id="10-test-result" conceptId="CIEL:159829"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1297"/>
+													<obs id="10-test-result" conceptId="CIEL:1297"/>
+												</td>
+											</tr>
+	
+	
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<h3><obs id="101-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5473"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161523"/>
+													<obs id="10-test-result" conceptId="CIEL:161523"/>
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161525"/>
+													<obs id="10-test-result" conceptId="CIEL:161525"/>
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161527"/>
+													<obs id="10-test-result" conceptId="CIEL:161527"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161528"/>
+													<obs id="10-test-result" conceptId="CIEL:161528"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<h3><obs id="101-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161446"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:162101"/>
+													<obs id="10-test-result" conceptId="CIEL:162101"/>
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161444"/>
+													<obs id="10-test-result" conceptId="CIEL:161444"/>
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161443"/>
+													<obs id="10-test-result" conceptId="CIEL:161443"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161442"/>
+													<obs id="10-test-result" conceptId="CIEL:161442"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159733"/>
+													<obs id="10-test-result" conceptId="CIEL:159733"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1875"/>
+													<obs id="10-test-result" conceptId="CIEL:1875"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:162096"/>
+													<obs id="10-test-result" conceptId="CIEL:162096"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161440"/>
+													<obs id="10-test-result" conceptId="CIEL:161440"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161438"/>
+													<obs id="10-test-result" conceptId="CIEL:161438"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161439"/>
+													<obs id="10-test-result" conceptId="CIEL:161439"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161441"/>
+													<obs id="10-test-result" conceptId="CIEL:161441"/>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:162106"/>
+													<obs id="10-test-result" conceptId="CIEL:162106"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<h3><obs id="101-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1125"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5085"/>
+													<obs id="10-test-result" conceptId="CIEL:5085"/>
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5086"/>
+													<obs id="10-test-result" conceptId="CIEL:5086"/>
+												</td>
+											</tr>	
+											
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<h3><obs id="101-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1118"/></h3>
+								<details>
+									<summary>
+										See more
+									</summary>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159497"/>
+													<obs id="10-test-result" conceptId="CIEL:159497"/>
+												</td>
+											</tr>
+	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161154"/>
+													<obs id="10-test-result" conceptId="CIEL:161154"/>
+												</td>
+											</tr>	
+											<tr>
+												<td>
+													<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159643"/>
+													<obs id="10-test-result" conceptId="CIEL:159643"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+			</fieldset>
+		</section>
+		<section>
+			<h3>Other tests</h3>
+			<fieldset>
+	
+				<table class="tg">
+	
+	
+					<tbody>
+						<tr>
+							<td>
+								<obs id="1-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:300"/>              
+	
+								<obs id="1-test-result" conceptId="CIEL:300"/>                 
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="2-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:302"/>              
+	
+	
+								<obs id="2-test-result" conceptId="CIEL:302"/>                 
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="3-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161445"/>              
+	
+								<obs id="3-test-result" conceptId="CIEL:161445"/>                 
+							</td>
+						</tr>
+						<tr>
+						</tr>
+	
+					</tbody>
+				</table>
+	
+				<br/>
+	
+				<table class="tg">
+					<tbody>
+						<tr>
+							<td>
+								<obs id="11-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:299"/>
+								<obs id="11-test-result" conceptId="CIEL:299"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="12-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:306"/>
+								<obs id="12-test-result" conceptId="CIEL:306"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="13-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:887"/>
+								<obs id="13-test-result" conceptId="CIEL:887" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="14-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:160912"/>
+								<obs id="14-test-result" conceptId="CIEL:160912"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="15-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:160914"/>
+								<obs id="15-test-result" conceptId="CIEL:160914" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="16-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:857"/>
+								<obs id="16-test-result" conceptId="CIEL:857" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="17-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:790"/>
+								<obs id="17-test-result" conceptId="CIEL:790" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="18-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1013"/>
+								<obs id="18-test-result" conceptId="CIEL:1013" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="19-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159825"/>
+								<obs id="19-test-result" conceptId="CIEL:159825" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="20-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:717"/>
+								<obs id="20-test-result" conceptId="CIEL:717"  showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="21-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:848"/>
+								<obs id="21-test-result" conceptId="CIEL:848"  showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="22-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1006"/>
+								<obs id="22-test-result" conceptId="CIEL:1006" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="23-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1009"/>
+								<obs id="23-test-result" conceptId="CIEL:1009" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="24-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1299"/>
+								<obs id="24-test-result" conceptId="CIEL:1299" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="25-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1132"/>
+								<obs id="25-test-result" conceptId="CIEL:1132" showUnits="true"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="26-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1133"/>
+								<obs id="26-test-result" conceptId="CIEL:1133" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="27-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159497"/>
+								<obs id="27-test-result" conceptId="CIEL:159497" />
+							</td>
+						</tr>
+	
+						<tr>
+							<td>
+								<obs id="29-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5497"/>
+								<obs id="29-test-result" conceptId="CIEL:5497" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="30-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:856"/>
+								<obs id="30-test-result" conceptId="CIEL:856" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="31-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:730"/>
+								<obs id="31-test-result" conceptId="CIEL:730" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="32-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:952"/>
+								<obs id="32-test-result" conceptId="CIEL:952" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="33-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161505"/>
+								<obs id="33-test-result" conceptId="CIEL:161505" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161504"/>
+								<obs id="34-test-result" conceptId="CIEL:161504" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1643"/>
+								<obs id="34-test-result" conceptId="CIEL:1643" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159362"/>
+								<obs id="34-test-result" conceptId="CIEL:159362" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1040"/>
+								<obs id="34-test-result" conceptId="CIEL:1040" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1120"/>
+								<obs id="34-test-result" conceptId="LFHC:1120" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1121"/>
+								<obs id="34-test-result" conceptId="LFHC:1121" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1122"/>
+								<obs id="34-test-result" conceptId="LFHC:1122" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1123"/>
+								<obs id="34-test-result" conceptId="LFHC:1123" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1124"/>
+								<obs id="34-test-result" conceptId="LFHC:1124" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:45"/>
+								<obs id="34-test-result" conceptId="CIEL:45" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:307"/>
+								<obs id="34-test-result" conceptId="CIEL:307" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="LFHC:1126"/>
+								<obs id="34-test-result" conceptId="LFHC:1126" />
+							</td>
+						</tr>				
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161511"/>
+								<obs id="34-test-result" conceptId="CIEL:161511"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1327"/>
+								<obs id="34-test-result" conceptId="CIEL:1327"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:160226"/>
+								<obs id="34-test-result" conceptId="CIEL:160226"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159828"/>
+								<obs id="34-test-result" conceptId="CIEL:159828"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1007"/>
+								<obs id="34-test-result" conceptId="CIEL:1007"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1008"/>
+								<obs id="34-test-result" conceptId="CIEL:1008"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161500"/>
+								<obs id="34-test-result" conceptId="CIEL:161500"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:855"/>
+								<obs id="34-test-result" conceptId="CIEL:855"/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159644"/>
+								<obs id="34-test-result" conceptId="CIEL:159644"/>
+							</td>
+						</tr>
+	
+	
+	
+					</tbody>
+				</table>
+				<br/>
+	
+	
+	
+	
+			</fieldset>
+		</section>
+		<a class="button cancel" >Cancel</a>
+		<submit submitStyle="customSubmit" submitLabel="Save"/>
+	
+	</ifMode>
+
+</htmlform>

@@ -1,0 +1,283 @@
+<htmlform formUuid="cdc13a25-fe9e-43a5-85dd-7e2f31e8c860" formName="Discharge" formEncounterType="181820aa-88c9-479b-9077-af92f5364329" formVersion="0.1">
+
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
+				
+				jQuery('#10-addEntry').remove();
+				for (var i=1 ; i &lt; 10 ; i++) {
+	
+					jQuery("#"+i+"01-removeEntry").remove();
+					jQuery("#"+i+"01-toggleContainer").show();
+				}
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+	
+			});
+	
+	
+			jQuery(document).ready(function(){
+	
+				jQuery('i.addEntry').live("click", function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
+	
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
+	
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').live("click", function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+	
+					return false;});
+	
+			});
+		}
+	</script>
+	
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	<style type="text/css">
+		.tg {
+			table-layout: fixed;
+			width: 70%;
+			margin-left: 10px;
+		}
+	</style>
+	
+	<section id="referrals" sectionTag="section" headerStyle="title" headerCode="Referrals">
+		<fieldset field-separator=", ">
+	
+			<legend>Referrals</legend>
+			<h3>Referrals</h3>
+			<p>
+				<obs conceptId="1272"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+	
+			<legend>Outreach</legend>
+			<h3>Outreach</h3>
+			<p>
+				<obs conceptId="LFHC:1086"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+	
+			<legend>Homecare</legend>
+			<h3>Homecare</h3>
+			<p>
+				<obs conceptId="LFHC:1087"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+	
+			<legend>Chronic care</legend>
+			<h3>Chronic care</h3>
+			<p>
+				<obs conceptId="LFHC:1088"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+	
+			<legend>Other referral</legend>
+			<h3>Other referral</h3>
+			<p>
+			<obs conceptId="LFHC:1089" rows="4" cols="40"/>
+			</p>
+	
+			<h3>Date of other referral</h3>
+			<p>
+				<obs conceptId="LFHC:1090"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<section id="checklist" sectionTag="section" headerStyle="title" headerCode="Discharge Checklist">
+	
+		<fieldset field-separator=", ">
+			<legend>Immunizations</legend>
+			<h3>Catch up immunizations given</h3>
+			<p>
+				<obs conceptId="LFHC:1091"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>Handouts</legend>
+			<h3>Handouts about condition given</h3>
+			<p>
+				<obs conceptId="LFHC:1092"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>Lines and tubes</legend>
+			<h3>All tubes and lines removed</h3>
+			<p>
+				<obs conceptId="LFHC:1093"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Green book</legend>
+			<h3>Green book completed</h3>
+			<p>
+				<obs conceptId="LFHC:1094"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Medication</legend>
+			<h3>Medications given</h3>
+			<p>
+				<obs conceptId="LFHC:1095"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Follow up</legend>
+			<h3>Follow up appointments made if needed</h3>
+			<p>
+				<obs conceptId="LFHC:1096"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<section id="summary" sectionTag="section" headerStyle="title" headerCode="Summary of Admission">
+	
+		<fieldset field-separator=", ">
+			<legend>Main treatment</legend>
+			<h3>Main treatments received</h3>
+			<p>
+				<obs conceptId="LFHC:1098" rows="4" cols="50"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Length of stay</legend>
+			<h3>Length of stay</h3>
+			<p>
+				<obs conceptId="CIEL:162196" showUnits="true"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Recommendations</legend>
+			<h3>Discharge recommendations</h3>
+			<p>
+				<obs conceptId="CIEL:162196" rows="4" cols="50"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Discharge diagnosis</legend>
+			<h3>Discharge diagnosis</h3>
+			<repeat>
+				<template>
+	
+					<div id="{n}-toggleContainer" style="display:none;">
+						<obsgroup groupingConceptId="CIEL:159947">
+							<table class="tg">
+								<tbody>
+									<tr>
+										<td>
+											Diagnosis classification	
+										</td>
+										<td>
+											<p>
+												<obs conceptId="CIEL:159946"/>
+											</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Diagnosis		
+										</td>
+										<td>
+											<p>
+												<obs conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
+											</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											Diagnosis certainty
+										</td>
+										<td>
+											<obs conceptId="CIEL:159394" answerConceptIds="CIEL:159393,CIEL:159392"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+	
+	
+							<p>
+								
+								
+							</p>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<br/>
+	
+						</obsgroup>
+					</div>
+	
+				</template>
+				<render n="201"/>
+				<render n="202"/>
+				<render n="203"/>
+			</repeat>
+	
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>Discharged to</legend>
+			<h3>Discharged to</h3>
+			<p>
+				<obs conceptId="LFHC:1100"/>
+			</p>
+		</fieldset>
+	
+		<fieldset field-separator=", ">
+			<legend>Condition</legend>
+			<h3>Condition at Discharge</h3>
+			<p>
+				<obs conceptId="LFHC:1101"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<submit/>
+</htmlform>

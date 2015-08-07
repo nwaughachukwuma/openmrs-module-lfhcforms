@@ -31,7 +31,27 @@ public class HtmlFormsInitializer implements Initializer {
 			FormService formService = Context.getFormService();
 			HtmlFormEntryService htmlFormEntryService = Context.getService(HtmlFormEntryService.class);
 
-			List<String> htmlforms = Arrays.asList("lfhcforms:htmlforms/triage.html");
+			List<String> htmlforms = Arrays.asList(
+					"lfhcforms:htmlforms/admission-discharge.html",
+					"lfhcforms:htmlforms/clinicalnotes.html",
+					"lfhcforms:htmlforms/diagnosis.html",
+					"lfhcforms:htmlforms/diagnostic-imaging.html",
+					"lfhcforms:htmlforms/discharge.html",
+					"lfhcforms:htmlforms/dispense-med.html",
+					"lfhcforms:htmlforms/doctor.html",
+					"lfhcforms:htmlforms/fluidbalance.html",
+					"lfhcforms:htmlforms/history.html",
+					"lfhcforms:htmlforms/immunity.html",
+					"lfhcforms:htmlforms/ipd-nurse.html",
+					"lfhcforms:htmlforms/lab-test-order.html",
+					"lfhcforms:htmlforms/lines-tubes.html",
+					"lfhcforms:htmlforms/med-order.html",
+					"lfhcforms:htmlforms/opd-nurse.html",
+					"lfhcforms:htmlforms/phys-exam.html",
+					"lfhcforms:htmlforms/triage.html",
+					"lfhcforms:htmlforms/vitals-pews.html",
+					"lfhcforms:htmlforms/wound.html"
+					);
 
 			for (String htmlform : htmlforms) {
 				HtmlFormUtil.getHtmlFormFromUiResource(resourceFactory, formService, htmlFormEntryService, htmlform);
@@ -43,7 +63,7 @@ public class HtmlFormsInitializer implements Initializer {
 				log.error("Unable to load HTML forms--this error is expected when running component tests");
 			}
 			else {
-//				throw e;
+				log.error(e.getMessage(), e);
 			}
 		}
 	}

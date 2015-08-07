@@ -1,0 +1,120 @@
+<htmlform formUuid="1c6c9d87-748b-43c4-b764-3df7e711762f" formName="Fluid Balance" formEncounterType="9f5c90b2-03e0-4374-8534-6c32ea71f3ab" formVersion="0.1">
+
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	
+	<section id="fluid-input" sectionTag="section" headerStyle="title" headerCode="Fluid Input">
+		<fieldset>
+			<legend>
+				Intravenous
+			</legend>
+			<h3>
+				Intravenous
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1004" showUnits="true"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Oral
+			</legend>
+			<h3>
+				Oral
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1005" showUnits="true"/>
+			</p>
+		</fieldset>
+	
+		<fieldset>
+			<legend>	
+				Other
+			</legend>
+			<h3>
+				Other
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1006" showUnits="true"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<section id="fluid-output" sectionTag="section" headerStyle="title" headerCode="Fluid Output">
+		
+		<fieldset>
+			<legend>
+				Urine
+			</legend>
+			<h3>
+				Urine
+			</h3>
+			<p>
+				<obs conceptId="CIEL:161929" showUnits="true"/>
+			</p>
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				Stool
+			</legend>
+			<h3>
+				Stool
+			</h3>
+			<p>
+				<small>waiting for more Concepts</small>
+			</p>
+		</fieldset>
+	
+		<fieldset>
+			<legend>
+				Wound drainage
+			</legend>
+			<h3>
+				Wound drainage
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1001" showUnits="true"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Pleural fluid drainage
+			</legend>
+			<h3>
+				Pleural fluid drainage
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1002" showUnits="true"/>
+			</p>
+		</fieldset>
+	
+	</section>
+	
+	<submit/>
+</htmlform>
