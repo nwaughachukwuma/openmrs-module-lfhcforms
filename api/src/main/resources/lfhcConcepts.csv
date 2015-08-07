@@ -31,16 +31,17 @@ LFHC:1008		xray List	xray set	diagnostic imaging set	List of all xrays	Test	Yes	
 LFHC:1009		Ultrasound List	Ultrasound set	ultrasound set	List of all ultrasounds	Test	Yes	Coded		845, 161, 274, 161, 275, 161276, 161277, 161279, 161280, 161283, 161285, 161288
 LFHC:1010		ultrasound of mass	U/S Mass	ultrasound of the mass	description of a mass	Test	No	Text		
 LFHC:1011		Musculoskeletal system and injury diagnosis	injuries	injuries, trauma, fractures, sprains, strains	any injury that can occur in musculoskeletal system	Diagnosis	Yes	Coded		116543, 177, 112770, 133628, 481, 125614, 157450, 5622
-LFHC:1012										125343
-LFHC:1013										125379
-LFHC:1014										
-LFHC:1015										112561
-LFHC:1016										119027
-LFHC:1017										160187
-LFHC:1018										160186
-LFHC:1019										121452
-LFHC:1020										158995
-LFHC:1021										160188
+LFHC:1012		other xray			text description of other xray required	Test	No	Text		
+LFHC:1013		other xray set			link for other xray and text to define which body part or view	ConvSet	Yes	N/A		309, LFHC:1013
+LFHC:1014		other ultrasound				Test	No	Coded		1115, 1116
+LFHC:1015		other ultrasound description			"text box to identify the part required
+"	Test	No	Text		
+LFHC:1016		other ultrasound set			link other ultrasound info	ConvSet	Yes	N/A		LFHC: 1015, LFHC: 1014
+LFHC:1017										
+LFHC:1018										
+LFHC:1019										
+LFHC:1020										
+LFHC:1021										
 LFHC:1022		maternal medication use	pregnancy drugs	prenatal drugs, pregnancy drugs, gestational drugs, maternal use of medications - need to space for 4 drugs	these are medications used by the biological mother of the child during her pregnancy or while breastfeeding	Drug	Yes	Coded		
 LFHC:1023		neonatal problems			problems in the neonatal period					115367, 226, 110509, 110666, 110673, 115368,115372, 115378, 115381,115384, 115762, 117626, 124289, 124954, 126635, 133049, 133367, 133371, 133375, 133377, 133380, 133385, 133393, 133398, 133399, 133403, 133414, 133419, 133422, 133423, 152264, 154223, 157903, 157905, 157908, 162317, 143049, 149461
 LFHC:1024		medication list 			common drugs in opd and ipd					1881, 70116, 89, 71160, 81724, 73628, 73042, 73019, 162229, 73547,71780,75842,73087,72999,73006, 79782, 80945,80106,1085,1159,5839, 81951,74745, the rest of the total drug lis
@@ -88,7 +89,7 @@ LFHC:1055		IV orders			type and rate of iv fluid	Question	Yes	N/A
 LFHC:1056		patient bracelet	ID bracelet	ID bracelet	"does the patient have an id bracelet in place?
 "	Question	No	Coded		1065, 1066
 LFHC:1057		patient reweighed on IPD scale				ConvSet	Yes	N/A		985, LHFC:1047
-LFHC:1058		diet				Question	No	Coded		1065, 1066, 1067
+LFHC:1058		Diet order				Question	No	Coded		1065, 1066, 1067
 LFHC:1059		Visiting policy/orientation for family explained	"family orientation
 "			Question	No	Coded		1065, 1066, 1067
 LFHC:1060		Family aware of plan/ reason for admission	"family aware of plan
@@ -111,3 +112,63 @@ LFHC:1074		Urinary catheter date			date of insertion of urinary catheter	Procedu
 LFHC:1075		Urinary catheter size			size of urinary catheter  (gauge)	Procedure	No	Structured Numeric		5,6,8,10,12,14,16,18,20
 LFHC:1076		Other tube date				Procedure	No	Text		
 LFHC:1077		other tube site				Procedure	No	Text		
+LFHC:1078		IVC#1 details			info about IVC #1	ConvSet	Yes	N/A		LHFC:1063, LFC:1064, LFHC 1065
+LFHC:1079		IVC#2 details			info about IVC #2	ConvSet	Yes	N/A		LHFC:1066, LFC:1067, LFHC 1068
+LFHC:1080		IVC#3 details			info about IVC #3	ConvSet	Yes	N/A		LHFC:1069, LFC:1070, LFHC 1071
+LFHC:1081		NG details			info about NG	ConvSet	Yes	N/A		LFHC: 1072, LFHC:1073, LFHC:1084
+LFHC:1082		Urinary catheter details			info about urinary catheter	ConvSet	Yes	N/A		LFHC: 1074, LFHC:1075
+LFHC:1083		Other tube details			"info about other tube
+"	ConvSet	Yes	N/A		LFHC: 1076, LFHC:1077
+LFHC:1084		NG tube size			size of ng tube	Procedure	Yes	Structured Numeric		"5,6,8,10,12,14,16,18,20,22,24,26,28
+"
+LFHC:1085		Nursing Assessment			unique nursing notes on admission	Finding	No	Text		
+LFHC:1086		Outreach			referral made to outreach team	Question	No	Coded		1065, 1066
+LFHC:1087		Homecare			referral made to homecare	Question	No	Coded		1065, 1067
+LFHC:1088		Chronic Care			"added to chronic care list
+"	Question	No	Coded		1065, 1068
+LFHC:1089		"Other referral
+"			name of other referral	Misc	No	Text		
+LFHC:1090		Date of referral			date of other referral	Question	No	Date		
+LFHC:1091		Catch up immunizations given 			Catch up immunizations given 	Question	No	Coded		1065, 1066, 1175
+LFHC:1092		Handouts about condition given			Handouts about condition given	Question	No	Coded		1065, 1066, 1175
+LFHC:1093		All tubes and lines removed 			All tubes and lines removed 	Question	No	Coded		1065, 1066, 1175
+LFHC:1094		Green book completed 			Green book completed 	Question	No	Coded		1065, 1066, 1067
+LFHC:1095		Medications given			Medications given	Question	No	Coded		1065, 1066, 1175
+LFHC:1096		Follow up appointments made if needed			Follow up appointments made if needed	Question	No	Coded		1065, 1066, 1175
+LFHC:1097		Discharge CheckList				ConvSet	Yes	N/A		LFHC:1091, LFHC:1092, LFHC:1093, LFHC:1094, LFHC:1095, LFHC:1096
+LFHC:1098		treatment summary			summary of treatments during admission	Question	No	Text		
+LFHC:1099		Discharge Recommendations				Question	No	Text		
+LFHC:1100		Discharged to:			where was the patient discharged to	Question	No	Coded		1536, 159671, 159662, 5622
+LFHC:1101		Condition at Discharge			what was the condition of the patient at discharge	Question	No	Coded		159405, 162132, 162133, 160113, 110104, 122936, 145439. 156923. 161599, 159
+LFHC:1102		age when vaccination given			age when vaccination given	Question	No	Numeric		
+LFHC:1103		Immunization schedule				ConvSet	Yes	N/A		1421, LFHC:1102, 161244
+LFHC:1104		"Immunocompromised Details
+"				Question	No	text		
+LFHC:1105		Immunity 				ConvSet	Yes	N/A	"
+"	LFHC:1104, 156753
+LFHC:1106		urine colour								
+LFHC:1107		urine appearance								
+LFHC:1108		urine bilirubin								
+LFHC:1109		"urobilinogen
+"								
+LFHC:1110		"urine ketones
+"								
+LFHC:1111		urine glucose								
+LFHC:1112		urine protein								
+LFHC:1113		urine red blood cells								
+LFHC:1114		urine nitrites								
+LFHC:1115		urine pH								
+LFHC:1116		specific gravity								
+LFHC:1117		"urine leukocytes (WBC)
+"								
+LFHC:1118		bone test set				LabSet	Yes	N/A		161154, 159643, 159497, 785
+LFHC:1119		streptococcus A swab				Test	No	Coded		1065, 1066, 1067
+LFHC:1120		rotavirus antigen				Test	No	Coded		1065, 1066, 1138
+LFHC:1121		adenovirus rapid test				Test	No	Coded		1065, 1066, 1138
+LFHC:1122		anti-HBs(antibody)				Test	No	Coded		1065, 1066, 1138
+LFHC:1123		Dengue				Test	No	Coded		1065, 1066, 1138
+LFHC:1124		s typhi (IgG and IGM)				Test	No	Coded		1065, 1066, 1138
+LFHC:1125		blood pressure set				ConvSet	Yes	N/A		5085, 5086
+LFHC:1126		"GeneXpert (gene test for TB)
+"				Test	No	Coded		1065, 1066, 1138
+LFHC:1127		mixed white cells	mixed			Test	No	Numeric		total of 1023, 1024, 1025

@@ -22,7 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.lfhcforms.activator.AddressTemplateInitializer;
 import org.openmrs.module.lfhcforms.activator.AdminConfigInitializer;
-import org.openmrs.module.lfhcforms.activator.ConceptsInitializer;
+import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
+import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
 import org.openmrs.module.lfhcforms.activator.Initializer;
 
 /**
@@ -43,7 +44,8 @@ public class LFHCFormsActivator implements ModuleActivator {
 //		l.add(new MetadataInitializer());
 		l.add(new AdminConfigInitializer());
 		l.add(new AddressTemplateInitializer());
-		l.add(new ConceptsInitializer());
+		l.add(new EncounterTypesInitializer());
+		l.add(new LFHCConceptsInitializer());
 //		l.add(new HtmlFormInitializer());
 		return l;
 	}

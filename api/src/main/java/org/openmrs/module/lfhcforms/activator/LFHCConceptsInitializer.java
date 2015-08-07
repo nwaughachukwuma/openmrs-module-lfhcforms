@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -28,6 +27,8 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.NonUniqueObjectException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.openmrs.Concept;
 import org.openmrs.ConceptAnswer;
 import org.openmrs.ConceptClass;
@@ -49,19 +50,21 @@ import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import au.com.bytecode.opencsv.CSVReader;
 
 /**
- * Saves additional and custom concepts in the Concepts Dictionary.
+ * Saves additional and custom LFHC-defined concepts in the Concepts Dictionary.
  * @see {@link https://github.com/PIH/openmrs-module-pihmalawi/blob/master/api/src/main/java/org/openmrs/module/pihmalawi/activator/MetadataInitializer.java}
  */
-public class ConceptsInitializer implements Initializer {
+public class LFHCConceptsInitializer implements Initializer {
+	
+	protected static final Log log = LogFactory.getLog(LFHCConceptsInitializer.class);
 	
 	public final static String LFHC_CONCEPT_SOURCE = "LFHC";
 	public final static String CIEL_CONCEPT_SOURCE = "CIEL";
 	
-	protected final static char CSV_DELIMITER = '\t';
-	protected final static String CSV_INNER_DELIMITER = ",";
+	protected final static char		CSV_DELIMITER		= '\t';
+	protected final static String	CSV_INNER_DELIMITER = ",";
 	
 	/*
-	 * Headers that MUST be found on the template concepts CSV file.
+	 * Required headers that MUST be found on the concepts CSV file to be imported.
 	 */
 	protected final static String CSV_MAPPING_LFHC = "LFHC Mapping";
 	protected final static String CSV_MAPPING_ICD10 = "ICD-10 Mapping";
@@ -75,23 +78,38 @@ public class ConceptsInitializer implements Initializer {
 	protected final static String CSV_UNIT = "Unit";
 	protected final static String CSV_CONCEPT_LIST = "If Question or Set, concept list (mapped IDs separated by a comma)";
 	
-	protected static final Log log = LogFactory.getLog(ConceptsInitializer.class);
-	
 	// Array of the minimal set of headers to be found in the import CSV.
-	protected final Set<String> referenceHeaders = new HashSet<String>();
+	protected final Set<String> requiredHeaders = new HashSet<String>();
 	
-	public ConceptsInitializer() {
-		referenceHeaders.add(CSV_MAPPING_LFHC);
-		referenceHeaders.add(CSV_MAPPING_ICD10);
-		referenceHeaders.add(CSV_NAME);
-		referenceHeaders.add(CSV_SHORTNAME);
-		referenceHeaders.add(CSV_SYNONYMS);
-		referenceHeaders.add(CSV_DESC);
-		referenceHeaders.add(CSV_ISSET);
-		referenceHeaders.add(CSV_DATATYPE);
-		referenceHeaders.add(CSV_CLASS);
-		referenceHeaders.add(CSV_UNIT);
-		referenceHeaders.add(CSV_CONCEPT_LIST);
+	public LFHCConceptsInitializer() {
+		requiredHeaders.add(CSV_MAPPING_LFHC);
+		requiredHeaders.add(CSV_MAPPING_ICD10);
+		requiredHeaders.add(CSV_NAME);
+		requiredHeaders.add(CSV_SHORTNAME);
+		requiredHeaders.add(CSV_SYNONYMS);
+		requiredHeaders.add(CSV_DESC);
+		requiredHeaders.add(CSV_ISSET);
+		requiredHeaders.add(CSV_DATATYPE);
+		requiredHeaders.add(CSV_CLASS);
+		requiredHeaders.add(CSV_UNIT);
+		requiredHeaders.add(CSV_CONCEPT_LIST);
+	}
+
+	/**
+	 * @see Initializer#started()
+	 */
+	@Override
+	public synchronized void started() {
+		log.info("Setting additional/custom concepts for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
+		
+		final ConceptService cs = Context.getConceptService();
+		
+		// Step 1: Setting up the new concept source(s).
+		addConceptSources(cs);
+		
+		// Step 2: Adding the new concepts.
+		Map<String, Map<String, String>> concepts = getConceptMapFromCSVResource("lfhcConcepts.csv", new DefaultResouceLoaderImpl());
+		addMappedConcepts(cs, concepts);
 	}
 	
 	/**
@@ -108,23 +126,6 @@ public class ConceptsInitializer implements Initializer {
 			cs.saveConceptSource(lfhcSource);
 		}
 	}
-
-	/**
-	 * @see Initializer#started()
-	 */
-	@Override
-	public synchronized void started() {
-		log.info("Setting additional/custom concepts for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
-		
-		final ConceptService cs = Context.getConceptService();
-		
-		// Step 1: Setting up the concept sources.
-		addConceptSources(cs);
-		
-		// Step 2: Adding the custom concepts.
-		Map<String, Map<String, String>> concepts = getConceptMapFromCSVResource("lfhcConcepts.csv", new DefaultResouceLoaderImpl());
-		addMappedConcepts(cs, concepts);
-	}
 	
 	/**
 	 * Parses the (api-located) CSV resource listing the custom concepts.
@@ -133,34 +134,34 @@ public class ConceptsInitializer implements Initializer {
 	 */
 	protected Map<String, Map<String, String>> getConceptMapFromCSVResource(final String csvPath, final ResourceLoader loader) {
 
-		InputStream inputStream = loader.getResourceAsStream(csvPath); 
+		final InputStream inputStream = loader.getResourceAsStream(csvPath); 
 		
 		Map<String, Map<String, String>> concepts = new HashMap<String, Map<String, String>>();
 		try {
 			
-			CSVReader reader = new CSVReader(new InputStreamReader(inputStream), CSV_DELIMITER);
+			CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream), CSV_DELIMITER);
 	        
-			String[] header = reader.readNext();
+			String[] header = csvReader.readNext();
 			
 			// Checking the headers
-			Set<String> readHeaders = new HashSet<String>(Arrays.asList(header));
+			Set<String> actualHeaders = new HashSet<String>(Arrays.asList(header));
 			String faultyHeaders = "";
 			String sep = ", ";
-			for(String referenceHeader : referenceHeaders){
-				if(!readHeaders.contains(referenceHeader)) {
-					faultyHeaders += referenceHeader + sep;
+			for(String requiredHeader : requiredHeaders){
+				if(!actualHeaders.contains(requiredHeader)) {
+					faultyHeaders += requiredHeader + sep;
 				}
 			}
 			if(!faultyHeaders.isEmpty()) {
 				faultyHeaders = faultyHeaders.substring(0, faultyHeaders.length() - sep.length());
 				log.error("Could not process CSV file for custom concepts due to faulty header(s), please review the following header(s): " + faultyHeaders + ".");
-				reader.close();
+				csvReader.close();
 				return concepts;
 			}
 			
 	        String[] line = null;
 	        int csvRow = 0;
-	        while((line = reader.readNext()) != null) {
+	        while((line = csvReader.readNext()) != null) {
 	        	
 	        	csvRow++;
 	        	if(line.length != header.length) {
@@ -180,7 +181,7 @@ public class ConceptsInitializer implements Initializer {
                 concepts.put(lfhcId, map);
 	        }
 	        
-	        reader.close();
+	        csvReader.close();
 		}
 		catch (IOException e) {
 			log.error(e);
@@ -190,9 +191,9 @@ public class ConceptsInitializer implements Initializer {
 	}
 
 	/**
-	 * 
+	 * Processes the map representation of the new concepts by reading and checking the map properties before saving the concepts.
 	 * @param cs The {@link ConceptService} instance.
-	 * @param mappedConcepts The map representation of all custom concepts.
+	 * @param mappedConcepts The map representation of all custom concepts (output of the CSV parsing)
 	 */
 	protected void addMappedConcepts(final ConceptService cs, final Map<String, Map<String, String>> mappedConcepts) {
 
@@ -201,12 +202,14 @@ public class ConceptsInitializer implements Initializer {
 		
 		ConceptSource lfhcSource = cs.getConceptSourceByName(LFHC_CONCEPT_SOURCE);
 		
-		Map<String, Concept> concepts = new HashMap<String, Concept>(); 
+		Map<String, Concept> conceptsToSave = new HashMap<String, Concept>(); 
 		Map<String, String> sets = new HashMap<String, String>();	// We hold the concept lists (sets or answers) until all concepts are created
 		
 		for(Map<String, String> mappedConcept : mappedConcepts.values()) {
 			
-			// Skipping already existing concepts.
+			//
+			// Initial sanity checks.
+			//
 			String lfhcMappedId = mappedConcept.get(CSV_MAPPING_LFHC);
 			if(lfhcMappedId.isEmpty()) {
 				log.warn("Concept found with no LFHC mapping. Skipping through to next concept in the CSV source.");
@@ -214,18 +217,18 @@ public class ConceptsInitializer implements Initializer {
 			}
 			String lfhcId = getCodeFromMappedId(lfhcMappedId);
 			if(lfhcId.isEmpty()) {
-				log.warn("This mapped ID is incorrectly formated: " + lfhcMappedId + ". Skipping through to next concept in the CSV source.");
+				log.warn("This mapped ID is not correctly formated: " + lfhcMappedId + ". Skipping through to next concept in the CSV source.");
 				continue;
 			}
-			
-			// If the concept already exist we don't process it any further.
-			Concept c = cs.getConceptByMapping(lfhcId, LFHC_CONCEPT_SOURCE);
-			if (c != null)  {
-				log.warn("Concept " + lfhcMappedId + " already exists, skipping through to next custom concept in the CSV source.");
+			Concept newConcept = cs.getConceptByMapping(lfhcId, LFHC_CONCEPT_SOURCE);
+			if(newConcept != null) {
+				log.info("Concept " + lfhcMappedId + " already exists. Skipping through to next concept in the CSV source.");
 				continue;
 			}
 
-			// Retrieving the custom concept's properties and logging invalid entries.
+			//
+			// Reading and checking the new concept properties. 
+			//
 			String icd10Id = mappedConcept.get(CSV_MAPPING_ICD10);
 			String name = mappedConcept.get(CSV_NAME);
 			if(name.isEmpty()) {
@@ -245,93 +248,144 @@ public class ConceptsInitializer implements Initializer {
 			String conceptClassName = mappedConcept.get(CSV_CLASS);
 			ConceptClass conceptClass = cs.getConceptClassByName(conceptClassName);
 			if(conceptClass == null) {
-				log.warn("Could not save concept " + lfhcMappedId + ": invalid Concept Class: " + conceptClassName + ". Skipping through to next concept in the CSV source.");
+				log.warn("Could not save concept '" + name + "': invalid Concept Class: " + conceptClassName + ". Skipping through to next concept in the CSV source.");
 				continue;
 			}
 			String datatypeName = mappedConcept.get(CSV_DATATYPE);
 			ConceptDatatype datatype = cs.getConceptDatatypeByName(datatypeName);
 			if(datatype == null) {
-				log.warn("Could not save concept " + lfhcMappedId + ": invalid Datatype: " + datatypeName + ". Skipping through to next concept in the CSV source.");
+				log.warn("Could not save concept '" + name + "': invalid Datatype: " + datatypeName + ". Skipping through to next concept in the CSV source.");
 				continue;
 			}
 			String unit = mappedConcept.get(CSV_UNIT);
 			String isSet = mappedConcept.get(CSV_ISSET);
 			if(isSet.isEmpty())
 				isSet = "No";
-			String conceptList = mappedConcept.get(CSV_CONCEPT_LIST);			
-			if(!conceptList.isEmpty())
+			String conceptList = mappedConcept.get(CSV_CONCEPT_LIST);
+			boolean isComplex = !conceptList.isEmpty(); 
+			if(isComplex)
 				sets.put(lfhcMappedId, conceptList);
 
-			// Creating the new custom concept
+			//
+			// Filling the new Concept instance
+			//
 			if("Numeric".equalsIgnoreCase(datatypeName.trim())) {
-				c = new ConceptNumeric();
-				((ConceptNumeric) c).setUnits(unit);
+				newConcept = new ConceptNumeric();
+				((ConceptNumeric) newConcept).setUnits(unit);
 			}
 			else {
-				c = new Concept();
+				newConcept = new Concept();
 			}
-			c.setShortName(new ConceptName(shortName, Locale.ENGLISH));
-			c.addDescription(description);
-			c.setConceptClass(conceptClass);
-			c.setDatatype(datatype);
+			newConcept.setShortName(new ConceptName(shortName, Locale.ENGLISH));
+			newConcept.addDescription(description);
+			newConcept.setConceptClass(conceptClass);
+			newConcept.setDatatype(datatype);
 			{	//The LFHC mapping
 				ConceptReferenceTerm refTerm = new ConceptReferenceTerm(lfhcSource, lfhcId, "");
 				ConceptMapType mapType = cs.getConceptMapTypeByUuid(ConceptMapType.SAME_AS_MAP_TYPE_UUID);
 				ConceptMap map = new ConceptMap(refTerm, mapType);
-				c.addConceptMapping(map);
+				newConcept.addConceptMapping(map);
 			}
 			isSet = isSet.trim().toLowerCase();
 			if("yes".equals(isSet) || "true".equals(isSet) || "1".equals(isSet))
-				c.setSet(true);
+				newConcept.setSet(true);
 			if(!synonyms.isEmpty()) {
 				Collection<ConceptName> names = new HashSet<ConceptName>();
 				String[] synList = synonyms.split(CSV_INNER_DELIMITER);
 				for(String syn : synList) {
 					names.add(new ConceptName(syn.trim(), Locale.ENGLISH));
 				}
-				c.setNames(names);
+				newConcept.setNames(names);
 			}
-			c.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
+			newConcept.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
 			
-			try {
-				cs.saveConcept(c);
-			}
-			catch (DuplicateConceptNameException e) {
-				log.warn("The name of concept " + lfhcMappedId + " is a duplicate, it could therefore not be saved. Skipping through to next concept.");
-				continue;
-			}
-			
-			concepts.put(lfhcMappedId, c);	// Caching of new concepts
+			// Caching of new concepts
+			conceptsToSave.put(lfhcMappedId, newConcept);
 		}
 		
-		// Adding sets or concept answers
-		for(Entry<String, String> item : sets.entrySet()) {
+		// Saving all concepts
+		for(String lfhcMappedId : conceptsToSave.keySet()) {
+			saveConceptWithConceptList(cs, conceptsToSave, sets, lfhcMappedId);
+		}		
+	}
+	
+	// Stack the concepts already saved to end the recursive saving calls.
+	protected Set<String> conceptsDone = new HashSet<String>();
+	
+	/*
+	 * Recursing concept saving routine.
+	 */
+	private Concept saveConceptWithConceptList(final ConceptService cs, Map<String, Concept> concepts, Map<String, String> sets, String lfhcMappedId) {
+		
+		if(conceptsDone.contains(lfhcMappedId))
+			return null;
+		
+		Concept conceptToSave = concepts.get(lfhcMappedId);
+		if(conceptToSave == null) {
+			log.error("Concept '" + lfhcMappedId + "' was requested for being saved but was not found in the cache of concepts to be saved. Please double check this ID.");
+			conceptsDone.add(lfhcMappedId);
+			return null;
+		}			
+		
+		String conceptList = sets.get(lfhcMappedId);
+		if(conceptList != null) {
 			
-			Concept c = concepts.get(item.getKey());	// The concept to append.
-			if(c == null)
-				continue;
+			String[] setConcepts = conceptList.split(CSV_INNER_DELIMITER);		
 			
-			String[] setConcepts = item.getValue().split(CSV_INNER_DELIMITER);
 			for(String conceptId : setConcepts) {
-				
-				conceptId = conceptId.trim();
-				Concept member = concepts.get(conceptId);	// Trying to find the member in the cache first.
-				if(member == null) {
-					member = cs.getConceptByMapping(conceptId, CIEL_CONCEPT_SOURCE);	// Second: trying in CIEL.
+				Concept memberConcept = null;
+				// Figuring out if the conceptId is CIEL-implicit or LFHC mapping
+				String[] split = conceptId.split(":");
+				conceptId = conceptId.trim();	// Front spaces are sometimes added in the CSV
+				if(split.length >= 2)
+				{	
+					if(conceptId.equals(lfhcMappedId)) {
+						log.error("Concept '" + conceptToSave.getName() + "' contains itself as an answer or set member. Skipping to the next concept.");
+						conceptsDone.add(conceptId);
+						return null;
+					}
+					// LFHC mapping (recursive call)
+					memberConcept = saveConceptWithConceptList(cs, concepts, sets, conceptId);
 				}
-				if(member == null) {
-					log.warn("Could not find concept " + conceptId + " to be used as an answer or set member for concept " + item.getKey() + ". Skipping it.");
-					continue;
+				else
+				{	// CIEL
+					memberConcept = cs.getConceptByMapping(conceptId, CIEL_CONCEPT_SOURCE);
 				}
-				if(c.isSet()) {
-					c.addSetMember(member);
+				if(memberConcept != null) {
+					if(conceptToSave.isSet())
+						conceptToSave.addSetMember(memberConcept);
+					else 
+						conceptToSave.addAnswer(new ConceptAnswer(memberConcept));
 				}
-				else {
-					c.addAnswer(new ConceptAnswer(member));
-				}
-				cs.saveConcept(c);
 			}
 		}
+		
+		conceptsDone.add(lfhcMappedId);
+		return saveConcept(cs, conceptToSave);
+	}
+
+//	private int saveCount = 0;
+	
+	/**
+	 * Wrapper around the atomic saving action handling a few specific exceptions.
+	 * @param cs
+	 * @param concept
+	 * @return The saved {@link Concept}
+	 */
+	protected Concept saveConcept(final ConceptService cs, Concept concept) {
+		try {
+			concept = cs.saveConcept(concept);
+		}
+		catch (DuplicateConceptNameException e) {
+			log.warn("The name of concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' is a duplicate, it could therefore not be saved. Skipping through to next concept.");
+		}
+		catch (NonUniqueObjectException e) {
+			log.error("Saving concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' produced an exception, please investigate the stack trace.", e);
+		}
+		catch (ConstraintViolationException e) {
+			log.error("Saving concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' produced an exception, please investigate the stack trace.", e);
+		}
+		return concept;
 	}
 	
 	/**
@@ -342,7 +396,6 @@ public class ConceptsInitializer implements Initializer {
 	protected String getCodeFromMappedId(String mappedId) {
 		String split[] = mappedId.split(":");
 		if(split.length != 2) {
-			log.warn("This mapped ID is incorrectly formated: " + mappedId + ". Skipping through to next concept in the CSV source.");
 			return "";
 		}
 		return split[1];
