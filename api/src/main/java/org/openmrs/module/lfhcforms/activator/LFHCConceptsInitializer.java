@@ -377,7 +377,7 @@ public class LFHCConceptsInitializer implements Initializer {
 			concept = cs.saveConcept(concept);
 		}
 		catch (DuplicateConceptNameException e) {
-			log.warn("The name of concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' is a duplicate, it could therefore not be saved. Skipping through to next concept.");
+			log.error("The name of concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' is a duplicate, it could therefore not be saved. Skipping through to next concept.");
 		}
 		catch (NonUniqueObjectException e) {
 			log.error("Saving concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' produced an exception, please investigate the stack trace.", e);

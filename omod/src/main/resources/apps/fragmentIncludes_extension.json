@@ -4,7 +4,7 @@
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
-            "fragment": "myView"
+            "fragment": "fluidBalance"
         }
     }
 ]
