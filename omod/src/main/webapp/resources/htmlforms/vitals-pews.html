@@ -1,633 +1,632 @@
 <htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Clinical Notes" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.2">
 
 
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
-	
-	
-	
-	
-	<!-- Define Vitals Up and Down limits based on age -->
-	<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
-		<ifMode mode="VIEW" include="false">
-			<b><em>The patient is less than 1 year old: Vitals limits set for that range</em></b>
-		</ifMode>
-		<script type="text/javascript">
-	
-	
-			var limits = {
-				temperatureDownLimit:36,
-				temperatureUpLimit:38,
-				heart_rateDownLimit:90,
-				heart_rateUpLimit:160,
-				respiratory_rateDownLimit:30,
-				respiratory_rateUpLimit:60,
-				intercostal_recessionYes:1065,
-				intercostal_recessionNo:1066,
-				nostril_flaringYes:1065,
-				nostril_flaringNo:1066,
-				gruntingYes:1065,
-				gruntingNo:1066,
-				head_bobbingYes:1065,
-				head_bobbingNo:1066
-	
-			};
-	
-		</script>
-	</includeIf>
-	
-	<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 1 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 5)">
-		<ifMode mode="VIEW" include="false">
-			<b><em>The patient is between 1 and 5 year old: Vitals limits set for that range</em></b>
-		</ifMode>
-		<script type="text/javascript">
-	
-			
-			var limits = {
-				temperatureDownLimit:36,
-				temperatureUpLimit:38,
-				heart_rateDownLimit:80,
-				heart_rateUpLimit:140,
-				respiratory_rateDownLimit:30,
-				respiratory_rateUpLimit:50,
-				intercostal_recessionYes:1065,
-				intercostal_recessionNo:1066,
-				nostril_flaringYes:1065,
-				nostril_flaringNo:1066,
-				gruntingYes:1065,
-				gruntingNo:1066,
-				head_bobbingYes:1065,
-				head_bobbingNo:1066
-			};
-			
-		</script>
-	</includeIf>
-	
-	<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 5 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 13)">
-		<ifMode mode="VIEW" include="false">
-			<b><em>The patient is between 5 and 12 year old: Vitals limits set for that range</em></b>
-		</ifMode>
-		<script type="text/javascript">
-	
-	
-			var limits = {
-				temperatureDownLimit:36,
-				temperatureUpLimit:38,
-				heart_rateDownLimit:70,
-				heart_rateUpLimit:130,
-				respiratory_rateDownLimit:30,
-				respiratory_rateUpLimit:40,
-				intercostal_recessionYes:1065,
-				intercostal_recessionNo:1066,
-				nostril_flaringYes:1065,
-				nostril_flaringNo:1066,
-				gruntingYes:1065,
-				gruntingNo:1066,
-				head_bobbingYes:1065,
-				head_bobbingNo:1066
-			};
-	
-		</script>
-	</includeIf>
-	
-	<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >12 )">
-		<ifMode mode="VIEW" include="false">
-			<b><em>The patient is more than 12 year old: No Vitals limits provided - no PEWS</em></b>
-		</ifMode>
-	
-	</includeIf>
-	
-	<!-- script that runs in any mode (ENTER, EDIT and VIEW) -->
-	<script type="text/javascript">
-	
-		$(document).ready(function() {
-	
-			jq('#temperature-limit-wrapper').hide();
-			jq('#temperature-pews').hide();
-			jq('#temperature-pews-null').show();
-			jq('#heart_rate-limit-wrapper').hide();
-			jq('#heart_rate-pews').hide();
-			jq('#respiratory_rate-limit-wrapper').hide();
-			jq('#respiratory_rate-wrapper').hide();
-			jq('#intercostal_recession-limit-wrapper').hide();
-			jq('#nostril_flaring-limit-wrapper').hide();
-			jq('#grunting-limit-wrapper').hide();
-			jq('#head_bobbing-limit-wrapper').hide();
-			jq('#respiratory_distress-limit-wrapper').hide();
-			jq('#hidden-calculated-bsa').hide();
-	
-			jq('#total-pews-null-no-limits').hide();
-			jq('#total-pews-title').hide();
-			for (i = 0; i &lt; 7; i++) {
-				jq("#total-pews-" + i).hide();
-			}
-	
-	
-		})
-	</script>
-	
-	<!-- script that runs with in ENTER and EDIT mode -->
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+
+
+
+<!-- Define Vitals Up and Down limits based on age -->
+<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
 	<ifMode mode="VIEW" include="false">
-		<script type="text/javascript">
-			jq(function() {
-	
-				jQuery( ".pgcs-helper" ).change(function() {
-	
-					var eyesPgcs = document.getElementById("eyes").value *1;
-					var verbalPgcs = document.getElementById("verbal").value *1;
-					var motorPgcs = document.getElementById("motor").value *1;
-	
-					pgcs = (eyesPgcs+verbalPgcs+motorPgcs);
-					displayPgcs(pgcs);
-	
-				});
-	
-	
-				getField(tempHtmlId + ".value").change(function() {
-					updatePews(tempHtmlId, getValue(tempHtmlId +".value"));
-				});
-	
-				getField(hRHtmlId + ".value").change(function() {
-					updatePews(hRHtmlId, getValue(hRHtmlId +".value"));
-				});
-	
-				getField(rRHtmlId+ ".value").change(function() {
-					updatePews(rRHtmlId, getValue(rRHtmlId +".value"));
-				});
-	
-				// fields that are children of a parent Observation are handle differently
-				getField(iRHtmlId + ".value").change(function() {
-					updatePews(iRHtmlId, getValue(iRHtmlId +".value"), rDHtmlId);
-				});
-	
-				// fields that are children of a parent Observation are handle differently
-				getField(nFHtmlId+".value").change(function() {
-					updatePews(nFHtmlId, getValue(nFHtmlId +".value"), rDHtmlId);
-				});
-	
-				// fields that are children of a parent Observation are handle differently
-				getField(gHtmlId+".value").change(function() {
-					updatePews(gHtmlId, getValue(gHtmlId +".value"), rDHtmlId);
-				});
-	
-				// fields that are children of a parent Observation are handle differently
-				getField(hBHtmlId+".value").change(function() {
-					updatePews(hBHtmlId, getValue(hBHtmlId +".value"), rDHtmlId);
-				});
-	
-	
-				getField('height.value').change(function() {
-					displayBsa();
-				});
-				getField('weight.value').change(function() {
-					displayBsa();
-				});
-	
-				displayBsa();
-				
-			});
-	
-	</script>
+		<b><em>The patient is less than 1 year old: Vitals limits set for that range</em></b>
 	</ifMode>
-	
 	<script type="text/javascript">
-	
-		<!-- Declare global object -->
-		var pewsList = {};
-		var childPewsList = {};
-	
-		var pgcs = 0;
-	
-		<!-- Set this value to the number of obs that will be expected to trigger TOTAL PEWS score calculation -->
-		var numberOfObs = 4;
-	
-		// in case of nested PEWS, (eg Respiratory Distress is a result of 3 other answers)
-		var numberOfChildObs = 4;
-	
-	
-		// setting the HtmlIds of the different Observations
-		var tempHtmlId = "temperature"; 
-		var hRHtmlId = "heart_rate";
-		var rRHtmlId = "respiratory_rate";
-		var hRHtmlId = "heart_rate";
-		var rDHtmlId = "respiratory_distress";
-		var iRHtmlId = "intercostal_recession";
-		var nFHtmlId = "nostril_flaring";
-		var gHtmlId = "grunting";
-		var hBHtmlId = "head_bobbing";
-	
-	
-	
-		function calculateBsa (wt, ht) {
-			var bsa = null
-			if (wt &amp;&amp; ht) {
-				bsa = Math.sqrt((wt * ht) / 3600);
-			}
-			return bsa ;
+
+
+		var limits = {
+			temperatureDownLimit:36,
+			temperatureUpLimit:38,
+			heart_rateDownLimit:90,
+			heart_rateUpLimit:160,
+			respiratory_rateDownLimit:30,
+			respiratory_rateUpLimit:60,
+			intercostal_recessionYes:1065,
+			intercostal_recessionNo:1066,
+			nostril_flaringYes:1065,
+			nostril_flaringNo:1066,
+			gruntingYes:1065,
+			gruntingNo:1066,
+			head_bobbingYes:1065,
+			head_bobbingNo:1066
+
+		};
+
+	</script>
+</includeIf>
+
+<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 1 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 5)">
+	<ifMode mode="VIEW" include="false">
+		<b><em>The patient is between 1 and 5 year old: Vitals limits set for that range</em></b>
+	</ifMode>
+	<script type="text/javascript">
+
+		
+		var limits = {
+			temperatureDownLimit:36,
+			temperatureUpLimit:38,
+			heart_rateDownLimit:80,
+			heart_rateUpLimit:140,
+			respiratory_rateDownLimit:30,
+			respiratory_rateUpLimit:50,
+			intercostal_recessionYes:1065,
+			intercostal_recessionNo:1066,
+			nostril_flaringYes:1065,
+			nostril_flaringNo:1066,
+			gruntingYes:1065,
+			gruntingNo:1066,
+			head_bobbingYes:1065,
+			head_bobbingNo:1066
+		};
+		
+	</script>
+</includeIf>
+
+<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 5 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 13)">
+	<ifMode mode="VIEW" include="false">
+		<b><em>The patient is between 5 and 12 year old: Vitals limits set for that range</em></b>
+	</ifMode>
+	<script type="text/javascript">
+
+
+		var limits = {
+			temperatureDownLimit:36,
+			temperatureUpLimit:38,
+			heart_rateDownLimit:70,
+			heart_rateUpLimit:130,
+			respiratory_rateDownLimit:30,
+			respiratory_rateUpLimit:40,
+			intercostal_recessionYes:1065,
+			intercostal_recessionNo:1066,
+			nostril_flaringYes:1065,
+			nostril_flaringNo:1066,
+			gruntingYes:1065,
+			gruntingNo:1066,
+			head_bobbingYes:1065,
+			head_bobbingNo:1066
+		};
+
+	</script>
+</includeIf>
+
+<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >12 )">
+	<ifMode mode="VIEW" include="false">
+		<b><em>The patient is more than 12 year old: No Vitals limits provided - no PEWS</em></b>
+	</ifMode>
+
+</includeIf>
+
+<!-- script that runs in any mode (ENTER, EDIT and VIEW) -->
+<script type="text/javascript">
+
+	$(document).ready(function() {
+
+		jq('#temperature-limit-wrapper').hide();
+		jq('#temperature-pews').hide();
+		jq('#temperature-pews-null').show();
+		jq('#heart_rate-limit-wrapper').hide();
+		jq('#heart_rate-pews').hide();
+		jq('#respiratory_rate-limit-wrapper').hide();
+		jq('#respiratory_rate-wrapper').hide();
+		jq('#intercostal_recession-limit-wrapper').hide();
+		jq('#nostril_flaring-limit-wrapper').hide();
+		jq('#grunting-limit-wrapper').hide();
+		jq('#head_bobbing-limit-wrapper').hide();
+		jq('#respiratory_distress-limit-wrapper').hide();
+		jq('#hidden-calculated-bsa').hide();
+
+		jq('#total-pews-null-no-limits').hide();
+		jq('#total-pews-title').hide();
+		for (i = 0; i &lt; 7; i++) {
+			jq("#total-pews-" + i).hide();
 		}
-	
-	
-	
-		function updatePews(obsHtmlId, obsValue, parentHtmlId) {
-	
-			if (!(typeof limits === 'undefined')) {
-				<!-- determine the nature	 of the question (YesNo or Numeric comparison)-->
-				if (!(limits[obsHtmlId + "Yes"] == null)) {
-					pewsType = "yesNo";
-				}
-				if (!(limits[obsHtmlId + "UpLimit"] == null) || !(limits[obsHtmlId + "DownLimit"] == null)) {
-					pewsType = "numeric";
-				}
-	
-				<!--get Pews object result for the obs.-->
-				if (pewsType == "yesNo") {
-					var obsPEWS = getYesNoPEWS(obsHtmlId, obsValue, limits);
-				}
-				if (pewsType == "numeric") {
-					var obsPEWS = getObsLimits(obsHtmlId, obsValue, limits);
-				}
-	
-	
-				<!-- check if a parentHtmlId is given, if so, do specific actions.-->
-				if (!(parentHtmlId == null)) {
-					<!--set the pews value in the child pews list-->
-					childPewsList[obsHtmlId] = obsPEWS["pews"];
-	
-					<!-- get totalChildPEWS result (returned as a PEWS)-->
-					var parentPEWS = childTotalPews();
-	
-					<!-- add it to the main PEWS list associated to the parent obsHtmlId-->
-					pewsList[parentHtmlId] = parentPEWS["pews"];
-	
-					<!-- hande specific display for parent child relations-->
-					handleDisplayParentChild(obsValue, parentHtmlId, null, parentPEWS["position"]);
-				} else {
-					pewsList[obsHtmlId] = obsPEWS["pews"];
-				}
-	
-	
-				handleDisplay(obsHtmlId, obsValue, limits, obsPEWS["position"]);
-				handleDisplayTotal(totalPews(), true);
-	
-			}
-			else {
-				handleDisplay(obsHtmlId, obsValue, null, "null");
-				handleDisplayTotal(totalPews(), false);
-	
-			};
-	
-	
+
+
+	})
+</script>
+
+<!-- script that runs with in ENTER and EDIT mode -->
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript">
+		jq(function() {
+
+			jQuery( ".pgcs-helper" ).change(function() {
+
+				var eyesPgcs = document.getElementById("eyes").value *1;
+				var verbalPgcs = document.getElementById("verbal").value *1;
+				var motorPgcs = document.getElementById("motor").value *1;
+
+				pgcs = (eyesPgcs+verbalPgcs+motorPgcs);
+				displayPgcs(pgcs);
+
+			});
+
+
+			getField(tempHtmlId + ".value").change(function() {
+				updatePews(tempHtmlId, getValue(tempHtmlId +".value"));
+			});
+
+			getField(hRHtmlId + ".value").change(function() {
+				updatePews(hRHtmlId, getValue(hRHtmlId +".value"));
+			});
+
+			getField(rRHtmlId+ ".value").change(function() {
+				updatePews(rRHtmlId, getValue(rRHtmlId +".value"));
+			});
+
+			// fields that are children of a parent Observation are handle differently
+			getField(iRHtmlId + ".value").change(function() {
+				updatePews(iRHtmlId, getValue(iRHtmlId +".value"), rDHtmlId);
+			});
+
+			// fields that are children of a parent Observation are handle differently
+			getField(nFHtmlId+".value").change(function() {
+				updatePews(nFHtmlId, getValue(nFHtmlId +".value"), rDHtmlId);
+			});
+
+			// fields that are children of a parent Observation are handle differently
+			getField(gHtmlId+".value").change(function() {
+				updatePews(gHtmlId, getValue(gHtmlId +".value"), rDHtmlId);
+			});
+
+			// fields that are children of a parent Observation are handle differently
+			getField(hBHtmlId+".value").change(function() {
+				updatePews(hBHtmlId, getValue(hBHtmlId +".value"), rDHtmlId);
+			});
+
+
+			getField('height.value').change(function() {
+				displayBsa();
+			});
+			getField('weight.value').change(function() {
+				displayBsa();
+			});
+
+			displayBsa();
+			
+		});
+
+</script>
+</ifMode>
+
+<script type="text/javascript">
+
+	<!-- Declare global object -->
+	var pewsList = {};
+	var childPewsList = {};
+
+	var pgcs = 0;
+
+	<!-- Set this value to the number of obs that will be expected to trigger TOTAL PEWS score calculation -->
+	var numberOfObs = 4;
+
+	// in case of nested PEWS, (eg Respiratory Distress is a result of 3 other answers)
+	var numberOfChildObs = 4;
+
+
+	// setting the HtmlIds of the different Observations
+	var tempHtmlId = "temperature"; 
+	var hRHtmlId = "heart_rate";
+	var rRHtmlId = "respiratory_rate";
+	var hRHtmlId = "heart_rate";
+	var rDHtmlId = "respiratory_distress";
+	var iRHtmlId = "intercostal_recession";
+	var nFHtmlId = "nostril_flaring";
+	var gHtmlId = "grunting";
+	var hBHtmlId = "head_bobbing";
+
+
+
+	function calculateBsa (wt, ht) {
+		var bsa = null
+		if (wt &amp;&amp; ht) {
+			bsa = Math.sqrt((wt * ht) / 3600);
 		}
-	
-	
-		<!-- function to calulate the total PEWS score of the 'pewsList'. PEWS score returned is null if any obs is not entered (compared to the 'numberOfObs' global variable)-->
-	
-		function totalPews () {
-			var total = null;
-			var count = 0;
-			var hasNull = false;
-	
-			for (x in pewsList) {
-				if (pewsList[x] == null) {
-					hasNull = true;
-					total = null;
-					break;
-				}
-				total = total + pewsList[x];
-				count ++;
+		return bsa ;
+	}
+
+
+
+	function updatePews(obsHtmlId, obsValue, parentHtmlId) {
+
+		if (!(typeof limits === 'undefined')) {
+			<!-- determine the nature	 of the question (YesNo or Numeric comparison)-->
+			if (!(limits[obsHtmlId + "Yes"] == null)) {
+				pewsType = "yesNo";
 			}
-	
-			if (!(count == numberOfObs)) {
+			if (!(limits[obsHtmlId + "UpLimit"] == null) || !(limits[obsHtmlId + "DownLimit"] == null)) {
+				pewsType = "numeric";
+			}
+
+			<!--get Pews object result for the obs.-->
+			if (pewsType == "yesNo") {
+				var obsPEWS = getYesNoPEWS(obsHtmlId, obsValue, limits);
+			}
+			if (pewsType == "numeric") {
+				var obsPEWS = getObsLimits(obsHtmlId, obsValue, limits);
+			}
+
+
+			<!-- check if a parentHtmlId is given, if so, do specific actions.-->
+			if (!(parentHtmlId == null)) {
+				<!--set the pews value in the child pews list-->
+				childPewsList[obsHtmlId] = obsPEWS["pews"];
+
+				<!-- get totalChildPEWS result (returned as a PEWS)-->
+				var parentPEWS = childTotalPews();
+
+				<!-- add it to the main PEWS list associated to the parent obsHtmlId-->
+				pewsList[parentHtmlId] = parentPEWS["pews"];
+
+				<!-- hande specific display for parent child relations-->
+				handleDisplayParentChild(obsValue, parentHtmlId, null, parentPEWS["position"]);
+			} else {
+				pewsList[obsHtmlId] = obsPEWS["pews"];
+			}
+
+
+			handleDisplay(obsHtmlId, obsValue, limits, obsPEWS["position"]);
+			handleDisplayTotal(totalPews(), true);
+
+		}
+		else {
+			handleDisplay(obsHtmlId, obsValue, null, "null");
+			handleDisplayTotal(totalPews(), false);
+
+		};
+
+
+	}
+
+
+	<!-- function to calulate the total PEWS score of the 'pewsList'. PEWS score returned is null if any obs is not entered (compared to the 'numberOfObs' global variable)-->
+
+	function totalPews () {
+		var total = null;
+		var count = 0;
+		var hasNull = false;
+
+		for (x in pewsList) {
+			if (pewsList[x] == null) {
+				hasNull = true;
 				total = null;
+				break;
 			}
-	
-			return total;
+			total = total + pewsList[x];
+			count ++;
 		}
-	
-		<!-- function to calulate the total PEWS score of the 'childPewsList'. The rules are different from the main function 'totalPews()'. PEWS is 1 if any individual observation PEWS is 1. PEWS is 0 if all observations are set to 0. PEWS is null if some child observations are set to 0 and some not unknown or left empty -->
-		function childTotalPews () {
-	
-			var hasNull = false;
-			var total = {};
-			var count = 0;
+
+		if (!(count == numberOfObs)) {
+			total = null;
+		}
+
+		return total;
+	}
+
+	<!-- function to calulate the total PEWS score of the 'childPewsList'. The rules are different from the main function 'totalPews()'. PEWS is 1 if any individual observation PEWS is 1. PEWS is 0 if all observations are set to 0. PEWS is null if some child observations are set to 0 and some not unknown or left empty -->
+	function childTotalPews () {
+
+		var hasNull = false;
+		var total = {};
+		var count = 0;
+		total["pews"] = null;
+		total["position"] = null;
+
+		for (x in childPewsList) {
+			if (childPewsList[x] == null) { 
+				hasNull = true;
+			}
+			total["pews"] = total["pews"] + childPewsList[x];
+			count++;
+
+		}
+
+		if (total["pews"] >= 1) {
+			total["pews"] = 1;
+			total["position"] = "yes";
+		}
+
+		if (total["pews"] == 0) {
+			total["position"] = "no";
+		}
+
+		if ((hasNull &amp;&amp; total["pews"] == 0) || (total["pews"] == 0) &amp;&amp; !(count == numberOfChildObs))  {
 			total["pews"] = null;
 			total["position"] = null;
-	
-			for (x in childPewsList) {
-				if (childPewsList[x] == null) { 
-					hasNull = true;
-				}
-				total["pews"] = total["pews"] + childPewsList[x];
-				count++;
-	
-			}
-	
-			if (total["pews"] >= 1) {
-				total["pews"] = 1;
-				total["position"] = "yes";
-			}
-	
-			if (total["pews"] == 0) {
-				total["position"] = "no";
-			}
-	
-			if ((hasNull &amp;&amp; total["pews"] == 0) || (total["pews"] == 0) &amp;&amp; !(count == numberOfChildObs))  {
-				total["pews"] = null;
-				total["position"] = null;
-			}
-			return total;
 		}
-	
-	
-	
-		<!--Generic function to compare obs to given limits and return PEWS score object
-		args: 
-		obsHtmlId: HTML id parameter of the observation
-		obsValue: value of the observation
-		ageLimts: array object that holds limits informations
+		return total;
+	}
+
+
+
+	<!--Generic function to compare obs to given limits and return PEWS score object
+	args: 
+	obsHtmlId: HTML id parameter of the observation
+	obsValue: value of the observation
+	ageLimts: array object that holds limits informations
+	return:
+	obsPews: PEWS object of the obs, with PEWS score obsPews["pews"] and Position within limits obsPews["position"] attributes -->
+
+
+	function getObsLimits (obsHtmlId, obsValue, ageLimits) {
+
+		var downLimit = ageLimits[obsHtmlId + "DownLimit"];
+		var upLimit = ageLimits[obsHtmlId + "UpLimit"];
+		var obsPews = {};
+		obsPews["pews"] = null;
+		obsPews["position"] = null;
+
+		if (obsValue &lt; downLimit &amp;&amp; obsValue &gt; 0 ) {
+			obsPews["pews"] = 1;
+			obsPews["position"] = "down";
+		}
+
+		if (obsValue >= upLimit ) {
+			obsPews["pews"] = 1;
+			obsPews["position"] = "up";
+		}
+
+		if (obsValue >= downLimit &amp;&amp; obsValue &lt; upLimit &amp;&amp; !(obsValue == 0)) {
+			obsPews["pews"] = 0;
+			obsPews["position"] = "middle";
+		}
+
+		return obsPews;
+	}
+
+	<!--Generic function to compare obs to Yes or No answer and return PEWS score
+	args: 
+	obsHtmlId: id parameter of the observation
+	obsValue: value of the observation
+	yesValue: value that will trigger a +1 PEWS (eg: '1065' is the yes value selected that if mathes, will trigger a +1 pews
+		noValue: value that will trigger a +0 PEWS
 		return:
-		obsPews: PEWS object of the obs, with PEWS score obsPews["pews"] and Position within limits obsPews["position"] attributes -->
-	
-	
-		function getObsLimits (obsHtmlId, obsValue, ageLimits) {
-	
-			var downLimit = ageLimits[obsHtmlId + "DownLimit"];
-			var upLimit = ageLimits[obsHtmlId + "UpLimit"];
-			var obsPews = {};
-			obsPews["pews"] = null;
-			obsPews["position"] = null;
-	
-			if (obsValue &lt; downLimit &amp;&amp; obsValue &gt; 0 ) {
-				obsPews["pews"] = 1;
-				obsPews["position"] = "down";
-			}
-	
-			if (obsValue >= upLimit ) {
-				obsPews["pews"] = 1;
-				obsPews["position"] = "up";
-			}
-	
-			if (obsValue >= downLimit &amp;&amp; obsValue &lt; upLimit &amp;&amp; !(obsValue == 0)) {
-				obsPews["pews"] = 0;
-				obsPews["position"] = "middle";
-			}
-	
-			return obsPews;
+		obsPews: PEWS object of the obs
+	-->
+	var getYesNoPEWS = function (obsHtmlId, obsValue, yesNoValues) {
+
+		yesValue = yesNoValues[obsHtmlId + "Yes"];
+		noValue = yesNoValues[obsHtmlId + "No"];
+
+		var obsPews = {};
+		obsPews["pews"] = null;
+		obsPews["position"] = null;
+
+		if (obsValue == yesValue) {
+			obsPews["pews"] = 1;
+			obsPews["position"] = "yes";	
 		}
-	
-		<!--Generic function to compare obs to Yes or No answer and return PEWS score
-		args: 
-		obsHtmlId: id parameter of the observation
-		obsValue: value of the observation
-		yesValue: value that will trigger a +1 PEWS (eg: '1065' is the yes value selected that if mathes, will trigger a +1 pews
-			noValue: value that will trigger a +0 PEWS
-			return:
-			obsPews: PEWS object of the obs
-		-->
-		var getYesNoPEWS = function (obsHtmlId, obsValue, yesNoValues) {
-	
-			yesValue = yesNoValues[obsHtmlId + "Yes"];
-			noValue = yesNoValues[obsHtmlId + "No"];
-	
-			var obsPews = {};
-			obsPews["pews"] = null;
-			obsPews["position"] = null;
-	
-			if (obsValue == yesValue) {
-				obsPews["pews"] = 1;
-				obsPews["position"] = "yes";	
-			}
-			if (obsValue == noValue) {
-				obsPews["pews"] = 0;
-				obsPews["position"] = "no";		
-			}
-	
-			return obsPews;
-	
+		if (obsValue == noValue) {
+			obsPews["pews"] = 0;
+			obsPews["position"] = "no";		
 		}
-	
-	
-	
-	
-	</script>
-	
-	
-	<!-- Handle fields to be displayed when in ENTER and EDIT mode -->
-	
-	<ifMode mode="VIEW" include="false">
-		<script type="text/javascript">
-	
-			var displayBsa = function () {
-				var wt = htmlForm.getValueIfLegal('weight.value');
-				var ht = htmlForm.getValueIfLegal('height.value');
-				var bsa = calculateBsa(wt, ht);
-	
-				if (bsa == null || isNaN(bsa)) {
-					jq('#calculated-bsa').hide();
-				} else {
-					jq('#no-calculated-bsa').hide();
-					jq('#calculated-bsa').show();
-					jq('#calculated-bsa').html("BSA: " + bsa.toFixed(2));
-					setValue('bsa.value', bsa.toFixed(2));
-				}
+
+		return obsPews;
+
+	}
+
+
+
+
+</script>
+
+
+<!-- Handle fields to be displayed when in ENTER and EDIT mode -->
+
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript">
+
+		var displayBsa = function () {
+			var wt = htmlForm.getValueIfLegal('weight.value');
+			var ht = htmlForm.getValueIfLegal('height.value');
+			var bsa = calculateBsa(wt, ht);
+
+			if (bsa == null || isNaN(bsa)) {
+				jq('#calculated-bsa').hide();
+			} else {
+				jq('#no-calculated-bsa').hide();
+				jq('#calculated-bsa').show();
+				jq('#calculated-bsa').html("BSA: " + bsa.toFixed(2));
+				setValue('bsa.value', bsa.toFixed(2));
 			}
-	
-	
-			var displayPgcs = function (pgcs) {
-				if (pgcs == null || isNaN(pgcs)) {
-					jq('#calculated-pgcs').hide();
-				} else {
-					jq('#calculated-pgcs').show();
-					setValue('pgcs.value', pgcs.toFixed(0));
-				}
+		}
+
+
+		var displayPgcs = function (pgcs) {
+			if (pgcs == null || isNaN(pgcs)) {
+				jq('#calculated-pgcs').hide();
+			} else {
+				jq('#calculated-pgcs').show();
+				setValue('pgcs.value', pgcs.toFixed(0));
 			}
-	
-	
-			<!-- function to handle displaying the result of obs limit comparison -->
-			var handleDisplay = function (obsHtmlId, obsValue, ageLimits, position) {
-	
-				<!-- handle the possiblity of null args-->
-	
-				jq("#" + obsHtmlId + "-value").html(obsValue);
+		}
+
+
+		<!-- function to handle displaying the result of obs limit comparison -->
+		var handleDisplay = function (obsHtmlId, obsValue, ageLimits, position) {
+
+			<!-- handle the possiblity of null args-->
+
+			jq("#" + obsHtmlId + "-value").html(obsValue);
+			jq("#" + obsHtmlId + "-limit-wrapper").hide();
+			jq("#" + obsHtmlId + "-down-limit").hide();
+			jq("#" + obsHtmlId + "-up-limit").hide();
+			jq("#" + obsHtmlId + "-wrapper").hide();
+
+			if (position == "up") {
+				jq("#" + obsHtmlId + "-limit-wrapper").show();
+				jq("#" + obsHtmlId + "-"+ position + "-limit").show();
+				jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "UpLimit"]);
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
+			}
+
+			if (position == "down") {
+				jq("#" + obsHtmlId + "-limit-wrapper").show();
+				jq("#" + obsHtmlId + "-"+ position + "-limit").show();
+				jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "DownLimit"]);
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
+			}
+
+			if (position == "middle") {
 				jq("#" + obsHtmlId + "-limit-wrapper").hide();
-				jq("#" + obsHtmlId + "-down-limit").hide();
-				jq("#" + obsHtmlId + "-up-limit").hide();
-				jq("#" + obsHtmlId + "-wrapper").hide();
-	
-				if (position == "up") {
-					jq("#" + obsHtmlId + "-limit-wrapper").show();
-					jq("#" + obsHtmlId + "-"+ position + "-limit").show();
-					jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "UpLimit"]);
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-					jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-				}
-	
-				if (position == "down") {
-					jq("#" + obsHtmlId + "-limit-wrapper").show();
-					jq("#" + obsHtmlId + "-"+ position + "-limit").show();
-					jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "DownLimit"]);
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-					jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-				}
-	
-				if (position == "middle") {
-					jq("#" + obsHtmlId + "-limit-wrapper").hide();
-	
-					// hide/show fields from result table				
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-					jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-				}
-	
-				if (position == "yes") {
-					jq("#" + obsHtmlId + "-limit-wrapper").show();
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-					jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-				}
-	
-				if (position == "no") {
-					jq("#" + obsHtmlId + "-limit-wrapper").hide();
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-					jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-				}
-	
-				if (position == "null" || position == null) {
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").show();
-					jq("#" + obsHtmlId + "-pews").hide();
-				}
-				if (position == "no-limits") {
-	
-					// hide/show fields from result table
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").hide();
-					jq("#" + obsHtmlId + "-pews-no-limits").show();
-				}
-	
-	
+
+				// hide/show fields from result table				
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
 			}
-	
-			<!-- function to handle specific display of Parent observation. It has the specific function to show the ParentHtmlId wrapper instead of the obsHtmlId itself-->
-			var handleDisplayParentChild = function (obsHtmlId, parentHtmlId, obsValue, position) {
+
+			if (position == "yes") {
+				jq("#" + obsHtmlId + "-limit-wrapper").show();
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
+			}
+
+			if (position == "no") {
+				jq("#" + obsHtmlId + "-limit-wrapper").hide();
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
+			}
+
+			if (position == "null" || position == null) {
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").show();
+				jq("#" + obsHtmlId + "-pews").hide();
+			}
+			if (position == "no-limits") {
+
+				// hide/show fields from result table
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").hide();
+				jq("#" + obsHtmlId + "-pews-no-limits").show();
+			}
+
+
+		}
+
+		<!-- function to handle specific display of Parent observation. It has the specific function to show the ParentHtmlId wrapper instead of the obsHtmlId itself-->
+		var handleDisplayParentChild = function (obsHtmlId, parentHtmlId, obsValue, position) {
+			
+			// handle the possiblity of null args
+			
+			jq("#" + obsHtmlId + "-value").html(obsValue);
+
+			if (position == "yes") {
+				jq("#" + parentHtmlId + "-limit-wrapper").show();
 				
-				// handle the possiblity of null args
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+
+				jq("#" + parentHtmlId + "-pews-null").hide();
+				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
+			}
+
+			if (position == "no") {
+				jq("#" + parentHtmlId + "-limit-wrapper").hide();
 				
-				jq("#" + obsHtmlId + "-value").html(obsValue);
-	
-				if (position == "yes") {
-					jq("#" + parentHtmlId + "-limit-wrapper").show();
-					
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-	
-					jq("#" + parentHtmlId + "-pews-null").hide();
-					jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
+				jq("#" + obsHtmlId + "-pews-null").hide();
+				jq("#" + obsHtmlId + "-pews").show();
+
+				jq("#" + parentHtmlId + "-pews-null").hide();
+				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
+			}
+
+			if (position == "null" || position == null) {
+				jq("#" + parentHtmlId + "-limit-wrapper").hide();
+
+				jq("#" + obsHtmlId + "-pews").hide();
+				jq("#" + obsHtmlId + "-pews-null").show();
+
+				jq("#" + parentHtmlId+ "-pews-null").show();
+				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
+				
+			}
+		}
+		<!-- function to handle display of the TOTAL PEWS score.-->
+		var handleDisplayTotal = function (total, limitsProvided){
+			if (!(total == null) &amp;&amp; limitsProvided) {
+				jq('#total-pews').show();
+				jq('#total-pews').html(total);
+				jq('#total-pews-null').hide();
+				jq('#total-pews-null-warning').hide();
+				jq('#total-pews-null-no-limits').hide();
+				jq('#total-pews-title').hide();
+
+				for (i = 0; i &lt; 7; i++) {
+					jq("#total-pews-" + i).hide();
 				}
-	
-				if (position == "no") {
-					jq("#" + parentHtmlId + "-limit-wrapper").hide();
-					
-					jq("#" + obsHtmlId + "-pews-null").hide();
-					jq("#" + obsHtmlId + "-pews").show();
-	
-					jq("#" + parentHtmlId + "-pews-null").hide();
-					jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
-				}
-	
-				if (position == "null" || position == null) {
-					jq("#" + parentHtmlId + "-limit-wrapper").hide();
-	
-					jq("#" + obsHtmlId + "-pews").hide();
-					jq("#" + obsHtmlId + "-pews-null").show();
-	
-					jq("#" + parentHtmlId+ "-pews-null").show();
-					jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
-					
+				jq('#total-pews-title').show();
+				jq("#total-pews-" + total).show();
+			}
+			if ((total == null) &amp;&amp; !(limitsProvided) ){
+				jq('#total-pews').hide();
+				jq('#total-pews-null').show();
+				jq('#total-pews-null-warning').hide();
+				jq('#total-pews-null-no-limits').show();
+				jq('#total-pews-title').hide();
+				for (i = 0; i &lt; 7; i++) {
+					jq("#total-pews-" + i).hide();
 				}
 			}
-			<!-- function to handle display of the TOTAL PEWS score.-->
-			var handleDisplayTotal = function (total, limitsProvided){
-				if (!(total == null) &amp;&amp; limitsProvided) {
-					jq('#total-pews').show();
-					jq('#total-pews').html(total);
-					jq('#total-pews-null').hide();
-					jq('#total-pews-null-warning').hide();
-					jq('#total-pews-null-no-limits').hide();
-					jq('#total-pews-title').hide();
-	
-					for (i = 0; i &lt; 7; i++) {
-						jq("#total-pews-" + i).hide();
-					}
-					jq('#total-pews-title').show();
-					jq("#total-pews-" + total).show();
-				}
-				if ((total == null) &amp;&amp; !(limitsProvided) ){
-					jq('#total-pews').hide();
-					jq('#total-pews-null').show();
-					jq('#total-pews-null-warning').hide();
-					jq('#total-pews-null-no-limits').show();
-					jq('#total-pews-title').hide();
-					for (i = 0; i &lt; 7; i++) {
-						jq("#total-pews-" + i).hide();
-					}
-				}
-				if (total == null) {
-					jq('#total-pews').hide();
-					jq('#total-pews-null').show();
-					jq('#total-pews-null-warning').show();
-					jq('#total-pews-null-no-limits').hide();
-					jq('#total-pews-title').hide();
-					for (i = 0; i &lt; 7; i++) {
-						jq("#total-pews-" + i).hide();
-					}
+			if (total == null) {
+				jq('#total-pews').hide();
+				jq('#total-pews-null').show();
+				jq('#total-pews-null-warning').show();
+				jq('#total-pews-null-no-limits').hide();
+				jq('#total-pews-title').hide();
+				for (i = 0; i &lt; 7; i++) {
+					jq("#total-pews-" + i).hide();
 				}
 			}
-	
-	
-		</script>
-	</ifMode>
+		}
+
+
+	</script>
+</ifMode>
 
 <!-- Handle fields to be displayed when in VIEW mode -->
-
-	<ifMode mode="VIEW">
-		<script type="text/javascript">
+<ifMode mode="VIEW">
+	<script type="text/javascript">
 
 
 
@@ -1262,4 +1261,4 @@
 	</section>
 	<submit/>
 
-</htmlform>							
+	</htmlform>							

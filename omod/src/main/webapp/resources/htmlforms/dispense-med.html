@@ -1,197 +1,201 @@
 <htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="ef469ea5-8b79-4a64-a1c8-ce3e09b4e703" formVersion="0.2">
 
-	<script type="text/javascript">
-	
-		jQuery(function () {
-			jQuery('#order-title').hide();
+
+<script type="text/javascript">
+
+	jQuery(function () {
+		jQuery('#order-title').hide();
+		
+		jQuery("#select-order-1, #select-order-2, #select-order-3, #select-order-4, #select-order-5, #select-order-6, #select-order-7, #select-order-8, #select-order-9, #select-order-10").click(function() {
 			
-			jQuery("#select-order-1, #select-order-2, #select-order-3, #select-order-4, #select-order-5, #select-order-6, #select-order-7, #select-order-8, #select-order-9, #select-order-10").click(function() {
-				
-				setValue('drug-dispensed.value', this.getAttribute("drugOrderedName"));
-				
-				setValue('dose-dispensed.value', this.getAttribute("Dose"));
-				setValue('dose-unit.value', this.getAttribute("Unit"));
-	
-			});
-	
+			setValue('drug-dispensed.value', this.getAttribute("drugOrderedName"));
+			
+			setValue('dose-dispensed.value', this.getAttribute("Dose"));
+			setValue('dose-unit.value', this.getAttribute("Unit"));
+
 		});
-	</script>
-	
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
-	
-	<obsgroup groupingConceptId="1442">
-	
-		<section>
-			<h3>Exiting orders for this patient</h3>
-	
-			
-			<!-- Display a list of all previous Drug orders-->
-	
-			<lookup complexExpression="
-			
-			&lt;ul class=&quot;select&quot;>	
-	
-			#set ($encounterMedList = $fn.allEncounters('3c462397-7840-4890-ae78-d123d9fd138b'))
-			#set ($x = 1)
-			#foreach ($encounterMed in $encounterMedList)
-	
-			#if ($fn.getObs($encounterMed,&quot;1282&quot;))
-	
-			#set ($startTag = &quot;&lt;li&quot;)
-	
-			$startTag
-			id=&quot;select-order-$x&quot; medicationEncounterId=&quot;$encounterMed.encounterId&quot; medicationEncounterDatetime=&quot;$encounterMed.encounterDatetime&quot; &quot;
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;1282&quot;))
-			#foreach ($obs in $obsList)
-			drugOrderedId=&quot;$obs.valueCoded&quot; 
-			drugOrderedName=&quot;$obs.valueCoded.getName()&quot;
-			#set ($innerHtml = &quot;Date of order: &lt;strong>$encounterMed.encounterDatetime&lt;/strong>&lt;br>&quot;)
-			#set ($innerHtml = $innerHtml + &quot;Drug orderd: $obs.valueCoded.getName()&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;5219&quot;))
-			#foreach ($obs in $obsList)
-			#set ($innerHtml= $innerHtml + &quot;Route: $obs.valueCoded.getName()&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;160856&quot;))
-			#foreach ($obs in $obsList)
-			dose=&quot;$obs.valueNumeric&quot;
-			#set ($innerHtml= $innerHtml + &quot;Dose: $obs.valueNumeric&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;161563&quot;))
-			#foreach ($obs in $obsList)
-			unit=&quot;$obs.valueCoded.getName()&quot;
-			#set ($innerHtml= $innerHtml + &quot;Unit: $obs.valueCoded.getName()&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;160855&quot;))
-			#foreach ($obs in $obsList)
-			#set ($innerHtml= $innerHtml + &quot;Frequency: $obs.valueCoded.getName()&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;159368&quot;))
-			#foreach ($obs in $obsList)
-			#set ($innerHtml= $innerHtml + &quot;Duration: $obs.valueNumeric&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-	
-			#set ($obsList = $fn.allObs($encounterMed,&quot;160742&quot;))
-			#foreach ($obs in $obsList)
-			#set ($innerHtml= $innerHtml + &quot;Indication: $obs.valueCoded.getName()&lt;br>&quot;)
-			#if($velocityHasNext), #end
-			#end
-			#set ($x = $x +1)
-			>$innerHtml
-			&lt;/li>
-			#end
-			#end
-			&lt;/ul
-			"							
-			/>
-	
-	
-	
-		</section>
-	
-		<section>			
-			
-			<span id="order-title">
-				<h3>Order Selected</h3>
-				<p id="order-details"></p>
-	
-			</span>
-		</section>
-	
-	
-	<style type="text/css">
-		.tg {
-			table-layout: fixed;
-			width: 50%;
-			margin-left:0px;
-	
-		}
-	</style>
-	<br/>
-		<section>
-			<obsgroup groupingConceptId="1442">
-				<table class="tg">
-					<tbody>
-						<tr>
-							
-							<td>
-							 <h3>Drug dispensed:</h3>
-							 <p>
-	
-								<obs id="drug-dispensed" conceptId="1282" answerClasses="Drug" style="autocomplete" required="true"/>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							
-	
-							<td>
-								<h3>Dose dispensed: </h3>
-								<p>
-								<obs id="dose-dispensed" conceptId="160856"/>
-								</p><p>
-								<obs id="dose-unit" conceptId="161563" labelText="Unit: " answerConceptIds="161554,161553,162263, 162366" required="true"/>
-								</p>
-	
-							</td>
-						</tr>
-						<tr>
-							<td>
-							<h3>Number of pills dispensed</h3>
+
+	});
+
+
+
+</script>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+<obsgroup groupingConceptId="1442">
+
+	<section>
+		<h3>Exiting orders for this patient</h3>
+
+		
+		<!-- Display a list of all previous Drug orders-->
+
+		<lookup complexExpression="
+		
+		&lt;ul class=&quot;select&quot;>	
+
+		#set ($encounterMedList = $fn.allEncounters('3c462397-7840-4890-ae78-d123d9fd138b'))
+		#set ($x = 1)
+		#foreach ($encounterMed in $encounterMedList)
+
+		#if ($fn.getObs($encounterMed,&quot;1282&quot;))
+
+		#set ($startTag = &quot;&lt;li&quot;)
+
+		$startTag
+		id=&quot;select-order-$x&quot; medicationEncounterId=&quot;$encounterMed.encounterId&quot; medicationEncounterDatetime=&quot;$encounterMed.encounterDatetime&quot; &quot;
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;1282&quot;))
+		#foreach ($obs in $obsList)
+		drugOrderedId=&quot;$obs.valueCoded&quot; 
+		drugOrderedName=&quot;$obs.valueCoded.getName()&quot;
+		#set ($innerHtml = &quot;Date of order: &lt;strong>$encounterMed.encounterDatetime&lt;/strong>&lt;br>&quot;)
+		#set ($innerHtml = $innerHtml + &quot;Drug orderd: $obs.valueCoded.getName()&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;5219&quot;))
+		#foreach ($obs in $obsList)
+		#set ($innerHtml= $innerHtml + &quot;Route: $obs.valueCoded.getName()&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;160856&quot;))
+		#foreach ($obs in $obsList)
+		dose=&quot;$obs.valueNumeric&quot;
+		#set ($innerHtml= $innerHtml + &quot;Dose: $obs.valueNumeric&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;161563&quot;))
+		#foreach ($obs in $obsList)
+		unit=&quot;$obs.valueCoded.getName()&quot;
+		#set ($innerHtml= $innerHtml + &quot;Unit: $obs.valueCoded.getName()&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;160855&quot;))
+		#foreach ($obs in $obsList)
+		#set ($innerHtml= $innerHtml + &quot;Frequency: $obs.valueCoded.getName()&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;159368&quot;))
+		#foreach ($obs in $obsList)
+		#set ($innerHtml= $innerHtml + &quot;Duration: $obs.valueNumeric&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+
+		#set ($obsList = $fn.allObs($encounterMed,&quot;160742&quot;))
+		#foreach ($obs in $obsList)
+		#set ($innerHtml= $innerHtml + &quot;Indication: $obs.valueCoded.getName()&lt;br>&quot;)
+		#if($velocityHasNext), #end
+		#end
+		#set ($x = $x +1)
+		>$innerHtml
+		&lt;/li>
+		#end
+		#end
+		&lt;/ul
+		"							
+		/>
+
+
+
+	</section>
+
+	<section>			
+		
+		<span id="order-title">
+			<h3>Order Selected</h3>
+			<p id="order-details"></p>
+
+		</span>
+	</section>
+
+
+<style type="text/css">
+	.tg {
+		table-layout: fixed;
+		width: 50%;
+		margin-left:0px;
+
+	}
+</style>
+<br/>
+	<section>
+		<obsgroup groupingConceptId="1442">
+			<table class="tg">
+				<tbody>
+					<tr>
+						
+						<td>
+						 <h3>Drug dispensed:</h3>
+						 <p>
+
+							<obs id="drug-dispensed" conceptId="1282" answerClasses="Drug" style="autocomplete" required="true"/>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						
+
+						<td>
+							<h3>Dose dispensed: </h3>
 							<p>
-								<obs conceptId="1443" size="6" showUnits="unit(s)" required="true"/>
-								</p>
-							</td>
-						</tr>
-	
-					</tbody>
-				</table>
-	
-	
-	
-				<br/>
-				<font color="red">* required</font>
-				<br/>
-			</obsgroup>
-	
-		</section>
-	</obsgroup>
-	<submit/>
+							<obs id="dose-dispensed" conceptId="160856"/>
+							</p><p>
+							<obs id="dose-unit" conceptId="161563" labelText="Unit: " answerConceptIds="161554,161553,162263, 162366" required="true"/>
+							</p>
+
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<h3>Number of pills dispensed</h3>
+						<p>
+							<obs conceptId="1443" size="6" showUnits="unit(s)" required="true"/>
+							</p>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+
+
+			<br/>
+			<font color="red">* required</font>
+			<br/>
+		</obsgroup>
+
+	</section>
+</obsgroup>
+<submit/>
 </htmlform>

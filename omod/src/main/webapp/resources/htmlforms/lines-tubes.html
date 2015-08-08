@@ -1,167 +1,167 @@
-<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.1">
+<htmlform formUuid="592bddc7-9889-490b-b3fd-5795648b078a" formName="Lines and Tubes" formEncounterType="934aad8b-250d-450b-9cb3-ca5f01841f61" formVersion="0.1">
 
-	<script type="text/javascript">
-		if(jQuery){
-			jQuery(document).ready(function(){
-				
-				jQuery('#10-addEntry').remove();
-				for (var i=1 ; i &lt; 10 ; i++) {
-	
-					jQuery("#"+i+"01-removeEntry").remove();
-					jQuery("#"+i+"01-toggleContainer").show();
-				}
-				jQuery('#11-removeEntry').remove();
-				jQuery('#20-addEntry').remove();
-				jQuery('#11-toggleContainer').show();
-	
-			});
-	
-	
-			jQuery(document).ready(function(){
-	
-				jQuery('i.addEntry').live("click", function(){
-					var correctedAddButtonId = parseFloat(this.id) + 1;
-	
-					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-					jQuery(contentAddId).toggle(true);
-					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-					return false;});
-			});
-	
-			jQuery(document).ready(function(){
-				jQuery('i.removeEntry').live("click", function(){
-					var correctedRemoveButtonId = parseFloat(this.id) - 1;
-					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-					jQuery(contentAddId).toggle(false);
-					jQuery( ':input:not(:button)', contentAddId).val([]);
-					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-	
-					return false;});
-	
-			});
-		}
-	</script>
-	
-	
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
-	<style type="text/css">
-		.tg {
-			table-layout: fixed;
-			width: 70%;
-			margin-left: 10px;
-		}
-	</style>
-	
-	
-	<section id="lines-tubes" sectionTag="section" headerStyle="title" headerCode="Lines and Tubes">
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1078">
-				<legend>IVC #1</legend>
-				<h3>IVC #1</h3>
-				<p>
-					<obs conceptId="LFHC:1063" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1064" labelText="Size: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1065" labelText="Site: "/>
-				</p>
-			</obsgroup>
-		</fieldset>
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1079">
-				<legend>IVC #2</legend>
-				<h3>IVC #2</h3>
-				<p>
-					<obs conceptId="LFHC:1066" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1067" labelText="Size: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1068" labelText="Site: "/>
-				</p>
-	
-			</obsgroup>
-		</fieldset>
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1080">
-				<legend>IVC #3</legend>
-				<h3>IVC #3</h3>
-				<p>
-					<obs conceptId="LFHC:1069" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1070" labelText="Size: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1071" labelText="Site: "/>
-				</p>
-			</obsgroup>
-		</fieldset>
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1081">
-				<legend>NG tube</legend>
-				<h3>NG tube</h3>
-				<p>
-					<obs conceptId="LFHC:1072" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1073" labelText="Site: " />
-				</p>
-			</obsgroup>
-		</fieldset>
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1082">
-				<legend>Urinary catheter</legend>
-				<h3>Urinary catheter</h3>
-				<p>
-					<obs conceptId="LFHC:1074" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1075" labelText="Size: "/>
-				</p>
-			</obsgroup>
-		</fieldset>
-		<fieldset field-separator=", ">
-			<obsgroup groupingConceptId="CIEL:1083">
-				<legend>Other tube</legend>
-				<h3>Other tube</h3>
-				<p>
-					<obs conceptId="LFHC:1076" labelText="Date inserted: "/>
-				</p>
-				<p>
-					<obs conceptId="LFHC:1077" labelText="Size: "/>
-				</p>
-			</obsgroup>
-		</fieldset>
-	</section>
-	
-	<submit/>
+<script type="text/javascript">
+	if(jQuery){
+		jQuery(document).ready(function(){
+			
+			jQuery('#10-addEntry').remove();
+			for (var i=1 ; i &lt; 10 ; i++) {
+
+				jQuery("#"+i+"01-removeEntry").remove();
+				jQuery("#"+i+"01-toggleContainer").show();
+			}
+			jQuery('#11-removeEntry').remove();
+			jQuery('#20-addEntry').remove();
+			jQuery('#11-toggleContainer').show();
+
+		});
+
+
+		jQuery(document).ready(function(){
+
+			jQuery('i.addEntry').live("click", function(){
+				var correctedAddButtonId = parseFloat(this.id) + 1;
+
+				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+				jQuery(contentAddId).toggle(true);
+				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+				return false;});
+		});
+
+		jQuery(document).ready(function(){
+			jQuery('i.removeEntry').live("click", function(){
+				var correctedRemoveButtonId = parseFloat(this.id) - 1;
+				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+				jQuery(contentAddId).toggle(false);
+				jQuery( ':input:not(:button)', contentAddId).val([]);
+				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+				return false;});
+
+		});
+	}
+</script>
+
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+<style type="text/css">
+	.tg {
+		table-layout: fixed;
+		width: 70%;
+		margin-left: 10px;
+	}
+</style>
+
+
+<section id="lines-tubes" sectionTag="section" headerStyle="title" headerCode="Lines and Tubes">
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1078">
+			<legend>IVC #1</legend>
+			<h3>IVC #1</h3>
+			<p>
+				<obs conceptId="LFHC:1063" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1064" labelText="Size: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1065" labelText="Site: "/>
+			</p>
+		</obsgroup>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1079">
+			<legend>IVC #2</legend>
+			<h3>IVC #2</h3>
+			<p>
+				<obs conceptId="LFHC:1066" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1067" labelText="Size: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1068" labelText="Site: "/>
+			</p>
+
+		</obsgroup>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1080">
+			<legend>IVC #3</legend>
+			<h3>IVC #3</h3>
+			<p>
+				<obs conceptId="LFHC:1069" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1070" labelText="Size: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1071" labelText="Site: "/>
+			</p>
+		</obsgroup>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1081">
+			<legend>NG tube</legend>
+			<h3>NG tube</h3>
+			<p>
+				<obs conceptId="LFHC:1072" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1073" labelText="Site: " />
+			</p>
+		</obsgroup>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1082">
+			<legend>Urinary catheter</legend>
+			<h3>Urinary catheter</h3>
+			<p>
+				<obs conceptId="LFHC:1074" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1075" labelText="Size: "/>
+			</p>
+		</obsgroup>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<obsgroup groupingConceptId="CIEL:1083">
+			<legend>Other tube</legend>
+			<h3>Other tube</h3>
+			<p>
+				<obs conceptId="LFHC:1076" labelText="Date inserted: "/>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1077" labelText="Size: "/>
+			</p>
+		</obsgroup>
+	</fieldset>
+</section>
+
+<submit/>
 </htmlform>

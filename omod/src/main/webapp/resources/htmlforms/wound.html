@@ -1,172 +1,174 @@
 <htmlform formUuid="d0c9f084-a2dc-4ed2-b69b-ab7fd3e71a97" formName="Clinical Notes" formEncounterType="75a97fa9-4b04-4968-8f5b-041e5d0a3dae" formVersion="0.1">
 
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
-	
-	<section id="clinical-notes" sectionTag="section" headerStyle="title" headerCode="Clinical Notes">
-		<fieldset field-separator=", ">
-			<legend>
-				Type of wound
-			</legend>
-			<h3>
-				Type of wound
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1030"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Factors affecting healing
-			</legend>
-			<h3>
-				Factors affecting healing
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1031"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Width
-			</legend>
-			<h3>
-				Greatest width
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1032" showUnits="true"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Length
-			</legend>
-			<h3>
-				Greatest length
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1033" showUnits="true"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Depth
-			</legend>
-			<h3>
-				Greatest depth
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1034" showUnits="true"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Exudate
-			</legend>
-			<h3>
-				Exudate
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1035" />
-			</p>
-			Type of exudate
-			<p>
-				<obs conceptId="LFHC:1037"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Skin temperature
-			</legend>
-			<h3>
-				Surrounding skin temperature
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1040"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Odour
-			</legend>
-			<h3>
-				Odour
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1041"/>
-			</p>
-	
-		</fieldset>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+<section id="clinical-notes" sectionTag="section" headerStyle="title" headerCode="Clinical Notes">
 	<fieldset field-separator=", ">
-			<legend>
-				Color/condition
-			</legend>
-			<h3>
-				Color/condition
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1042"/>
-			</p>
-	
-		</fieldset>
+		<legend>
+			Type of wound
+		</legend>
+		<h3>
+			Type of wound
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1030"/>
+		</p>
+
+	</fieldset>
 	<fieldset field-separator=", ">
-			<legend>
-				Dressing change
-			</legend>
-			<h3>
-				Frequency of dressing change
-			</h3>
-			<p>
-				<obs conceptId="CIEL:160716"/>
-			</p>
-	
-		</fieldset>
-		<fieldset field-separator=", ">
-			<legend>
-				Analgesia required
-			</legend>
-			<h3>
-				Analgesia required when changing the dressing
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1044"/>
-			</p>
-	
-		</fieldset>
-	
-	</section>
-	
-	<submit/>
+		<legend>
+			Factors affecting healing
+		</legend>
+		<h3>
+			Factors affecting healing
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1031"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Width
+		</legend>
+		<h3>
+			Greatest width
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1032" showUnits="true"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Length
+		</legend>
+		<h3>
+			Greatest length
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1033" showUnits="true"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Depth
+		</legend>
+		<h3>
+			Greatest depth
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1034" showUnits="true"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Exudate
+		</legend>
+		<h3>
+			Exudate
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1035" />
+		</p>
+		Type of exudate
+		<p>
+			<obs conceptId="LFHC:1037"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Skin temperature
+		</legend>
+		<h3>
+			Surrounding skin temperature
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1040"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Odour
+		</legend>
+		<h3>
+			Odour
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1041"/>
+		</p>
+
+	</fieldset>
+<fieldset field-separator=", ">
+		<legend>
+			Color/condition
+		</legend>
+		<h3>
+			Color/condition
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1042"/>
+		</p>
+
+	</fieldset>
+<fieldset field-separator=", ">
+		<legend>
+			Dressing change
+		</legend>
+		<h3>
+			Frequency of dressing change
+		</h3>
+		<p>
+			<obs conceptId="CIEL:160716"/>
+		</p>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Analgesia required
+		</legend>
+		<h3>
+			Analgesia required when changing the dressing
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1044"/>
+		</p>
+
+	</fieldset>
+
+</section>
+
+
+<submit/>
 
 </htmlform>
