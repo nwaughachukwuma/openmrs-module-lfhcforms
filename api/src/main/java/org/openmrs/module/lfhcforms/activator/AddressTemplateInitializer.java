@@ -80,6 +80,8 @@ public class AddressTemplateInitializer implements Initializer {
 		at.setElementDefaults(elementDefaults);
 
 		at.setLineByLineFormat(Arrays.asList("address1", "cityVillage", "countyDistrict", "stateProvince", "country"));
+		
+		
 	}
 
 	/**
