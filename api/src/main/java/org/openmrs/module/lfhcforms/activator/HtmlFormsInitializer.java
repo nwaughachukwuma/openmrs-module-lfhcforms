@@ -32,7 +32,6 @@ public class HtmlFormsInitializer implements Initializer {
 			HtmlFormEntryService htmlFormEntryService = Context.getService(HtmlFormEntryService.class);
 
 			List<String> htmlforms = Arrays.asList(
-					"lfhcforms:htmlforms/admission-discharge.html",
 					"lfhcforms:htmlforms/clinicalnotes.html",
 					"lfhcforms:htmlforms/diagnosis.html",
 					"lfhcforms:htmlforms/diagnostic-imaging.html",
@@ -48,6 +47,7 @@ public class HtmlFormsInitializer implements Initializer {
 					"lfhcforms:htmlforms/med-order.html",
 					"lfhcforms:htmlforms/opd-nurse.html",
 					"lfhcforms:htmlforms/phys-exam.html",
+					"lfhcforms:htmlforms/treatment.html",
 					"lfhcforms:htmlforms/triage.html",
 					"lfhcforms:htmlforms/vitals-pews.html",
 					"lfhcforms:htmlforms/wound.html"
