@@ -1,318 +1,322 @@
 <htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.1">
 
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
-	
-	
-	<style type="text/css">
-	
-		.tg2 {
-			table-layout: fixed;
-			width: 65%;
-			margin-left: 10px;
-		}
-	
-	
-	
-	</style>
-	
-	
-	<section id="exam-findings" sectionTag="section" headerStyle="title" headerCode="Findings">
-	
-	
-		<fieldset field-separator=", ">
-	
-	
-			<table class="tg2">
-				<legend>
-					Physical Exam
-				</legend>
-				<h3>
-					Physical examination
-				</h3>
-	
-				<tbody>
-					<tr>
-						<td>
-							<lookup expression="fn.getConcept('CIEL:162741').name"/>
-							<obs id="2-finding" conceptId="CIEL:162741"/>
-						</td>
-					</tr>
-	
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1120" answerLabel="Skin exam" style="checkbox"/>
-								</p>
-								<p>
-									<obs id="3-finding" conceptId="CIEL:1120">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#3-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="3-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-	
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1121" answerLabel="Lymph node exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="1-finding" conceptId="CIEL:1121">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#1-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="1-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1122" answerLabel="Heent node exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="4-finding" conceptId="CIEL:1122">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#4-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="4-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1123" answerLabel="Chest exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="5-finding" conceptId="CIEL:1123">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#5-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="5-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-	
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1124" answerLabel="Cardiac exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="6-finding" conceptId="CIEL:1124">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#6-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="6-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1125" answerLabel="Abdominal exam" style="checkbox"/>
-								</p>
-								<p>
-									<obs id="10-finding" conceptId="CIEL:1125">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#10-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="10-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1126" answerLabel="Urogenital exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="12-finding" conceptId="CIEL:1126">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#12-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="12-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1127" answerLabel="Extremity exam" style="checkbox"/>
-								</p>
-								<p>
-									<obs id="7-finding" conceptId="CIEL:1127">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#7-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="7-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1128" answerLabel="Musculoskeletal exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="8-finding" conceptId="CIEL:1128">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#8-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="8-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1129" answerLabel="Neurologic exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="9-finding" conceptId="CIEL:1129">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#9-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="9-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>	
-							<obsgroup groupingConceptId="LFHC:1052">
-								<p>
-	
-									<obs conceptId="CIEL:1119" answerConceptId="CIEL:1130"  answerLabel="Phsychiatric exam"  style="checkbox"/>
-								</p>
-								<p>
-									<obs id="11-finding" conceptId="CIEL:1130">
-										<controls>
-											<when value="CIEL:1116" thenDisplay="#11-finding-abnormal"/>
-										</controls>
-									</obs>
-								</p>
-	
-								<p>
-									<obs id="11-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
-								</p>
-							</obsgroup>
-						</td>
-					</tr>
-					<tr>
-						<td>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+
+<style type="text/css">
+
+	.tg2 {
+		table-layout: fixed;
+		width: 65%;
+		margin-left: 10px;
+	}
+
+
+
+</style>
+
+
+<section id="exam-findings" sectionTag="section" headerStyle="title" headerCode="Findings">
+
+
+	<fieldset field-separator=", ">
+
+
+		<table class="tg2">
+			<legend>
+				Physical Exam
+			</legend>
+			<h3>
+				Physical examination
+			</h3>
+
+			<tbody>
+				<tr>
+					<td>
+						<lookup expression="fn.getConcept('CIEL:162741').name"/>
+						<obs id="2-finding" conceptId="CIEL:162741"/>
+					</td>
+				</tr>
+
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
-								Other comments
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1120" answerLabel="Skin exam" style="checkbox"/>
 							</p>
 							<p>
-							<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
+								<obs id="3-finding" conceptId="CIEL:1120">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#3-finding-abnormal"/>
+									</controls>
+								</obs>
 							</p>
-						</td>
-					</tr>
-					<tr>
-					</tr>
-	
-				</tbody>
-			</table>
-	
-		</fieldset>
-	</section>
+
+							<p>
+								<obs id="3-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1121" answerLabel="Lymph node exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="1-finding" conceptId="CIEL:1121">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#1-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="1-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1122" answerLabel="Heent node exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="4-finding" conceptId="CIEL:1122">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#4-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="4-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1123" answerLabel="Chest exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="5-finding" conceptId="CIEL:1123">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#5-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="5-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1124" answerLabel="Cardiac exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="6-finding" conceptId="CIEL:1124">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#6-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="6-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1125" answerLabel="Abdominal exam" style="checkbox"/>
+							</p>
+							<p>
+								<obs id="10-finding" conceptId="CIEL:1125">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#10-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="10-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1126" answerLabel="Urogenital exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="12-finding" conceptId="CIEL:1126">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#12-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="12-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1127" answerLabel="Extremity exam" style="checkbox"/>
+							</p>
+							<p>
+								<obs id="7-finding" conceptId="CIEL:1127">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#7-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="7-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1128" answerLabel="Musculoskeletal exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="8-finding" conceptId="CIEL:1128">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#8-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="8-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1129" answerLabel="Neurologic exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="9-finding" conceptId="CIEL:1129">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#9-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="9-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>	
+						<obsgroup groupingConceptId="LFHC:1052">
+							<p>
+
+								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1130"  answerLabel="Phsychiatric exam"  style="checkbox"/>
+							</p>
+							<p>
+								<obs id="11-finding" conceptId="CIEL:1130">
+									<controls>
+										<when value="CIEL:1116" thenDisplay="#11-finding-abnormal"/>
+									</controls>
+								</obs>
+							</p>
+
+							<p>
+								<obs id="11-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
+							</p>
+						</obsgroup>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							Other comments
+						</p>
+						<p>
+						<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
+						</p>
+					</td>
+				</tr>
+				<tr>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</fieldset>
+</section>
+
+
+
 
 </htmlform>	

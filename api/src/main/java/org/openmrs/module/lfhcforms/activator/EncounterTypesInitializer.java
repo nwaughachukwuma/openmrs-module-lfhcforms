@@ -189,7 +189,7 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		{
-			String name = "Diagnosis and Treatment";
+			String name = "Diagnosis";
 			String desc = "";
 			String uuid = "3dbd13da-f210-4f20-a5b4-536a92e81474"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
@@ -199,6 +199,18 @@ public class EncounterTypesInitializer implements Initializer {
 				es.saveEncounterType(encounterType);
 			}
 		}
+		{
+			String name = "Treatment";
+			String desc = "";
+			String uuid = "feacdb57-4388-4b39-8840-2ff063bfab34"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
+
 		{
 			String name = "Immunity and Infection";
 			String desc = "";
