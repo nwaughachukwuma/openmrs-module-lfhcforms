@@ -70,13 +70,14 @@ public class LFHCConceptsInitializer implements Initializer {
 	protected final static String CSV_MAPPING_ICD10 = "ICD-10 Mapping";
 	protected final static String CSV_NAME = "Name";
 	protected final static String CSV_SHORTNAME = "Short Name";
-	protected final static String CSV_SYNONYMS = "Synonyms (separate them by a comma)";
+	protected final static String CSV_SYNONYMS = "Synonyms (comma-separated)";
 	protected final static String CSV_DESC = "Description";
-	protected final static String CSV_ISSET = "Is set?";
+	protected final static String CSV_ISSET = "Is set";
 	protected final static String CSV_DATATYPE = "Datatype";
 	protected final static String CSV_CLASS = "Class";
-	protected final static String CSV_UNIT = "Unit";
-	protected final static String CSV_CONCEPT_LIST = "If Question or Set, concept list (mapped IDs separated by a comma)";
+	protected final static String CSV_NUMERIC_UNIT = "Numeric - Unit";
+	protected final static String CSV_NUMERIC_ALLOWDECIMALS = "Numeric - Allow decimals";
+	protected final static String CSV_CONCEPT_LIST = "Subconcepts (comma-separated)";
 	
 	// Array of the minimal set of headers to be found in the import CSV.
 	protected final Set<String> requiredHeaders = new HashSet<String>();
@@ -91,7 +92,8 @@ public class LFHCConceptsInitializer implements Initializer {
 		requiredHeaders.add(CSV_ISSET);
 		requiredHeaders.add(CSV_DATATYPE);
 		requiredHeaders.add(CSV_CLASS);
-		requiredHeaders.add(CSV_UNIT);
+		requiredHeaders.add(CSV_NUMERIC_UNIT);
+		requiredHeaders.add(CSV_NUMERIC_ALLOWDECIMALS);
 		requiredHeaders.add(CSV_CONCEPT_LIST);
 	}
 
@@ -257,10 +259,9 @@ public class LFHCConceptsInitializer implements Initializer {
 				log.warn("Could not save concept '" + name + "': invalid Datatype: " + datatypeName + ". Skipping through to next concept in the CSV source.");
 				continue;
 			}
-			String unit = mappedConcept.get(CSV_UNIT);
-			String isSet = mappedConcept.get(CSV_ISSET);
-			if(isSet.isEmpty())
-				isSet = "No";
+			String unit = mappedConcept.get(CSV_NUMERIC_UNIT);
+			String allowDecimals = mappedConcept.get(CSV_NUMERIC_ALLOWDECIMALS);
+			String isSetString = mappedConcept.get(CSV_ISSET);
 			String conceptList = mappedConcept.get(CSV_CONCEPT_LIST);
 			boolean isComplex = !conceptList.isEmpty(); 
 			if(isComplex)
@@ -272,6 +273,7 @@ public class LFHCConceptsInitializer implements Initializer {
 			if("Numeric".equalsIgnoreCase(datatypeName.trim())) {
 				newConcept = new ConceptNumeric();
 				((ConceptNumeric) newConcept).setUnits(unit);
+				((ConceptNumeric) newConcept).setAllowDecimal( parseBoolean(allowDecimals, false) );
 			}
 			else {
 				newConcept = new Concept();
@@ -286,9 +288,7 @@ public class LFHCConceptsInitializer implements Initializer {
 				ConceptMap map = new ConceptMap(refTerm, mapType);
 				newConcept.addConceptMapping(map);
 			}
-			isSet = isSet.trim().toLowerCase();
-			if("yes".equals(isSet) || "true".equals(isSet) || "1".equals(isSet))
-				newConcept.setSet(true);
+			newConcept.setSet( parseBoolean(isSetString, false) );
 			if(!synonyms.isEmpty()) {
 				Collection<ConceptName> names = new HashSet<ConceptName>();
 				String[] synList = synonyms.split(CSV_INNER_DELIMITER);
@@ -308,6 +308,17 @@ public class LFHCConceptsInitializer implements Initializer {
 			saveConceptWithConceptList(cs, conceptsToSave, sets, lfhcMappedId);
 		}		
 	}
+	
+	private boolean parseBoolean(String strBool, boolean defaultBool) {
+		boolean res = defaultBool;
+		strBool = strBool.trim().toLowerCase();
+		if("y".equals(strBool) || "yes".equals(strBool) || "true".equals(strBool) || "1".equals(strBool))
+			res = true;
+		if(strBool.isEmpty() || "n".equals(strBool) || "no".equals(strBool) || "false".equals(strBool) || "0".equals(strBool))
+			res = false;
+		return res;
+	}
+	
 	
 	// Stack the concepts already saved to end the recursive saving calls.
 	protected Set<String> conceptsDone = new HashSet<String>();
@@ -350,6 +361,9 @@ public class LFHCConceptsInitializer implements Initializer {
 				else
 				{	// CIEL
 					memberConcept = cs.getConceptByMapping(conceptId, CIEL_CONCEPT_SOURCE);
+					if(memberConcept == null) {
+						log.warn("Concept '" + conceptToSave.getName() + "' " + CIEL_CONCEPT_SOURCE + " answer or set member concept [" + conceptId + "] not found. Answer or set member will be missing.");
+					}
 				}
 				if(memberConcept != null) {
 					if(conceptToSave.isSet())
@@ -377,7 +391,7 @@ public class LFHCConceptsInitializer implements Initializer {
 			concept = cs.saveConcept(concept);
 		}
 		catch (DuplicateConceptNameException e) {
-			log.warn("The name of concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' is a duplicate, it could therefore not be saved. Skipping through to next concept.");
+			log.error("The name of concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' is a duplicate, it could therefore not be saved. Skipping through to next concept.");
 		}
 		catch (NonUniqueObjectException e) {
 			log.error("Saving concept '" + concept.getFullySpecifiedName(Locale.ENGLISH) + "' produced an exception, please investigate the stack trace.", e);

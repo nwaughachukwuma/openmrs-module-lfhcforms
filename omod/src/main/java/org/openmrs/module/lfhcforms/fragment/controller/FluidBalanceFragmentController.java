@@ -12,7 +12,7 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
-public class MyViewFragmentController {
+public class FluidBalanceFragmentController {
 
 	public void controller(FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
 			,  @SpringBean("conceptService") ConceptService conceptService
