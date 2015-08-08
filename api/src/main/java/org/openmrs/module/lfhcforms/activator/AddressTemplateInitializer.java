@@ -1,5 +1,7 @@
 package org.openmrs.module.lfhcforms.activator;
 
+import java.io.IOException;
+
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -16,13 +18,12 @@ package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.layout.web.address.AddressSupport;
-import org.openmrs.layout.web.address.AddressTemplate;
+import org.openmrs.Location;
+import org.openmrs.api.LocationService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import org.openmrs.module.lfhcforms.utils.DefaultResouceLoaderImpl;
+import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 
 /**
  * Installs and removes the address template for this module.
@@ -33,14 +34,9 @@ public class AddressTemplateInitializer implements Initializer {
 	protected static final Log log = LogFactory.getLog(AddressTemplateInitializer.class);
 
 	public static final String CODE_NAME = "lfhc";
-	
-	/*
-	 * Each address template (but the default-generic one) is associated with a country.
-	 * Presumably the look & feel and behavior is looked up upon the country.
-	 * TODO: Verify the above assertion.
-	 */
-	public static final String ADDRESS_TEMPLATE_LAOS = "Laos";
 
+	protected static final String XML_RESOURCE_PATH = "addressTemplate.xml";
+	
 	/**
 	 * @see Initializer#started()
 	 */
@@ -48,40 +44,23 @@ public class AddressTemplateInitializer implements Initializer {
 	public synchronized void started() {
 		log.info("Registering address template for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
 		
-		AddressTemplate at = AddressSupport.getInstance().getLayoutTemplateByCodeName(CODE_NAME);
-
-		if (at == null) {
-			at = new AddressTemplate(CODE_NAME);
-			AddressSupport.getInstance().getLayoutTemplates().add(at);
+		final LocationService locationService = Context.getLocationService();
+		
+		// Setting the address template
+		final ResourceLoader loader = new DefaultResouceLoaderImpl();
+		String xml = "";
+		try {
+			xml = loader.getResourceAsSting(XML_RESOURCE_PATH, "UTF-8");
 		}
-
-		at.setDisplayName(LFHCFormsActivator.ACTIVATOR_MODULE_NAME + " Address Format");
-		at.setCodeName(CODE_NAME);
-		at.setCountry(ADDRESS_TEMPLATE_LAOS);
-
-		Map<String, String> nameMappings = new HashMap<String, String>();
-		nameMappings.put("countyDistrict", "Location.district");
-		nameMappings.put("address1", "Location.address1");
-		nameMappings.put("country", "Location.country");
-		nameMappings.put("stateProvince", "Location.stateProvince");
-		nameMappings.put("cityVillage", "Location.cityVillage");
-		at.setNameMappings(nameMappings);
-
-		Map<String, String> sizeMappings = new HashMap<String, String>();
-		sizeMappings.put("countyDistrict", "40");
-		sizeMappings.put("address1", "40");
-		sizeMappings.put("country", "20");
-		sizeMappings.put("stateProvince", "40");
-		sizeMappings.put("cityVillage", "40");
-		at.setSizeMappings(sizeMappings);
-
-		Map<String, String> elementDefaults = new HashMap<String, String>();
-		elementDefaults.put("country", ADDRESS_TEMPLATE_LAOS);
-		at.setElementDefaults(elementDefaults);
-
-		at.setLineByLineFormat(Arrays.asList("address1", "cityVillage", "countyDistrict", "stateProvince", "country"));
+		catch (IOException e) {
+			log.error("Could not load resource file '" + XML_RESOURCE_PATH + ".", e);
+		}
+		locationService.saveAddressTemplate(xml);
 		
-		
+		// Renaming the location(s)
+		Location mainLocation = locationService.getLocationByUuid("aff27d58-a15c-49a6-9beb-d30dcfc0c66e");
+		mainLocation.setName("Lao Friends Hospital for Children");
+		locationService.saveLocation(mainLocation);
 	}
 
 	/**
@@ -89,11 +68,11 @@ public class AddressTemplateInitializer implements Initializer {
 	 */
 	@Override
 	public void stopped() {
-		log.info("Un-registering address template for LFHC Forms Module");
-		
-		AddressTemplate at = AddressSupport.getInstance().getLayoutTemplateByCodeName(CODE_NAME);
-		if (at != null) {
-			AddressSupport.getInstance().getLayoutTemplates().remove(at);
-		}
+//		log.info("Un-registering address template for LFHC Forms Module");
+//		
+//		AddressTemplate at = AddressSupport.getInstance().getLayoutTemplateByCodeName(CODE_NAME);
+//		if (at != null) {
+//			AddressSupport.getInstance().getLayoutTemplates().remove(at);
+//		}
 	}
 }
