@@ -1,227 +1,228 @@
-LFHC Mapping	ICD-10 Mapping	Name	Short Name	Synonyms (comma-separated)	Description	Class	Is set	Datatype	Numeric - Unit	Numeric - Allow decimals	Subconcepts (comma-separated)
-LFHC:901		LAO (TAI AND RAU) ETHNIC GROUP	Lao (Tai and Rau)			Misc		N/A			
-LFHC:902		HMONG-MIEN ETHNIC GROUP	Hmong-Mien			Misc		N/A			
-LFHC:903		MON-KHMER ETHNIC GROUP	Mon-Khmer			Misc		N/A			
-LFHC:904		PALAUNGIC ETHNIC GROUP	Palaungic			Misc		N/A			
-LFHC:905		KHMUIC ETHNIC GROUP	Khmuic			Misc		N/A			
-LFHC:906		TIBETO-BURMAN ETHNIC GROUP	Tibeto-Burman			Misc		N/A			
-LFHC:907		CHINESE ETHNIC GROUP	Chinese			Misc		N/A			
-LFHC:908		CAUCASIAN ETHNIC GROUP	Caucasian			Misc		N/A			
-LFHC:909		AFRICAN ETHNIC GROUP	African			Misc		N/A			
-LFHC:910		HISPANIC ETHNIC GROUP	Hispanic			Misc		N/A			
-LFHC:911		OTHER ETHNIC GROUP	Other			Misc		N/A			
-LFHC:912		ETHNIC GROUP MEMBERSHIP	Ethnic group			Question		Coded			LFHC:901, LFHC:902, LFHC:903, LFHC:904, LFHC:905, LFHC:906, LFHC:907, LFHC:908, LFHC:909, LFHC:910, LFHC:911
-LFHC:913		LAO LANGUAGE	Lao			Misc		N/A			
-LFHC:914		HMONG LANGUAGE	Hmong			Misc		N/A			
-LFHC:915		KHMU LANGUAGE	Khmu			Misc		N/A			
-LFHC:916		CHINESE LANGUAGE	Chinese			Misc		N/A			
-LFHC:917		THAI LANGUAGE	Thai			Misc		N/A			
-LFHC:918		ENGLISH LANGUAGE	English			Misc		N/A			
-LFHC:919		OTHER LANGUAGE	Other			Misc		N/A			
-LFHC:920		MAIN LANGUAGE SPOKEN	Main language			Question		Coded			LFHC:913, LFHC:914, LFHC:915, LFHC:916, LFHC:917, LFHC:918, LFHC:919
+LFHC Mapping	ICD-10 Mapping	Name	Short Name	Synonyms (comma-separated)	Description	Class	Is set	Datatype	Subconcepts (comma-separated)	Numeric - Unit	Numeric - Absolute High	Numeric - Critical High	Numeric - Normal High	Numeric - Normal Low	Numeric - Critical Low	Numeric - Absolute Low	Numeric - Allow decimals
+LFHC:901		LAO (TAI AND RAU) ETHNIC GROUP	Lao (Tai and Rau)			Misc		N/A									
+LFHC:902		HMONG-MIEN ETHNIC GROUP	Hmong-Mien			Misc		N/A									
+LFHC:903		MON-KHMER ETHNIC GROUP	Mon-Khmer			Misc		N/A									
+LFHC:904		PALAUNGIC ETHNIC GROUP	Palaungic			Misc		N/A									
+LFHC:905		KHMUIC ETHNIC GROUP	Khmuic			Misc		N/A									
+LFHC:906		TIBETO-BURMAN ETHNIC GROUP	Tibeto-Burman			Misc		N/A									
+LFHC:907		CHINESE ETHNIC GROUP	Chinese			Misc		N/A									
+LFHC:908		CAUCASIAN ETHNIC GROUP	Caucasian			Misc		N/A									
+LFHC:909		AFRICAN ETHNIC GROUP	African			Misc		N/A									
+LFHC:910		HISPANIC ETHNIC GROUP	Hispanic			Misc		N/A									
+LFHC:911		OTHER ETHNIC GROUP	Other			Misc		N/A									
+LFHC:912		ETHNIC GROUP MEMBERSHIP	Ethnic group			Question		Coded	LFHC:901, LFHC:902, LFHC:903, LFHC:904, LFHC:905, LFHC:906, LFHC:907, LFHC:908, LFHC:909, LFHC:910, LFHC:911								
+LFHC:913		LAO LANGUAGE	Lao			Misc		N/A									
+LFHC:914		HMONG LANGUAGE	Hmong			Misc		N/A									
+LFHC:915		KHMU LANGUAGE	Khmu			Misc		N/A									
+LFHC:916		CHINESE LANGUAGE	Chinese			Misc		N/A									
+LFHC:917		THAI LANGUAGE	Thai			Misc		N/A									
+LFHC:918		ENGLISH LANGUAGE	English			Misc		N/A									
+LFHC:919		OTHER LANGUAGE	Other			Misc		N/A									
+LFHC:920		MAIN LANGUAGE SPOKEN	Main language			Question		Coded	LFHC:913, LFHC:914, LFHC:915, LFHC:916, LFHC:917, LFHC:918, LFHC:919								
 LFHC:1001		WOUND DRAINAGE	wound D/C	"incision drainage, fluid from incision, fluid from wound, surgical site drainage
-"	What is the fluid draining from a wound or surgical site - could be from surgical incision or injury site	Question	No	Numeric	mls		
-LFHC:1002		PLEURAL FLUID DRAINAGE	pleural fluid	chest tube drainage, pleural fluid, chest drainage, empyema drainage	what is the amount of fluid draining through a hole in the chest wall from the pleural cavity through a chest tube or an incision	Question	No	Numeric	mls		
-LFHC:1003		Beriberi risk	beriberi risk	risk of thiamine deficiency,vitamin B1 deficiency risk	Is this an infant who has the following risk factors which may lead to a deficiency of thiamine and necessitates possible treatment with thiamine rapidly: maternal food taboos, maternal symptoms of leg numbness or weakness,1-6 months old, poor feeding, vomiting, irritability, weight loss, hoarseness, fast heart rate, edema, hepatomegaly?	Question	No	Coded			
-LFHC:1004		Hourly Intravenous fluids	iv intake		amount of IV fluids given in that hour	Question	No	Numeric	ml		
-LFHC:1005		Hourly oral intake	oral intake		amount of oral fluids given in that hour	Question	No	Numeric	ml		
-LFHC:1006		Other hourly intake	other intake		amount of other fluids given in that hour including NG	Question	No	Numeric	ml		
-LFHC:1007		ultrasound of appendix	U/S appendix		test done to check for appendicitis	Test	No	Coded			
-LFHC:1008		xray List	xray set	diagnostic imaging set	List of all xrays	Test	Yes	Coded			12, 101, 377, 380, 382, 384, 386, 390, 392, 394, 309, 161266, 161267,161269,161270,161272,161295,161298,161299,161302,161303,161305,161306,161307,161317,161318,161319,159600,161265,161301,161320,161322,161321,161324,161325,161327,161329,161328,161330,161332,161333,161334,161337,161338,161341,161342,161343,161344,161345,161347,161348,161349,161350
-LFHC:1009		Ultrasound List	Ultrasound set	ultrasound set	List of all ultrasounds	Test	Yes	Coded			845, 161, 274, 161, 275, 161276, 161277, 161279, 161280, 161283, 161285, 161288
-LFHC:1010		ultrasound of mass	U/S Mass	ultrasound of the mass	description of a mass	Test	No	Text			
-LFHC:1011		Musculoskeletal system and injury diagnosis	injuries	injuries, trauma, fractures, sprains, strains	any injury that can occur in musculoskeletal system	Diagnosis	Yes	Coded			116543, 177, 112770, 133628, 481, 125614, 157450, 5622
-LFHC:1012		other xray			text description of other xray required	Test	No	Text			
-LFHC:1013		other xray set			link for other xray and text to define which body part or view	ConvSet	Yes	N/A			309, LFHC:1013
-LFHC:1014		other ultrasound				Test	No	Coded			1115, 1116
+"	What is the fluid draining from a wound or surgical site - could be from surgical incision or injury site	Question	No	Numeric		mls							
+LFHC:1002		PLEURAL FLUID DRAINAGE	pleural fluid	chest tube drainage, pleural fluid, chest drainage, empyema drainage	what is the amount of fluid draining through a hole in the chest wall from the pleural cavity through a chest tube or an incision	Question	No	Numeric		mls							
+LFHC:1003		Beriberi risk	beriberi risk	risk of thiamine deficiency,vitamin B1 deficiency risk	Is this an infant who has the following risk factors which may lead to a deficiency of thiamine and necessitates possible treatment with thiamine rapidly: maternal food taboos, maternal symptoms of leg numbness or weakness,1-6 months old, poor feeding, vomiting, irritability, weight loss, hoarseness, fast heart rate, edema, hepatomegaly?	Question	No	Coded									
+LFHC:1004		Hourly Intravenous fluids	iv intake		amount of IV fluids given in that hour	Question	No	Numeric		ml							
+LFHC:1005		Hourly oral intake	oral intake		amount of oral fluids given in that hour	Question	No	Numeric		ml							
+LFHC:1006		Other hourly intake	other intake		amount of other fluids given in that hour including NG	Question	No	Numeric		ml							
+LFHC:1007		ultrasound of appendix	U/S appendix		test done to check for appendicitis	Test	No	Coded									
+LFHC:1008		xray List	xray set	diagnostic imaging set	List of all xrays	Test	Yes	Coded	12, 101, 377, 380, 382, 384, 386, 390, 392, 394, 309, 161266, 161267,161269,161270,161272,161295,161298,161299,161302,161303,161305,161306,161307,161317,161318,161319,159600,161265,161301,161320,161322,161321,161324,161325,161327,161329,161328,161330,161332,161333,161334,161337,161338,161341,161342,161343,161344,161345,161347,161348,161349,161350								
+LFHC:1009		Ultrasound List	Ultrasound set	ultrasound set	List of all ultrasounds	Test	Yes	Coded	845, 161, 274, 161, 275, 161276, 161277, 161279, 161280, 161283, 161285, 161288								
+LFHC:1010		ultrasound of mass	U/S Mass	ultrasound of the mass	description of a mass	Test	No	Text									
+LFHC:1011		Musculoskeletal system and injury diagnosis	injuries	injuries, trauma, fractures, sprains, strains	any injury that can occur in musculoskeletal system	Diagnosis	Yes	Coded	116543, 177, 112770, 133628, 481, 125614, 157450, 5622								
+LFHC:1012		other xray			text description of other xray required	Test	No	Text									
+LFHC:1013		other xray set			link for other xray and text to define which body part or view	ConvSet	Yes	N/A	309, LFHC:1012								
+LFHC:1014		other ultrasound				Test	No	Coded	1115, 1116								
 LFHC:1015		other ultrasound description			"text box to identify the part required
-"	Test	No	Text			
-LFHC:1016		other ultrasound set			link other ultrasound info	ConvSet	Yes	N/A			LFHC:1015, LFHC:1014
-LFHC:1017		wound details				Question	No	Text			
+"	Test	No	Text									
+LFHC:1016		other ultrasound set			link other ultrasound info	ConvSet	Yes	N/A	LFHC:1015, LFHC:1014								
+LFHC:1017		wound details				Question	No	Text									
 LFHC:1018		"pink
-"				Misc	No	N/A			
-LFHC:1019		skin colour			assessment of skin for circulation	Question	No	Coded			LFHC:1018, 147107, 5245
-LFHC:1020											
-LFHC:1021											
-LFHC:1022		maternal medication use	pregnancy drugs	prenatal drugs, pregnancy drugs, gestational drugs, maternal use of medications - need to space for 4 drugs	these are medications used by the biological mother of the child during her pregnancy or while breastfeeding	Drug	Yes	Coded			
-LFHC:1023		neonatal problems			problems in the neonatal period						115367, 226, 110509, 110666, 110673, 115368,115372, 115378, 115381,115384, 115762, 117626, 124289, 124954, 126635, 133049, 133367, 133371, 133375, 133377, 133380, 133385, 133393, 133398, 133399, 133403, 133414, 133419, 133422, 133423, 152264, 154223, 157903, 157905, 157908, 162317, 143049, 149461
-LFHC:1024		medication list 			common drugs in opd and ipd						1881, 70116, 89, 71160, 81724, 73628, 73042, 73019, 162229, 73547,71780,75842,73087,72999,73006, 79782, 80945,80106,1085,1159,5839, 81951,74745, the rest of the total drug lis
-LFHC:1025		head bobbing			movements of infant head with respiratory distress	Question	No	Coded			1065, 1066, 1067
-LFHC:1026		receiving oxygen therapy			is the patient receiving oxygen therapy	Question	No	Coded			1065. 1066, 1067
-LFHC:1027		oxygen therapy in litres			How much oxygen is the patient receiving?	Question	No	Numeric	litres		
-LFHC:1028		gestation 27 weeks			descriptor	Diagnosis	No	N/A			
+"				Misc	No	N/A									
+LFHC:1019		skin colour			assessment of skin for circulation	Question	No	Coded	LFHC:1018, 147107, 5245								
+LFHC:1020																	
+LFHC:1021																	
+LFHC:1022		maternal medication use	pregnancy drugs	prenatal drugs, pregnancy drugs, gestational drugs, maternal use of medications - need to space for 4 drugs	these are medications used by the biological mother of the child during her pregnancy or while breastfeeding	Drug	Yes	Coded									
+LFHC:1023		neonatal problems			problems in the neonatal period				115367, 226, 110509, 110666, 110673, 115368,115372, 115378, 115381,115384, 115762, 117626, 124289, 124954, 126635, 133049, 133367, 133371, 133375, 133377, 133380, 133385, 133393, 133398, 133399, 133403, 133414, 133419, 133422, 133423, 152264, 154223, 157903, 157905, 157908, 162317, 143049, 149461								
+LFHC:1024		medication list 			common drugs in opd and ipd				1881, 70116, 89, 71160, 81724, 73628, 73042, 73019, 162229, 73547,71780,75842,73087,72999,73006, 79782, 80945,80106,1085,1159,5839, 81951,74745, the rest of the total drug lis								
+LFHC:1025		head bobbing			movements of infant head with respiratory distress	Question	No	Coded	1065, 1066, 1067								
+LFHC:1026		receiving oxygen therapy			is the patient receiving oxygen therapy	Question	No	Coded	1065, 1066, 1067								
+LFHC:1027		oxygen therapy in litres			How much oxygen is the patient receiving?	Question	No	Numeric		litres							
+LFHC:1028		gestation 27 weeks			descriptor	Diagnosis	No	N/A									
 LFHC:1029		drug route			"what drug route should be used?
-"	Question	No	Coded			160242, 160240, 160243, 161253, 160245,160241, 162798, 162448,5622, 162385, 162386, 162387, 162388, 162389, 162390, 162392, 162393, 162824
-LFHC:1030		 wound type			what type of wound	Diagnosis	No	Coded			161917, 161918, 161919, 116543, 161920, 161921, 124193,132869
-LFHC:1031		factors affecting wound healing			what factors are affecting the healing of this wound?	Question	No	Coded			115122, 112483, 125688, 113948, 145439, 159598, 819, 5622
-LFHC:1032		measurement across wound in cm	wound width		Measurements Greatest width across wound in cm	Finding	No	Numeric	cm		
-LFHC:1033		measurement length wound in cm	wound length			Finding	No	Numeric	cm		
-LFHC:1034		measurement depth wound in cm	wound depth			Finding	No	Numeric	cm		
-LFHC:1035		exudate present on wound			is there exudate on the wound?	Question	No	Coded			1065. 1066
-LFHC:1036		serous			the colour of serum - descriptor	Misc	No	N/A			
-LFHC:1037		type of exudate			what type of exudate is present?	Finding	No	Coded			LFHC:1036, LFHC:1038, 1077, 1076
-LFHC:1038		serosanguinous			pink colour of liquid - descriptor	Misc	No	N/A			
-LFHC:1039		hot			temperature descriptor	Finding	No	N/A			
-LFHC:1040		surrounding skin temperature			what is the surrounding skin temperature?	Question	No	Coded			1115, LFHC:1039, 1866
-LFHC:1041		Odour 			Is there an odour present in the wound	Question	No	Coded			"1065, 1066, 1067
-"
-LFHC:1042		skin condition			what is the colour/condition of the skin	Question	no	Coded			1115, 127778, 141692, 460
-LFHC:1043		Dressing Change Frequency			how frequently do you need to change the dressing	Procedure	No				162135. 160862, 160858, 162249, 5622
-LFHC:1044		Analgesia Required			Is pain treatment or analgesia required during the procedure?	Question	No	Coded			1065, 1066
-LFHC:1045		Referral Site			where was the patient referred from?	Question	No	Coded			1175, 159671, 159662, 1588, 1725, 160547, 5622, 1644
-LFHC:1046		Fasting (nothing by mouth)			patient should not be eating or drinking	Misc	No	N/A			
-LFHC:1047		Diet			what should the patient be eating?	Question	No	Coded			LFHC:1046, 985, 159596, 152129, 122884, 161648, 162709, 162758, 159597
+"	Question	No	Coded	160242, 160240, 160243, 161253, 160245,160241, 162798, 162448,5622, 162385, 162386, 162387, 162388, 162389, 162390, 162392, 162393, 162824								
+LFHC:1030		 wound type			what type of wound	Diagnosis	No	Coded	161917, 161918, 161919, 116543, 161920, 161921, 124193,132869								
+LFHC:1031		factors affecting wound healing			what factors are affecting the healing of this wound?	Question	No	Coded	115122, 112483, 125688, 113948, 145439, 159598, 819, 5622								
+LFHC:1032		measurement across wound in cm	wound width		Measurements Greatest width across wound in cm	Finding	No	Numeric		cm							
+LFHC:1033		measurement length wound in cm	wound length			Finding	No	Numeric		cm							
+LFHC:1034		measurement depth wound in cm	wound depth			Finding	No	Numeric		cm							
+LFHC:1035		exudate present on wound			is there exudate on the wound?	Question	No	Coded	1065. 1066								
+LFHC:1036		serous			the colour of serum - descriptor	Misc	No	N/A									
+LFHC:1037		type of exudate			what type of exudate is present?	Finding	No	Coded	LFHC:1036, LFHC:1038, 1077, 1076								
+LFHC:1038		serosanguinous			pink colour of liquid - descriptor	Misc	No	N/A									
+LFHC:1039		hot			temperature descriptor	Finding	No	N/A									
+LFHC:1040		surrounding skin temperature			what is the surrounding skin temperature?	Question	No	Coded	1115, LFHC:1039, 1866								
+LFHC:1041		Odour 			Is there an odour present in the wound	Question	No	Coded	"1065, 1066, 1067
+"								
+LFHC:1042		skin condition			what is the colour/condition of the skin	Question	no	Coded	1115, 127778, 141692, 460								
+LFHC:1043		Dressing Change Frequency			how frequently do you need to change the dressing	Procedure	No	Coded	162135. 160862, 160858, 162249, 5622								
+LFHC:1044		Analgesia Required			Is pain treatment or analgesia required during the procedure?	Question	No	Coded	1065, 1066								
+LFHC:1045		Referral Site			where was the patient referred from?	Question	No	Coded	1175, 159671, 159662, 1588, 1725, 160547, 5622, 1644								
+LFHC:1046		Fasting (nothing by mouth)			patient should not be eating or drinking	Misc	No	N/A									
+LFHC:1047		Diet			what should the patient be eating?	Question	No	Coded	LFHC:1046, 985, 159596, 152129, 122884, 161648, 162709, 162758, 159597								
 LFHC:1048		Acute airway obstruction			"Does the patient have any airway problems?
-"	Diagnosis	No	N/A			1065, 1066, 1067
+"	Diagnosis	No	N/A	1065, 1066, 1067								
 LFHC:1049		Emergency Triage			"does the patient have any emergency symptoms that require emergency triage?
-"	Question	No	Coded			LFHC:1048, 122496, 112989, 113948, 144576, 206, 142630
+"	Question	No	Coded	LFHC:1048, 122496, 112989, 113948, 144576, 206, 142630								
 LFHC:1050		Priority Triage			"does the patient have any emergency symptoms that require emergency triage?
-"	Question	No	Coded			
+"	Question	No	Coded									
 LFHC:1051		"tiny baby
-"			child less than 2 months of age	State	No	N/A			
-LFHC:1052		Physical Examination				Finding	Yes	N/A			
+"			child less than 2 months of age	State	No	N/A									
+LFHC:1052		Physical Examination				Finding	Yes	N/A									
 LFHC:1053		"when necessary
 "			"frequency is at the patients choice
-"	Misc	No	N/A			
-LFHC:1054		iv fluid type			what type of iv fluid is required by the patient?	Question	No	Coded			80804, 78617, 162857, 162859, 161922, 162858
-LFHC:1055		IV orders			type and rate of iv fluid	Question	Yes	N/A			
+"	Misc	No	N/A									
+LFHC:1054		iv fluid type			what type of iv fluid is required by the patient?	Question	No	Coded	80804, 78617, 162857, 162859, 161922, 162858								
+LFHC:1055		IV orders			type and rate of iv fluid	Question	Yes	N/A									
 LFHC:1056		patient bracelet	ID bracelet	ID bracelet	"does the patient have an id bracelet in place?
-"	Question	No	Coded			1065, 1066
-LFHC:1057		patient reweighed on IPD scale				ConvSet	Yes	N/A			985, LFHC:1047
-LFHC:1058		Diet order				Question	No	Coded			1065, 1066, 1067
+"	Question	No	Coded	1065, 1066								
+LFHC:1057		patient reweighed on IPD scale				ConvSet	Yes	N/A	985, LFHC:1047								
+LFHC:1058		Diet order				Question	No	Coded	1065, 1066, 1067								
 LFHC:1059		Visiting policy/orientation for family explained	"family orientation
-"			Question	No	Coded			1065, 1066, 1067
+"			Question	No	Coded	1065, 1066, 1067								
 LFHC:1060		Family aware of plan/ reason for admission	"family aware of plan
-"			Question	No	Coded			1065, 1066, 1067
-LFHC:1061		Administration informed /Chart made	chart made			Question	No	Coded			1065, 1066, 1067
-LFHC:1062		Medical Plan written	medical plan written								
-LFHC:1063		IVC#1 date inserted	IVC#1		when was IVC #1 put in	Procedure	No	Date			
-LFHC:1064		IVC#1 Size	IVC#1 size		size of IVC#1	Procedure	No	Structured Numeric			14g,16g,18g,20g,21g,22g,23g,24g,25g
-LFHC:1065		IVC#1 Site	IVC#1 site		Site of IVC#1	Procedure	No	Text			
-LFHC:1066		IVC#2 date inserted	IVC#2		when was IVC #2 put in	Procedure	No	Date			
-LFHC:1067		IVC#2 size	IVC#2 size		size of IVC#2	Procedure	No	Structured Numeric			14g,16g,18g,20g,21g,22g,23g,24g,25g
-LFHC:1068		IVC#2 site	IVC#2 site		Site of IVC#2	Procedure	No	Text			
-LFHC:1069		IVC#3 date inserted	IVC#3		when was IVC #3 put in	Procedure	No	Date			
-LFHC:1070		IVC#3 size	IVC#3 size		size of IVC#3	Procedure	No	Structured Numeric			14g,16g,18g,20g,21g,22g,23g,24g,25g
-LFHC:1071		IVC#3 site	IVC#3 site		Site of IVC#3	Procedure	No	Text			
-LFHC:1072		NG tube inserted	NG date		date of NG insertion	Procedure	No	Date			
+"			Question	No	Coded	1065, 1066, 1067								
+LFHC:1061		Administration informed /Chart made	chart made			Question	No	Coded	1065, 1066, 1067								
+LFHC:1062		Medical Plan written	medical plan written														
+LFHC:1063		IVC#1 date inserted	IVC#1		when was IVC #1 put in	Procedure	No	Date									
+LFHC:1064		IVC#1 Size	IVC#1 size		size of IVC#1	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1065		IVC#1 Site	IVC#1 site		Site of IVC#1	Procedure	No	Text									
+LFHC:1066		IVC#2 date inserted	IVC#2		when was IVC #2 put in	Procedure	No	Date									
+LFHC:1067		IVC#2 size	IVC#2 size		size of IVC#2	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1068		IVC#2 site	IVC#2 site		Site of IVC#2	Procedure	No	Text									
+LFHC:1069		IVC#3 date inserted	IVC#3		when was IVC #3 put in	Procedure	No	Date									
+LFHC:1070		IVC#3 size	IVC#3 size		size of IVC#3	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1071		IVC#3 site	IVC#3 site		Site of IVC#3	Procedure	No	Text									
+LFHC:1072		NG tube inserted	NG date		date of NG insertion	Procedure	No	Date									
 LFHC:1073		NG tube site	NG site		"nostril site
-"	Procedure	No	Coded			5139, 5140
-LFHC:1074		Urinary catheter date			date of insertion of urinary catheter	Procedure	No	Date			
-LFHC:1075		Urinary catheter size			size of urinary catheter  (gauge)	Procedure	No	Structured Numeric			5,6,8,10,12,14,16,18,20
-LFHC:1076		Other tube date				Procedure	No	Text			
-LFHC:1077		other tube site				Procedure	No	Text			
-LFHC:1078		IVC#1 details			info about IVC #1	ConvSet	Yes	N/A			LFHC:1063, LFHC:1064, LFHC 1065
-LFHC:1079		IVC#2 details			info about IVC #2	ConvSet	Yes	N/A			LFHC:1066, LFHC:1067, LFHC 1068
-LFHC:1080		IVC#3 details			info about IVC #3	ConvSet	Yes	N/A			LFHC:1069, LFHC:1070, LFHC 1071
-LFHC:1081		NG details			info about NG	ConvSet	Yes	N/A			LFHC:1072, LFHC:1073, LFHC:1084
-LFHC:1082		Urinary catheter details			info about urinary catheter	ConvSet	Yes	N/A			LFHC:1074, LFHC:1075
+"	Procedure	No	Coded	5139, 5140								
+LFHC:1074		Urinary catheter date			date of insertion of urinary catheter	Procedure	No	Date									
+LFHC:1075		Urinary catheter size			size of urinary catheter  (gauge)	Procedure	No	Structured Numeric		French	20	5					
+LFHC:1076		Other tube date				Procedure	No	Text									
+LFHC:1077		other tube site				Procedure	No	Text									
+LFHC:1078		IVC#1 details			info about IVC #1	ConvSet	Yes	N/A	LFHC:1063, LFHC:1064, LFHC 1065								
+LFHC:1079		IVC#2 details			info about IVC #2	ConvSet	Yes	N/A	LFHC:1066, LFHC:1067, LFHC 1068								
+LFHC:1080		IVC#3 details			info about IVC #3	ConvSet	Yes	N/A	LFHC:1069, LFHC:1070, LFHC 1071								
+LFHC:1081		NG details			info about NG	ConvSet	Yes	N/A	LFHC:1072, LFHC:1073, LFHC:1084								
+LFHC:1082		Urinary catheter details			info about urinary catheter	ConvSet	Yes	N/A	LFHC:1074, LFHC:1075								
 LFHC:1083		Other tube details			"info about other tube
-"	ConvSet	Yes	N/A			LFHC:1076, LFHC:1077
-LFHC:1084		NG tube size			size of ng tube	Procedure	Yes	Structured Numeric			"5,6,8,10,12,14,16,18,20,22,24,26,28
-"
-LFHC:1085		Nursing Assessment			unique nursing notes on admission	Finding	No	Text			
-LFHC:1086		Outreach			referral made to outreach team	Question	No	Coded			1065, 1066
-LFHC:1087		Homecare			referral made to homecare	Question	No	Coded			1065, 1067
+"	ConvSet	Yes	N/A	LFHC:1076, LFHC:1077								
+LFHC:1084		NG tube size			size of ng tube	Procedure	Yes	Structured Numeric	"5,6,8,10,12,14,16,18,20,22,24,26,28
+"								
+LFHC:1085		Nursing Assessment			unique nursing notes on admission	Finding	No	Text									
+LFHC:1086		Outreach			referral made to outreach team	Question	No	Coded	1065, 1066								
+LFHC:1087		Homecare			referral made to homecare	Question	No	Coded	1065, 1066								
 LFHC:1088		Chronic Care			"added to chronic care list
-"	Question	No	Coded			1065, 1068
+"	Question	No	Coded	1065, 1066								
 LFHC:1089		"Other referral
-"			name of other referral	Misc	No	Text			
-LFHC:1090		Date of referral			date of other referral	Question	No	Date			
-LFHC:1091		Catch up immunizations given 			Catch up immunizations given 	Question	No	Coded			1065, 1066, 1175
-LFHC:1092		Handouts about condition given			Handouts about condition given	Question	No	Coded			1065, 1066, 1175
-LFHC:1093		All tubes and lines removed 			All tubes and lines removed 	Question	No	Coded			1065, 1066, 1175
-LFHC:1094		Green book completed 			Green book completed 	Question	No	Coded			1065, 1066, 1067
-LFHC:1095		Medications given			Medications given	Question	No	Coded			1065, 1066, 1175
-LFHC:1096		Follow up appointments made if needed			Follow up appointments made if needed	Question	No	Coded			1065, 1066, 1175
-LFHC:1097		Discharge CheckList				ConvSet	Yes	N/A			LFHC:1091, LFHC:1092, LFHC:1093, LFHC:1094, LFHC:1095, LFHC:1096
-LFHC:1098		treatment summary			summary of treatments during admission	Question	No	Text			
-LFHC:1099		Discharge Recommendations				Question	No	Text			
-LFHC:1100		Discharged to:			where was the patient discharged to	Question	No	Coded			1536, 159671, 159662, 5622
-LFHC:1101		Condition at Discharge			what was the condition of the patient at discharge	Question	No	Coded			159405, 162132, 162133, 160113, 110104, 122936, 145439. 156923. 161599, 159
-LFHC:1102		age when vaccination given			age when vaccination given	Question	No	Numeric			
-LFHC:1103		Immunization schedule				ConvSet	Yes	N/A			1421, LFHC:1102, 161244
+"			name of other referral	Misc	No	Text									
+LFHC:1090		Date of referral			date of other referral	Question	No	Date									
+LFHC:1091		Catch up immunizations given 			Catch up immunizations given 	Question	No	Coded	1065, 1066, 1175								
+LFHC:1092		Handouts about condition given			Handouts about condition given	Question	No	Coded	1065, 1066, 1175								
+LFHC:1093		All tubes and lines removed 			All tubes and lines removed 	Question	No	Coded	1065, 1066, 1175								
+LFHC:1094		Green book completed 			Green book completed 	Question	No	Coded	1065, 1066, 1067								
+LFHC:1095		Medications given			Medications given	Question	No	Coded	1065, 1066, 1175								
+LFHC:1096		Follow up appointments made if needed			Follow up appointments made if needed	Question	No	Coded	1065, 1066, 1175								
+LFHC:1097		Discharge CheckList				ConvSet	Yes	N/A	LFHC:1091, LFHC:1092, LFHC:1093, LFHC:1094, LFHC:1095, LFHC:1096								
+LFHC:1098		treatment summary			summary of treatments during admission	Question	No	Text									
+LFHC:1099		Discharge Recommendations				Question	No	Text									
+LFHC:1100		Discharged to:			where was the patient discharged to	Question	No	Coded	1536, 159671, 159662, 5622								
+LFHC:1101		Condition at Discharge			what was the condition of the patient at discharge	Question	No	Coded	159405, 162132, 162133, 160113, 110104, 122936, 145439. 156923. 161599, 159								
+LFHC:1102		age when vaccination given			age when vaccination given	Question	No	Numeric									
+LFHC:1103		Immunization schedule				ConvSet	Yes	N/A	1421, LFHC:1102, 161244								
 LFHC:1104		"Immunocompromised Details
-"				Question	No	text			
-LFHC:1105		Immunity 				ConvSet	Yes	N/A	"
-"		LFHC:1104, 156753
-LFHC:1106		urine colour									
-LFHC:1107		urine appearance									
-LFHC:1108		urine bilirubin									
+"				Question	No	text									
+LFHC:1105		Immunity 				ConvSet	Yes	N/A	LFHC:1104, 156753	"
+"							
+LFHC:1106		urine colour															
+LFHC:1107		urine appearance															
+LFHC:1108		urine bilirubin															
 LFHC:1109		"urobilinogen
-"									
+"															
 LFHC:1110		"urine ketones
-"									
-LFHC:1111		urine glucose									
-LFHC:1112		urine protein									
-LFHC:1113		urine red blood cells									
-LFHC:1114		urine nitrites									
-LFHC:1115		urine pH									
-LFHC:1116		specific gravity									
+"															
+LFHC:1111		urine glucose															
+LFHC:1112		urine protein															
+LFHC:1113		urine red blood cells															
+LFHC:1114		urine nitrites															
+LFHC:1115		urine pH															
+LFHC:1116		specific gravity															
 LFHC:1117		"urine leukocytes (WBC)
-"									
-LFHC:1118		bone test set				LabSet	Yes	N/A			161154, 159643, 159497, 785
-LFHC:1119		streptococcus A swab				Test	No	Coded			1065, 1066, 1067
-LFHC:1120		rotavirus antigen				Test	No	Coded			1065, 1066, 1138
-LFHC:1121		adenovirus rapid test				Test	No	Coded			1065, 1066, 1138
-LFHC:1122		anti-HBs(antibody)				Test	No	Coded			1065, 1066, 1138
-LFHC:1123		Dengue				Test	No	Coded			1065, 1066, 1138
-LFHC:1124		s typhi (IgG and IGM)				Test	No	Coded			1065, 1066, 1138
-LFHC:1125		blood pressure set				ConvSet	Yes	N/A			5085, 5086
+"															
+LFHC:1118		bone test set				LabSet	Yes	N/A	161154, 159643, 159497, 785								
+LFHC:1119		streptococcus A swab				Test	No	Coded	1065, 1066, 1067								
+LFHC:1120		rotavirus antigen				Test	No	Coded	1065, 1066, 1138								
+LFHC:1121		adenovirus rapid test				Test	No	Coded	1065, 1066, 1138								
+LFHC:1122		anti-HBs(antibody)				Test	No	Coded	1065, 1066, 1138								
+LFHC:1123		Dengue test				Test	No	Coded	1065, 1066, 1138								
+LFHC:1124		s typhi (IgG and IGM)				Test	No	Coded	1065, 1066, 1138								
+LFHC:1125		blood pressure set				ConvSet	Yes	N/A	5085, 5086								
 LFHC:1126		"GeneXpert (gene test for TB)
-"				Test	No	Coded			1065, 1066, 1138
-LFHC:1127		mixed white cells	mixed			Test	No	Numeric			total of 1023, 1024, 1025
-LFHC:1128		pain in limb (amount)			amount of pain in limb out of 10	Finding	No	Numeric			"scale 1 to 10
-"
-LFHC:1129		extremity pulse			quality of pulse in affected limb	Finding	No	Coded			158955, 124823, 150518
-LFHC:1130		Active movement without pain				Finding	No	N/A			
-LFHC:1131		Active movement with pain				Finding	No	N/A			
+"				Test	No	Coded	1065, 1066, 1138								
+LFHC:1127		mixed white cells	mixed			Test	No	Numeric	total of 1023, 1024, 1025								
+LFHC:1128		pain in limb (amount)			amount of pain in limb out of 10	Finding	No	Numeric	"scale 1 to 10
+"								
+LFHC:1129		extremity pulse			quality of pulse in affected limb	Finding	No	Coded	158955, 124823, 150518								
+LFHC:1130		Active movement without pain				Finding	No	N/A									
+LFHC:1131		Active movement with pain				Finding	No	N/A									
 LFHC:1132		"Passive movement without pain
-"				Finding	No	N/A			
+"				Finding	No	N/A									
 LFHC:1133		"Passive movement with pain
-"				Finding	No	N/A			
-LFHC:1134		Movement of affected extremity			how well does the extremity move?	Question	No	Coded			LFHC:1130, LFHC:1131, LFHC:1132, LFHC:1133, LFHC:1135
-LFHC:1135		patient sleeping				State	No	N/A			
-LFHC:1136		Moves to touch			moves to touch	Finding	No	N/A			
-LFHC:1137		Sensation of Affected Extremity			what is the sensation of the affected extremity	Question	No	Coded			159534, 5135, 150528, 130182, LFHC:1136
-LFHC:1138		Swelling of affected extremity			is swelling present in the affected extremity						 1066, 159562, 159563
-LFHC:1139		Blood transfusion number				Question	No	Structured Numeric			
-LFHC:1140		admission unit			what unit is the patient admitted to?	Question	No	Coded			"LFHC:1141, LFHC:1142; LFHC:1143
-"
-LFHC:1141		inpatient				Misc	No	N/A			
-LFHC:1142		Newborn unit				Misc	No	N/A			
-LFHC:1143		high observation bed				Misc	No	N/A			
-LFHC:1144		Vital Sign Frequency				Procedure	No	Coded			LFHC:1145, LFHC:1146, LFHC:1147, 162243, 162245, 162,247, 162250, 162251, 162252
-LFHC:1145		every 5 minutes				Frequency	No	N/A			
-LFHC:1146		every 10 minutes				Frequency	No	N/A			
-LFHC:1147		every 15 minutes				Frequency	No	N/A			
-LFHC:1148		Activity				Question	No	Coded			1115, LFHC:1149; LFHC:1150
+"				Finding	No	N/A									
+LFHC:1134		Movement of affected extremity			how well does the extremity move?	Question	No	Coded	LFHC:1130, LFHC:1131, LFHC:1132, LFHC:1133, LFHC:1135								
+LFHC:1135		patient sleeping				State	No	N/A									
+LFHC:1136		Moves to touch			moves to touch	Finding	No	N/A									
+LFHC:1137		Sensation of Affected Extremity			what is the sensation of the affected extremity	Question	No	Coded	159534, 5135, 150528, 130182, LFHC:1136								
+LFHC:1138		Swelling of affected extremity			is swelling present in the affected extremity				 1066, 159562, 159563								
+LFHC:1139		Blood transfusion number				Question	No	Structured Numeric									
+LFHC:1140		admission unit			what unit is the patient admitted to?	Question	No	Coded	"LFHC:1141, LFHC:1142; LFHC:1143
+"								
+LFHC:1141		inpatient				Misc	No	N/A									
+LFHC:1142		Newborn unit				Misc	No	N/A									
+LFHC:1143		high observation bed				Misc	No	N/A									
+LFHC:1144		Vital Sign Frequency				Procedure	No	Coded	LFHC:1145, LFHC:1146, LFHC:1147, 162243, 162245, 162,247, 162250, 162251, 162252								
+LFHC:1145		every 5 minutes				Frequency	No	N/A									
+LFHC:1146		every 10 minutes				Frequency	No	N/A									
+LFHC:1147		every 15 minutes				Frequency	No	N/A									
+LFHC:1148		Activity				Question	No	Coded	1115, LFHC:1149; LFHC:1150								
 LFHC:1149		"complete bed rest
-"				Misc	No	N/A			
+"				Misc	No	N/A									
 LFHC:1150		"bed rest with bathroom privileges
-"				Misc	No	N/A			
+"				Misc	No	N/A									
 LFHC:1151		"weigh daily
-"				Question	No	Coded			1056, 1066
-LFHC:1152		Record Input/Output				Question	No	Coded			1056, 1067
+"				Question	No	Coded	1056, 1066								
+LFHC:1152		Record Input/Output				Question	No	Coded	1056, 1067								
 LFHC:1153		"Monitors required
-"				Question	No	Coded			"1107, LFHC:1154, LFHC:1155
-"
-LFHC:1154		Continuous Pulse oximeter				Misc	No	N/A			
-LFHC:1155		Continuous cardiac monitor				Misc	No	N/A			
-LFHC:1156		Respiratory Care				ConvSet	Yes	N/A			LFHC:1157, LFHC:1158, LFHC:1159, LFHC:1160
+"				Question	No	Coded	"1107, LFHC:1154, LFHC:1155
+"								
+LFHC:1154		Continuous Pulse oximeter				Misc	No	N/A									
+LFHC:1155		Continuous cardiac monitor				Misc	No	N/A									
+LFHC:1156		Respiratory Care				ConvSet	Yes	N/A	LFHC:1157, LFHC:1158, LFHC:1159, LFHC:1160								
 LFHC:1157		Oxygen delivery method			"how should oxygen be delivered
-"	Procedure	No	Coded			LFHC:1161, LFHC:1162, LFHC:1162, LFHC:1164
+"	Procedure	No	Coded	LFHC:1161, LFHC:1162, LFHC:1162, LFHC:1164								
 LFHC:1158		Oxygen delivery rate			"how much oxygen is required
-"	Drug	No	Numeric	litre		maximum 15
-LFHC:1159		Oxygen saturation goal			what is the goal for oxygen saturation	Finding	No	Numeric	%		"lowest 90, highest 100
-"
+"	Drug	No	Numeric		litre	15	0					
+LFHC:1159		Oxygen saturation goal			what is the goal for oxygen saturation	Finding	No	Numeric		%	100	90					
 LFHC:1160		airway suctioning			"is airway suctioning required
-"	Procedure	No	Coded			1065, 1066
-LFHC:1161		oxygen mask				Misc	No	N/A			
+"	Procedure	No	Coded	1065, 1066								
+LFHC:1161		oxygen mask				Misc	No	N/A									
 LFHC:1162		"nasal prongs
-"				Misc	No	N/A			
+"				Misc	No	N/A									
 LFHC:1163		"oxygen nasal cannula
-"				Misc	No	N/A			
+"				Misc	No	N/A									
 LFHC:1164		"oral airway
-"				Misc	No	N/A			
-LFHC:1165		Nofity physician if:				Finding	No	Text			
+"				Misc	No	N/A									
+LFHC:1165		Nofity physician if				Finding	No	Text									
+LFHC:1166		gauge			size of IV catheters	Units of Measure	No	Numeric		gauge	36	4					
+LFHC:1167		French			unit of measure for tubes	Units of Measure	No	Numeric		Fr	36	5					

@@ -75,9 +75,15 @@ public class LFHCConceptsInitializer implements Initializer {
 	protected final static String CSV_ISSET = "Is set";
 	protected final static String CSV_DATATYPE = "Datatype";
 	protected final static String CSV_CLASS = "Class";
+	protected final static String CSV_CONCEPT_LIST = "Subconcepts (comma-separated)";
 	protected final static String CSV_NUMERIC_UNIT = "Numeric - Unit";
 	protected final static String CSV_NUMERIC_ALLOWDECIMALS = "Numeric - Allow decimals";
-	protected final static String CSV_CONCEPT_LIST = "Subconcepts (comma-separated)";
+	protected final static String CSV_NUMERIC_AHI = "Numeric - Absolute High";
+	protected final static String CSV_NUMERIC_CHI = "Numeric - Critical High";
+	protected final static String CSV_NUMERIC_NHI = "Numeric - Normal High";
+	protected final static String CSV_NUMERIC_NLO = "Numeric - Normal Low";
+	protected final static String CSV_NUMERIC_CLO = "Numeric - Critical Low";
+	protected final static String CSV_NUMERIC_ALO = "Numeric - Absolute Low";
 	
 	// Array of the minimal set of headers to be found in the import CSV.
 	protected final Set<String> requiredHeaders = new HashSet<String>();
@@ -92,9 +98,93 @@ public class LFHCConceptsInitializer implements Initializer {
 		requiredHeaders.add(CSV_ISSET);
 		requiredHeaders.add(CSV_DATATYPE);
 		requiredHeaders.add(CSV_CLASS);
+		requiredHeaders.add(CSV_CONCEPT_LIST);
 		requiredHeaders.add(CSV_NUMERIC_UNIT);
 		requiredHeaders.add(CSV_NUMERIC_ALLOWDECIMALS);
-		requiredHeaders.add(CSV_CONCEPT_LIST);
+		requiredHeaders.add(CSV_NUMERIC_AHI);
+		requiredHeaders.add(CSV_NUMERIC_CHI);
+		requiredHeaders.add(CSV_NUMERIC_NHI);
+		requiredHeaders.add(CSV_NUMERIC_NLO);
+		requiredHeaders.add(CSV_NUMERIC_CLO);
+		requiredHeaders.add(CSV_NUMERIC_ALO);
+	}
+	
+	/*
+	 * Helper class to set numeric boundaries to a ConceptNumeric instance
+	 * from the six String-represented values coming out from the CSV.
+	 */
+	protected static class NumericBoundaries {
+		
+		private final ConceptNumeric c;
+		
+		private Double ahi = null;
+		private Double chi = null;
+		private Double nhi = null;
+		private Double nlo = null;
+		private Double clo = null;
+		private Double alo = null;
+		
+		public NumericBoundaries(
+				final ConceptNumeric c, final Log log,
+				String ahi, String chi, String nhi,
+				String nlo, String clo, String alo
+				)
+		{
+			this.c = c;
+			
+			try {
+				if(!ahi.isEmpty())
+					this.ahi = Double.parseDouble(ahi);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + ahi + "'. It was ignored.");
+			}
+			try {
+				if(!chi.isEmpty())
+					this.chi = Double.parseDouble(chi);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + chi + "'. It was ignored.");
+			}
+			try {
+				if(!nhi.isEmpty())
+					this.nhi = Double.parseDouble(nhi);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + nhi + "'. It was ignored.");
+			}
+			try {
+				if(!nlo.isEmpty())
+					this.nlo = Double.parseDouble(nlo);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + nlo + "'. It was ignored.");
+			}
+			try {
+				if(!clo.isEmpty())
+					this.clo = Double.parseDouble(clo);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + clo + "'. It was ignored.");
+			}
+			try {
+				if(!alo.isEmpty())
+					this.alo = Double.parseDouble(alo);
+			} catch (NumberFormatException e) {
+				log.warn("Concept '" + c.getName() + "''s boundary could not be parsed as a double: '" + alo + "'. It was ignored.");
+			}
+		}
+		
+		public ConceptNumeric getConceptNumericWithBoundaries() {
+			if(ahi != null)
+				c.setHiAbsolute(ahi);
+			if(chi != null)
+				c.setHiCritical(chi);
+			if(nhi != null)
+				c.setHiNormal(nhi);
+			if(nlo != null)
+				c.setLowNormal(nlo);
+			if(clo != null)
+				c.setLowCritical(clo);
+			if(alo != null)
+				c.setLowAbsolute(alo);
+			return c;
+		}
 	}
 
 	/**
@@ -134,9 +224,9 @@ public class LFHCConceptsInitializer implements Initializer {
 	 * @return A LFHC ID indexed map of map-represented concepts. Each map represented concept is a map representation
 	 * of the list of the concept's properties (name, description, ... etc).
 	 */
-	protected Map<String, Map<String, String>> getConceptMapFromCSVResource(final String csvPath, final ResourceLoader loader) {
+	protected Map<String, Map<String, String>> getConceptMapFromCSVResource(final String csvPath, final ResourceLoader resourceLoader) {
 
-		final InputStream inputStream = loader.getResourceAsStream(csvPath); 
+		final InputStream inputStream = resourceLoader.getResourceAsStream(csvPath); 
 		
 		Map<String, Map<String, String>> concepts = new HashMap<String, Map<String, String>>();
 		try {
@@ -260,6 +350,12 @@ public class LFHCConceptsInitializer implements Initializer {
 				continue;
 			}
 			String unit = mappedConcept.get(CSV_NUMERIC_UNIT);
+			String ahi = mappedConcept.get(CSV_NUMERIC_AHI);
+			String chi = mappedConcept.get(CSV_NUMERIC_CHI);
+			String nhi = mappedConcept.get(CSV_NUMERIC_NHI);
+			String nlo = mappedConcept.get(CSV_NUMERIC_NLO);
+			String clo = mappedConcept.get(CSV_NUMERIC_CLO);
+			String alo = mappedConcept.get(CSV_NUMERIC_ALO);
 			String allowDecimals = mappedConcept.get(CSV_NUMERIC_ALLOWDECIMALS);
 			String isSetString = mappedConcept.get(CSV_ISSET);
 			String conceptList = mappedConcept.get(CSV_CONCEPT_LIST);
@@ -270,13 +366,21 @@ public class LFHCConceptsInitializer implements Initializer {
 			//
 			// Filling the new Concept instance
 			//
+			newConcept = new Concept();
+			if(!synonyms.isEmpty()) {
+				Collection<ConceptName> names = new HashSet<ConceptName>();
+				String[] synList = synonyms.split(CSV_INNER_DELIMITER);
+				for(String syn : synList) {
+					names.add(new ConceptName(syn.trim(), Locale.ENGLISH));
+				}
+				newConcept.setNames(names);
+			}
+			newConcept.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
 			if("Numeric".equalsIgnoreCase(datatypeName.trim())) {
-				newConcept = new ConceptNumeric();
+				newConcept = new ConceptNumeric(newConcept);
 				((ConceptNumeric) newConcept).setUnits(unit);
 				((ConceptNumeric) newConcept).setAllowDecimal( parseBoolean(allowDecimals, false) );
-			}
-			else {
-				newConcept = new Concept();
+				newConcept = (new NumericBoundaries(((ConceptNumeric) newConcept), log, ahi, chi, nhi, nlo, clo, alo)).getConceptNumericWithBoundaries();
 			}
 			newConcept.setShortName(new ConceptName(shortName, Locale.ENGLISH));
 			newConcept.addDescription(description);
@@ -289,15 +393,6 @@ public class LFHCConceptsInitializer implements Initializer {
 				newConcept.addConceptMapping(map);
 			}
 			newConcept.setSet( parseBoolean(isSetString, false) );
-			if(!synonyms.isEmpty()) {
-				Collection<ConceptName> names = new HashSet<ConceptName>();
-				String[] synList = synonyms.split(CSV_INNER_DELIMITER);
-				for(String syn : synList) {
-					names.add(new ConceptName(syn.trim(), Locale.ENGLISH));
-				}
-				newConcept.setNames(names);
-			}
-			newConcept.setFullySpecifiedName(new ConceptName(name, Locale.ENGLISH));
 			
 			// Caching of new concepts
 			conceptsToSave.put(lfhcMappedId, newConcept);
