@@ -20,23 +20,23 @@ LFHC:918		ENGLISH LANGUAGE	English			Misc		N/A
 LFHC:919		OTHER LANGUAGE	Other			Misc		N/A									
 LFHC:920		MAIN LANGUAGE SPOKEN	Main language			Question		Coded	LFHC:913, LFHC:914, LFHC:915, LFHC:916, LFHC:917, LFHC:918, LFHC:919								
 LFHC:1001		WOUND DRAINAGE	wound D/C	"incision drainage, fluid from incision, fluid from wound, surgical site drainage
-"	What is the fluid draining from a wound or surgical site - could be from surgical incision or injury site	Question	No	Numeric		mls							
-LFHC:1002		PLEURAL FLUID DRAINAGE	pleural fluid	chest tube drainage, pleural fluid, chest drainage, empyema drainage	what is the amount of fluid draining through a hole in the chest wall from the pleural cavity through a chest tube or an incision	Question	No	Numeric		mls							
-LFHC:1003		Beriberi risk	beriberi risk	risk of thiamine deficiency,vitamin B1 deficiency risk	Is this an infant who has the following risk factors which may lead to a deficiency of thiamine and necessitates possible treatment with thiamine rapidly: maternal food taboos, maternal symptoms of leg numbness or weakness,1-6 months old, poor feeding, vomiting, irritability, weight loss, hoarseness, fast heart rate, edema, hepatomegaly?	Question	No	Coded									
-LFHC:1004		Hourly Intravenous fluids	iv intake		amount of IV fluids given in that hour	Question	No	Numeric		ml							
-LFHC:1005		Hourly oral intake	oral intake		amount of oral fluids given in that hour	Question	No	Numeric		ml							
-LFHC:1006		Other hourly intake	other intake		amount of other fluids given in that hour including NG	Question	No	Numeric		ml							
-LFHC:1007		ultrasound of appendix	U/S appendix		test done to check for appendicitis	Test	No	Coded									
-LFHC:1008		xray List	xray set	diagnostic imaging set	List of all xrays	Test	Yes	Coded	12, 101, 377, 380, 382, 384, 386, 390, 392, 394, 309, 161266, 161267,161269,161270,161272,161295,161298,161299,161302,161303,161305,161306,161307,161317,161318,161319,159600,161265,161301,161320,161322,161321,161324,161325,161327,161329,161328,161330,161332,161333,161334,161337,161338,161341,161342,161343,161344,161345,161347,161348,161349,161350								
-LFHC:1009		Ultrasound List	Ultrasound set	ultrasound set	List of all ultrasounds	Test	Yes	Coded	845, 161, 274, 161, 275, 161276, 161277, 161279, 161280, 161283, 161285, 161288								
-LFHC:1010		ultrasound of mass	U/S Mass	ultrasound of the mass	description of a mass	Test	No	Text									
+"	What is the fluid draining from a wound or surgical site - could be from surgical incision or injury site	Question	No	Numeric		ml							
+LFHC:1002		PLEURAL FLUID DRAINAGE	pleural fluid	chest tube drainage, pleural fluid, chest drainage, empyema drainage	what is the amount of fluid draining through a hole in the chest wall from the pleural cavity through a chest tube or an incision	Question	No	Numeric		ml							
+LFHC:1003		Beriberi risk	beriberi risk	risk of thiamine deficiency,vitamin B1 deficiency risk	Is this an infant who has the following risk factors which may lead to a deficiency of thiamine and necessitates possible treatment with thiamine rapidly: maternal food taboos, maternal symptoms of leg numbness or weakness,1-6 months old, poor feeding, vomiting, irritability, weight loss, hoarseness, fast heart rate, edema, hepatomegaly?	Question	No	Coded	"1065, 1066, 1067
+"								
+LFHC:1004		Hourly Intravenous fluids	iv intake		amount of IV fluids given in that hour	Question	No	Numeric		ml							Yes
+LFHC:1005		Hourly oral intake	oral intake		amount of oral fluids given in that hour	Question	No	Numeric		ml							Yes
+LFHC:1006		Other hourly intake	other intake		amount of other fluids given in that hour including NG	Question	No	Numeric		ml							Yes
+LFHC:1007		ultrasound of appendix	U/S appendix		test done to check for appendicitis	Radiology/Imaging Procedure	No	N/A									
+LFHC:1008		x-ray procedure	x-ray set	diagnostic imaging set	List of x-ray procedures	Radiology/Imaging Procedure	No	Coded	12, 101, 377, 380, 382, 384, 386, 390, 392, 394, 309, 161266, 161267,161269,161270,161272,161295,161298,161299,161302,161303,161305,161306,161307,161317,161318,161319,159600,161265,161301,161320,161322,161321,161324,161325,161327,161329,161328,161330,161332,161333,161334,161337,161338,161341,161342,161343,161344,161345,161347,161348,161349,161350								
+LFHC:1009		Ultrasound procedure	Ultrasounds	ultrasound	List of ultrasound procedures	Radiology/Imaging Procedure	No	Coded	845, 161274, 161275, 161276, 161277, 161279, 161280, 161283, 161285, 161288, LFHC:1007, LFHC:1010								
+LFHC:1010		ultrasound of mass	U/S Mass	ultrasound of the mass	description of a mass	Radiology/Imaging Procedure	No	N/A									
 LFHC:1011		Musculoskeletal system and injury diagnosis	injuries	injuries, trauma, fractures, sprains, strains	any injury that can occur in musculoskeletal system	Diagnosis	Yes	Coded	116543, 177, 112770, 133628, 481, 125614, 157450, 5622								
-LFHC:1012		other xray			text description of other xray required	Test	No	Text									
-LFHC:1013		other xray set			link for other xray and text to define which body part or view	ConvSet	Yes	N/A	309, LFHC:1012								
-LFHC:1014		other ultrasound				Test	No	Coded	1115, 1116								
-LFHC:1015		other ultrasound description			"text box to identify the part required
-"	Test	No	Text									
-LFHC:1016		other ultrasound set			link other ultrasound info	ConvSet	Yes	N/A	LFHC:1015, LFHC:1014								
+LFHC:1012		other x-ray			text description of other x-ray required	Radiology/Imaging Procedure	No	Text									
+LFHC:1013		x-ray order			set to link x-ray order and results and other comments	ConvSet	Yes	N/A	 LFHC:1012, LFHC:1173, LFHC:1008, LFHC:1174								
+																	
+LFHC:1015		ultrasound results comments			text box to write result comments	Question	No	Text									
+LFHC:1016		Ultrasound order			set to link ultrasound order and results and other comments	ConvSet	Yes	N/A	LFHC:1015,  LFHC:1175, LFHC:1009								
 LFHC:1017		wound details				Question	No	Text									
 LFHC:1018		"pink
 "				Misc	No	N/A									
@@ -87,28 +87,28 @@ LFHC:1054		iv fluid type			what type of iv fluid is required by the patient?	Que
 LFHC:1055		IV orders			type and rate of iv fluid	Question	Yes	N/A									
 LFHC:1056		patient bracelet	ID bracelet	ID bracelet	"does the patient have an id bracelet in place?
 "	Question	No	Coded	1065, 1066								
-LFHC:1057		patient reweighed on IPD scale				ConvSet	Yes	N/A	985, LFHC:1047								
+LFHC:1057		patient reweighed on IPD scale				Question	Yes	N/A	985, LFHC:1047								
 LFHC:1058		Diet order				Question	No	Coded	1065, 1066, 1067								
 LFHC:1059		Visiting policy/orientation for family explained	"family orientation
 "			Question	No	Coded	1065, 1066, 1067								
 LFHC:1060		Family aware of plan/ reason for admission	"family aware of plan
 "			Question	No	Coded	1065, 1066, 1067								
 LFHC:1061		Administration informed /Chart made	chart made			Question	No	Coded	1065, 1066, 1067								
-LFHC:1062		Medical Plan written	medical plan written														
+LFHC:1062		Medical Plan written	medical plan written			Question	No	Coded	1065, 1066, 1067								
 LFHC:1063		IVC#1 date inserted	IVC#1		when was IVC #1 put in	Procedure	No	Date									
-LFHC:1064		IVC#1 Size	IVC#1 size		size of IVC#1	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1064		IVC#1 Size	IVC#1 size		size of IVC#1	Procedure	No	Numeric		gauge	25				14		
 LFHC:1065		IVC#1 Site	IVC#1 site		Site of IVC#1	Procedure	No	Text									
 LFHC:1066		IVC#2 date inserted	IVC#2		when was IVC #2 put in	Procedure	No	Date									
-LFHC:1067		IVC#2 size	IVC#2 size		size of IVC#2	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1067		IVC#2 size	IVC#2 size		size of IVC#2	Procedure	No	Numeric		gauge	25				14		
 LFHC:1068		IVC#2 site	IVC#2 site		Site of IVC#2	Procedure	No	Text									
 LFHC:1069		IVC#3 date inserted	IVC#3		when was IVC #3 put in	Procedure	No	Date									
-LFHC:1070		IVC#3 size	IVC#3 size		size of IVC#3	Procedure	No	Structured Numeric		gauge	25	14					
+LFHC:1070		IVC#3 size	IVC#3 size		size of IVC#3	Procedure	No	Numeric		gauge	25				14		
 LFHC:1071		IVC#3 site	IVC#3 site		Site of IVC#3	Procedure	No	Text									
 LFHC:1072		NG tube inserted	NG date		date of NG insertion	Procedure	No	Date									
 LFHC:1073		NG tube site	NG site		"nostril site
 "	Procedure	No	Coded	5139, 5140								
 LFHC:1074		Urinary catheter date			date of insertion of urinary catheter	Procedure	No	Date									
-LFHC:1075		Urinary catheter size			size of urinary catheter  (gauge)	Procedure	No	Structured Numeric		French	20	5					
+LFHC:1075		Urinary catheter size			size of urinary catheter  (gauge)	Procedure	No	Numeric		French	20				5		
 LFHC:1076		Other tube date				Procedure	No	Text									
 LFHC:1077		other tube site				Procedure	No	Text									
 LFHC:1078		IVC#1 details			info about IVC #1	ConvSet	Yes	N/A	LFHC:1063, LFHC:1064, LFHC 1065								
@@ -118,8 +118,7 @@ LFHC:1081		NG details			info about NG	ConvSet	Yes	N/A	LFHC:1072, LFHC:1073, LFHC
 LFHC:1082		Urinary catheter details			info about urinary catheter	ConvSet	Yes	N/A	LFHC:1074, LFHC:1075								
 LFHC:1083		Other tube details			"info about other tube
 "	ConvSet	Yes	N/A	LFHC:1076, LFHC:1077								
-LFHC:1084		NG tube size			size of ng tube	Procedure	Yes	Structured Numeric	"5,6,8,10,12,14,16,18,20,22,24,26,28
-"								
+LFHC:1084		NG tube size			size of ng tube	Procedure	Yes	Structured Numeric			28				5		
 LFHC:1085		Nursing Assessment			unique nursing notes on admission	Finding	No	Text									
 LFHC:1086		Outreach			referral made to outreach team	Question	No	Coded	1065, 1066								
 LFHC:1087		Homecare			referral made to homecare	Question	No	Coded	1065, 1066								
@@ -224,5 +223,17 @@ LFHC:1163		"oxygen nasal cannula
 LFHC:1164		"oral airway
 "				Misc	No	N/A									
 LFHC:1165		Nofity physician if				Finding	No	Text									
-LFHC:1166		gauge			size of IV catheters	Units of Measure	No	Numeric		gauge	36	4					
-LFHC:1167		French			unit of measure for tubes	Units of Measure	No	Numeric		Fr	36	5					
+LFHC:1166		gauge			size of IV catheters	Units of Measure	No	Numeric		gauge	36				4		
+LFHC:1167		French			unit of measure for tubes	Units of Measure	No	Numeric		Fr	36				5		
+LFHC:1168		URINE OUTPUT (MILLILITRES)			urine output in mls	Question	No	Numeric		ml	"
+"				0		
+LFHC:1169		STOOL OUTPUT (MILLILITRES)			stool output in mls	Question	No	Numeric		ml					0		
+LFHC:1170		OTHER OUTPUT (MILLILITRES)			other output in mls	Question	No	Numeric		ml					0		
+LFHC:1171		"Nasogastric input
+"			NG input in mls	Question	No	Numeric		ml					0		
+LFHC:1172		Intraosseous fluid input in ml			IO input in mls	Question	No	Numeric		ml					0		
+LFHC:1173		x-ray results	"
+"		Question to provide x-ray tests results (likely to be used in a set)	Question	No	Coded	1115, 1116								
+LFHC:1174		x-ray results comments				Question	No	Text									
+LFHC:1175		ultrasound results			Question to provide ultrasound tests results (likely to be used in a set)	Question	No	Coded	1115, 1116								
+LFHC:1176		medication comments				Question	No	Text									

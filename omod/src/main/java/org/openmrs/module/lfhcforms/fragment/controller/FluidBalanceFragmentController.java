@@ -1,10 +1,14 @@
 package org.openmrs.module.lfhcforms.fragment.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
+import org.openmrs.Person;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
 import org.openmrs.ui.framework.UiUtils;
@@ -14,28 +18,98 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 
 public class FluidBalanceFragmentController {
 
-	public void controller(FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
-			,  @SpringBean("conceptService") ConceptService conceptService
-			, @SpringBean("obsService") ObsService obsService
-			/*, @SpringBean("allergyService") PatientService patientService*/) {
-
-		Concept concept = conceptService.getConcept("5089"); // CIEL weight
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient, concept);
-		if(!obsList.isEmpty()) {
-			// The last obs
-			Obs obs = obsList.get(obsList.size() - 1);
-			double weight = obs.getValueNumeric();
-		}
-		
+	protected static final String LFHC_SOURCE = "LFHC";
+	
+	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
+			,	@SpringBean("conceptService") ConceptService conceptService
+			,	@SpringBean("obsService") ObsService obsService
+																)
+	{
 		model.addAttribute("fluidBalance", null);
 		model.addAttribute("lastFluidBalance", null);
 		model.addAttribute("avgUrineOutput", null);
 		model.addAttribute("avgUrineOutputPerKg", null);
 		
-//		model.addAttribute("fluidBalance", 100);
-//		model.addAttribute("lastFluidBalance", 102);
-//		model.addAttribute("avgUrineOutput", 55);
-//		model.addAttribute("avgUrineOutputPerKg", 1);
-	}
+		//
+		//	Fetching the last weight obs
+		//
+		double weight = 0;
+		{
+			List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient, conceptService.getConceptByMapping("5089", "CIEL") );
+			if(!obsList.isEmpty()) {
+				// The last obs
+				Obs obs = obsList.get(obsList.size() - 1);
+				weight = obs.getValueNumeric();
+			}
+		}
+		
+		DateTime now = DateTime.now();
+		DateTime today6am = now.withTimeAtStartOfDay().plusHours(6);
+		DateTime yesterday6am = today6am.minusDays(1);
 
+		//
+		//	Urine output
+		//
+		Period period = new Period(today6am, now);
+		double currentHours = period.getHours() + period.getMinutes() / 60;
+		
+		Concept urineConcept = conceptService.getConceptByMapping("1168", LFHC_SOURCE);
+		double urineOutput = sumObservations(obsService, patient, today6am, now, Arrays.asList(urineConcept));
+		double averageUrineOutput = 0;
+		if(urineOutput > 0)
+			averageUrineOutput = urineOutput / currentHours;
+		double averageUrineOutputPerKg = 0;
+		if(weight > 0)
+			averageUrineOutputPerKg = averageUrineOutput / weight;
+
+		averageUrineOutput = Math.round(averageUrineOutput);
+		model.addAttribute("avgUrineOutput", averageUrineOutput + " (ml/h)");
+		averageUrineOutputPerKg = Math.round(averageUrineOutputPerKg);
+		model.addAttribute("avgUrineOutputPerKg", averageUrineOutputPerKg + " (ml/h/kg)");
+		
+		//
+		//	Total fluid balances
+		//
+		List<Concept> inputConcepts = Arrays.asList(
+				conceptService.getConceptByMapping("1004", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1005", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1171", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1172", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1006", LFHC_SOURCE)
+				);
+		List<Concept> outputConcepts = Arrays.asList(
+				conceptService.getConceptByMapping("1168", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1169", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1001", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1002", LFHC_SOURCE),
+				conceptService.getConceptByMapping("1170", LFHC_SOURCE)
+				);
+		
+		double lastInput = sumObservations(obsService, patient, yesterday6am, today6am, inputConcepts);
+		double currentInput = sumObservations(obsService, patient, today6am, now, inputConcepts);
+		double lastOutput = sumObservations(obsService, patient, yesterday6am, today6am, outputConcepts);
+		double currentOutput = sumObservations(obsService, patient, today6am, now, outputConcepts);
+		
+		double currentBalance = currentInput - currentOutput;
+		model.addAttribute("fluidBalance", currentBalance + " (ml)");
+		
+		double lastBalance = lastInput - lastOutput;
+		model.addAttribute("lastFluidBalance", lastBalance + " (ml)");
+	}
+	
+	protected double sumObservations(final ObsService obsService, Person whom, DateTime fromDate, DateTime toDate, List<Concept> concepts) {
+		
+		List<Obs> obsList = obsService.getObservations(Arrays.asList(whom), null, concepts,
+		        null, null, null, null,
+		        null, null, fromDate.toDate(), toDate.toDate(), false);
+		
+		if(obsList.isEmpty())
+			return 0;
+		
+		double sum = 0;
+		for(Obs obs : obsList) {
+			sum += obs.getValueNumeric();
+		}
+		return sum;
+	}
 }
