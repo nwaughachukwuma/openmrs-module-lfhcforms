@@ -7,6 +7,11 @@
 			jQuery('#10-addEntry').remove();
 			jQuery('#1-toggleContainer').show();
 
+for (var i=1 ; i &lt; 10 ; i++) {
+
+				jQuery("#"+i+"01-removeEntry").remove();
+				jQuery("#"+i+"01-toggleContainer").show();
+			}
 			jQuery('#11-removeEntry').remove();
 			jQuery('#20-addEntry').remove();
 			jQuery('#11-toggleContainer').show();
@@ -70,8 +75,9 @@
 				Lab test order
 			</legend>
 			<h3>
-				Select a Lab Test
+				Enter a Lab Test
 			</h3>
+			<small>Auto-complete field</small>
 
 			<repeat>
 				<template>
@@ -151,32 +157,32 @@
 										<tr>
 											<td>
 												<obs id="37-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1015"/>
-												<obs id="37-test-result" conceptId="CIEL:1015" />
+												<obs id="37-test-result" conceptId="CIEL:1015" showUnits="true" />
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<obs id="39-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:21"/>
-												<obs id="39-test-result" conceptId="CIEL:21" />
+												<obs id="39-test-result" conceptId="CIEL:21" showUnits="true"/>
 											</td>
 										</tr>
 
 										<tr>
 											<td>
 												<obs id="40-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1017"/>
-												<obs id="40-test-result" conceptId="CIEL:1017" />
+												<obs id="40-test-result" conceptId="CIEL:1017" showUnits="true"/>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<obs id="41-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1018"/>
-												<obs id="41-test-result" conceptId="CIEL:1018" />
+												<obs id="41-test-result" conceptId="CIEL:1018" showUnits="true" />
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<obs id="42-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:851"/>
-												<obs id="42-test-result" conceptId="CIEL:851" />
+												<obs id="42-test-result" conceptId="CIEL:851" showUnits="true" />
 											</td>
 										</tr>
 										<tr>
@@ -316,13 +322,13 @@
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159829"/>
-												<obs id="10-test-result" conceptId="CIEL:159829"/>
+												<obs id="10-test-result" conceptId="CIEL:159829" showUnits="true"/>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1297"/>
-												<obs id="10-test-result" conceptId="CIEL:1297"/>
+												<obs id="10-test-result" conceptId="CIEL:1297" showUnits="true"/>
 											</td>
 										</tr>
 
@@ -420,7 +426,7 @@
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159733"/>
-												<obs id="10-test-result" conceptId="CIEL:159733"/>
+												<obs id="10-test-result" conceptId="CIEL:159733" showUnits="true"/>
 											</td>
 										</tr>
 										<tr>
@@ -444,13 +450,13 @@
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161438"/>
-												<obs id="10-test-result" conceptId="CIEL:161438"/>
+												<obs id="10-test-result" conceptId="CIEL:161438" showUnits="true"/>
 											</td>
 										</tr>
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161439"/>
-												<obs id="10-test-result" conceptId="CIEL:161439"/>
+												<obs id="10-test-result" conceptId="CIEL:161439" showUnits="true"/>
 											</td>
 										</tr>
 										<tr>
@@ -488,14 +494,14 @@
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5085"/>
-												<obs id="10-test-result" conceptId="CIEL:5085"/>
+												<obs id="10-test-result" conceptId="CIEL:5085" showUnits="true"/>
 											</td>
 										</tr>
 
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5086"/>
-												<obs id="10-test-result" conceptId="CIEL:5086"/>
+												<obs id="10-test-result" conceptId="CIEL:5086" showUnits="true"/>
 											</td>
 										</tr>	
 										
@@ -522,20 +528,20 @@
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159497"/>
-												<obs id="10-test-result" conceptId="CIEL:159497"/>
+												<obs id="10-test-result" conceptId="CIEL:159497" showUnits="true"/>
 											</td>
 										</tr>
 
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161154"/>
-												<obs id="10-test-result" conceptId="CIEL:161154"/>
+												<obs id="10-test-result" conceptId="CIEL:161154" showUnits="true"/>
 											</td>
 										</tr>	
 										<tr>
 											<td>
 												<obs id="10-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159643"/>
-												<obs id="10-test-result" conceptId="CIEL:159643"/>
+												<obs id="10-test-result" conceptId="CIEL:159643" showUnits="true"/>
 											</td>
 										</tr>
 									</tbody>
@@ -681,56 +687,56 @@
 					<tr>
 						<td>
 							<obs id="26-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1133"/>
-							<obs id="26-test-result" conceptId="CIEL:1133" />
+							<obs id="26-test-result" conceptId="CIEL:1133"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="27-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159497"/>
-							<obs id="27-test-result" conceptId="CIEL:159497" />
+							<obs id="27-test-result" conceptId="CIEL:159497"  showUnits="true"/>
 						</td>
 					</tr>
 
 					<tr>
 						<td>
 							<obs id="29-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:5497"/>
-							<obs id="29-test-result" conceptId="CIEL:5497" />
+							<obs id="29-test-result" conceptId="CIEL:5497"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="30-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:856"/>
-							<obs id="30-test-result" conceptId="CIEL:856" />
+							<obs id="30-test-result" conceptId="CIEL:856"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="31-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:730"/>
-							<obs id="31-test-result" conceptId="CIEL:730" />
+							<obs id="31-test-result" conceptId="CIEL:730"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="32-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:952"/>
-							<obs id="32-test-result" conceptId="CIEL:952" />
+							<obs id="32-test-result" conceptId="CIEL:952"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="33-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161505"/>
-							<obs id="33-test-result" conceptId="CIEL:161505" />
+							<obs id="33-test-result" conceptId="CIEL:161505"  showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161504"/>
-							<obs id="34-test-result" conceptId="CIEL:161504" />
+							<obs id="34-test-result" conceptId="CIEL:161504" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1643"/>
-							<obs id="34-test-result" conceptId="CIEL:1643" />
+							<obs id="34-test-result" conceptId="CIEL:1643"/>
 						</td>
 					</tr>
 					<tr>
@@ -796,13 +802,13 @@
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161511"/>
-							<obs id="34-test-result" conceptId="CIEL:161511"/>
+							<obs id="34-test-result" conceptId="CIEL:161511" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1327"/>
-							<obs id="34-test-result" conceptId="CIEL:1327"/>
+							<obs id="34-test-result" conceptId="CIEL:1327" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
@@ -814,37 +820,37 @@
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159828"/>
-							<obs id="34-test-result" conceptId="CIEL:159828"/>
+							<obs id="34-test-result" conceptId="CIEL:159828" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1007"/>
-							<obs id="34-test-result" conceptId="CIEL:1007"/>
+							<obs id="34-test-result" conceptId="CIEL:1007" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:1008"/>
-							<obs id="34-test-result" conceptId="CIEL:1008"/>
+							<obs id="34-test-result" conceptId="CIEL:1008" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:161500"/>
-							<obs id="34-test-result" conceptId="CIEL:161500"/>
+							<obs id="34-test-result" conceptId="CIEL:161500" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:855"/>
-							<obs id="34-test-result" conceptId="CIEL:855"/>
+							<obs id="34-test-result" conceptId="CIEL:855" showUnits="true"/>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<obs id="34-test-order" conceptId="CIEL:1271" answerConceptId="CIEL:159644"/>
-							<obs id="34-test-result" conceptId="CIEL:159644"/>
+							<obs id="34-test-result" conceptId="CIEL:159644" showUnits="true"/>
 						</td>
 					</tr>
 

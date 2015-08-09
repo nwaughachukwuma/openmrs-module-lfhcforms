@@ -7,17 +7,14 @@ TODO: Separate the Logic from the Display
 <script type="text/javascript">
 	if(jQuery){
 		jQuery(document).ready(function(){
-			jQuery('#1-removeEntry').remove();
+
 			jQuery('#10-addEntry').remove();
-			jQuery('#1-toggleContainer').show();
 
-			jQuery('#101-removeEntry').remove();
-			jQuery('#101-toggleContainer').show();
+			for (var i=1 ; i &lt; 10 ; i++) {
 
-			jQuery('#201-toggleContainer').show();
-			jQuery('#201-removeEntry').remove();
-
-
+				jQuery("#"+i+"01-removeEntry").remove();
+				jQuery("#"+i+"01-toggleContainer").show();
+			}
 			jQuery('#11-removeEntry').remove();
 			jQuery('#20-addEntry').remove();
 			jQuery('#11-toggleContainer').show();
@@ -138,9 +135,27 @@ TODO: Separate the Logic from the Display
 		<p>
 			<br/>
 		</p>
+
 		<p>
-			<obs conceptId="CIEL:5219" labelText="Other: "  answerClasses="Diagnosis" style="autocomplete" />
+			<repeat>
+				<template>
+					<div id="{n}-toggleContainer" style="display:none;">
+						<p>
+							<obs conceptId="CIEL:5219" labelText="Other: (autocomplete field)"  answerClasses="Diagnosis" style="autocomplete" />
+
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						</p>
+
+					</div>
+				</template>
+				<render n="301"/>
+				<render n="302"/>
+				<render n="303"/>
+				<render n="304"/>
+			</repeat>
 		</p>
+
 
 	</fieldset>
 
@@ -164,18 +179,7 @@ TODO: Separate the Logic from the Display
 			</span>
 		</p>
 	</fieldset>
-	<fieldset>
-		<legend>
-			Crying
-		</legend>
-		<h3>
-			Crying
-		</h3>
-		<p>
-			<obs id="cry" conceptId="CIEL:159860" answerConceptIds="CIEL:110540,CIEL:1066" answerLabels="Crying,Not crying" size="3">
-			</obs>
-		</p>
-	</fieldset>
+	
 	<fieldset field-separator=", ">
 		<legend>
 			Days sick
@@ -221,10 +225,10 @@ TODO: Separate the Logic from the Display
 
 					</div>
 				</template>
-				<render n="1"/>
-				<render n="2"/>
-				<render n="3"/>
-				<render n="4"/>
+				<render n="401"/>
+				<render n="402"/>
+				<render n="403"/>
+				<render n="404"/>
 				
 			</repeat>
 
@@ -273,11 +277,11 @@ TODO: Separate the Logic from the Display
 
 
 			<span id="medication-now-other">
-			<repeat>
+				<repeat>
 					<template>
 						<div id="{n}-toggleContainer" style="display:none;">
 							<p>
-					<obs conceptId="CIEL:160632" labelText="Other" />
+								<obs conceptId="CIEL:160632" labelText="Other" />
 								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
 								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
 							</p>
@@ -289,7 +293,7 @@ TODO: Separate the Logic from the Display
 					<render n="203"/>
 					<render n="204"/>
 				</repeat>
-			
+
 			</span>
 		</span>
 	</fieldset>
@@ -357,12 +361,23 @@ TODO: Separate the Logic from the Display
 			Maternal medication during pregnancy
 		</h3>
 		<p>
-			<small>** concept to be defined **<br/></small>
-			<obs id="pregnancy-medication" conceptId="159640" answerConceptIds="1065,1066,1067">
-				<controls>
-					<when value="1065" thenDisplay="#pregnancy-medication-describe" />
-				</controls>
-			</obs>
+			<repeat>
+				<template>
+					<div id="{n}-toggleContainer" style="display:none;">
+						<p>
+							<obs id="pregnancy-medication" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						</p>
+
+					</div>
+				</template>
+				<render n="501"/>
+				<render n="502"/>
+				<render n="503"/>
+				<render n="504"/>
+			</repeat>
+
 		</p>
 
 
@@ -461,25 +476,9 @@ TODO: Separate the Logic from the Display
 			BCG vaccine given
 		</h3>
 		<p>
-			<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067">
-				<controls>
-					<when value="1066" thenDisplay="#bcg-no" />
-					<when value="1067" thenDisplay="#bcg-unkown" />
-				</controls>
-			</obs>
+			<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067"/>
+				
 		</p>
-		<span id="bcg-no">
-			<br />
-			<p>
-				<font color="red">Please notify doctor</font>
-			</p>
-		</span>
-		<span id="bcg-unkown">
-			<br />
-			<p>
-				<font color="red">Please notify doctor</font>
-			</p>
-		</span>
 	</fieldset>
 
 

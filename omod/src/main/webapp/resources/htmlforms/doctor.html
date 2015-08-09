@@ -7,12 +7,12 @@
 			jQuery('#10-addEntry').remove();
 			jQuery('#1-toggleContainer').show();
 
-			jQuery('#101-removeEntry').remove();
-			jQuery('#101-toggleContainer').show();
+			for (var i=1 ; i &lt; 10 ; i++) {
 
-			jQuery('#201-removeEntry').remove();
-			jQuery('#201-toggleContainer').show();
-
+				jQuery("#"+i+"01-removeEntry").remove();
+				jQuery("#"+i+"01-toggleContainer").show();
+			}
+			
 
 			jQuery('#11-removeEntry').remove();
 			jQuery('#20-addEntry').remove();
