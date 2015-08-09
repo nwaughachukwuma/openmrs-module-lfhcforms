@@ -11,11 +11,10 @@
         <details>
             <summary></summary>
             <% if (true) { %>
-            <p>Latest weight = ${ ui.format(myObs) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.total") } = ${ ui.format(fluidBalance) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.lasttotal") } = ${ ui.format(lastFluidBalance) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.urineout") } = ${ ui.format(avgUrineOutput) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.urineoutkg") } = ${ ui.format(avgUrineOutputPerKg) }</p>
+            <p>${ ui.message("lfhcforms.fluidbalance.total") } = ${ ui.format(fluidBalance) }</p><br/>
+            <p>${ ui.message("lfhcforms.fluidbalance.lasttotal") } = ${ ui.format(lastFluidBalance) }</p><br/>
+            <p>${ ui.message("lfhcforms.fluidbalance.urineout") } = ${ ui.format(avgUrineOutput) }</p><br/>
+            <p>${ ui.message("lfhcforms.fluidbalance.urineoutkg") } = ${ ui.format(avgUrineOutputPerKg) }</p><br/>
             <% } %>
         </details>
     </div>

@@ -19,17 +19,23 @@ public class FluidBalanceFragmentController {
 			, @SpringBean("obsService") ObsService obsService
 			/*, @SpringBean("allergyService") PatientService patientService*/) {
 
-
-		Concept concept = conceptService.getConcept("5089");
-		
+		Concept concept = conceptService.getConcept("5089"); // CIEL weight
 		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient, concept);
-		
-		model.addAttribute("myObs", null);
 		if(!obsList.isEmpty()) {
 			// The last obs
 			Obs obs = obsList.get(obsList.size() - 1);
-			model.addAttribute("myObs", obs.getValueNumeric());
+			double weight = obs.getValueNumeric();
 		}
+		
+		model.addAttribute("fluidBalance", null);
+		model.addAttribute("lastFluidBalance", null);
+		model.addAttribute("avgUrineOutput", null);
+		model.addAttribute("avgUrineOutputPerKg", null);
+		
+//		model.addAttribute("fluidBalance", 100);
+//		model.addAttribute("lastFluidBalance", 102);
+//		model.addAttribute("avgUrineOutput", 55);
+//		model.addAttribute("avgUrineOutputPerKg", 1);
 	}
 
 }
