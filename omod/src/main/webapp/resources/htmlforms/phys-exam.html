@@ -1,6 +1,5 @@
 <htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.1">
 
-
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -69,10 +68,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1120" answerLabel="Skin exam" style="checkbox"/>
+								<obs id="3-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1120" answerLabel="Skin exam" style="checkbox"/>
 							</p>
 							<p>
-								<obs id="3-finding" conceptId="CIEL:1120">
+								<obs class="result" id="3-finding" conceptId="CIEL:1120">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#3-finding-abnormal"/>
 									</controls>
@@ -91,10 +90,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1121" answerLabel="Lymph node exam"  style="checkbox"/>
+								<obs id="1-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1121" answerLabel="Lymph node exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="1-finding" conceptId="CIEL:1121">
+								<obs class="result" id="1-finding" conceptId="CIEL:1121">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#1-finding-abnormal"/>
 									</controls>
@@ -112,10 +111,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1122" answerLabel="Heent node exam"  style="checkbox"/>
+								<obs id="4-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1122" answerLabel="Heent node exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="4-finding" conceptId="CIEL:1122">
+								<obs class="result" id="4-finding" conceptId="CIEL:1122">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#4-finding-abnormal"/>
 									</controls>
@@ -133,10 +132,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1123" answerLabel="Chest exam"  style="checkbox"/>
+								<obs id="5-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1123" answerLabel="Chest exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="5-finding" conceptId="CIEL:1123">
+								<obs class="result" id="5-finding" conceptId="CIEL:1123">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#5-finding-abnormal"/>
 									</controls>
@@ -155,10 +154,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1124" answerLabel="Cardiac exam"  style="checkbox"/>
+								<obs id="6-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1124" answerLabel="Cardiac exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="6-finding" conceptId="CIEL:1124">
+								<obs class="result" id="6-finding" conceptId="CIEL:1124">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#6-finding-abnormal"/>
 									</controls>
@@ -176,10 +175,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1125" answerLabel="Abdominal exam" style="checkbox"/>
+								<obs id="10-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1125" answerLabel="Abdominal exam" style="checkbox"/>
 							</p>
 							<p>
-								<obs id="10-finding" conceptId="CIEL:1125">
+								<obs class="result" id="10-finding" conceptId="CIEL:1125">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#10-finding-abnormal"/>
 									</controls>
@@ -197,10 +196,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1126" answerLabel="Urogenital exam"  style="checkbox"/>
+								<obs id="12-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1126" answerLabel="Urogenital exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="12-finding" conceptId="CIEL:1126">
+								<obs class="result" id="12-finding" conceptId="CIEL:1126">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#12-finding-abnormal"/>
 									</controls>
@@ -218,10 +217,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1127" answerLabel="Extremity exam" style="checkbox"/>
+								<obs id="7-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1127" answerLabel="Extremity exam" style="checkbox"/>
 							</p>
 							<p>
-								<obs id="7-finding" conceptId="CIEL:1127">
+								<obs class="result" id="7-finding" conceptId="CIEL:1127">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#7-finding-abnormal"/>
 									</controls>
@@ -239,10 +238,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1128" answerLabel="Musculoskeletal exam"  style="checkbox"/>
+								<obs id="8-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1128" answerLabel="Musculoskeletal exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="8-finding" conceptId="CIEL:1128">
+								<obs class="result" id="8-finding" conceptId="CIEL:1128">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#8-finding-abnormal"/>
 									</controls>
@@ -260,10 +259,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1129" answerLabel="Neurologic exam"  style="checkbox"/>
+								<obs id="9-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1129" answerLabel="Neurologic exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="9-finding" conceptId="CIEL:1129">
+								<obs class="result" id="9-finding" conceptId="CIEL:1129">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#9-finding-abnormal"/>
 									</controls>
@@ -281,10 +280,10 @@
 						<obsgroup groupingConceptId="LFHC:1052">
 							<p>
 
-								<obs conceptId="CIEL:1119" answerConceptId="CIEL:1130"  answerLabel="Phsychiatric exam"  style="checkbox"/>
+								<obs id="11-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1130"  answerLabel="Phsychiatric exam"  style="checkbox"/>
 							</p>
 							<p>
-								<obs id="11-finding" conceptId="CIEL:1130">
+								<obs class="result" id="11-finding" conceptId="CIEL:1130">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#11-finding-abnormal"/>
 									</controls>
@@ -303,7 +302,7 @@
 							Other comments
 						</p>
 						<p>
-						<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
+							<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
 						</p>
 					</td>
 				</tr>
@@ -313,6 +312,17 @@
 			</tbody>
 		</table>
 
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Growth chart
+		</legend>
+		<h3>
+			Growth chart
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1854"/>
+		</p>
 	</fieldset>
 </section>
 

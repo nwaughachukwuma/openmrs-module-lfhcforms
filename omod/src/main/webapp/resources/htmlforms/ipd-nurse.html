@@ -1,47 +1,5 @@
 <htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.1">
 
-<script type="text/javascript">
-	if(jQuery){
-		jQuery(document).ready(function(){
-			
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
-		});
-
-
-		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').live("click", function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').live("click", function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
-</script>
-
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
