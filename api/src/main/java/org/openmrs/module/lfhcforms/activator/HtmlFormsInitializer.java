@@ -37,7 +37,6 @@ public class HtmlFormsInitializer implements Initializer {
 					"lfhcforms:htmlforms/diagnostic-imaging.html",
 					"lfhcforms:htmlforms/discharge.html",
 					"lfhcforms:htmlforms/dispense-med.html",
-					"lfhcforms:htmlforms/doctor.html",
 					"lfhcforms:htmlforms/fluidbalance.html",
 					"lfhcforms:htmlforms/history.html",
 					"lfhcforms:htmlforms/immunity.html",
