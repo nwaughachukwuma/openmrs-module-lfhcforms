@@ -51,7 +51,7 @@ public class FluidBalanceFragmentController {
 		//	Urine output
 		//
 		Period period = new Period(today6am, now);
-		double currentHours = period.getHours() + period.getMinutes() / 60;
+		double currentHours = period.getHours() + (double) period.getMinutes() / 60;
 		
 		Concept urineConcept = conceptService.getConceptByMapping("1168", LFHC_SOURCE);
 		double urineOutput = sumObservations(obsService, patient, today6am, now, Arrays.asList(urineConcept));
@@ -64,7 +64,7 @@ public class FluidBalanceFragmentController {
 
 		averageUrineOutput = Math.round(averageUrineOutput);
 		model.addAttribute("avgUrineOutput", averageUrineOutput + " (ml/h)");
-		averageUrineOutputPerKg = Math.round(averageUrineOutputPerKg);
+		averageUrineOutputPerKg = Math.round(10 * averageUrineOutputPerKg) / 10;
 		model.addAttribute("avgUrineOutputPerKg", averageUrineOutputPerKg + " (ml/h/kg)");
 		
 		//
