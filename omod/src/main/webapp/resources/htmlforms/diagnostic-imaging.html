@@ -1,4 +1,4 @@
-<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.1">
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4">
 
 
 
@@ -57,9 +57,13 @@
 				
 			};
 
+			var other =  null;
+			other = getValue("other-source.value");
+			jQuery(htmlform).find("#other-target").find("input").val(other);
+
+			
+
 		});
-
-
 
 
 	}
@@ -126,12 +130,10 @@
 				<render n="409"/>
 
 			</repeat>
-			<obsgroup groupingConceptId="LFHC:1013">
-				<p>
-					Other X-ray:
-					<obs conceptId="LFHC:1012"/>
-				</p>
-			</obsgroup>	
+			<p>
+				Other X-ray:
+				<obs conceptId="LFHC:1012"/>
+			</p>
 		</fieldset>
 	</section>
 	<section id="ultrasound-order" sectionTag="section" headerStyle="title" headerCode="Ultrasound order">
@@ -140,13 +142,13 @@
 			<h3>Ultrasound order</h3>
 			<repeat>
 				<template>
-						<div id="{n}-toggleContainer" style="display:none;" >
-							<p>
-								<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010"/>    
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
-							</p>
-						</div>
+					<div id="{n}-toggleContainer" style="display:none;" >
+						<p>
+							<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010"/>    
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						</p>
+					</div>
 				</template>
 				<render n="301"/>
 				<render n="302"/>
@@ -202,7 +204,7 @@
 					<tr>
 						<td>
 							<h3>X-rays</h3>
-					
+
 							<details>
 								<summary>
 									See more
@@ -279,6 +281,25 @@
 											<render m="146" n="CIEL:161349"/>
 											<render m="147" n="CIEL:161350"/>
 										</repeat>
+										<tr>
+											<td>
+												<div style="display:none;">
+													<obs id="other-source" conceptId="LFHC:1012"/>
+												</div>
+												<obsgroup groupingConceptId="LFHC:1013">
+													<p>
+														Other X-ray:
+														<obs id="other-target" conceptId="LFHC:1012"/>
+													</p>
+													<p>
+														Results: <obs class="results" conceptId="LFHC:1173" />
+													</p>
+													<p>
+														Comments: <obs class="results" conceptId="LFHC:1174" />
+													</p>
+												</obsgroup>	
+											</td>
+										</tr>
 									</tbody>
 								</table>
 							</details>
