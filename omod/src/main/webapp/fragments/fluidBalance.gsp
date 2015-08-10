@@ -10,13 +10,24 @@
     <div class="info-body">
         <details>
             <summary></summary>
-            <% if (true) { %>
-            <p>Latest weight = ${ ui.format(myObs) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.total") } = ${ ui.format(fluidBalance) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.lasttotal") } = ${ ui.format(lastFluidBalance) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.urineout") } = ${ ui.format(avgUrineOutput) }</p>
-            <p>${ ui.message("lfhcforms.fluidbalance.urineoutkg") } = ${ ui.format(avgUrineOutputPerKg) }</p>
-            <% } %>
+            <table style="">
+  				<tr>
+    				<td>${ ui.message("lfhcforms.fluidbalance.total") }</td>
+    				<td>${ ui.format(fluidBalance) }</td> 
+  				</tr>
+  				<tr>
+    				<td>${ ui.message("lfhcforms.fluidbalance.lasttotal") }</td>
+    				<td>${ ui.format(lastFluidBalance) }</td> 
+  				</tr>
+  				<tr>
+    				<td>${ ui.message("lfhcforms.fluidbalance.urineout") }</td>
+    				<td>${ ui.format(avgUrineOutput) }</td> 
+  				</tr>
+  				<tr>
+    				<td>${ ui.message("lfhcforms.fluidbalance.urineoutkg") }</td>
+    				<td>${ ui.format(avgUrineOutputPerKg) }</td> 
+  				</tr>
+			</table>
         </details>
     </div>
 </div>

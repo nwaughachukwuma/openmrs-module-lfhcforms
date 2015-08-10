@@ -22,7 +22,18 @@ public class EncounterTypesInitializer implements Initializer {
 		log.info("Setting new Encounter Types for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
 		
 		EncounterService es = Context.getEncounterService();
-		
+
+		{
+			String name = "Registration Encounter";
+			String desc = "Custom registration encounter type, recording ethnicity and language spoken.";
+			String uuid = "3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c";
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
 		{
 			String name = "Dispense Medication";
 			String desc = "";
