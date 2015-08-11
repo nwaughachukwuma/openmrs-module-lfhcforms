@@ -45,6 +45,8 @@ public class FluidBalanceFragmentController {
 		
 		DateTime now = DateTime.now();
 		DateTime today6am = now.withTimeAtStartOfDay().plusHours(6);
+		if(today6am.isAfter(now))
+			today6am = today6am.minusDays(1);
 		DateTime yesterday6am = today6am.minusDays(1);
 
 		//
