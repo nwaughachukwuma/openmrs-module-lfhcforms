@@ -1,4 +1,4 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.1">
 
 
 
@@ -21,7 +21,7 @@
 
 		jQuery(document).ready(function(){
 
-			jQuery('i.addEntry').live("click", function(){
+			jQuery('i.addEntry').click(function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;
 
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
@@ -31,7 +31,7 @@
 		});
 
 		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').live("click", function(){
+			jQuery('i.removeEntry').click(function(){
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
 				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 				jQuery(contentAddId).toggle(false);
@@ -112,8 +112,8 @@
 					<div id="{n}-toggleContainer" style="display:none;" >
 						<p>
 							<obs id="{n}-order" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1125,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 					</div>
 				</template>
@@ -122,11 +122,7 @@
 				<render n="103"/>
 				<render n="104"/>
 				<render n="105"/>
-				<render n="106"/>
-				<render n="107"/>
-				<render n="108"/>
-				<render n="109"/>
-
+				
 			</repeat>
 		</p>
 		<br/>
@@ -147,8 +143,8 @@
 					<div id="{n}-toggleContainer" style="display:none;" >
 						<p>
 							<obs id="{n}-order" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 					</div>
 				</template>
@@ -157,11 +153,6 @@
 				<render n="403"/>
 				<render n="404"/>
 				<render n="405"/>
-				<render n="406"/>
-				<render n="407"/>
-				<render n="408"/>
-				<render n="409"/>
-
 			</repeat>
 		</p>
 		<br/>
@@ -183,8 +174,8 @@
 					<div id="{n}-toggleContainer" style="display:none;" >
 						<p>
 							<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 					</div>
 				</template>
@@ -261,8 +252,8 @@
 								<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
 							</p>
 							<p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 							</p>
 							<br/>
 						</obsgroup>

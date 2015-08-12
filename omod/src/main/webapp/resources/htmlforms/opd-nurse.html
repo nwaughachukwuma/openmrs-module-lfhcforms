@@ -1,4 +1,4 @@
-<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4">
+<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.1">
 
 <!-- Temporarily and poorly handle "Add" and "Remove" buttons when there is more than one toggleContainer
 TODO: Separate the Logic from the Display
@@ -22,7 +22,7 @@ TODO: Separate the Logic from the Display
 
 
 		jQuery(document).ready(function(){
-			jQuery('i.addEntry').live("click", function(){
+			jQuery('i.addEntry').click(function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
 				jQuery(contentAddId).toggle(true);
@@ -31,7 +31,7 @@ TODO: Separate the Logic from the Display
 		});
 
 		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').live("click", function(){
+			jQuery('i.removeEntry').click(function(){
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
 				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 				jQuery(contentAddId).toggle(false);
@@ -142,9 +142,8 @@ TODO: Separate the Logic from the Display
 					<div id="{n}-toggleContainer" style="display:none;">
 						<p>
 							<obs conceptId="CIEL:5219" labelText="Other: (autocomplete field)"  answerClasses="Diagnosis" style="autocomplete" />
-
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 
 					</div>
@@ -219,8 +218,8 @@ TODO: Separate the Logic from the Display
 					<div id="{n}-toggleContainer" style="display:none;">
 						<p>
 							<obs conceptId="CIEL:1273" labelText="Where"/>                                   
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 
 					</div>
@@ -262,8 +261,8 @@ TODO: Separate the Logic from the Display
 						<div id="{n}-toggleContainer" style="display:none;">
 							<p>
 								<obs conceptId="CIEL:1193" labelText="Medication Family"/>                                   
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 							</p>
 
 						</div>
@@ -282,8 +281,8 @@ TODO: Separate the Logic from the Display
 						<div id="{n}-toggleContainer" style="display:none;">
 							<p>
 								<obs conceptId="CIEL:160632" labelText="Other" />
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 							</p>
 
 						</div>
@@ -366,8 +365,8 @@ TODO: Separate the Logic from the Display
 					<div id="{n}-toggleContainer" style="display:none;">
 						<p>
 							<obs id="pregnancy-medication" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 
 					</div>
@@ -477,7 +476,7 @@ TODO: Separate the Logic from the Display
 		</h3>
 		<p>
 			<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067"/>
-				
+
 		</p>
 	</fieldset>
 

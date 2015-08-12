@@ -1,4 +1,4 @@
-<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.4">
+<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.4.1">
 
 
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 
 		jQuery(document).ready(function(){
 
-			jQuery('i.addEntry').live("click", function(){
+			jQuery('i.addEntry').click(function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;
 
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
@@ -30,7 +30,7 @@
 		});
 
 		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').live("click", function(){
+			jQuery('i.removeEntry').click(function(){
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
 				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 				jQuery(contentAddId).toggle(false);
@@ -124,8 +124,8 @@
 								</tr>
 								<tr>
 									<td colspan="2" style="text-align:right;">
-										<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-										<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+										<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+										<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 									</td>
 								</tr>
 							</tbody>

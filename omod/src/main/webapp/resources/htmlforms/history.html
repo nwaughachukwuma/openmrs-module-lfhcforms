@@ -1,4 +1,4 @@
-<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4">
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.1">
 
 <script type="text/javascript">
 	if(jQuery){
@@ -17,7 +17,7 @@
 		});
 		jQuery(document).ready(function(){
 
-			jQuery('i.addEntry').live("click", function(){
+			jQuery('i.addEntry').click(function(){
 				var correctedAddButtonId = parseFloat(this.id) + 1;
 
 				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
@@ -27,7 +27,7 @@
 		});
 
 		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').live("click", function(){
+			jQuery('i.removeEntry').click(function(){
 				var correctedRemoveButtonId = parseFloat(this.id) - 1;
 				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
 				jQuery(contentAddId).toggle(false);
@@ -152,8 +152,8 @@
 						<obs conceptId="CIEL:5219" labelText="Other: (autocomplete)" answerClasses="Diagnosis" style="autocomplete" />
 					</p>
 
-					<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-					<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+					<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+					<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 					<br/>
 
 				</div>
@@ -221,8 +221,8 @@
 							<lookup expression="fn.getConcept('CIEL:162642').name" />
 							<obs conceptId="CIEL:162642"></obs>
 						</p>
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						<br/>
 					</div>
 				</obsgroup>
@@ -316,8 +316,8 @@
 							<obs conceptId="CIEL:1628" answerClasses="Diagnosis" style="autocomplete"></obs>
 						</p>
 
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						<br/>
 
 					</div>
@@ -364,8 +364,8 @@
 							<obs conceptId="CIEL:160716" rows="4" cols="50"/>
 						</p>
 
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf067;</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">&#xf00d;</i>
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						<br/>
 
 					</div>
