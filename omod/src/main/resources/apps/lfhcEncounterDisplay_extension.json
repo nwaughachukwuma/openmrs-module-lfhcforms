@@ -1,0 +1,19 @@
+[
+{
+	"id": "referenceapplication.lfhcEncounterTemplate",
+	"extensionPointId": "org.openmrs.referenceapplication.encounterTemplate",
+	"type": "fragment",
+	"extensionParams": {
+		"templateId": "defaultEncounterTemplate",
+		"templateFragmentProviderName": "coreapps",
+		"templateFragmentId": "patientdashboard/encountertemplate/defaultEncounterTemplate",
+		"supportedEncounterTypes": {
+                "49e7bc6c-bfbd-40dc-8164-45d82c55b5f9": { // Clinical Notes
+                	"icon": "icon-group",
+                	 "displayWithHtmlForm": true,
+                	"editable": true              
+            	}
+        }
+    }
+}
+]
