@@ -1,4 +1,4 @@
-<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.1">
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.2">
 
 <script type="text/javascript">
 	if(jQuery){
@@ -107,6 +107,11 @@
 
 			</tr>
 			<tr>
+				<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:142412" /></p></td>
+				<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:512" /></p></td>
+
+			</tr>
+			<tr>
 				<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:122983" /></p></td>
 				<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:151" /></p></td>
 
@@ -193,47 +198,7 @@
 		</p>
 	</fieldset>
 
-	<fieldset>
-		<legend>
-			Signs and symptoms
-		</legend>
-		<h3>
-			Signs and symptoms
-		</h3>
-		<repeat>
-			<template>
-				<obsgroup groupingConceptId="CIEL:1727">
-					<div id="{n}-toggleContainer" style="display:none;">
-						<p>
-							<lookup expression="fn.getConcept('CIEL:1728').name" />
-							<obs conceptId="CIEL:1728" answerClasses="Symptom,Symptom/Finding" style="autocomplete"></obs>
-						</p>
-						
-						<p>
-							<lookup expression="fn.getConcept('CIEL:1731').name" />
-							<obs conceptId="CIEL:1731"></obs>
-						</p>
-						<p>
-							<lookup expression="fn.getConcept('CIEL:1732').name" />
-							<obs conceptId="CIEL:1732"></obs>
-						</p>
-						<p>
-							<lookup expression="fn.getConcept('CIEL:162642').name" />
-							<obs conceptId="CIEL:162642"></obs>
-						</p>
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						<br/>
-					</div>
-				</obsgroup>
-			</template>
-			<render n="301"/>
-			<render n="302"/>
-			<render n="303"/>
-			<render n="304"/>
-		</repeat>
-	</fieldset>
-
+	
 	<fieldset field-separator=", ">
 		<legend>
 			Beriberi risk
@@ -302,94 +267,18 @@
 	</fieldset>
 	<fieldset>
 		<legend>
-			Medical history
+			Medical/surgical history
 		</legend>
 		<h3>
-			Past medical history
-		</h3>
-		<repeat>
-			<template>
-				<obsgroup groupingConceptId="160714">
-					<div id="{n}-toggleContainer" style="display:none;">
-						<p>
-							<small>auto-complete field</small>
-							<obs conceptId="CIEL:1628" answerClasses="Diagnosis" style="autocomplete"></obs>
-						</p>
-
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						<br/>
-
-					</div>
-				</obsgroup>
-			</template>
-			<render n="101"/>
-			<render n="102"/>
-			<render n="103"/>
-			<render n="104"/>
-		</repeat>
-
-
-	</fieldset>
-
-
-	<fieldset>
-		<legend>
-			Surgical history
-		</legend>
-		<h3>
-			Past surgical history
-
-		</h3>
-
-		<small>auto-complete field</small>
-		<repeat>
-			<template>
-				<obsgroup groupingConceptId="160714">
-					<div id="{n}-toggleContainer" style="display:none;">
-						<p>
-							<lookup expression="fn.getConcept('CIEL:1651').name" />
-							<obs conceptId="CIEL:1651" answerConceptIds="CIEL:161657,CIEL:161658,CIEL:161659,CIEL:161660,CIEL:161661,CIEL:161662,CIEL:161663,CIEL:161664,CIEL:161665,CIEL:161666,CIEL:161667,CIEL:161668,CIEL:161669,CIEL:161670,CIEL:161671,CIEL:161672,CIEL:161673,CIEL:161674,CIEL:161675,CIEL:161676,CIEL:161677,CIEL:161678,CIEL:161679,CIEL:161680,CIEL:161681,CIEL:161682,CIEL:161683,CIEL:161684,CIEL:161685,CIEL:161686,CIEL:161687,CIEL:161688,CIEL:161689,CIEL:161690,CIEL:161691,CIEL:161692,CIEL:161693,CIEL:161694,CIEL:161695,CIEL:161696,CIEL:161697,CIEL:161698,CIEL:161699,CIEL:161700,CIEL:161701,CIEL:161702,CIEL:161703,CIEL:161704,CIEL:161705,CIEL:161706,CIEL:161707,CIEL:161708,CIEL:161709,CIEL:161710,CIEL:161711,CIEL:161712,CIEL:161713,CIEL:161714,CIEL:161715,CIEL:161716,CIEL:161717,CIEL:161718,CIEL:161719,CIEL:161720,CIEL:161721,CIEL:161722,CIEL:161723,CIEL:161724,CIEL:161725,CIEL:161726,CIEL:161727,CIEL:161728,CIEL:161729,CIEL:161730,CIEL:161731,CIEL:161732,CIEL:161733,CIEL:161734,CIEL:161735,CIEL:161736,CIEL:161737,CIEL:161738,CIEL:161739,CIEL:161740,CIEL:161741,CIEL:161742,CIEL:161743,CIEL:161744,CIEL:161745,CIEL:161746,CIEL:161747,CIEL:161748,CIEL:161749,CIEL:161750,CIEL:161751,CIEL:161752,CIEL:161753,CIEL:161754,CIEL:161755,CIEL:161756,CIEL:161757,CIEL:161758,CIEL:161759,CIEL:161760,CIEL:161761,CIEL:161762,CIEL:161763,CIEL:161764,CIEL:161765,CIEL:161766,CIEL:161767,CIEL:161768,CIEL:161769,CIEL:161770,CIEL:161771,CIEL:161772,CIEL:161773,CIEL:161774,CIEL:161775,CIEL:161776,CIEL:161777,CIEL:161778,CIEL:161779,CIEL:161780,CIEL:161781,CIEL:161782,CIEL:161783,CIEL:161784,CIEL:161785,CIEL:161786,CIEL:161787,CIEL:161788,CIEL:161789,CIEL:161790,CIEL:161791,CIEL:161792,CIEL:161793,CIEL:161794,CIEL:161795,CIEL:161796,CIEL:161797,CIEL:161798,CIEL:161799,CIEL:161800,CIEL:161801,CIEL:161802,CIEL:161803,CIEL:161804,CIEL:161805,CIEL:161806,CIEL:161807,CIEL:161808,CIEL:161809,CIEL:161810,CIEL:161811,CIEL:161812,CIEL:161813,CIEL:161814,CIEL:161815,CIEL:161816,CIEL:161817,CIEL:161818,CIEL:161819,CIEL:161820,CIEL:161821,CIEL:161822,CIEL:161823,CIEL:161824,CIEL:161825,CIEL:161826,CIEL:161827,CIEL:161828,CIEL:161829,CIEL:161830,CIEL:161831,CIEL:161832,CIEL:161833,CIEL:161834,CIEL:161835,CIEL:161836,CIEL:161837,CIEL:161838,CIEL:161839,CIEL:161840,CIEL:161841,CIEL:161842,CIEL:161843,CIEL:161844,CIEL:161845,CIEL:161846,CIEL:161847,CIEL:161848,CIEL:161849,CIEL:161850,CIEL:161851,CIEL:161852,CIEL:161853,CIEL:161854,CIEL:161855,CIEL:161856,CIEL:161857,CIEL:161858,CIEL:161859,CIEL:161860,CIEL:161861,CIEL:161862,CIEL:161863,CIEL:161864,CIEL:161865,CIEL:161866,CIEL:161867,CIEL:161868,CIEL:161869,CIEL:161870,CIEL:161871,CIEL:161872,CIEL:161873,CIEL:161874,CIEL:161875,CIEL:161876,CIEL:161877" style="autocomplete"></obs>
-						</p>
-						<p>
-							<lookup expression="fn.getConcept('CIEL:160715').name" />
-							<obs conceptId="CIEL:160715" allowTime="false"></obs>
-						</p>
-						<p>
-							<lookup expression="fn.getConcept('CIEL:160721').name" />
-							<obs conceptId="CIEL:160721"></obs>
-						</p>
-						<p>
-							<lookup expression="fn.getConcept('CIEL:160716').name" />
-							<obs conceptId="CIEL:160716" rows="4" cols="50"/>
-						</p>
-
-						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						<br/>
-
-					</div>
-				</obsgroup>
-			</template>
-			<render n="601"/>
-			<render n="602"/>
-			<render n="603"/>
-			<render n="604"/>
-		</repeat>
-
-
-	</fieldset>
-	<fieldset>
-		<legend>
-			History added
-		</legend>
-		<h3>
-			Past history added
+			Past medical/surgical history
 		</h3>
 		<p>
 			<obs conceptId="CIEL:160221" rows="4" cols="50"></obs>
 		</p>
+
+
 	</fieldset>
+
 	<fieldset>
 		<legend>
 			Family history
