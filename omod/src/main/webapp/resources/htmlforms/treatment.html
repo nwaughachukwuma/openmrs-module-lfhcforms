@@ -1,48 +1,85 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.3">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.4">
+
+
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
+
+				jQuery('#10-addEntry').remove();
+				for (var i=1 ; i &lt; 10 ; i++) {
+
+					jQuery("#"+i+"01-removeEntry").remove();
+					jQuery("#"+i+"01-toggleContainer").show();
+				}
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+
+			});
+
+
+			jQuery(document).ready(function(){
+
+				jQuery('i.addEntry').click(function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
+
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
+
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').click(function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+					return false;});
+
+			});
+		}
+	</script>
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript">
+
+		if(jQuery){
+
+			jQuery(document).ready(function(){
+
+
+				// Handle the VIEW mode for the toggle-Containers
+				for (var i=1 ; i &lt; 10 ; i++) {
+					// display only fields with observations
+					for (var j=0 ; j &lt; 10 ; j++) {
+						for (var k=0 ; k &lt; 10 ; k++) {
+							if (!(jQuery("#"+i+j+k+"-toggleContainer").find('.value').text() == "")) {
+								jQuery("#"+i+j+k+"-toggleContainer").show();
+							}
+						}
+					}
+				}
+				// remove buttons
+				jQuery('.addEntry').remove();
+				jQuery('.removeEntry').remove();
+
+
+				// TODO: Hide obs with no value
 
 
 
-<script type="text/javascript">
-	if(jQuery){
-		jQuery(document).ready(function(){
-
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
-		});
+				// TODO: (Can not) handle the "when" markup
 
 
-		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
-</script>
+			});
+		}
+	</script>
+</ifMode>
 
 
 <div class="hidden" id="who-when-where">
@@ -106,8 +143,7 @@
 			Lab test order
 		</legend>
 		<h3>Laboratory test order</h3>
-		<p>
-			<repeat>
+					<repeat>
 				<template>
 					<div id="{n}-toggleContainer" style="display:none;" >
 						<p>
@@ -122,25 +158,23 @@
 				<render n="103"/>
 				<render n="104"/>
 				<render n="105"/>
-				
 			</repeat>
-		</p>
-		<br/>
-		<p>
-
-			<strong>
-				Please also fill in the Lab Test Order form to order your tests
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the Lab Test Order form to order your tests
+				</strong>
+			</p>
+		</ifMode>
 	</fieldset>
 	<fieldset field-separator=", ">
 
 		<legend>X-ray order</legend>
 		<h3>X-ray order</h3>
-		<p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
+					<div id="{n}-toggleContainer" style="display:none;">
 						<p>
 							<obs id="{n}-order" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
 							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
@@ -154,13 +188,14 @@
 				<render n="404"/>
 				<render n="405"/>
 			</repeat>
-		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the X-ray Order form to order your x-rays
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the X-ray Order form to order your x-rays
+				</strong>
+			</p>
+		</ifMode>
 
 	</fieldset>
 
@@ -168,7 +203,6 @@
 
 		<legend>Ultrasound order</legend>
 		<h3>Ultrasound order</h3>
-		<p>
 			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" style="display:none;" >
@@ -190,13 +224,14 @@
 				<render n="309"/>
 
 			</repeat>
-		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the Ultrasound Order form to order your ultrasounds
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the Ultrasound Order form to order your ultrasounds
+				</strong>
+			</p>
+		</ifMode>
 
 	</fieldset>
 
@@ -211,30 +246,32 @@
 
 	</fieldset>
 
-	<fieldset field-separator=", ">
+	<ifMode mode="VIEW" include="false">
+		<fieldset field-separator=", ">
 
-		<legend>Medication order</legend>
-		<h3>Medication order</h3>
-		<p>
-			<strong>
-				For IPD, medication to be ordered on the paper form
-			</strong>
-		</p>
+			<legend>Medication order</legend>
+			<h3>Medication order</h3>
+			<p>
+				<strong>
+					For IPD, medication to be ordered on the paper form
+				</strong>
+			</p>
 
-		<p>
-			<strong>
-				For OPD, medication to be ordered on the electronic form: Medication Order
-			</strong>
-		</p>
-		<p>
-			<obs conceptId="LFHC:1176" rows="4" cols="50"/>
-		</p>
-		<p>
-			<input type="text" style="display:none;"/>
-		</p>
+			<p>
+				<strong>
+					For OPD, medication to be ordered on the electronic form: Medication Order
+				</strong>
+			</p>
+			<p>
+				<obs conceptId="LFHC:1176" rows="4" cols="50"/>
+			</p>
+			<p>
+				<input type="text" style="display:none;"/>
+			</p>
 
 
-	</fieldset>
+		</fieldset>
+	</ifMode>
 
 	<fieldset field-separator=", ">
 
@@ -278,8 +315,9 @@
 
 		<legend>Diet</legend>
 		<h3>Diet</h3>
-
-		What diet should the patient be eating?
+		<ifMode mode="VIEW" include="false">
+			What diet should the patient be eating?
+		</ifMode>
 		<p>
 			<obs id="diet" conceptId="LFHC:1047">
 				<controls>
@@ -291,12 +329,13 @@
 		<br/>
 		<span id="feeding-plan">
 			<obsgroup groupingConceptId="CIEL:162046">
+			Feeding plan:
 				<p>
-					Feeding plan:	
+					
 					<obs conceptId="CIEL:985"/>
 				</p>
+				Comments
 				<p>
-					Comments
 					<obs conceptId="CIEL:160632" rows="4" columns="60"/>
 				</p>
 
