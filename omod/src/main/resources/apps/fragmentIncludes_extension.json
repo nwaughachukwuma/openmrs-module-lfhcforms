@@ -12,7 +12,7 @@
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
-            "fragment": "pews"
+            "fragment": "pewsScore"
         }
     }
 ]

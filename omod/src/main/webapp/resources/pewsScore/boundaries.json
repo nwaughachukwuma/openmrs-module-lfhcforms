@@ -1,0 +1,38 @@
+{
+  "respiratoryRate":{
+    "description":"Respiratory rate",
+    "conceptMapping":"CIEL:5242",
+    "lows":[
+      20.0,
+      20.0,
+      20.0
+    ],
+    "highs":[
+      60.0,
+      50.0,
+      50.0
+    ]
+  },
+  "heartRate":{
+    "description":"Heart rate & blood pressure",
+    "conceptMapping":"CIEL:5087",
+    "lows":[
+      80.0,
+      70.0,
+      70.0
+    ],
+    "highs":[
+      160.0,
+      140.0,
+      140.0
+    ]
+  },
+  "intercostalRecession":{
+    "description":"Intercostal recession",
+    "conceptMapping":"CIEL:136768",
+    "whenAnswers":[
+      "CIEL:1065",
+      "CIEL:1067"
+    ]
+  }
+}
