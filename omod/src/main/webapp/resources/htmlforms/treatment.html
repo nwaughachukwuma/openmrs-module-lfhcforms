@@ -1,149 +1,174 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.4">
+	<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.4">
 
 
-<ifMode mode="VIEW" include="false">
-	<script type="text/javascript">
-		if(jQuery){
-			jQuery(document).ready(function(){
+	<ifMode mode="VIEW" include="false">
+		<script type="text/javascript">
+			if(jQuery){
+				jQuery(document).ready(function(){
 
-				jQuery('#10-addEntry').remove();
-				for (var i=1 ; i &lt; 10 ; i++) {
+					jQuery('#10-addEntry').remove();
+					for (var i=1 ; i &lt; 10 ; i++) {
 
-					jQuery("#"+i+"01-removeEntry").remove();
-					jQuery("#"+i+"01-toggleContainer").show();
-				}
-				jQuery('#11-removeEntry').remove();
-				jQuery('#20-addEntry').remove();
-				jQuery('#11-toggleContainer').show();
+						jQuery("#"+i+"01-removeEntry").remove();
+						jQuery("#"+i+"01-toggleContainer").show();
+					}
+					jQuery('#11-removeEntry').remove();
+					jQuery('#20-addEntry').remove();
+					jQuery('#11-toggleContainer').show();
 
-			});
-
-
-			jQuery(document).ready(function(){
-
-				jQuery('i.addEntry').click(function(){
-					var correctedAddButtonId = parseFloat(this.id) + 1;
-
-					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-					jQuery(contentAddId).toggle(true);
-					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-					return false;});
-			});
-
-			jQuery(document).ready(function(){
-				jQuery('i.removeEntry').click(function(){
-					var correctedRemoveButtonId = parseFloat(this.id) - 1;
-					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-					jQuery(contentAddId).toggle(false);
-					jQuery( ':input:not(:button)', contentAddId).val([]);
-					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-					return false;});
-
-			});
-		}
-	</script>
-</ifMode>
-
-<ifMode mode="VIEW">
-	<script type="text/javascript">
-
-		if(jQuery){
-
-			jQuery(document).ready(function(){
+				});
 
 
-				// Handle the VIEW mode for the toggle-Containers
-				for (var i=1 ; i &lt; 10 ; i++) {
-					// display only fields with observations
-					for (var j=0 ; j &lt; 10 ; j++) {
-						for (var k=0 ; k &lt; 10 ; k++) {
-							if (!(jQuery("#"+i+j+k+"-toggleContainer").find('.value').text() == "")) {
-								jQuery("#"+i+j+k+"-toggleContainer").show();
+				jQuery(document).ready(function(){
+
+					jQuery('i.addEntry').click(function(){
+						var correctedAddButtonId = parseFloat(this.id) + 1;
+
+						var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+						jQuery(contentAddId).toggle(true);
+						jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+						return false;});
+				});
+
+				jQuery(document).ready(function(){
+					jQuery('i.removeEntry').click(function(){
+						var correctedRemoveButtonId = parseFloat(this.id) - 1;
+						var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+						jQuery(contentAddId).toggle(false);
+						jQuery( ':input:not(:button)', contentAddId).val([]);
+						jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+
+						return false;});
+
+				});
+			}
+		</script>
+	</ifMode>
+
+	<ifMode mode="VIEW">
+			<script type="text/javascript">
+
+			// JavaScript for VIEW mode
+
+			if(jQuery){
+
+				jQuery(document).ready(function(){
+
+
+					// Handle the VIEW mode for the toggle-Containers
+					for (var i=1 ; i &lt; 10 ; i++) {
+						// display only fields with observations
+						for (var j=0 ; j &lt; 10 ; j++) {
+							for (var k=0 ; k &lt; 10 ; k++) {
+								if (!(jQuery("#"+i+j+k+"-toggleContainer").find('.value').text() == "")) {
+									jQuery("#"+i+j+k+"-toggleContainer").show();
+								}
 							}
 						}
 					}
-				}
-				// remove buttons
-				jQuery('.addEntry').remove();
-				jQuery('.removeEntry').remove();
+					// remove buttons
+					jQuery('.addEntry').remove();
+					jQuery('.removeEntry').remove();
 
 
-				// TODO: Hide obs with no value
+					// Hide obs with no value
+					jQuery("fieldset").each(function () {
+						jQuery(this).hide();
+						jQuery(this).find(".value").closest("fieldset").show();
+						if (jQuery(this).find(".value").text() == "") {
+							jQuery(this).hide();
+						}
+						if (jQuery(this).find(".thenDisplay").find(".value").text() == "") {
+							jQuery(this).find(".thenDisplay").hide();
+						}
+					});
+
+					// TODO: Handle the "when" markup
+
+				});
+			}
+		</script>
+
+	</ifMode>
 
 
-
-				// TODO: (Can not) handle the "when" markup
-
-
-			});
+	<div class="hidden" id="who-when-where">
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+		<p id="when">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.date" />
+			</label>
+			<span>
+				<encounterDate id="encounterDate" default="now" />
+			</span>
+		</p>
+	</div>
+	<style type="text/css">
+		.tg {
+			table-layout: fixed;
+			width: 70%;
+			margin-left: 10px;
 		}
-	</script>
-</ifMode>
+		.collapse .title {
+			color: rgb(0, 147, 132);
+			font-family: OpenSans, Arial, sans-serif;
+			font-size: 20.7999992370605px;
+			font-weight: normal;
+			margin-bottom: 10px;
+		}
+		.collapse htmlform h3, .collapse htmlform label {
+			font-weight: normal;
+			color: #363463;
+			font-size: 0.9em;
+			font-family: "OpenSansBold";
+		}
+		
 
+	</style>
 
-<div class="hidden" id="who-when-where">
-	<p id="who">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.provider" />
-		</label>
-		<span>
-			<encounterProvider default="currentUser" required="true" />
-		</span>
-	</p>
-	<p id="when">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.location" />
-		</label>
-		<span>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-		</span>
-	</p>
-	<p id="where">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.date" />
-		</label>
-		<span>
-			<encounterDate id="encounterDate" default="now" />
-		</span>
-	</p>
-</div>
-<style type="text/css">
-	.tg {
-		table-layout: fixed;
-		width: 70%;
-		margin-left: 10px;
-	}
-</style>
+	<section id="treatment" sectionTag="section" headerStyle="title" headerCode="Treatment">
 
-<section id="treatment" sectionTag="section" headerStyle="title" headerCode="Treatment">
+		<fieldset>
+			<legend>
+				Unit
+			</legend>
+			<h3>Unit</h3>
+			<p>
+				<obs conceptId="LFHC:1140"/>
+			</p>
+		</fieldset>
 
-	<fieldset>
-		<legend>
-			Unit
-		</legend>
-		<h3>Unit</h3>
-		<p>
-			<obs conceptId="LFHC:1140"/>
-		</p>
-	</fieldset>
+		<fieldset>
+			<legend>
+				Vital Sign Frequency
+			</legend>
+			<h3>Vital Sign Frequency</h3>
+			<p>
+				<obs conceptId="LFHC:1144"/>
+			</p>
+		</fieldset>
 
-	<fieldset>
-		<legend>
-			Vital Sign Frequency
-		</legend>
-		<h3>Vital Sign Frequency</h3>
-		<p>
-			<obs conceptId="LFHC:1144"/>
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Lab test order
-		</legend>
-		<h3>Laboratory test order</h3>
-					<repeat>
+		<fieldset field-separator=", ">
+			<legend>
+				Lab test order
+			</legend>
+			<h3>Laboratory test order</h3>
+			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" style="display:none;" >
 						<p>
@@ -159,19 +184,19 @@
 				<render n="104"/>
 				<render n="105"/>
 			</repeat>
-		<ifMode mode="VIEW" include="false">
-			<br/>
-			<p>
-				<strong>
-					Please also fill in the Lab Test Order form to order your tests
-				</strong>
-			</p>
-		</ifMode>
-	</fieldset>
-	<fieldset field-separator=", ">
+			<ifMode mode="VIEW" include="false">
+				<br/>
+				<p>
+					<strong>
+						Please also fill in the Lab Test Order form to order your tests
+					</strong>
+				</p>
+			</ifMode>
+		</fieldset>
+		<fieldset field-separator=", ">
 
-		<legend>X-ray order</legend>
-		<h3>X-ray order</h3>
+			<legend>X-ray order</legend>
+			<h3>X-ray order</h3>
 			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" style="display:none;">
@@ -188,21 +213,21 @@
 				<render n="404"/>
 				<render n="405"/>
 			</repeat>
-		<ifMode mode="VIEW" include="false">
-			<br/>
-			<p>
-				<strong>
-					Please also fill in the X-ray Order form to order your x-rays
-				</strong>
-			</p>
-		</ifMode>
+			<ifMode mode="VIEW" include="false">
+				<br/>
+				<p>
+					<strong>
+						Please also fill in the X-ray Order form to order your x-rays
+					</strong>
+				</p>
+			</ifMode>
 
-	</fieldset>
+		</fieldset>
 
-	<fieldset field-separator=", ">
+		<fieldset field-separator=", ">
 
-		<legend>Ultrasound order</legend>
-		<h3>Ultrasound order</h3>
+			<legend>Ultrasound order</legend>
+			<h3>Ultrasound order</h3>
 			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" style="display:none;" >
@@ -224,222 +249,214 @@
 				<render n="309"/>
 
 			</repeat>
-		<ifMode mode="VIEW" include="false">
-			<br/>
+			<ifMode mode="VIEW" include="false">
+				<br/>
+				<p>
+					<strong>
+						Please also fill in the Ultrasound Order form to order your ultrasounds
+					</strong>
+				</p>
+			</ifMode>
+
+		</fieldset>
+
+
+		<fieldset field-separator=", ">
+
+			<legend>Procedure</legend>
+			<h3>Procedure</h3>
 			<p>
-				<strong>
-					Please also fill in the Ultrasound Order form to order your ultrasounds
-				</strong>
+				<obs conceptId="160716" rows="4" cols="40"/>
 			</p>
-		</ifMode>
 
-	</fieldset>
+		</fieldset>
 
-
-	<fieldset field-separator=", ">
-
-		<legend>Procedure</legend>
-		<h3>Procedure</h3>
-		<p>
-			<obs conceptId="160716" rows="4" cols="40"/>
-		</p>
-
-	</fieldset>
-
-	<ifMode mode="VIEW" include="false">
 		<fieldset field-separator=", ">
 
 			<legend>Medication order</legend>
 			<h3>Medication order</h3>
-			<p>
-				<strong>
-					For IPD, medication to be ordered on the paper form
-				</strong>
-			</p>
+			<ifMode mode="VIEW" include="false">
+				<p>
+					<strong>
+						For IPD, medication to be ordered on the paper form
+					</strong>
+				</p>
 
-			<p>
-				<strong>
-					For OPD, medication to be ordered on the electronic form: Medication Order
-				</strong>
-			</p>
+				<p>
+					<strong>
+						For OPD, medication to be ordered on the electronic form: Medication Order
+					</strong>
+				</p>
+			</ifMode>
 			<p>
 				<obs conceptId="LFHC:1176" rows="4" cols="50"/>
 			</p>
-			<p>
-				<input type="text" style="display:none;"/>
-			</p>
-
 
 		</fieldset>
-	</ifMode>
 
-	<fieldset field-separator=", ">
+		<fieldset field-separator=", ">
 
-		<legend>IV fluids order</legend>
-		<h3>Intravenous fluids order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
-						<obsgroup groupingConceptId="LFHC:1055">
-							<p>
-								<obs id="{n}-order" conceptId="LFHC:1054"/>
-							</p>
-							<p>
-								<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
-							</p>
-							<p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-							</p>
-							<br/>
-						</obsgroup>
-					</div>
-				</template>
-				<render n="501"/>
-				<render n="502"/>
-				<render n="503"/>
-				<render n="504"/>
-				<render n="505"/>
-				<render n="506"/>
-				<render n="507"/>
-				<render n="508"/>
-				<render n="509"/>
+			<legend>IV fluids order</legend>
+			<h3>Intravenous fluids order</h3>
+			<p>
+				<repeat>
+					<template>
+						<div id="{n}-toggleContainer" style="display:none;" >
+							<obsgroup groupingConceptId="LFHC:1055">
+								<p>
+									<obs id="{n}-order" conceptId="LFHC:1054"/>
+								</p>
+								<p>
+									<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
+								</p>
+								<p>
+									<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+									<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+								</p>
+								<br/>
+							</obsgroup>
+						</div>
+					</template>
+					<render n="501"/>
+					<render n="502"/>
+					<render n="503"/>
+					<render n="504"/>
+					<render n="505"/>
+					<render n="506"/>
+					<render n="507"/>
+					<render n="508"/>
+					<render n="509"/>
 
-			</repeat>
-		</p>
-	</fieldset>
+				</repeat>
+			</p>
+		</fieldset>
 
 
-	<fieldset field-separator=", ">
+		<fieldset field-separator=", ">
 
-		<legend>Diet</legend>
-		<h3>Diet</h3>
-		<ifMode mode="VIEW" include="false">
-			What diet should the patient be eating?
-		</ifMode>
-		<p>
-			<obs id="diet" conceptId="LFHC:1047">
-				<controls>
-					<when value="CIEL:985" thenDisplay="#feeding-plan">
-					</when>
-				</controls>
-			</obs>
-		</p>
-		<br/>
-		<span id="feeding-plan">
-			<obsgroup groupingConceptId="CIEL:162046">
-			Feeding plan:
+			<legend>Diet</legend>
+			<h3>Diet</h3>
+			<ifMode mode="VIEW" include="false">
+				What diet should the patient be eating?
+			</ifMode>
+			<p>
+				<obs id="diet" conceptId="LFHC:1047">
+					<controls>
+						<when value="CIEL:985" thenDisplay="#feeding-plan">
+						</when>
+					</controls>
+				</obs>
+			</p>
+			<br/>
+			<span class="thenDisplay" id="feeding-plan">
+				<obsgroup groupingConceptId="CIEL:162046">
+					<p>
+						<obs conceptId="CIEL:985" labelText="Feeding plan: "/>
+					</p>
+					<p>
+						<obs conceptId="CIEL:160632" labelText="Comments: " rows="4" columns="60"/>
+					</p>
+				</obsgroup>
+			</span>
+
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				Activity
+			</legend>
+			<h3>Activity</h3>
+			<p>
+				<obs conceptId="LFHC:1148"/>
+			</p>
+		</fieldset>
+
+		<fieldset>
+			<legend>
+				Weigh daily
+			</legend>
+			<h3>Weigh daily</h3>
+			<p>
+				<obs conceptId="LFHC:1151"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Input/ouput
+			</legend>
+			<h3>Record input/ouput</h3>
+			<p>
+				<obs conceptId="LFHC:1152"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>
+				Monitors
+			</legend>
+			<h3>Monitors required</h3>
+			<p>
+				<obs conceptId="LFHC:1153"/>
+			</p>
+		</fieldset>
+
+		<obsgroup groupingConceptId="LFHC:1156">
+			<fieldset>
+				<legend>
+					Oxygen delivery method
+				</legend>
+				<h3>Oxygen delivery method</h3>
 				<p>
-					
-					<obs conceptId="CIEL:985"/>
+					<obs conceptId="LFHC:1157"/>
 				</p>
-				Comments
+			</fieldset>
+			<fieldset>
+				<legend>
+					Oxygen delivery rate
+				</legend>
+				<h3>Oxygen delivery rate</h3>
 				<p>
-					<obs conceptId="CIEL:160632" rows="4" columns="60"/>
+					<obs conceptId="LFHC:1158" showUnits="true"/>
 				</p>
+			</fieldset>
+			<fieldset>
+				<legend>
+					Oxygen saturation goal
+				</legend>
+				<h3>Oxygen saturation goal</h3>
+				<p>
+					<obs conceptId="LFHC:1159"/>
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>
+					Airway suctioning
+				</legend>
+				<h3>Airway suctioning</h3>
+				<p>
+					<obs conceptId="LFHC:1160"/>
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>
+					Dressing Changes
+				</legend>
+				<h3>Dressing Changes</h3>
+				<p>
+					<obs conceptId="LFHC:1043"/>
+				</p>
+			</fieldset>
+			<fieldset>
+				<legend>
+					Notify for following
+				</legend>
+				<h3>Notify for following</h3>
+				<p>
+					<obs conceptId="LFHC:1165" rows="4" cols="50"/>
+				</p>
+			</fieldset>
+		</obsgroup>
+	</section>
 
-			</obsgroup>
-		</span>
+	<submit/>
 
-	</fieldset>
-
-	<fieldset>
-		<legend>
-			Activity
-		</legend>
-		<h3>Activity</h3>
-		<p>
-			<obs conceptId="LFHC:1148"/>
-		</p>
-	</fieldset>
-
-	<fieldset>
-		<legend>
-			Weigh daily
-		</legend>
-		<h3>Weigh daily</h3>
-		<p>
-			<obs conceptId="LFHC:1151"/>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>
-			Input/ouput
-		</legend>
-		<h3>Record input/ouput</h3>
-		<p>
-			<obs conceptId="LFHC:1152"/>
-		</p>
-	</fieldset>
-	<fieldset>
-		<legend>
-			Monitors
-		</legend>
-		<h3>Monitors required</h3>
-		<p>
-			<obs conceptId="LFHC:1153"/>
-		</p>
-	</fieldset>
-
-	<obsgroup groupingConceptId="LFHC:1156">
-		<fieldset>
-			<legend>
-				Oxygen delivery method
-			</legend>
-			<h3>Oxygen delivery method</h3>
-			<p>
-				<obs conceptId="LFHC:1157"/>
-			</p>
-		</fieldset>
-		<fieldset>
-			<legend>
-				Oxygen delivery rate
-			</legend>
-			<h3>Oxygen delivery rate</h3>
-			<p>
-				<obs conceptId="LFHC:1158" showUnits="true"/>
-			</p>
-		</fieldset>
-		<fieldset>
-			<legend>
-				Oxygen saturation goal
-			</legend>
-			<h3>Oxygen saturation goal</h3>
-			<p>
-				<obs conceptId="LFHC:1159"/>
-			</p>
-		</fieldset>
-		<fieldset>
-			<legend>
-				Airway suctioning
-			</legend>
-			<h3>Airway suctioning</h3>
-			<p>
-				<obs conceptId="LFHC:1160"/>
-			</p>
-		</fieldset>
-		<fieldset>
-			<legend>
-				Dressing Changes
-			</legend>
-			<h3>Dressing Changes</h3>
-			<p>
-				<obs conceptId="LFHC:1043"/>
-			</p>
-		</fieldset>
-		<fieldset>
-			<legend>
-				Notify for following
-			</legend>
-			<h3>Notify for following</h3>
-			<p>
-				<obs conceptId="LFHC:1165" rows="4" cols="50"/>
-			</p>
-		</fieldset>
-	</obsgroup>
-</section>
-
-<submit/>
-
-</htmlform>
+	</htmlform>
