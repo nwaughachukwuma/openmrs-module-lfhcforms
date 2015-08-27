@@ -7,8 +7,8 @@
         <option value ="LFHC:913">Lao</option>
         <option value ="LFHC:914">Hmong</option>
         <option value ="LFHC:915">Khmu</option>
-        <option value ="LFHC:916">Chinese</option>
-        <option value ="LFHC:917">Thai</option>
+        <option value ="LFHC:916">Mien</option>
+        <option value ="LFHC:917">Rau</option>
         <option value ="LFHC:918">English</option>
         <option value ="LFHC:919">Other</option>
     </select>
