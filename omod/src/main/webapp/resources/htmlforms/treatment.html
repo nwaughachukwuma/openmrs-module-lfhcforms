@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.5">
->>>>>>> dev
-
 <htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.5">
 
 
@@ -68,8 +63,6 @@
 					if (!(jQuery(".toggleContainer").find('.value').text() == "")) {
 						jQuery(".toggleContainer").show();
 					}
-
-					alert("");
 					// remove buttons
 					jQuery('.addEntry').remove();
 					jQuery('.removeEntry').remove();
@@ -79,15 +72,11 @@
 						
 						jQuery(this).hide();
 
-						//alert(index + ": " + jQuery(this).find("h3").text());
-
 						// Show all non-empty obs
 						jQuery(this).find(".value").closest("fieldset").show();
 						// or hide fields with empty value
 
 						jQuery(this).find(".value").each(function (index1, element) {
-						//	alert(index1 + ": "+ jQuery(element).text());
-
 						if (jQuery(element).text() == "") {
 							jQuery(element).closest("fieldset").hide();	
 						}	
