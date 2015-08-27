@@ -1,10 +1,10 @@
-<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.4">
+<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.4.1">
 
 
 
 <script type="text/javascript">
 
-	<!-- 07/08/2015 Romain: Dose Calculation Helper is set aside to simplify the UI
+	<!-- 07/08/2015 Romain: Dose Calculation Helper is set aside for now to simplify the UI
 
 	function calculateDose (weight, doseCalculation){
 		var dose = (weight * doseCalculation);
@@ -38,7 +38,7 @@ jQuery(function () {
 	jQuery("#weight-null").hide();
 
 
-	var weight = jQuery(htmlform).find("#weight").text();
+	var weight = jQuery(this).find("#weight").text();
 
 	if (!(weight === "")) {
 		jQuery("#weight-value").show();
