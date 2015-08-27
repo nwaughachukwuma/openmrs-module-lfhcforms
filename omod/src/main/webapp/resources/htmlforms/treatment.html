@@ -1,52 +1,55 @@
-	<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.4">
+
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.5">
 
 
-	<ifMode mode="VIEW" include="false">
-		<script type="text/javascript">
-			if(jQuery){
-				jQuery(document).ready(function(){
 
-					jQuery('#10-addEntry').remove();
-					for (var i=1 ; i &lt; 10 ; i++) {
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript">
+		if(jQuery){
+			jQuery(document).ready(function(){
 
-						jQuery("#"+i+"01-removeEntry").remove();
-						jQuery("#"+i+"01-toggleContainer").show();
-					}
-					jQuery('#11-removeEntry').remove();
-					jQuery('#20-addEntry').remove();
-					jQuery('#11-toggleContainer').show();
+				jQuery('#10-addEntry').remove();
+				for (var i=1 ; i &lt; 10 ; i++) {
 
-				});
+					jQuery("#"+i+"01-removeEntry").remove();
+					jQuery("#"+i+"01-toggleContainer").show();
+				}
+				jQuery('#11-removeEntry').remove();
+				jQuery('#20-addEntry').remove();
+				jQuery('#11-toggleContainer').show();
+
+			});
 
 
-				jQuery(document).ready(function(){
+			jQuery(document).ready(function(){
 
-					jQuery('i.addEntry').click(function(){
-						var correctedAddButtonId = parseFloat(this.id) + 1;
+				jQuery('i.addEntry').click(function(){
+					var correctedAddButtonId = parseFloat(this.id) + 1;
 
-						var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-						jQuery(contentAddId).toggle(true);
-						jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-						return false;});
-				});
+					var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
+					jQuery(contentAddId).toggle(true);
+					jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
+					return false;});
+			});
 
-				jQuery(document).ready(function(){
-					jQuery('i.removeEntry').click(function(){
-						var correctedRemoveButtonId = parseFloat(this.id) - 1;
-						var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-						jQuery(contentAddId).toggle(false);
-						jQuery( ':input:not(:button)', contentAddId).val([]);
-						jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
+			jQuery(document).ready(function(){
+				jQuery('i.removeEntry').click(function(){
+					var correctedRemoveButtonId = parseFloat(this.id) - 1;
+					var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
+					jQuery(contentAddId).toggle(false);
+					jQuery( ':input:not(:button)', contentAddId).val([]);
+					jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
 
-						return false;});
+					return false;});
 
-				});
-			}
-		</script>
-	</ifMode>
+			});
 
-	<ifMode mode="VIEW">
-		<script type="text/javascript">
+		}
+	</script>
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript">
 
 			// JavaScript for VIEW mode
 
@@ -55,37 +58,45 @@
 				jQuery(document).ready(function(){
 
 
-					// Handle the VIEW mode for the toggle-Containers
-					for (var i=1 ; i &lt; 10 ; i++) {
-						// display only fields with observations
-						for (var j=0 ; j &lt; 10 ; j++) {
-							for (var k=0 ; k &lt; 10 ; k++) {
-								if (!(jQuery("#"+i+j+k+"-toggleContainer").find('.value').text() == "")) {
-									jQuery("#"+i+j+k+"-toggleContainer").show();
-								}
-							}
-						}
+					// Handle the VIEW mode for the toggleContainers
+					// display only fields with observations
+
+					if (!(jQuery(".toggleContainer").find('.value').text() == "")) {
+						jQuery(".toggleContainer").show();
 					}
+
+					alert("");
 					// remove buttons
 					jQuery('.addEntry').remove();
 					jQuery('.removeEntry').remove();
 
-
-					jQuery("fieldset").each(function () {
+					var i = 1;
+					jQuery("fieldset").each(function (index) {
+						
 						jQuery(this).hide();
 
-						// Hide empty obs
+						//alert(index + ": " + jQuery(this).find("h3").text());
+
+						// Show all non-empty obs
 						jQuery(this).find(".value").closest("fieldset").show();
-						// or fields with empty value
-						if (jQuery(this).find(".value").text() == "") {
-							jQuery(this).hide();
-						}
+						// or hide fields with empty value
+
+						jQuery(this).find(".value").each(function (index1, element) {
+						//	alert(index1 + ": "+ jQuery(element).text());
+
+						if (jQuery(element).text() == "") {
+							jQuery(element).closest("fieldset").hide();	
+						}	
+					})
+						
 						// handle the "when" markup
 						jQuery(this).find(".thenDisplay").find(".value").each(function (index, thenDisplay) {
 							if (jQuery(this).text() == "") {
 								jQuery(this).closest("p").hide();
 							}
+
 						});
+						i = i+1;
 					});
 
 				});
@@ -173,9 +184,9 @@
 		<h3>Laboratory test order</h3>
 		<repeat>
 			<template>
-				<div id="{n}-toggleContainer" style="display:none;" >
+				<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;" >
 					<p>
-						<obs id="{n}-order" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1125,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
+						<obs id="{n}-order" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
 						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
 						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 					</p>
@@ -195,6 +206,7 @@
 				</strong>
 			</p>
 		</ifMode>
+
 	</fieldset>
 	<fieldset field-separator=", ">
 
@@ -202,7 +214,7 @@
 		<h3>X-ray order</h3>
 		<repeat>
 			<template>
-				<div id="{n}-toggleContainer" style="display:none;">
+				<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;">
 					<p>
 						<obs id="{n}-order" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
 						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
@@ -233,7 +245,7 @@
 		<h3>Ultrasound order</h3>
 		<repeat>
 			<template>
-				<div id="{n}-toggleContainer" style="display:none;" >
+				<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;" >
 					<p>
 						<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>    
 						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
@@ -304,7 +316,7 @@
 		<p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
+					<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;" >
 						<obsgroup groupingConceptId="LFHC:1055">
 							<p>
 								<obs id="{n}-order" conceptId="LFHC:1054"/>
@@ -342,25 +354,25 @@
 		<ifMode mode="VIEW" include="false">
 			What diet should the patient be eating?
 		</ifMode>
-<p>
-	<obs id="diet" conceptId="LFHC:1047">
-		<controls>
-			<when value="CIEL:985" thenDisplay="#feeding-plan">
-			</when>
-		</controls>
-	</obs>
-</p>
-<br/>
-<span class="thenDisplay" id="feeding-plan">
-	<obsgroup groupingConceptId="CIEL:162046">
 		<p>
-			<obs conceptId="CIEL:985" labelText="Feeding plan: "/>
+			<obs id="diet" conceptId="LFHC:1047">
+				<controls>
+					<when value="CIEL:985" thenDisplay="#feeding-plan">
+					</when>
+				</controls>
+			</obs>
 		</p>
-		<p>
-			<obs conceptId="CIEL:160632" labelText="Comments: " rows="4" columns="60"/>
-		</p>
-	</obsgroup>
-</span>
+		<br/>
+		<span class="thenDisplay" id="feeding-plan">
+			<obsgroup groupingConceptId="CIEL:162046">
+				<p>
+					<obs conceptId="CIEL:985" labelText="Feeding plan: "/>
+				</p>
+				<p>
+					<obs conceptId="CIEL:160632" labelText="Comments: " rows="4" columns="60"/>
+				</p>
+			</obsgroup>
+		</span>
 
 	</fieldset>
 
