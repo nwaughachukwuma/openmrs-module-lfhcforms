@@ -3,7 +3,7 @@
 
 
 <ifMode mode="VIEW" include="false">
-	<script type="text/javascript">
+	<script type="text/javascript" id="handleEnterEditMode">
 		if(jQuery){
 			jQuery(document).ready(function(){
 
@@ -48,7 +48,7 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript">
+	<script type="text/javascript" id="handleViewMode">
 
 			// JavaScript for VIEW mode
 
@@ -56,43 +56,53 @@
 
 				jQuery(document).ready(function(){
 
+					jQuery("htmlform").each(function (index, currentForm) {
+						if (jQuery(currentForm).attr("formUuid") == "3faa978f-8c89-4f8e-b29f-17fd11099ecf") {
 
-					// Handle the VIEW mode for the toggleContainers
-					// display only fields with observations
-
-					if (!(jQuery(".toggleContainer").find('.value').text() == "")) {
-						jQuery(".toggleContainer").show();
-					}
-					// remove buttons
-					jQuery('.addEntry').remove();
-					jQuery('.removeEntry').remove();
-
-					var i = 1;
-					jQuery("fieldset").each(function (index) {
-						
-						jQuery(this).hide();
-
-						// Show all non-empty obs
-						jQuery(this).find(".value").closest("fieldset").show();
-						// or hide fields with empty value
-
-						jQuery(this).find(".value").each(function (index1, element) {
-						if (jQuery(element).text() == "") {
-							jQuery(element).closest("fieldset").hide();	
-						}	
-					})
-						
-						// handle the "when" markup
-						jQuery(this).find(".thenDisplay").find(".value").each(function (index, thenDisplay) {
-							if (jQuery(this).text() == "") {
-								jQuery(this).closest("p").hide();
+							// Handle the VIEW mode for the toggleContainers
+							// display only fields with observations
+							if (!(jQuery(currentForm).find(".toggleContainer").find('.value').text() == "")) {
+								jQuery(currentForm).find(".toggleContainer").show();
 							}
+							// remove buttons
+							jQuery(currentForm).find('.addEntry').remove();
+							jQuery(currentForm).find('.removeEntry').remove();
 
-						});
-						i = i+1;
+							var i = 1;
+							jQuery(currentForm).find("fieldset").each(function (index) {
+
+								jQuery(this).hide();
+
+								// Show all non-empty obs
+								jQuery(this).find(".value").closest("fieldset").show();
+								// or hide fields with empty value
+
+								jQuery(this).find(".value").each(function (index1, element) {
+									if (jQuery(element).text() == "") {
+										jQuery(element).closest("fieldset").hide();	
+									}	
+								})
+
+								// handle the "when" markup
+								jQuery(this).find(".thenDisplay").find(".value").each(function (index, thenDisplay) {
+									if (jQuery(this).text() == "") {
+										jQuery(this).closest("p").hide();
+									}
+
+								});
+								i = i+1;
+							});
+
+
+
+
+						}
+
+
 					});
 
-				});
+
+});
 }
 </script>
 
@@ -125,14 +135,6 @@
 		</span>
 	</p>
 </div>
-<style type="text/css">
-	.tg {
-		table-layout: fixed;
-		width: 70%;
-		margin-left: 10px;
-	}
-
-</style>
 
 <section id="treatment" sectionTag="section" headerStyle="title" headerCode="Treatment">
 
