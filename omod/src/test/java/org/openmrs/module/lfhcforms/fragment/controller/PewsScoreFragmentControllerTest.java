@@ -1,19 +1,12 @@
 package org.openmrs.module.lfhcforms.fragment.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.type.MapType;
-import org.codehaus.jackson.map.type.TypeFactory;
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.module.lfhcforms.fragment.controller.PewsScoreFragmentController.Boundaries;
 import org.openmrs.module.lfhcforms.utils.DefaultResouceLoaderImpl;
-import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 
 public class PewsScoreFragmentControllerTest {
 	
@@ -25,17 +18,11 @@ public class PewsScoreFragmentControllerTest {
 	public void fooBar() throws IOException {
 		
 		String json = "";
-
-		ResourceLoader loader = new DefaultResouceLoaderImpl();
-		json = loader.getResourceAsSting("boundaries.json", "UTF-8");
 		
+		PewsScoreFragmentController controller = new PewsScoreFragmentController();
+		json = controller.getBoundariesJson(new DefaultResouceLoaderImpl(), "boundaries.json");
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		
-		TypeFactory typeFactory = mapper.getTypeFactory();
-		MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, PewsScoreFragmentController.Boundaries.class);
-		HashMap<String, PewsScoreFragmentController.Boundaries> map = mapper.readValue(json, mapType);
+		Map<String, Boundaries> map = controller.getBoundariesMapFromJson(json);
 		map.clear();
 		
 		

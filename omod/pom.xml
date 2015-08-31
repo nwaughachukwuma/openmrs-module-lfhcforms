@@ -116,7 +116,7 @@
 			<filtering>true</filtering>
 		</testResource>
 		<testResource>
-			<directory>src/main/webapp/resources/pewsScore/</directory>
+			<directory>src/main/webapp/resources</directory>
 		</testResource>
 	</testResources>
 

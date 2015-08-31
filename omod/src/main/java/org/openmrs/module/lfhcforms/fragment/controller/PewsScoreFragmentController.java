@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.MapType;
 import org.codehaus.jackson.map.type.TypeFactory;
+import org.jfree.util.Log;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
+import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
+import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -31,12 +33,25 @@ public class PewsScoreFragmentController {
 		
 		private String description = "";
 		private String conceptMapping = "";
+		private String parentId = "";
 		private List<Double> lows = new ArrayList<Double>();
+		public String getParentId() {
+			return parentId;
+		}
+
+		public void setParentId(String parentId) {
+			this.parentId = parentId;
+		}
+
 		private List<Double> highs = new ArrayList<Double>();
 		private List<String> whenAnswers = new ArrayList<String>();
 		
 		public boolean isNumeric() {
 			return whenAnswers.size() == 0;
+		}
+		
+		public boolean hasParent() {
+			return getParentId().length() == 0;
 		}
 		
 		public List<String> getWhenAnswers() {
@@ -80,38 +95,47 @@ public class PewsScoreFragmentController {
 		}
 	}
 	
+	protected String getBoundariesJson(ResourceLoader resourceLoader, String resourcePath) {
+
+		String json = "";
+		try {
+			json = resourceLoader.getResourceAsSting(resourcePath, "UTF-8");
+		} catch (IOException e) {
+			Log.error("There was an error loading " + resourcePath, e);
+		}
+		return json;
+	}
 	
+	protected Map<String, Boundaries> getBoundariesMapFromJson(String json) {
+		
+		final ObjectMapper mapper = new ObjectMapper();
+		
+		TypeFactory typeFactory = mapper.getTypeFactory();
+		MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, Boundaries.class);
+		
+		HashMap<String, Boundaries> boundariesMap = null;
+		try {
+			boundariesMap = mapper.readValue(json, mapType);
+		} catch (Exception e) {
+			Log.error("There was an error unmarshalling JSON data: \n" + json, e);
+		}
+		
+		return boundariesMap;
+	}
+		
 	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
 			,	@SpringBean("conceptService") ConceptService conceptService
 			,	@SpringBean("obsService") ObsService obsService
+			,	ResourceLoader loader
 																)
 	{
-		ResourceFactory resourceFactory = ResourceFactory.getInstance();
-		String json = "";
-		try {
-			json = resourceFactory.getResourceAsString("lfhcforms", "pewsScore/boundaries.json");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
 		
-		final ObjectMapper mapper = new ObjectMapper();
-		TypeFactory typeFactory = mapper.getTypeFactory();
-		MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, PewsScoreFragmentController.Boundaries.class);
-		HashMap<String, PewsScoreFragmentController.Boundaries> result = null;
-		
-		try {
-			result = mapper.readValue(json, mapType);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		Map<String, Boundaries> boundariesMap = getBoundariesMapFromJson(json);
+				
 		String pews = "";
-		if(result != null) {
-			Boundaries bound = result.get("heartRate");
+		if(boundariesMap != null) {
+			Boundaries bound = boundariesMap.get("CIEL:5087"); // heart rate & blood pressure
 			pews = "Min. value: " + bound.getLows().get(0) + ", max. value: " + bound.getHighs().get(0);
 		}
 		model.addAttribute("pews", pews);
