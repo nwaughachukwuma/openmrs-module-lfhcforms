@@ -1,6 +1,7 @@
 {
   "CIEL:5242":{
     "description":"Respiratory rate",
+    "increment":1.0,
     "lows":[
       20.0,
       20.0,
@@ -27,7 +28,7 @@
     ]
   },
   "CIEL:113316":{
-    "description":"Grunting (NOISY BREATHING)",
+    "description":"Grunting (Noisy breathing)",
     "parentId":"respiratoryDistress",
     "whenAnswers":[
       "CIEL:1065"
