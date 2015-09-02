@@ -1,4 +1,4 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.6">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.7">
 
 
 
@@ -48,63 +48,16 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
+	<script type="text/javascript" id="properViewMode">
 
-			// JavaScript for VIEW mode
+		// JavaScript for VIEW mode
 
-			if(jQuery){
-
-				jQuery(document).ready(function(){
-
-					jQuery("htmlform").each(function (index, currentForm) {
-						if (jQuery(currentForm).attr("formUuid") == "3faa978f-8c89-4f8e-b29f-17fd11099ecf") {
-
-							// Handle the VIEW mode for the toggleContainers
-							// display only fields with observations
-							if (!(jQuery(currentForm).find(".toggleContainer").find('.value').text() == "")) {
-								jQuery(currentForm).find(".toggleContainer").show();
-							}
-							// remove buttons
-							jQuery(currentForm).find('.addEntry').remove();
-							jQuery(currentForm).find('.removeEntry').remove();
-
-							var i = 1;
-							jQuery(currentForm).find("fieldset").each(function (index) {
-
-								jQuery(this).hide();
-
-								// Show all non-empty obs
-								jQuery(this).find(".value").closest("fieldset").show();
-								// or hide fields with empty value
-
-								jQuery(this).find(".value").each(function (index1, element) {
-									if (jQuery(element).text() == "") {
-										jQuery(element).closest("fieldset").hide();	
-									}	
-								})
-
-								// handle the "when" markup
-								jQuery(this).find(".thenDisplay").find(".value").each(function (index, thenDisplay) {
-									if (jQuery(this).text() == "") {
-										jQuery(this).closest("p").hide();
-									}
-
-								});
-								i = i+1;
-							});
-
-
-
-
-						}
-
-
-					});
-
-
-});
-}
-</script>
+		if(jQuery){
+			jQuery(document).ready(function(){
+				properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
+			});
+		}
+	</script>
 
 </ifMode>
 
@@ -294,37 +247,36 @@
 
 		<legend>IV fluids order</legend>
 		<h3>Intravenous fluids order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;" >
-						<obsgroup groupingConceptId="LFHC:1055">
-							<p>
-								<obs id="{n}-order" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
-							</p>
-							<p>
-								<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
-							</p>
-							<p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-							</p>
-							<br/>
-						</obsgroup>
-					</div>
-				</template>
-				<render n="501"/>
-				<render n="502"/>
-				<render n="503"/>
-				<render n="504"/>
-				<render n="505"/>
-				<render n="506"/>
-				<render n="507"/>
-				<render n="508"/>
-				<render n="509"/>
 
-			</repeat>
-		</p>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" class="toggleContainer" style="display:none;" >
+					<obsgroup groupingConceptId="LFHC:1055">
+						<p>
+							<obs id="{n}-order" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
+						</p>
+						<p>
+							<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
+						</p>
+						<p>
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
+					</obsgroup>
+				</div>
+			</template>
+			<render n="501"/>
+			<render n="502"/>
+			<render n="503"/>
+			<render n="504"/>
+			<render n="505"/>
+			<render n="506"/>
+			<render n="507"/>
+			<render n="508"/>
+			<render n="509"/>
+
+		</repeat>
+
 	</fieldset>
 
 
