@@ -1,0 +1,8 @@
+/* Override the style when displaying HTML forms in VIEW mode in the Patient Dashboard */ 
+.collapse .title {
+	color: rgb(0, 147, 132);
+	font-family: OpenSans, Arial, sans-serif;
+	font-size: 1.1em;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
