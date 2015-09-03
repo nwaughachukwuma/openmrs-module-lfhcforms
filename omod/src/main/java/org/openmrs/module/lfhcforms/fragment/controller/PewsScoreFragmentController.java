@@ -3,7 +3,6 @@ package org.openmrs.module.lfhcforms.fragment.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -14,14 +13,14 @@ import org.codehaus.jackson.map.type.MapType;
 import org.codehaus.jackson.map.type.TypeFactory;
 import org.jfree.util.Log;
 import org.joda.time.DateTime;
-import org.joda.time.Period;
+import org.joda.time.Days;
 import org.openmrs.Concept;
-import org.openmrs.ConceptMap;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
+import org.openmrs.api.PatientService;
 import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import org.openmrs.ui.framework.UiUtils;
@@ -29,7 +28,15 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
+/**
+ * Populates the patient's page PEwS score widget's view.
+ * 
+ * @author Dimitri Renault
+ */
 public class PewsScoreFragmentController {
+	
+	// Simple configuration where each PEWS score component is capped.
+	final protected static double PEWS_COMPONENT_CAP = 1.0;
 
 	/*
 	 * This is a Jackson friendly class to hold the limits of a component of the PEWS calculation.
@@ -39,6 +46,8 @@ public class PewsScoreFragmentController {
 		
 		public Boundaries() {};
 		
+		private Boolean isActive = true;
+
 		private Double increment = 0.0;
 		private String description = "";
 		private String conceptMapping = "";
@@ -48,14 +57,26 @@ public class PewsScoreFragmentController {
 		private List<Double> highs = new ArrayList<Double>();
 		private List<String> whenAnswers = new ArrayList<String>();
 		
+		public boolean isActive() {
+			return getIsActive();
+		}
+		
 		public boolean isNumeric() {
 			return whenAnswers.size() == 0;
 		}
 		
 		public boolean hasParent() {
-			return getParentId().length() == 0;
+			return !getParentId().isEmpty();
 		}
 
+		public Boolean getIsActive() {
+			return isActive;
+		}
+
+		public void setIsActive(Boolean isActive) {
+			this.isActive = isActive;
+		}
+		
 		public Double getIncrement() {
 			return increment;
 		}
@@ -113,7 +134,12 @@ public class PewsScoreFragmentController {
 		}
 	}
 	
-	protected String getBoundariesJson(ResourceLoader resourceLoader, String resourcePath) {
+	/**
+	 * @param resourceLoader
+	 * @param resourcePath
+	 * @return The JSON String defining the PEWS limits (boundaries).
+	 */
+	protected String getBoundariesJson(final ResourceLoader resourceLoader, String resourcePath) {
 
 		String json = "";
 		try {
@@ -124,6 +150,10 @@ public class PewsScoreFragmentController {
 		return json;
 	}
 	
+	/**
+	 * Unmarshalls the boundaries JSON into a map of {@link Boundaries#}.
+	 * @param json
+	 */
 	protected Map<String, Boundaries> getBoundariesMapFromJson(String json) {
 		
 		final ObjectMapper mapper = new ObjectMapper();
@@ -142,11 +172,13 @@ public class PewsScoreFragmentController {
 	}
 	
 	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
+			,	@SpringBean("patientService") PatientService patientService
 			,	@SpringBean("conceptService") ConceptService conceptService
 			,	@SpringBean("obsService") ObsService obsService
 																)
 	{	
-		int ageInMonths = (int) getPatientAgeInMonths(patient.getBirthdate()); 
+		patient = patientService.getPatient(patient.getId());
+		int ageInMonths = (int) (Days.daysBetween(new DateTime(patient.getBirthdate()), DateTime.now()).getDays() / (365.0/12)); // Patient age truncation in months
 		
 		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
 		
@@ -154,51 +186,57 @@ public class PewsScoreFragmentController {
 				
 		Map<String, Double> pewsComponents = new HashMap<String, Double>();
 		
-		String err = "";
+		String viewErrMsg = "";		
 		for(String conceptMapping : boundariesMap.keySet()) {
 			
-			String[] split = conceptMapping.split(":");
-			Concept concept = conceptService.getConceptByMapping(split[1], split[0]);
+			Boundaries boundaries = boundariesMap.get(conceptMapping);
+			if(!boundaries.isActive())
+				continue;
+			
+			String[] splitMapping = conceptMapping.split(":");
+			Concept concept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
 
 			Obs obs = getLastObs(obsService, patient, concept);
 			if(obs == null) {
-				//TODO Report on the widget that the PEWS score cannot be calculated.
-				err = concept.getName(Locale.ENGLISH).getName() + " required for PEWS score has no obs recorded.";
+				viewErrMsg = "'" + concept.getName(Locale.ENGLISH).getName() + "' required for PEWS score has no obs recorded.";
 				break;
 			}
 			
-			// TODO Maybe check that all obs date-time are within a window (and recorded the oldest date-time as the PEWS timestamp
+			// TODO Maybe check that all obs date-time are within a window (and record the oldest date-time as the PEWS timestamp
 			
-			String component = conceptMapping;
-			Boundaries boundaries = boundariesMap.get(conceptMapping);
+			String component = conceptMapping;			
+			// initialization
 			if(boundaries.hasParent()) {
 				component = boundaries.getParentId();
 			}
 			if(!pewsComponents.containsKey(component))
 				pewsComponents.put(component, 0.0);
-
+			// PEWS component calculation/update
 			Double updatedComponent = pewsComponents.get(component) + getPewsComponentIncrement(conceptService, obs, boundaries, ageInMonths);
+			updatedComponent = Math.min(PEWS_COMPONENT_CAP, updatedComponent);
 			pewsComponents.put(component, updatedComponent);
 		}
 		
 		String pews = "";
-		if(boundariesMap != null) {
-			Boundaries bound = boundariesMap.get("CIEL:5087"); // heart rate & blood pressure
-			pews = "Min. value: " + bound.getLows().get(0) + ", max. value: " + bound.getHighs().get(0);
+		if(viewErrMsg.isEmpty()) {
+			// Summing up the PEWS components.
+			Double pewsScore = 0.0;
+			for(Double val : pewsComponents.values())
+				pewsScore += val;
+			pews = "PEWS score = " + pewsScore;
 		}
+		else {
+			pews = viewErrMsg;
+		}
+			
 		model.addAttribute("pews", pews);
 	}
-
-	private double getPatientAgeInMonths(Date birthdate) {
-		
-		DateTime now = DateTime.now();
-		DateTime then = new DateTime(birthdate);
-		
-		Period period = new Period(then, now);
-
-		return ((double) period.getDays()) / (365/12);
-	}
-
+	
+	/**
+	 * @param patientAge, in months
+	 * @return The index to use in 'highs' and 'lows' based on the patient's age.
+	 * Example: 0 for 0-11m, 1 for 12m to 4y, 2 for 5y+
+	 */
 	protected int getIndexBasedOnAge(int patientAge) {
 		if(patientAge < 12)
 			return 0;
@@ -207,6 +245,14 @@ public class PewsScoreFragmentController {
 		return 2;
 	}
 	
+	/**
+	 * From on the concept's boundaries, this returns the PEWS score increment from the answered obs.
+	 * @param conceptService
+	 * @param obs The answer to the concept question framed by boundaries.
+	 * @param boundaries The {@link Boundaries#} to check the answered obs against.
+	 * @param patientAge in months
+	 * @return The PEWS score increment.
+	 */
 	protected Double getPewsComponentIncrement(final ConceptService conceptService, Obs obs, Boundaries boundaries, int patientAge) {
 		
 		Double increment = 0.0;

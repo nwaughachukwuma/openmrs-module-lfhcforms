@@ -15,6 +15,7 @@
   },
   "CIEL:136768":{
     "description":"Intercostal recession (Chest wall indrawing)",
+    "increment":1.0,
     "parentId":"respiratoryDistress",
     "whenAnswers":[
       "CIEL:1065"
@@ -22,6 +23,7 @@
   },
   "CIEL:1861":{
     "description":"Nostril flaring (Nasal flaring)",
+    "increment":1.0,
     "parentId":"respiratoryDistress",
     "whenAnswers":[
       "CIEL:1065"
@@ -29,6 +31,7 @@
   },
   "CIEL:113316":{
     "description":"Grunting (Noisy breathing)",
+    "increment":1.0,
     "parentId":"respiratoryDistress",
     "whenAnswers":[
       "CIEL:1065"
@@ -36,6 +39,7 @@
   },
   "LFHC:1025":{
     "description":"Head bobbing",
+    "increment":1.0,
     "parentId":"respiratoryDistress",
     "whenAnswers":[
       "CIEL:1065"
@@ -43,6 +47,7 @@
   },
   "CIEL:5087":{
     "description":"Heart rate & blood pressure",
+    "increment":1.0,
     "lows":[
       80.0,
       70.0,
@@ -54,14 +59,26 @@
       130.0
     ]
   },
-  "CIEL:162643":{
-    "description":"Conscious level",
+  "CIEL:135592":{
+    "description":"Loss of consciousness",
+    "increment":1.0,
     "whenAnswers":[
-      "CIEL:160282"
+      "CIEL:1065"
+    ]
+  },
+  "CIEL:162643":{
+  	"isActive":"false",
+    "description":"Conscious level",
+    "increment":1.0,
+    "whenAnswers":[
+      "CIEL:162644",
+      "CIEL:162645",
+      "CIEL:159508"    
     ]
   },
   "CIEL:5088":{
     "description":"Temperature",
+    "increment":1.0,
     "lows":[
       35.0,
       35.0,
