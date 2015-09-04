@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 
@@ -89,10 +90,16 @@ public class PewsScoreFragmentControllerTest {
 	public void getPewsComponentIncrement_checkBoundaries() {
 	
 		HashMap<String, Integer> parentIdsCount = new HashMap<String, Integer>();
+		HashSet<String> labels = new HashSet<String>();
 		for(Boundaries boundaries : boundariesMap.values()) {
 			
 			if(!boundaries.isActive())
 				continue;
+			
+			if(false == boundaries.getLabel().isEmpty()) {
+				assertTrue(false == labels.contains(boundaries.getLabel()));
+				labels.add(boundaries.getLabel());
+			}
 			
 			if(boundaries.isNumeric()) {
 				int maxAgeIdx = controller.getIndexBasedOnAge(Integer.MAX_VALUE);
@@ -102,7 +109,7 @@ public class PewsScoreFragmentControllerTest {
 				for(int i = 0; i < boundaries.getHighs().size(); i++)
 					assertTrue(boundaries.getLows().get(i) <= boundaries.getHighs().get(i));
 			}
-			else {
+			else if(!boundaries.isConfig()) {
 				assertEquals(boundaries.getWhenAnswers().isEmpty(), false);
 				assertEquals(boundaries.getHighs().size(), 0); 
 				assertEquals(boundaries.getHighs().size(), boundaries.getLows().size());
@@ -111,6 +118,11 @@ public class PewsScoreFragmentControllerTest {
 			
 			if(boundaries.hasParent()) {
 				String id = boundaries.getParentId();
+				assertTrue(boundariesMap.containsKey(id));
+				Boundaries parentBoundaries = boundariesMap.get(id);
+				assertTrue(false == parentBoundaries.getLabel().isEmpty());
+				assertTrue(boundaries.getLabel().isEmpty());
+				
 				if(!parentIdsCount.containsKey(id))
 					parentIdsCount.put(id, 0);
 				parentIdsCount.put(id, parentIdsCount.get(id) + 1);

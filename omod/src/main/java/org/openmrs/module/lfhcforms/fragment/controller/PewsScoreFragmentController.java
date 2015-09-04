@@ -48,8 +48,10 @@ public class PewsScoreFragmentController {
 		
 		private Boolean isActive = true;
 
+		private Boolean isConfig = false; // Used for parents only, to configure a set of children
 		private Double increment = 0.0;
 		private String description = "";
+		private String label = "";
 		private String conceptMapping = "";
 		private String parentId = "";
 		private List<Double> lows = new ArrayList<Double>();
@@ -62,11 +64,23 @@ public class PewsScoreFragmentController {
 		}
 		
 		public boolean isNumeric() {
-			return whenAnswers.size() == 0;
+			return getWhenAnswers().size() == 0 && !isConfig();
 		}
 		
 		public boolean hasParent() {
 			return !getParentId().isEmpty();
+		}
+
+		public boolean isConfig() {
+			return getIsConfig();
+		}
+		
+		public Boolean getIsConfig() {
+			return isConfig;
+		}
+
+		public void setIsConfig(Boolean isConfig) {
+			this.isConfig = isConfig;
 		}
 
 		public Boolean getIsActive() {
@@ -101,6 +115,14 @@ public class PewsScoreFragmentController {
 			this.description = description;
 		}
 
+		public String getLabel() {
+			return label;
+		}
+
+		public void setLabel(String label) {
+			this.label = label;
+		}
+
 		public String getConceptMapping() {
 			return conceptMapping;
 		}
@@ -131,6 +153,18 @@ public class PewsScoreFragmentController {
 
 		public void setParentId(String parentId) {
 			this.parentId = parentId;
+		}
+	}
+	
+	/*
+	 * Convenience structured type to send the PEWS score components to the view
+	 */
+	public static class Component {
+		public String label = "";
+		public Double value = 0.0;
+		
+		public Component(String label) {
+			this.label = label;
 		}
 	}
 	
@@ -174,23 +208,22 @@ public class PewsScoreFragmentController {
 	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
 			,	@SpringBean("patientService") PatientService patientService
 			,	@SpringBean("conceptService") ConceptService conceptService
-			,	@SpringBean("obsService") ObsService obsService
+			,	@SpringBean("obsService")	  ObsService obsService
 																)
 	{	
 		patient = patientService.getPatient(patient.getId());
 		int ageInMonths = (int) (Days.daysBetween(new DateTime(patient.getBirthdate()), DateTime.now()).getDays() / (365.0/12)); // Patient age truncation in months
 		
 		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
-		
 		Map<String, Boundaries> boundariesMap = getBoundariesMapFromJson(json);
 				
-		Map<String, Double> pewsComponents = new HashMap<String, Double>();
+		Map<String, Component> pewsComponents = new HashMap<String, Component>();
 		
 		String viewErrMsg = "";		
 		for(String conceptMapping : boundariesMap.keySet()) {
 			
 			Boundaries boundaries = boundariesMap.get(conceptMapping);
-			if(!boundaries.isActive())
+			if(!boundaries.isActive() || boundaries.isConfig())
 				continue;
 			
 			String[] splitMapping = conceptMapping.split(":");
@@ -204,25 +237,29 @@ public class PewsScoreFragmentController {
 			
 			// TODO Maybe check that all obs date-time are within a window (and record the oldest date-time as the PEWS timestamp
 			
-			String component = conceptMapping;			
+			String componentId = conceptMapping;			
 			// initialization
 			if(boundaries.hasParent()) {
-				component = boundaries.getParentId();
+				componentId = boundaries.getParentId();
 			}
-			if(!pewsComponents.containsKey(component))
-				pewsComponents.put(component, 0.0);
+			if(!pewsComponents.containsKey(componentId)) {
+				String label = ui.message(boundariesMap.get(componentId).getLabel());
+				pewsComponents.put(componentId, new Component(label));
+			}
 			// PEWS component calculation/update
-			Double updatedComponent = pewsComponents.get(component) + getPewsComponentIncrement(conceptService, obs, boundaries, ageInMonths);
-			updatedComponent = Math.min(PEWS_COMPONENT_CAP, updatedComponent);
-			pewsComponents.put(component, updatedComponent);
+			final Component component = pewsComponents.get(componentId);
+			component.value += getPewsComponentIncrement(conceptService, obs, boundaries, ageInMonths);
+			Double incrementCap = boundariesMap.get(componentId).getIncrement();	
+			component.value = Math.min(incrementCap, component.value);	// The parent provides the max increment
+			pewsComponents.put(componentId, component);
 		}
 		
 		String pews = "";
 		if(viewErrMsg.isEmpty()) {
 			// Summing up the PEWS components.
 			Double pewsScore = 0.0;
-			for(Double val : pewsComponents.values())
-				pewsScore += val;
+			for(Component component : pewsComponents.values())
+				pewsScore += component.value;
 			pews = "PEWS score = " + pewsScore;
 		}
 		else {
@@ -230,6 +267,7 @@ public class PewsScoreFragmentController {
 		}
 			
 		model.addAttribute("pews", pews);
+		model.addAttribute("pewsComponents", pewsComponents.values());
 	}
 	
 	/**
