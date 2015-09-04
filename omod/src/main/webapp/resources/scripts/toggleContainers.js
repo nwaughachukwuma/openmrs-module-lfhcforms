@@ -25,7 +25,8 @@
 For future tests:
 templateBlockId will identify the whole block template. It has to be unique. It is mandatory
 class="toggleContainer" has to be provided to the div in order to apply any logic. Mandatory
-the *toggleContainer id has to be in the form of {n}String* (ex: {n}thisIsAToggleContainer) because of the parsefloat function 
+the *toggleContainer id has to be in the form of {n}String* (ex: {n}thisIsAToggleContainer) because of the parsefloat function
+the obs id has to be {n} 
 style="display:none;" is mandatory
 a field with class="addEntry" has to be provided somewhere. Mandatory
 a field with class="removeEntry" has to be provided somewhere. Mandatory
