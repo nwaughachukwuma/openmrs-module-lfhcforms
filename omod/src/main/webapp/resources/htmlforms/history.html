@@ -1,45 +1,12 @@
-<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.2">
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.3">
+
+<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 <script type="text/javascript">
-	if(jQuery){
 		jQuery(document).ready(function(){
-			
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
+			toggleContainers();
 		});
-		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
 </script>
-
 
 
 <div class="hidden" id="who-when-where">
@@ -152,13 +119,13 @@
 		<repeat>
 			<template>
 
-				<div id="{n}-toggleContainer" style="display:none;">
+				<div id="{n}-toggleContainer" templateBlockId="chiefComplaintOther" class="toggleContainer" style="display:none;">
 					<p>
-						<obs conceptId="CIEL:5219" labelText="Other: (autocomplete)" answerClasses="Diagnosis" style="autocomplete" />
+						<obs id="{n}" conceptId="CIEL:5219" labelText="Other: (autocomplete)" answerClasses="Diagnosis" style="autocomplete" />
 					</p>
 
-					<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-					<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
 					<br/>
 
 				</div>

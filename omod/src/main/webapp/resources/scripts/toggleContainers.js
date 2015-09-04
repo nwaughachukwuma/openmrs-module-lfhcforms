@@ -1,4 +1,10 @@
-//handle the toggle of div containers with Add / Remove buttons
+/**
+ * Logic to handle toggling div containers
+ * @version v0.1
+ * @link romain@mekomsolutions.com
+ */
+
+//Handles the toggle of div containers with Add / Remove buttons
 //HTML ids and classes must be of the form of:
 /*
 <repeat>

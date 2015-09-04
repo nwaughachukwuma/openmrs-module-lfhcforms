@@ -1,76 +1,32 @@
-<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4.1">
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4.2">
 
-
+<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 <script type="text/javascript">
-	if(jQuery){
-		jQuery(document).ready(function(){
-
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
-		});
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
 
 
-		jQuery(document).ready(function(){
+	jQuery(document).ready(function(){
 
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-
-
-		jQuery(document).ready(function(){
-
-			// pasting the tests ordered into the tests answers
-			var checked =  null;
-			for (var i= 101; i &lt; 300; i++) {
-				checked =  null;
-				if (getValue(i+"-source.value")) {
-					checked = "checked";
-					jQuery(htmlform).find("#"+i+"-hidden").toggle(true);
-				};
-				jQuery(htmlform).find("#"+i+"-target").find(":checkbox").attr(checked,true);
-				
+		// pasting the tests ordered into the tests answers
+		var checked =  null;
+		for (var i= 101; i &lt; 300; i++) {
+			checked =  null;
+			if (getValue(i+"-source.value")) {
+				checked = "checked";
+				jQuery(htmlform).find("#"+i+"-hidden").toggle(true);
 			};
+			jQuery(htmlform).find("#"+i+"-target").find(":checkbox").attr(checked,true);
 
-			var other =  null;
-			other = getValue("other-source.value");
-			jQuery(htmlform).find("#other-target").find("input").val(other);
-
-			
-
-		});
-
-
-	}
-
+		};
+		var other =  null;
+		other = getValue("other-source.value");
+		jQuery(htmlform).find("#other-target").find("input").val(other);
+	});
 
 </script>
-
 
 
 <div class="hidden" id="who-when-where">
@@ -109,9 +65,9 @@
 			<repeat>
 				<template>
 
-					<div id="{n}-toggleContainer" style="display:none;" >
+					<div id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
 						<p>
-							<obs id="{n}-order" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
+							<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
 							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
 							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
@@ -142,9 +98,9 @@
 			<h3>Ultrasound order</h3>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
+					<div id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
 						<p>
-							<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010"/>    
+							<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010"/>    
 							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
 							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
