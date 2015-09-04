@@ -1,4 +1,4 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.4.1">
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.5">
 
 
 <div class="hidden" id="who-when-where">
@@ -29,38 +29,12 @@
 </div>
 
 
-
-
-<!-- Define Vitals Up and Down limits based on age -->
 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
 	<ifMode mode="VIEW" include="false">
-		<b><em>The patient is less than 1 year old: Vitals limits set for that range</em></b>
+		<b><em>The patient is less than 100 year old: Vitals limits set for that range</em></b>
 	</ifMode>
 	<script type="text/javascript">
-
-
-		var limits = {
-			temperatureDownLimit:36,
-			temperatureUpLimit:38,
-			heart_rateDownLimit:90,
-			heart_rateUpLimit:160,
-			respiratory_rateDownLimit:30,
-			respiratory_rateUpLimit:60,
-			intercostal_recessionYes:1065,
-			intercostal_recessionNo:1066,
-			nostril_flaringYes:1065,
-			nostril_flaringNo:1066,
-			gruntingYes:1065,
-			gruntingNo:1066,
-			head_bobbingYes:1065,
-			head_bobbingNo:1066,
-			receiving_o2Yes:1065,
-			receiving_o2No:1066,
-			conciousness_lossYes:1065,
-			conciousness_lossNo:1066
-
-		};
-
+		var limitsIndex = 0;
 	</script>
 </includeIf>
 
@@ -69,29 +43,7 @@
 		<b><em>The patient is between 1 and 5 year old: Vitals limits set for that range</em></b>
 	</ifMode>
 	<script type="text/javascript">
-
-		
-		var limits = {
-			temperatureDownLimit:36,
-			temperatureUpLimit:38,
-			heart_rateDownLimit:80,
-			heart_rateUpLimit:140,
-			respiratory_rateDownLimit:30,
-			respiratory_rateUpLimit:50,
-			intercostal_recessionYes:1065,
-			intercostal_recessionNo:1066,
-			nostril_flaringYes:1065,
-			nostril_flaringNo:1066,
-			gruntingYes:1065,
-			gruntingNo:1066,
-			head_bobbingYes:1065,
-			head_bobbingNo:1066,
-			receiving_o2Yes:1065,
-			receiving_o2No:1066,
-			conciousness_lossYes:1065,
-			conciousness_lossNo:1066
-		};
-		
+		var limitsIndex = 1;
 	</script>
 </includeIf>
 
@@ -100,75 +52,22 @@
 		<b><em>The patient is between 5 and 12 year old: Vitals limits set for that range</em></b>
 	</ifMode>
 	<script type="text/javascript">
-
-
-		var limits = {
-			temperatureDownLimit:36,
-			temperatureUpLimit:38,
-			heart_rateDownLimit:70,
-			heart_rateUpLimit:130,
-			respiratory_rateDownLimit:30,
-			respiratory_rateUpLimit:40,
-			intercostal_recessionYes:1065,
-			intercostal_recessionNo:1066,
-			nostril_flaringYes:1065,
-			nostril_flaringNo:1066,
-			gruntingYes:1065,
-			gruntingNo:1066,
-			head_bobbingYes:1065,
-			head_bobbingNo:1066,
-			receiving_o2Yes:1065,
-			receiving_o2No:1066,
-			conciousness_lossYes:1065,
-			conciousness_lossNo:1066
-		};
-
+		var limitsIndex = 2;
 	</script>
 </includeIf>
 
-<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >12 )">
-	<ifMode mode="VIEW" include="false">
-		<b><em>The patient is more than 12 year old: No Vitals limits provided - no PEWS</em></b>
-	</ifMode>
 
-</includeIf>
-
-<!-- script that runs in any mode (ENTER, EDIT and VIEW) -->
 <script type="text/javascript">
 
-	$(document).ready(function() {
+	var limits = jQuery.parseJSON('{"respiratoryRate":{"description":"Respiratory rate","conceptMapping":"CIEL:5242","lows":[20,20,20],"highs":[60,50,50]},"heartRate":{"description":"Heart rate &amp; blood pressure","conceptMapping":"CIEL:5087","lows":[80,70,70],"highs":[160,140,140]},"intercostalRecession":{"description":"Intercostal recession","conceptMapping":"CIEL:136768","whenAnswers":["CIEL:1065","CIEL:1067"]}}');
 
-		jq('#temperature-limit-wrapper').hide();
-		jq('#temperature-pews').hide();
-		jq('#temperature-pews-null').show();
-		jq('#heart_rate-limit-wrapper').hide();
-		jq('#heart_rate-pews').hide();
-		jq('#respiratory_rate-limit-wrapper').hide();
-		jq('#respiratory_rate-wrapper').hide();
-		jq('#intercostal_recession-limit-wrapper').hide();
-		jq('#nostril_flaring-limit-wrapper').hide();
-		jq('#grunting-limit-wrapper').hide();
-		jq('#head_bobbing-limit-wrapper').hide();
-		jq('#respiratory_distress-limit-wrapper').hide();
-		jq('#receiving_o2-limit-wrapper').hide();
-		jq('#conciousness_loss-limit-wrapper').hide();
-		jq('#hidden-calculated-bsa').hide();
-
-		jq('#total-pews-null-no-limits').hide();
-		jq('#total-pews-title').hide();
-		for (i = 0; i &lt; 7; i++) {
-			jq("#total-pews-" + i).hide();
-		}
-
-
-	})
 </script>
+
 
 <!-- script that runs with in ENTER and EDIT mode -->
 <ifMode mode="VIEW" include="false">
 	<script type="text/javascript">
 		jq(function() {
-
 
 			// PGCS
 			jQuery( ".pgcs-helper" ).change(function() {
@@ -179,95 +78,68 @@
 
 				pgcs = (eyesPgcs+verbalPgcs+motorPgcs);
 				displayPgcs(pgcs);
-
+				setValue('pgcs.value', pgcs);
 			});
 
 
-			// PEWS
-			getField(tempHtmlId + ".value").change(function() {
-				updatePews(tempHtmlId, getValue(tempHtmlId +".value"));
+			// Obs limits - only for numeric observations
+			jQuery(".boundaries").on('change', function () {
+				var obsName = jQuery(this).attr("id");
+
+				if ('obsName' in limits) {
+
+					if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
+						low = limits[obsName].lows[limitsIndex];
+						high = limits[obsName].highs[limitsIndex];
+
+						obsValue = getValue(obsName+".value");
+
+						if (obsValue &lt; low) {
+							jQuery("#" + obsName + "-out").find("font").html("&#xf071; Attention: value &lt; " + low);
+							outOfLimits = true;
+						}
+						if (obsValue >= high) {
+							jQuery("#" + obsName + "-out").find("font").html("&#xf071; Attention: value >= " + high);
+							outOfLimits = true;
+						}
+					}
+
+					if (outOfLimits) {
+						jQuery("#" + obsName + "-limit-wrapper").show()
+					}
+
+				}
+
 			});
-			getField(hRHtmlId + ".value").change(function() {
-				updatePews(hRHtmlId, getValue(hRHtmlId +".value"));
-			});
-			getField(rRHtmlId+ ".value").change(function() {
-				updatePews(rRHtmlId, getValue(rRHtmlId +".value"));
-			});
-			// fields that are children of a parent Observation are handle differently
-			getField(iRHtmlId + ".value").change(function() {
-				updatePews(iRHtmlId, getValue(iRHtmlId +".value"), rDHtmlId);
-			});
-			// fields that are children of a parent Observation are handle differently
-			getField(nFHtmlId+".value").change(function() {
-				updatePews(nFHtmlId, getValue(nFHtmlId +".value"), rDHtmlId);
-			});
-			// fields that are children of a parent Observation are handle differently
-			getField(gHtmlId+".value").change(function() {
-				updatePews(gHtmlId, getValue(gHtmlId +".value"), rDHtmlId);
-			});
-			// fields that are children of a parent Observation are handle differently
-			getField(hBHtmlId+".value").change(function() {
-				updatePews(hBHtmlId, getValue(hBHtmlId +".value"), rDHtmlId);
-			});
-			getField(rOHtmlId+ ".value").change(function() {
-				updatePews(rOHtmlId, getValue(rOHtmlId +".value"));
-			});
-			getField(cHtmlId+ ".value").change(function() {
-				updatePews(cHtmlId, getValue(cHtmlId +".value"));
-			});
+
 
 			// BSA
-			getField('height.value').change(function() {
-				displayBsa();
+			var bsa = calculateBsa(getValue("weight.value"),getValue("height.value"));
+			if (bsa) {
+				displayBsa(bsa);
+				setValue('bsa.value', bsa.toFixed(2));
+			};
+
+
+			jQuery('.bsa').change(function() {
+				bsa = calculateBsa(getValue("weight.value"),getValue("height.value"));
+				if (bsa) {
+					displayBsa(bsa);
+					setValue('bsa.value', bsa.toFixed(2));
+				};
 			});
-			getField('weight.value').change(function() {
-				displayBsa();
-			});
-			displayBsa();
+
+
 			
 		});
 
 </script>
 </ifMode>
 
+
 <script type="text/javascript">
 
-	<!-- Declare global object -->
-	var pewsList = {};
-	var childPewsList = {};
-
 	var pgcs = 0;
-
-	// The "getValue(..,..)" method used to retrieve the Obs entered in ENTER/EDIT mode returns the ID of the concept selected.
-	// The "jQuery(form).find("#someHtmlId).find('.value')" methof used in VIEW mode returns the text of the answer.
-	// Therefore, and as a temporary solution, I will map the concepts Ids with their Text.
-
-	var yesNoIdMap = {
-		Yes:1065,
-		No:1066
-	};
-
-
-	// Set this value to the number of obs that will be expected to trigger TOTAL PEWS score calculation -->
-	var numberOfObs = 6;
-
-	// in case of nested PEWS, (eg Respiratory Distress is a result of 4 other answers)
-	var numberOfChildObs = 4;
-
-
-	// setting the HtmlIds of the different Observations
-	var tempHtmlId = "temperature"; 
-	var hRHtmlId = "heart_rate";
-	var rRHtmlId = "respiratory_rate";
-	var hRHtmlId = "heart_rate";
-	var rDHtmlId = "respiratory_distress";
-	var iRHtmlId = "intercostal_recession";
-	var nFHtmlId = "nostril_flaring";
-	var gHtmlId = "grunting";
-	var hBHtmlId = "head_bobbing";
-	var rOHtmlId = "receiving_o2";
-	var cHtmlId = "conciousness_loss";
-
 
 
 	function calculateBsa (wt, ht) {
@@ -278,1156 +150,388 @@
 		return bsa ;
 	}
 
-
-
-	function updatePews(obsHtmlId, obsValue, parentHtmlId) {
-
-		if (!(typeof limits === 'undefined')) { // handle the case where there is no limit provided for the Patient's age
-
-			<!-- determine the nature	 of the question (YesNo or Numeric comparison)-->
-		if (!(limits[obsHtmlId + "Yes"] == null)) {
-			pewsType = "yesNo";
-		}
-		if (!(limits[obsHtmlId + "UpLimit"] == null) || !(limits[obsHtmlId + "DownLimit"] == null)) {
-			pewsType = "numeric";
-		}
-
-		<!--get Pews object result for the obs.-->
-		if (pewsType == "yesNo") {
-			var obsPEWS = getYesNoPEWS(obsHtmlId, obsValue, limits);
-		}
-		if (pewsType == "numeric") {
-			var obsPEWS = getObsLimits(obsHtmlId, obsValue, limits);
-		}
-
-
-		<!-- check if a parentHtmlId is given, if so, do specific actions.-->
-		if (!(parentHtmlId == null)) {
-			<!--set the pews value in the child pews list-->
-			childPewsList[obsHtmlId] = obsPEWS["pews"];
-
-			<!-- get totalChildPEWS result (returned as a PEWS)-->
-			var parentPEWS = childTotalPews();
-
-			<!-- add it to the main PEWS list associated to the parent obsHtmlId-->
-			pewsList[parentHtmlId] = parentPEWS["pews"];
-
-			<!-- hande specific display for parent child relations-->
-			handleDisplayParentChild(obsValue, parentHtmlId, null, parentPEWS["position"]);
+	var displayPgcs = function (pgcs) {
+		if (pgcs == null || isNaN(pgcs)) {
+			jq('#calculated-pgcs').hide();
 		} else {
-			pewsList[obsHtmlId] = obsPEWS["pews"];
+			jq('#calculated-pgcs').show();
 		}
-		//alert("obsHtmlId: "+obsHtmlId +", obsValue: " + obsValue + ", obsPEWS[position]: "+obsPEWS["position"]);
-		handleDisplay(obsHtmlId, obsValue, limits, obsPEWS["position"]);
-
-		handleDisplayTotal(totalPews(), true);
 	}
-	else {
-		handleDisplay(obsHtmlId, obsValue, null, "null");
-		handleDisplayTotal(totalPews(), false);
 
-	};
-
-
-}
-
-
-<!-- function to calulate the total PEWS score of the 'pewsList'. PEWS score returned is null if any obs is not entered (compared to the 'numberOfObs' global variable)-->
-
-function totalPews () {
-	var total = null;
-	var count = 0;
-	var hasNull = false;
-
-	for (x in pewsList) {
-		if (pewsList[x] == null) {
-			hasNull = true;
-			total = null;
-			break;
+	var displayBsa = function (bsa) {
+		if (bsa == null || isNaN(bsa)) {
+			jq('#no-calculated-bsa').show();
+			jq('#calculated-bsa').hide();
+			jq('#hidden-calculated-bsa').hide();
+		} else {
+			jq('#no-calculated-bsa').hide();
+			jq('#calculated-bsa').show();
+			jq('#calculated-bsa').text(bsa.toFixed(2));
+			jq('#hidden-calculated-bsa').hide();
 		}
-		total = total + pewsList[x];
-		count ++;
 	}
-
-	//alert("intermediary total: " + total);
-	if (!(count == numberOfObs)) {
-		total = null;
-	}
-
-	return total;
-}
-
-<!-- function to calulate the total PEWS score of the 'childPewsList'. The rules are different from the main function 'totalPews()'. PEWS is 1 if any individual observation PEWS is 1. PEWS is 0 if all observations are set to 0. PEWS is null if some child observations are set to 0 and some not unknown or left empty -->
-function childTotalPews () {
-
-	var hasNull = false;
-	var total = {};
-	var count = 0;
-	total["pews"] = null;
-	total["position"] = null;
-
-	for (x in childPewsList) {
-		if (childPewsList[x] == null) { 
-			hasNull = true;
-		}
-		//alert("total[pews]"+ childPewsList[x]);
-		total["pews"] = total["pews"] + childPewsList[x];
-		count++;
-	}
-
-	if (total["pews"] >= 1) {
-		total["pews"] = 1;
-		total["position"] = "yes";
-	}
-
-	if (total["pews"] == 0) {
-		total["position"] = "no";
-	}
-
-
-	if ((hasNull &amp;&amp; total["pews"] == 0) || ((total["pews"] == 0) &amp;&amp; !(count == numberOfChildObs)))  {
-		//alert("hasNull: "+hasNull + " total[pews]: "+  total["pews"]  + " count: "+ count+ " numberOfChildObs: " + numberOfChildObs);
-		total["pews"] = null;
-		total["position"] = null;
-	}
-	//alert("childTotalPews: "+ total["pews"] + ", "+ total["position"]);
-	return total;
-}
-
-
-
-<!--Generic function to compare obs to given limits and return PEWS score object
-	args: 
-	obsHtmlId: HTML id parameter of the observation
-	obsValue: value of the observation
-	ageLimts: array object that holds limits informations
-	return:
-	obsPews: PEWS object of the obs, with PEWS score obsPews["pews"] and Position within limits obsPews["position"] attributes -->
-
-
-	function getObsLimits (obsHtmlId, obsValue, ageLimits) {
-
-		var downLimit = ageLimits[obsHtmlId + "DownLimit"];
-		var upLimit = ageLimits[obsHtmlId + "UpLimit"];
-		var obsPews = {};
-		obsPews["pews"] = null;
-		obsPews["position"] = null;
-
-		if (obsValue &lt; downLimit &amp;&amp; obsValue &gt; 0 ) {
-			obsPews["pews"] = 1;
-			obsPews["position"] = "down";
-		}
-
-		if (obsValue >= upLimit ) {
-			obsPews["pews"] = 1;
-			obsPews["position"] = "up";
-		}
-
-		if (obsValue >= downLimit &amp;&amp; obsValue &lt; upLimit &amp;&amp; !(obsValue == 0)) {
-			obsPews["pews"] = 0;
-			obsPews["position"] = "middle";
-		}
-
-		return obsPews;
-	}
-
-
-	<!--Generic function to compare obs to Yes or No answer and return PEWS score
-	args: 
-	obsHtmlId: id parameter of the observation
-	obsValue: value of the observation
-	yesValue: value that will trigger a +1 PEWS (eg: '1065' is the yes value selected that if mathes, will trigger a +1 pews
-		noValue: value that will trigger a +0 PEWS
-		return:
-		obsPews: PEWS object of the obs
-	-->
-	var getYesNoPEWS = function (obsHtmlId, obsValue, yesNoValues) {
-
-		yesValue = yesNoValues[obsHtmlId + "Yes"];
-		noValue = yesNoValues[obsHtmlId + "No"];
-
-		var obsPews = {};
-		obsPews["pews"] = null;
-		obsPews["position"] = null;
-
-		if (obsValue == yesValue) {
-			obsPews["pews"] = 1;
-			obsPews["position"] = "yes";	
-		}
-		if (obsValue == noValue) {
-			obsPews["pews"] = 0;
-			obsPews["position"] = "no";		
-		}
-
-		return obsPews;
-
-	}
-
-
 
 
 </script>
 
-
-<!-- Handle fields to be displayed when in ENTER and EDIT mode -->
-
-<ifMode mode="VIEW" include="false">
-	<script type="text/javascript">
-
-		var displayBsa = function () {
-			var wt = htmlForm.getValueIfLegal('weight.value');
-			var ht = htmlForm.getValueIfLegal('height.value');
-			var bsa = calculateBsa(wt, ht);
-
-			if (bsa == null || isNaN(bsa)) {
-				jq('#calculated-bsa').hide();
-			} else {
-				jq('#no-calculated-bsa').hide();
-				jq('#calculated-bsa').show();
-				jq('#calculated-bsa').html("BSA: " + bsa.toFixed(2));
-				setValue('bsa.value', bsa.toFixed(2));
-			}
-		}
-
-
-		var displayPgcs = function (pgcs) {
-			if (pgcs == null || isNaN(pgcs)) {
-				jq('#calculated-pgcs').hide();
-			} else {
-				jq('#calculated-pgcs').show();
-				setValue('pgcs.value', pgcs.toFixed(0));
-			}
-		}
-
-
-		<!-- function to handle displaying the result of obs limit comparison -PEWS -->
-		var handleDisplay = function (obsHtmlId, obsValue, ageLimits, position) {
-
-			<!-- handle the possiblity of null args-->
-
-			jq("#" + obsHtmlId + "-value").html(obsValue);
-			jq("#" + obsHtmlId + "-limit-wrapper").hide();
-			jq("#" + obsHtmlId + "-down-limit").hide();
-			jq("#" + obsHtmlId + "-up-limit").hide();
-			jq("#" + obsHtmlId + "-wrapper").hide();
-
-			if (position == "up") {
-				jq("#" + obsHtmlId + "-limit-wrapper").show();
-				jq("#" + obsHtmlId + "-"+ position + "-limit").show();
-				jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "UpLimit"]);
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-			}
-
-			if (position == "down") {
-				jq("#" + obsHtmlId + "-limit-wrapper").show();
-				jq("#" + obsHtmlId + "-"+ position + "-limit").show();
-				jq("#" + obsHtmlId + "-limit").html(ageLimits[obsHtmlId + "DownLimit"]);
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-			}
-
-			if (position == "middle") {
-				jq("#" + obsHtmlId + "-limit-wrapper").hide();
-
-				// hide/show fields from result table				
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-			}
-
-			if (position == "yes") {
-				jq("#" + obsHtmlId + "-limit-wrapper").show();
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-			}
-
-			if (position == "no") {
-				jq("#" + obsHtmlId + "-limit-wrapper").hide();
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-				jq("#" + obsHtmlId + "-pews").html(pewsList[obsHtmlId]);
-			}
-
-			if (position == "null" || position == null) {
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").show();
-				jq("#" + obsHtmlId + "-pews").hide();
-			}
-			if (position == "no-limits") {
-
-				// hide/show fields from result table
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").hide();
-				jq("#" + obsHtmlId + "-pews-no-limits").show();
-			}
-
-
-		}
-
-		<!-- function to handle specific display of Parent observation. It has the specific function to show the ParentHtmlId wrapper instead of the obsHtmlId itself-->
-		var handleDisplayParentChild = function (obsHtmlId, parentHtmlId, obsValue, position) {
-			
-			// handle the possiblity of null args
-			
-			jq("#" + obsHtmlId + "-value").html(obsValue);
-
-			if (position == "yes") {
-				jq("#" + parentHtmlId + "-limit-wrapper").show();
-				
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-
-				jq("#" + parentHtmlId + "-pews-null").hide();
-				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
-			}
-
-			if (position == "no") {
-				jq("#" + parentHtmlId + "-limit-wrapper").hide();
-				
-				jq("#" + obsHtmlId + "-pews-null").hide();
-				jq("#" + obsHtmlId + "-pews").show();
-
-				jq("#" + parentHtmlId + "-pews-null").hide();
-				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
-			}
-
-			if (position == "null" || position == null) {
-				jq("#" + parentHtmlId + "-limit-wrapper").hide();
-
-				jq("#" + obsHtmlId + "-pews").hide();
-				jq("#" + obsHtmlId + "-pews-null").show();
-
-				jq("#" + parentHtmlId+ "-pews-null").show();
-				jq("#" + parentHtmlId + "-pews").html(pewsList[parentHtmlId]);
-				
-			}
-		}
-		<!-- function to handle display of the TOTAL PEWS score.-->
-		var handleDisplayTotal = function (total, limitsProvided){
-
-			if (!(total == null) &amp;&amp; limitsProvided) {
-				jq('#total-pews').show();
-				jq('#total-pews').html(total);
-				jq('#total-pews-null').hide();
-				jq('#total-pews-null-warning').hide();
-				jq('#total-pews-null-no-limits').hide();
-				jq('#total-pews-title').hide();
-
-				for (i = 0; i &lt; 7; i++) {
-					jq("#total-pews-" + i).hide();
-				}
-				jq('#total-pews-title').show();
-				jq("#total-pews-" + total).show();
-			}
-			if ((total == null) &amp;&amp; !(limitsProvided) ){
-				jq('#total-pews').hide();
-				jq('#total-pews-null').show();
-				jq('#total-pews-null-warning').hide();
-				jq('#total-pews-null-no-limits').show();
-				jq('#total-pews-title').hide();
-				for (i = 0; i &lt; 7; i++) {
-					jq("#total-pews-" + i).hide();
-				}
-			}
-			if (total == null) {
-				jq('#total-pews').hide();
-				jq('#total-pews-null').show();
-				jq('#total-pews-null-warning').show();
-				jq('#total-pews-null-no-limits').hide();
-				jq('#total-pews-title').hide();
-				for (i = 0; i &lt; 7; i++) {
-					jq("#total-pews-" + i).hide();
-				}
-			}
-		}
-
-
-	</script>
-</ifMode>
-
-<!-- Handle fields to be displayed when in VIEW mode -->
-<ifMode mode="VIEW">
-	<script type="text/javascript">
-
-		jQuery(function() {
-
-			jQuery('htmlForm').each(function(index, form) {
-
-
-				<!-- recalculate the PEWS of each field-->
-				jQuery("#respiratory_distress-children-wrapper").hide();
-
-				updatePews(tempHtmlId, jQuery(form).find("#"+tempHtmlId).find('.value').text());
-				updatePews(hRHtmlId, jQuery(form).find("#"+hRHtmlId).find('.value').text());
-				updatePews(rRHtmlId, jQuery(form).find("#"+rRHtmlId).find('.value').text());
-				updatePews(iRHtmlId, jQuery(form).find("#"+iRHtmlId).find('.value').text(), rDHtmlId);
-				updatePews(nFHtmlId, jQuery(form).find("#"+nFHtmlId).find('.value').text(), rDHtmlId);
-				updatePews(gHtmlId, jQuery(form).find("#"+gHtmlId).find('.value').text(), rDHtmlId);
-				updatePews(hBHtmlId, jQuery(form).find("#"+hBHtmlId).find('.value').text(), rDHtmlId);
-				updatePews(rOHtmlId, mapId(jQuery(form).find("#"+rOHtmlId).find('.value').text(),rOHtmlId));
-				updatePews(cHtmlId, mapId(jQuery(form).find("#"+cHtmlId).find('.value').text(),cHtmlId));
-
-				function mapId (text, obsHtmlId) {
-					var mappedId = yesNoIdMap[text];
-					if (!mappedId) {
-						mappedId = jQuery(form).find("#"+obsHtmlId).find('.value').text();
-					};
-					return mappedId;
-				};
-
-				<!-- retrieve the BSA-->
-				var bsa = jQuery(form).find('#bsa').find('.value').text();
-				displayBsa(bsa);
-
-
-			});
-});
-
-
-
-
-
-
-
-
-
-
-var diplayPgcs = function (pgcs) {
-	if (bsa == null || isNaN(bsa)) {
-		jq('#calculated-pgcs').hide();
-	} else {
-		jq('#calculated-pgcs').show();
-	}
-}
-
-
-
-function handleDisplay (obsHtmlId, obsValue, ageLimits, position) {
-}
-
-
-<!-- function to handle display of the TOTAL PEWS score.-->
-function handleDisplayTotal (total, limitsProvided) {
-
-	//alert(total);
-
-	if (!(total == null) &amp;&amp; limitsProvided) {
-		jq('#total-pews').show();
-		jq('#total-pews').html(total);
-		jq('#total-pews-null').hide();
-		jq('#total-pews-null-warning').hide();
-		jq('#total-pews-null-no-limits').hide();
-	}
-
-	if ((total == null) &amp;&amp; !(limitsProvided) ){
-		jq('#total-pews').hide();
-		jq('#total-pews-null').hide();
-		jq('#total-pews-null-warning').hide();
-		jq('#total-pews-null-no-limits').show();
-	}
-	if (total == null) {
-		jq('#total-pews').hide();
-		jq('#total-pews-null').show();
-		jq('#total-pews-null-warning').show();
-		jq('#total-pews-null-no-limits').hide();
-
-	}
-
-}
-
-function handleDisplayParentChild (obsHtmlId, parentHtmlId, obsValue, position) {
-		 	// handle the possiblity of null args
-
-		 	jq("#" + obsHtmlId + "-value").html(obsValue);
-
-		 	if (position == "yes") {
-		 		jq("#" + parentHtmlId + "-yes-wrapper").show();
-		 		jq("#" + parentHtmlId + "-no-wrapper").hide();
-		 		jq("#" + parentHtmlId + "-null-wrapper").hide();
-		 		
-		 	}
-
-		 	if (position == "no") {
-		 		jq("#" + parentHtmlId + "-yes-wrapper").hide();
-		 		jq("#" + parentHtmlId + "-null-wrapper").hide();
-		 		jq("#" + parentHtmlId + "-no-wrapper").show();
-		 	}
-
-		 	if (position == "null" || position == null) {
-		 		jq("#" + parentHtmlId + "-yes-wrapper").hide();
-		 		jq("#" + parentHtmlId + "-no-wrapper").hide();
-		 		jq("#" + parentHtmlId + "-null-wrapper").show();
-		 	}
-		 }
-
-
-		</script>
-
-	</ifMode>
-
-	<!-- style the tables -->
-	<style type="text/css">
-		.tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
-		.tg td{border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
-		.tg th{border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
-	</style>
-
-
-
-	<section id="vitals" sectionTag="section" headerStyle="title" headerCode="referenceapplication.vitals.title">
-
-		<!-- Heart Rate / Pulse -->
-		<fieldset field-separator=", ">
-			<legend>Heart rate</legend>
-			<h3>Heart rate</h3>
-
+<section id="vitals" sectionTag="section" headerStyle="title" headerCode="referenceapplication.vitals.title">
+
+	<!-- Heart Rate / Pulse -->
+	<fieldset field-separator=", ">
+		<legend>Heart rate</legend>
+		<h3>Heart rate</h3>
+
+		<p>
+			<obs conceptId="CIEL:5087" id="heartRate" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
+		</p>
+		<span id="heartRate-limit-wrapper" style="display:none;">
 			<p>
-				<obs conceptId="CIEL:5087" id="heart_rate" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
-			</p>
-			<span id="heart_rate-limit-wrapper">
-				<p>
-					<br/>
-					<lookup expression="fn.getConcept('CIEL:5087').name"/>
-					<span id='heart_rate-down-limit'>
-						&lt; 
-					</span>
-					<span id="heart_rate-up-limit">
-						>= 
-					</span>
-					<span id="heart_rate-limit">
-					</span>
-				</p>
-				<p>
-					<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-				</p>
-			</span>
-		</fieldset>
-
-		<!-- Respiratory Rate -->
-		<fieldset field-separator=", ">
-			<legend>Respiratory rate</legend>
-			<h3>Respiratory rate</h3>
-			<p>
-				<obs conceptId="CIEL:5242" id="respiratory_rate" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
-			</p>
-			<span id="respiratory_rate-limit-wrapper">
-				<p>
-					<br/>
-					<lookup expression="fn.getConcept('CIEL:5242').name"/>
-					<span id='respiratory_rate-down-limit'>
-						&lt; 
-					</span>
-					<span id="respiratory_rate-up-limit">
-						>= 
-					</span>
-					<span id="respiratory_rate-limit">
-					</span>
-				</p>
-				<p>
-					<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-				</p>
-			</span>
-		</fieldset>
-
-
-		<fieldset field-separator=", ">
-			<legend>Respiratory distress</legend>
-			<h3>Respiratory distress</h3>
-
-
-			<ifMode mode="VIEW" include="false">
-
-				<table class="tg">
-					<tr>
-						<td>
-							Chest wall indrawing
-						</td>
-						<td>	
-							<p>			
-								<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate, Mild (None or a little bit)"/>
-								<span id="intercostal_recession-limit-wrapper">
-									<font color="red"><i class="icon-">&#xf071;</i></font>
-								</span>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Nasal flaring
-						</td>
-						<td>
-							<p>
-								<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
-								<span id="nostril_flaring-limit-wrapper">
-									<font color="red"><i class="icon-">&#xf071;</i></font>
-								</span>
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Grunting
-						</td>
-						<td>
-							<p>
-								<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Present), Mild (None), Unknown"/>
-								<span id="grunting-limit-wrapper">
-									<font color="red"><i class="icon-">&#xf071;</i></font>
-								</span>
-							</p>
-						</td>	
-					</tr>
-					<tr>
-						<td>
-							Head bobbing
-						</td>
-						<td>
-							<p>
-								<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
-								<span id="head_bobbing-limit-wrapper">
-									<font color="red"><i class="icon-">&#xf071;</i></font>
-								</span>
-							</p>
-						</td>	
-					</tr>
-				</table>
-
-				<span id="respiratory_distress-limit-wrapper">
-					<p>
-						<br/>
-						<lookup expression="fn.getConcept('CIEL:5242').name"/>
-						<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-					</p>
+				<br/>
+				<span id='heartRate-out'>
+					<font color="red" class="icon-"></font>
 				</span>
-			</ifMode>
-
-
-			<ifMode mode="VIEW">
-				<span id="respiratory_distress-children-wrapper">
-					<p>
-						<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="1065,1066,1067"/>
-					</p>
-					<p>
-						<obs
-						conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="1065,1066,1067"/>
-					</p>
-					<p>
-						<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="1065,1066,1067"/>
-					</p>
-					<p>
-						<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="1065,1066,1067"/>
-					</p>
-				</span>
-				<span id="respiratory_distress-yes-wrapper">
-					<p>Severe/Moderate</p>
-				</span>
-				<span id="respiratory_distress-no-wrapper">
-					<p>Mild</p>
-				</span>
-				<span id="respiratory_distress-null-wrapper">
-					<p></p>
-				</span>
-
-			</ifMode>
-
-
-		</fieldset>
-
-		<!--Oxygen Saturation-->
-		<fieldset field-separator=", ">
-			<legend><lookup expression="fn.getConcept('CIEL:5092').name"/></legend>
-			<h3><lookup expression="fn.getConcept('CIEL:5092').name"/></h3>
-
-			<p>
-				<obs conceptId="CIEL:5092" id="o2_sat" showUnits="uicommons.units.percent" unitsCssClass="append-to-value"/>
-			</p>
-		</fieldset>
-
-		<!-- Temperature -->
-		<fieldset field-separator=", ">
-			<legend>Temperature</legend>
-			<h3>Temperature</h3>
-			<p class="left">
-				<obs conceptId="CIEL:5088" id="temperature" showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value"/>
-			</p>
-			<span id="temperature-limit-wrapper">
-				<p>
-					<em>
-						<br/>
-						<lookup expression="fn.getConcept('CIEL:5088').name"/>
-						<span id='temperature-down-limit'>
-							&lt; 
-						</span>
-						<span id="temperature-up-limit">
-							>= 
-						</span>
-						<span id="temperature-limit">
-						</span>
-					</em>
-				</p>
-				<p>
-					<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-				</p>
-			</span>
-		</fieldset>
-
-		<!-- Receiving O2 -->
-		<fieldset field-separator=", ">
-			<legend>Receiving O2</legend>
-			<h3><lookup expression="fn.getConcept('LFHC:1026').name"/></h3>
-			<p>
-				<obs conceptId="LFHC:1026" id="receiving_o2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
-			</p>
-			<span id="receiving_o2-limit-wrapper">
-				<p>
-					<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-				</p>
-			</span>
-		</fieldset>
-
-		<!-- O2 Ammount -->
-		<fieldset field-separator=", ">
-			<legend>Receiving O2</legend>
-			<h3>Receiving O2</h3>
-
-			<p>
-				<obs conceptId="LFHC:1027" id="o2_amount" showUnits="true" />
-			</p>
-		</fieldset>
-
-		<!-- Capillary Refill -->
-		<fieldset field-separator=", ">
-			<legend>Capillary refill</legend>
-			<h3><lookup expression="fn.getConcept('CIEL:162513').name"/></h3>
-
-			<p>
-				<obs conceptId="CIEL:162513" id="capillary_refill" showUnits="true" />
-			</p>
-		</fieldset>
-
-		<!-- Level of Conciousness -->
-		<fieldset field-separator=", ">
-			<legend><lookup expression="fn.getConcept('CIEL:162643').name"/></legend>
-			<h3><lookup expression="fn.getConcept('CIEL:162643').name"/></h3>
-
-			<p class="left">
-				<obs conceptId="CIEL:162643"/>
 			</p>
 			
-			<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
+		</span>
+	</fieldset>
 
-			<p class="left">
-
-				<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
-			</p>
-			<span id="conciousness_loss-limit-wrapper">
-				<p>
-					<font color="red"><i class="icon-">&#xf071;</i> PEWS Score: +1</font>
-				</p>
-			</span>
-
-		</fieldset>
-
-		<!-- PGCS -->
-		<fieldset field-separator=", ">
-			<ifMode mode="VIEW" include="false">
-				<legend>
-					PGCS	
-				</legend>
-
-				<h3>
-					Pediactric Glasgow Coma Scale
-				</h3>
-				<table class="tg">
-					<tr>
-						<td>
-							Best eye response
-						</td>
-						<td>
-							<p>
-								<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
-									<select class="pgcs-helper" id="eyes">
-										<option value="0"></option>
-										<option value="4">Opens eyes spontaneously</option>
-										<option value="3">Opens eyes in response to speech</option>
-										<option value="2">Opens eyes in response to painful stimuli</option>
-										<option value="1">Does not open eyes</option>
-									</select>
-								</includeIf>
-								<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 1)">
-									<select class="pgcs-helper" id="eyes">
-										<option value="0"></option>
-										<option value="4">Opens eyes spontaneously</option>
-										<option value="3">Opens eyes in response to speech</option>
-										<option value="2">Opens eyes in response to painful stimuli</option>
-										<option value="1">Does not open eyes</option>
-									</select>
-								</includeIf>
-							</p>	
-						</td>
-					</tr>
-					<tr>
-						<td>
-
-							Best verbal response
-						</td>
-						<td>
-							<p>
-								<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 2">
-									<select class="pgcs-helper" id="verbal">
-										<option value="0"></option>
-										<option value="5">Smiles, orients to sounds, follows objects, interacts</option>
-										<option value="4">Cries but consolable, inappropriate interactions</option>
-										<option value="3">Inconsistently inconsolable, moaning</option>
-										<option value="2">Inconsolable, agitated</option>
-										<option value="1">No verbal response</option>
-									</select>
-								</includeIf>
-								<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 2 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 5)">
-									<select class="pgcs-helper" id="verbal">
-										<option value="0"></option>
-										<option value="5">Appropriate words/phrases</option>
-										<option value="4">Inapropriate words</option>
-										<option value="3">Persistent cries and screams</option>
-										<option value="2">Grunts</option>
-										<option value="1">No verbal response</option>
-									</select>
-								</includeIf>
-								<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 5)">
-									<select class="pgcs-helper" id="verbal">
-										<option value="0"></option>
-										<option value="5">Orientated</option>
-										<option value="4">Disoriented/confused</option>
-										<option value="3">Inapropriate words</option>
-										<option value="2">Incomprehensible sounds</option>
-										<option value="1">No verbal response</option>
-									</select>
-								</includeIf>
-							</p>
-						</td>
-					</tr>						
-
-					<tr>
-						<td>
-							Best motor response
-
-						</td>
-						<td>
-							<p>
-								<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
-									<select class="pgcs-helper" id="motor">
-										<option value="0"></option>
-										<option value="6">Infant moves spontaneously or purposefully</option>
-										<option value="5">Infant withdraws from touch</option>
-										<option value="4">Infant withdraws from pain</option>
-										<option value="3">Abnormal flexion to pain for an infant (decorticate response)</option>
-										<option value="2">Extension to pain (decerebrate response)</option>
-										<option value="1">No motor response</option>
-									</select>
-								</includeIf>
-								<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) >= 1">
-									<select class="pgcs-helper" id="motor">
-										<option value="0"></option>
-										<option value="6">Obeys</option>
-										<option value="5">Infant withdraws from touch</option>
-										<option value="4">Infant withdraws from pain</option>
-										<option value="3">Abnormal flexion to pain for an infant (decorticate response)</option>
-										<option value="2">Extension to pain (decerebrate response)</option>
-										<option value="1">No motor response</option>
-									</select>
-								</includeIf>
-							</p>
-						</td>
-					</tr>
-
-				</table>
-
-			</ifMode>
-
-			<span id="calculated-pgcs">
-				<h3>PGCS</h3>
-				<p>
-					<obs conceptId="CIEL:160347" id="pgcs"/>
-				</p>
-			</span>
-
-		</fieldset>
-
-		<!-- Blood pressure -->
-		<fieldset field-separator=" / ">
-			<obsgroup groupingConceptId="LFHC:1125">
-				<legend><uimessage code="referenceapplication.vitals.bloodPressure.title"/></legend>
-				<h3><uimessage code="referenceapplication.vitals.bloodPressure.title"/></h3>
-
-				<p class="left">
-					<obs conceptId="CIEL:5085" id="bp_systolic"/>
-				</p>
-				<p class="left">
-					/
-				</p>
-				<p class="left">
-					<obs conceptId="CIEL:5086" id="bp_diastolic"/>
-				</p>
-			</obsgroup>
-		</fieldset>
-
-
-		<!-- Height -->
-		<fieldset field-separator=", ">
-			<legend><lookup expression="fn.getConcept('CIEL:5090').name"/></legend>
-			<h3><lookup expression="fn.getConcept('CIEL:5090').name"/></h3>
-
-			<p class="left">
-				<obs conceptId="CIEL:5090" id="height" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
-			</p>
-
-		</fieldset>
-
-		<!-- Weight -->
-		<fieldset field-separator=", ">
-			<legend><lookup expression="fn.getConcept('CIEL:5089').name"/></legend>
-			<h3><lookup expression="fn.getConcept('CIEL:5089').name"/></h3>
-
-			<p class="left">
-				<obs conceptId="CIEL:5089" id="weight" showUnits="uicommons.units.kilograms" unitsCssClass="append-to-value"/>
-			</p>
-
-		</fieldset>
-
-		<!-- Pain score -->
-		<fieldset field-separator=", ">
-			<legend><lookup expression="fn.getConcept('CIEL:160287').name"/></legend>
-			<h3><lookup expression="fn.getConcept('CIEL:160287').name"/></h3>
-
-			<p class="left">
-				<obs conceptId="CIEL:160287" id="pain-score" />
-			</p>
-
-		</fieldset>
-
-
-		<!-- Z-score -->
-		<fieldset field-separator=", ">
-			<legend>Z-score</legend>
-			<h3>Z-score</h3>
-
+	<!-- Respiratory Rate -->
+	<fieldset field-separator=", ">
+		<legend>Respiratory rate</legend>
+		<h3>Respiratory rate</h3>
+		<p>
+			<obs conceptId="CIEL:5242" id="respiratoryRate" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
+		</p>
+		<span id="respiratoryRate-limit-wrapper" style="display:none;">
 			<p>
-				<obs conceptId="CIEL:162584" id="z-score"/>
+				<br/>
+				<span id='respiratoryRate-out'>
+					<font color="red" class="icon-"></font>
+				</span>
+			</p>
+			
+		</span>
+	</fieldset>
+
+
+	<fieldset field-separator=", ">
+		<legend>Respiratory distress</legend>
+
+		<h3>Chest wall indrawing</h3>
+		<p>			
+			<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate, Mild (None or a little bit)"/>
+		</p>
+
+
+		<h3>Nasal flaring</h3>
+		<p>
+			<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
+		</p>
+
+		<h3>Grunting</h3>
+		<p>
+			<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Present), Mild (None), Unknown"/>
+		</p>
+
+		<h3>Head bobbing</h3>
+		<p>
+			<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
+		</p>
+
+	</fieldset>
+
+	<!--Oxygen Saturation-->
+	<fieldset field-separator=", ">
+		<legend><lookup expression="fn.getConcept('CIEL:5092').name"/></legend>
+		<h3><lookup expression="fn.getConcept('CIEL:5092').name"/></h3>
+
+		<p>
+			<obs conceptId="CIEL:5092" id="o2_sat" showUnits="uicommons.units.percent" unitsCssClass="append-to-value"/>
+		</p>
+	</fieldset>
+
+	<!-- Temperature -->
+	<fieldset field-separator=", ">
+		<legend>Temperature</legend>
+		<h3>Temperature</h3>
+		<p class="left">
+			<obs conceptId="CIEL:5088" id="temperature" class="boundaries" showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value"/>
+		</p>
+		<span id="temperature-limit-wrapper" style="display:none;">
+			<p>
+				<br/>
+				<span id='temperature-out'>
+					<font color="red" class="icon-"></font>
+				</span>
+			</p>
+
+		</span>
+
+	</fieldset>
+
+	<!-- Receiving O2 -->
+	<fieldset field-separator=", ">
+		<legend>Receiving O2</legend>
+		<h3><lookup expression="fn.getConcept('LFHC:1026').name"/></h3>
+		<p>
+			<obs conceptId="LFHC:1026" id="receiving_o2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
+		</p>
+	</fieldset>
+
+	<!-- O2 Ammount -->
+	<fieldset field-separator=", ">
+		<legend>Receiving O2</legend>
+		<h3>Receiving O2</h3>
+		<p>
+			<obs conceptId="LFHC:1027" id="o2_amount" showUnits="true" />
+		</p>
+	</fieldset>
+
+	<!-- Capillary Refill -->
+	<fieldset field-separator=", ">
+		<legend>Capillary refill</legend>
+		<h3><lookup expression="fn.getConcept('CIEL:162513').name"/></h3>
+		<p>
+			<obs conceptId="CIEL:162513" id="capillary_refill" showUnits="true" />
+		</p>
+	</fieldset>
+
+	<!-- Level of Consciousness -->
+	<fieldset field-separator=", ">
+		<legend><lookup expression="fn.getConcept('CIEL:162643').name"/></legend>
+		<h3><lookup expression="fn.getConcept('CIEL:162643').name"/></h3>
+
+		<p class="left">
+			<obs conceptId="CIEL:162643"/>
+		</p>
+
+		<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
+
+		<p class="left">
+
+			<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
+		</p>
+	</fieldset>
+
+	<!-- PGCS -->
+	<fieldset field-separator=", ">
+		<ifMode mode="VIEW" include="false">
+			<legend>
+				PGCS	
+			</legend>
+
+			<h3>
+				Pediactric Glasgow Coma Scale
+			</h3>
+			<table class="tg">
+				<tr>
+					<td>
+						Best eye response
+					</td>
+					<td>
+						<p>
+							<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
+								<select class="pgcs-helper" id="eyes">
+									<option value="0"></option>
+									<option value="4">Opens eyes spontaneously</option>
+									<option value="3">Opens eyes in response to speech</option>
+									<option value="2">Opens eyes in response to painful stimuli</option>
+									<option value="1">Does not open eyes</option>
+								</select>
+							</includeIf>
+							<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 1)">
+								<select class="pgcs-helper" id="eyes">
+									<option value="0"></option>
+									<option value="4">Opens eyes spontaneously</option>
+									<option value="3">Opens eyes in response to speech</option>
+									<option value="2">Opens eyes in response to painful stimuli</option>
+									<option value="1">Does not open eyes</option>
+								</select>
+							</includeIf>
+						</p>	
+					</td>
+				</tr>
+				<tr>
+					<td>
+
+						Best verbal response
+					</td>
+					<td>
+						<p>
+							<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 2">
+								<select class="pgcs-helper" id="verbal">
+									<option value="0"></option>
+									<option value="5">Smiles, orients to sounds, follows objects, interacts</option>
+									<option value="4">Cries but consolable, inappropriate interactions</option>
+									<option value="3">Inconsistently inconsolable, moaning</option>
+									<option value="2">Inconsolable, agitated</option>
+									<option value="1">No verbal response</option>
+								</select>
+							</includeIf>
+							<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 2 &amp;&amp; $patient.getAge($encounter.getEncounterDatetime()) &lt; 5)">
+								<select class="pgcs-helper" id="verbal">
+									<option value="0"></option>
+									<option value="5">Appropriate words/phrases</option>
+									<option value="4">Inapropriate words</option>
+									<option value="3">Persistent cries and screams</option>
+									<option value="2">Grunts</option>
+									<option value="1">No verbal response</option>
+								</select>
+							</includeIf>
+							<includeIf velocityTest="($patient.getAge($encounter.getEncounterDatetime()) >= 5)">
+								<select class="pgcs-helper" id="verbal">
+									<option value="0"></option>
+									<option value="5">Orientated</option>
+									<option value="4">Disoriented/confused</option>
+									<option value="3">Inapropriate words</option>
+									<option value="2">Incomprehensible sounds</option>
+									<option value="1">No verbal response</option>
+								</select>
+							</includeIf>
+						</p>
+					</td>
+				</tr>						
+
+				<tr>
+					<td>
+						Best motor response
+
+					</td>
+					<td>
+						<p>
+							<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
+								<select class="pgcs-helper" id="motor">
+									<option value="0"></option>
+									<option value="6">Infant moves spontaneously or purposefully</option>
+									<option value="5">Infant withdraws from touch</option>
+									<option value="4">Infant withdraws from pain</option>
+									<option value="3">Abnormal flexion to pain for an infant (decorticate response)</option>
+									<option value="2">Extension to pain (decerebrate response)</option>
+									<option value="1">No motor response</option>
+								</select>
+							</includeIf>
+							<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) >= 1">
+								<select class="pgcs-helper" id="motor">
+									<option value="0"></option>
+									<option value="6">Obeys</option>
+									<option value="5">Infant withdraws from touch</option>
+									<option value="4">Infant withdraws from pain</option>
+									<option value="3">Abnormal flexion to pain for an infant (decorticate response)</option>
+									<option value="2">Extension to pain (decerebrate response)</option>
+									<option value="1">No motor response</option>
+								</select>
+							</includeIf>
+						</p>
+					</td>
+				</tr>
+
+			</table>
+
+		</ifMode>
+
+		<span id="calculated-pgcs" style="display:none;">
+			<h3>PGCS</h3>
+			<p>
+				<obs conceptId="CIEL:160347" id="pgcs"/>
+			</p>
+		</span>
+
+	</fieldset>
+
+	<!-- Blood pressure -->
+	<fieldset field-separator=" / ">
+		<obsgroup groupingConceptId="LFHC:1125">
+			<legend><uimessage code="referenceapplication.vitals.bloodPressure.title"/></legend>
+			<h3><uimessage code="referenceapplication.vitals.bloodPressure.title"/></h3>
+
+			<p class="left">
+				<obs conceptId="CIEL:5085" id="bp_systolic"/>
+			</p>
+			<p class="left">
+				/
+			</p>
+			<p class="left">
+				<obs conceptId="CIEL:5086" id="bp_diastolic"/>
+			</p>
+		</obsgroup>
+	</fieldset>
+
+
+	<!-- Height -->
+	<fieldset field-separator=", ">
+		<legend><lookup expression="fn.getConcept('CIEL:5090').name"/></legend>
+		<h3><lookup expression="fn.getConcept('CIEL:5090').name"/></h3>
+
+		<p class="left">
+			<obs conceptId="CIEL:5090" id="height" class="bsa" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
+		</p>
+
+	</fieldset>
+
+	<!-- Weight -->
+	<fieldset field-separator=", ">
+		<legend><lookup expression="fn.getConcept('CIEL:5089').name"/></legend>
+		<h3><lookup expression="fn.getConcept('CIEL:5089').name"/></h3>
+
+		<p class="left">
+			<obs conceptId="CIEL:5089" id="weight" class="bsa" showUnits="uicommons.units.kilograms" unitsCssClass="append-to-value"/>
+		</p>
+
+	</fieldset>
+
+	<!-- Pain score -->
+	<fieldset field-separator=", ">
+		<legend><lookup expression="fn.getConcept('CIEL:160287').name"/></legend>
+		<h3><lookup expression="fn.getConcept('CIEL:160287').name"/></h3>
+
+		<p class="left">
+			<obs conceptId="CIEL:160287" id="pain-score" />
+		</p>
+
+	</fieldset>
+
+
+	<!-- Z-score -->
+	<fieldset field-separator=", ">
+		<legend>Z-score</legend>
+		<h3>Z-score</h3>
+		<p>
+			<obs conceptId="CIEL:162584" id="z-score"/>
+		</p>
+	</fieldset>
+
+
+
+	<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
+		<fieldset field-separator=", ">
+			<legend>Head circumference</legend>
+			<h3>Head circumference</h3>
+			<p>
+				<obs conceptId="CIEL:5314" id="head_circumference" showUnits="true"/>
 			</p>
 		</fieldset>
+	</includeIf>
 
 
+	<fieldset field-separator=", ">
+		<legend>Body surface area</legend>
+		<h3>Body surface area (Calculated)</h3>				
+		<span id="no-calculated-bsa">
+			No calculated BSA<br/>
+			Please enter the Height and Weight to determine the BSA
+		</span>
+		<strong><span id="calculated-bsa"></span></strong>
+		<span id="hidden-calculated-bsa">
+			<p>
+				<obs conceptId="CIEL:980" id="bsa" showUnits="true" />
+			</p>
+		</span>
 
-		<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
-			<fieldset field-separator=", ">
-				<legend>Head circumference</legend>
-				<h3>Head circumference</h3>
-
-				<p>
-					<obs conceptId="CIEL:5314" id="head_circumference" showUnits="true"/>
-				</p>
-			</fieldset>
-		</includeIf>
-
-
-		<fieldset field-separator=", ">
-			<ifMode mode="VIEW" include="false">
-				<legend>Body surface area</legend>
-				<h3>Body surface area (Calculated)</h3>				
-				<span id="no-calculated-bsa">
-					No calculated BSA<br/>
-					Please enter the Height and Weight to determine the BSA
-				</span>
-				<strong><span id="calculated-bsa"></span></strong>
-				<span id="hidden-calculated-bsa">
-					<p>
-						<obs conceptId="CIEL:980" id="bsa" showUnits="true"/>
-					</p>
-				</span>
-			</ifMode>
-			<ifMode mode="VIEW">
-				<h3>Body surface area (Calculated)</h3>	
-				<p>			
-					<span id="no-calculated-bsa">
-						<small>No calculated BSA, please enter the Height and Weight</small>
-					</span>
-					<span id="hidden-calculated-bsa">
-						<obs conceptId="CIEL:980" id="bsa" showUnits="true"/>
-					</span>
-				</p>
-			</ifMode>
-		</fieldset>
+	</fieldset>
 
 
-	</section>
+</section>
 
-	<!-- section that'll display the PEWS table summary-->
-	<section id="pews" sectionTag="section" headerStyle="title" headerCode="PEWS">
-		<fieldset  field-separator=" / ">
-			<legend>PEWS score</legend>
-			<h3>PEWS score</h3>
+<submit/>
 
-			<ifMode mode="VIEW" include="false">
-				<table class="tg">
-					<thead>
-						<tr>
-							<th class="tg-031e"><h5>Observation</h5></th>
-							<th class="tg-031e"><h5>Value</h5></th>
-							<th class="tg-031e"><h5>PEWS score</h5></th>
-						</tr>
-					</thead>
-					<tfoot>
-						<tr>
-							<th class="tg-031e" colspan="2">
-								<p>	
-									<span> Total PEWS</span>
-
-								</p>
-							</th>
-							<th class="tg-031e">
-								<p>
-									<span id="total-pews-null"> is null</span>
-									<span id="total-pews"></span>
-									<input type="hidden"/>
-								</p>
-							</th>
-						</tr>
-					</tfoot>
-					<tbody>
-						<tr>
-							<td class="tg-031e">
-								<lookup expression="fn.getConcept('CIEL:5088').name"/>
-							</td>
-							<td class="tg-031e">
-								<span id="temperature-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="temperature-pews"></span>
-									<span id="temperature-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="tg-031e">
-								Heart rate
-							</td>
-							<td class="tg-031e">
-								<span id="heart_rate-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="heart_rate-pews"></span>
-									<span id="heart_rate-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="tg-031e">
-								Respiratory rate
-							</td>
-							<td class="tg-031e">
-								<span id="respiratory_rate-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="respiratory_rate-pews"></span>
-									<span id="respiratory_rate-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="tg-031e">
-								Receiving oxygen
-							</td>
-							<td class="tg-031e">
-								<span id="receiving-o2-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="receiving_o2-pews"></span>
-									<span id="receiving_o2-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="tg-031e">
-								Loss of conciousness
-							</td>
-							<td class="tg-031e">
-								<span id="conciousness_loss-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="conciousness_loss-pews"></span>
-									<span id="conciousness_loss-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-						<tr>
-							<td class="tg-031e">
-								Respiratory distress
-							</td>
-							<td class="tg-031e">
-								<span id="respiratory_distress-value"></span>
-							</td>
-							<td class="tg-031e">
-								<p>
-									<span id="respiratory_distress-pews"></span>
-									<span id="respiratory_distress-pews-null"> is null</span>
-								</p>
-							</td>
-						</tr>
-					</tbody>
-
-				</table>
-
-				<p>
-					<span id="total-pews-null-warning" ><font color="red"><i class="icon-">&#xf071;</i>Total PEWS score requires all PEWS Vitals signs</font></span>
-				</p>
-				<p>
-					<span id="total-pews-null-no-limits" ><font color="red"><i class="icon-">&#xf071;</i>No Vitals limits provided for the age of the Patient</font></span>
-				</p>
-
-				<span id="total-pews-title"><h3>Action to be taken: </h3></span>
-				<span id="total-pews-0"><p><i class="icon-">&#xf058;</i> Continue monitoring</p></span>
-				<span id="total-pews-1"><p><i class="icon-">&#xf058;</i> Continue monitoring</p></span>
-				<span id="total-pews-2"><p><font color="red"><i class="icon-">&#xf071;</i> Expat nurse to review</font></p></span>
-				<span id="total-pews-3"><p><font color="red"><i class="icon-">&#xf071;</i> Expat nurse and national doctor must review</font></p></span>
-				<span id="total-pews-4"><p><font color="red"><i class="icon-">&#xf071;</i> Expat nurse and national doctor must review and inform expat doctor</font></p></span>
-				<span id="total-pews-5"><p><font color="red"><i class="icon-">&#xf071;</i> Expat nurse and national doctor and expat doctor must review</font></p></span>
-				<span id="total-pews-6"><p><font color="red"><i class="icon-">&#xf071;</i> Expat nurse and national doctor and expat doctor must review</font></p></span>
-
-
-
-			</ifMode>
-			<ifMode mode="VIEW">
-				<p>
-					<span id="total-pews"></span>
-					<span id="total-pews-null"><small>Total PEWS score requires all PEWS Vitals signs</small></span>
-				</p>
-
-				<p>
-					<span id="total-pews-null-no-limits" ><font color="red"><i class="icon-">&#xf071;</i>No Vitals limits provided for the age of the Patient</font></span>
-				</p>
-
-			</ifMode>
-
-		</fieldset>
-	</section>
-	<submit/>
-
-	</htmlform>							
+</htmlform>							
