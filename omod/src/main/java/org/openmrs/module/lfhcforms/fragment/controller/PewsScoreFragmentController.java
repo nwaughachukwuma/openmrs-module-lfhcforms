@@ -1,8 +1,10 @@
 package org.openmrs.module.lfhcforms.fragment.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +16,7 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.jfree.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -21,6 +24,7 @@ import org.openmrs.Person;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import org.openmrs.ui.framework.UiUtils;
@@ -166,6 +170,22 @@ public class PewsScoreFragmentController {
 		public Component(String label) {
 			this.label = label;
 		}
+
+		public String getLabel() {
+			return label;
+		}
+
+		public void setLabel(String label) {
+			this.label = label;
+		}
+
+		public Double getValue() {
+			return value;
+		}
+
+		public void setValue(Double value) {
+			this.value = value;
+		}
 	}
 	
 	/**
@@ -195,7 +215,7 @@ public class PewsScoreFragmentController {
 		TypeFactory typeFactory = mapper.getTypeFactory();
 		MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, Boundaries.class);
 		
-		HashMap<String, Boundaries> boundariesMap = null;
+		HashMap<String, Boundaries> boundariesMap = new HashMap<String, Boundaries>();
 		try {
 			boundariesMap = mapper.readValue(json, mapType);
 		} catch (Exception e) {
@@ -216,10 +236,13 @@ public class PewsScoreFragmentController {
 		
 		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
 		Map<String, Boundaries> boundariesMap = getBoundariesMapFromJson(json);
+		if(boundariesMap.isEmpty())
+			Log.warn("The JSON boundaries file returned an empty map, please check the file as no boundaries are defined.");
 				
 		Map<String, Component> pewsComponents = new HashMap<String, Component>();
 		
-		String viewErrMsg = "";		
+		String modelErrMsg = "";	
+		Date lastPewsDate = new Date();
 		for(String conceptMapping : boundariesMap.keySet()) {
 			
 			Boundaries boundaries = boundariesMap.get(conceptMapping);
@@ -231,9 +254,13 @@ public class PewsScoreFragmentController {
 
 			Obs obs = getLastObs(obsService, patient, concept);
 			if(obs == null) {
-				viewErrMsg = "'" + concept.getName(Locale.ENGLISH).getName() + "' required for PEWS score has no obs recorded.";
+				modelErrMsg = "'" + concept.getName(Locale.ENGLISH).getName() + "' required for PEWS score has no obs recorded.";
 				break;
 			}
+			
+			Date obsDate = obs.getObsDatetime(); 
+			if(obsDate.before(lastPewsDate))
+				lastPewsDate = obsDate;
 			
 			// TODO Maybe check that all obs date-time are within a window (and record the oldest date-time as the PEWS timestamp
 			
@@ -254,22 +281,45 @@ public class PewsScoreFragmentController {
 			pewsComponents.put(componentId, component);
 		}
 		
-		String pews = "";
-		if(viewErrMsg.isEmpty()) {
-			// Summing up the PEWS components.
-			Double pewsScore = 0.0;
-			for(Component component : pewsComponents.values())
-				pewsScore += component.value;
-			pews = "PEWS score = " + pewsScore;
-		}
-		else {
-			pews = viewErrMsg;
-		}
+		// Filling the view
+		String modelPews = "";
+		String modelLastUpdated = "";
+		String modelAction = "";
+		// Summing up the PEWS components.
+		Double pewsScore = 0.0;
+		for(Component component : pewsComponents.values())
+			pewsScore += component.value;
+		modelPews = "PEWS score = " + pewsScore;
+		
+		modelLastUpdated = (new PrettyTime(Context.getLocale())).format(lastPewsDate);
+//		modelLastUpdated = (new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss")).format(lastPewsDate);
+		
+		int actionIdx = getActionIndex(pewsScore);
+		modelAction = ui.message("lfhcforms.pewsscore.action" + actionIdx);
 			
-		model.addAttribute("pews", pews);
+		model.addAttribute("errorMsg", modelErrMsg);
+		model.addAttribute("pews", modelPews);
+		model.addAttribute("lastUpdated", modelLastUpdated);
+		model.addAttribute("action", modelAction);
 		model.addAttribute("pewsComponents", pewsComponents.values());
 	}
 	
+	private int getActionIndex(Double pewsScore) {
+		int idx = 5;
+		
+		if(pewsScore >= 5)
+			idx = 5;
+		else if(pewsScore >= 4)
+			idx = 4;
+		else if(pewsScore >= 3)
+			idx = 3;
+		else if(pewsScore >= 2)
+			idx = 2;
+		else
+			idx = 0;
+		return idx;
+	}
+
 	/**
 	 * @param patientAge, in months
 	 * @return The index to use in 'highs' and 'lows' based on the patient's age.

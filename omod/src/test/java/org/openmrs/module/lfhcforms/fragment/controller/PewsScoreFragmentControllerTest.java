@@ -7,13 +7,19 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.api.ConceptService;
@@ -130,5 +136,14 @@ public class PewsScoreFragmentControllerTest {
 		}
 		for(Integer count : parentIdsCount.values())
 			assertTrue(count > 1);
+	}
+	
+	@Test
+	public void getPewsComponentIncrement_foo() throws ParseException {
+	
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date thisDate = formatter.parse("2015-09-05");
+		
+		System.out.println( (new PrettyTime(new Locale("en-GB"))).format(thisDate) );
 	}
 }
