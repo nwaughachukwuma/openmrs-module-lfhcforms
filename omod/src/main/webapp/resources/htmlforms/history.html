@@ -1,12 +1,14 @@
-<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.3">
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.4">
 
-<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		jQuery(document).ready(function(){
 			toggleContainers();
 		});
-</script>
+	</script>
+</ifMode>
 
 
 <div class="hidden" id="who-when-where">

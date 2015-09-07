@@ -1,13 +1,15 @@
-<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.4">
+<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.5">
 
-<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-		toggleContainers();
-	});
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
 
-</script>
+	</script>
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">

@@ -1,13 +1,14 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.1">
 
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
-
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-		toggleContainers();
-	});
-</script>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+</ifMode>
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="properViewMode">
