@@ -1,14 +1,15 @@
-<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4.2">
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4.3">
 
-<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-<script type="text/javascript">
-	jQuery(document).ready(function(){
-		toggleContainers();
-	});
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
 
 
-	jQuery(document).ready(function(){
+		jQuery(document).ready(function(){
 
 		// pasting the tests ordered into the tests answers
 		var checked =  null;
@@ -26,8 +27,8 @@
 		jQuery(htmlform).find("#other-target").find("input").val(other);
 	});
 
-</script>
-
+	</script>
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
