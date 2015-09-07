@@ -1,15 +1,24 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.7">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6">
 
 
 <uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 <script type="text/javascript">
-		jQuery(document).ready(function(){
-			toggleContainers();
-		});
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
 </script>
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
 
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
+		});
+	</script>
+
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -91,13 +100,14 @@
 				
 			</repeat>
 		</p>
-		<br/>
-		<p>
-
-			<strong>
-				Please also fill in the Lab Test Order form to order your tests
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the Lab Test Order form to order your tests
+				</strong>
+			</p>
+		</ifMode>
 	</fieldset>
 	<fieldset field-separator=", ">
 
@@ -121,12 +131,14 @@
 				<render n="405"/>
 			</repeat>
 		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the X-ray Order form to order your x-rays
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the X-ray Order form to order your x-rays
+				</strong>
+			</p>
+		</ifMode>
 
 	</fieldset>
 
@@ -157,13 +169,14 @@
 
 			</repeat>
 		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the Ultrasound Order form to order your ultrasounds
-			</strong>
-		</p>
-
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the Ultrasound Order form to order your ultrasounds
+				</strong>
+			</p>
+		</ifMode>
 	</fieldset>
 
 
@@ -237,6 +250,7 @@
 
 			</repeat>
 		</p>
+
 	</fieldset>
 
 
