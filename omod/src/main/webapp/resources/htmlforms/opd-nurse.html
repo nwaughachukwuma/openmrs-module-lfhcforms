@@ -1,49 +1,13 @@
-<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.2">
+<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.4">
 
-<!-- Temporarily and poorly handle "Add" and "Remove" buttons when there is more than one toggleContainer
-TODO: Separate the Logic from the Display
--->
+<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 <script type="text/javascript">
-	if(jQuery){
-		jQuery(document).ready(function(){
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
 
-			jQuery('#10-addEntry').remove();
-
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-		});
-
-
-		jQuery(document).ready(function(){
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
 </script>
-
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -206,11 +170,11 @@ TODO: Separate the Logic from the Display
 			</p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" style="display:none;">
+					<div id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
 						<p>
-							<obs conceptId="CIEL:1273" labelText="Where"/>                                   
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+							<obs id="{n}" conceptId="CIEL:1273" labelText="Where"/>                                   
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 
 					</div>
@@ -249,11 +213,11 @@ TODO: Separate the Logic from the Display
 			<p>
 				<repeat>
 					<template>
-						<div id="{n}-toggleContainer" style="display:none;">
+						<div id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
 							<p>
-								<obs conceptId="CIEL:1193" labelText="Medication Family"/>                                   
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+								<obs id="{n}" conceptId="CIEL:1193" labelText="Medication Family"/>                                   
+								<i class="addEntry icon-">&#xf055; Add</i>
+								<i class="removeEntry icon-">   &#xf056; Remove</i>
 							</p>
 
 						</div>
@@ -269,11 +233,11 @@ TODO: Separate the Logic from the Display
 			<span id="medication-now-other">
 				<repeat>
 					<template>
-						<div id="{n}-toggleContainer" style="display:none;">
+						<div id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
 							<p>
-								<obs conceptId="CIEL:160632" labelText="Other" />
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+								<obs id="{n}" conceptId="CIEL:160632" labelText="Other" />
+								<i class="addEntry icon-">&#xf055; Add</i>
+								<i class="removeEntry icon-">   &#xf056; Remove</i>
 							</p>
 
 						</div>
@@ -353,11 +317,11 @@ TODO: Separate the Logic from the Display
 		<p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" style="display:none;">
+					<div id="{n}-toggleContainer" templateBlockId="matMed" class="toggleContainer" style="display:none;">
 						<p>
-							<obs id="pregnancy-medication" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+							<obs id="{n}" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 
 					</div>

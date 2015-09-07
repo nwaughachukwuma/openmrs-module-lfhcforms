@@ -1,26 +1,21 @@
 <htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6">
 
-<ifMode mode="VIEW" include="false">
-	<uiInclude javascript="toggleContainers.js" provider="lfhcforms"/>
-	<script type="text/javascript">
+<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-		if(jQuery){
-			jQuery(document).ready(function(){
-				toggleContainers();
-			});
-		}
-	</script>
-
-</ifMode>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
+</script>
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="properViewMode">
+
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
 		});
 	</script>
-
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -126,7 +121,10 @@
 				<render n="405"/>
 			</repeat>
 		</p>
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 		<ifMode mode="VIEW" include="false">
 			<br/>
 			<p>
@@ -243,6 +241,7 @@
 
 			</repeat>
 		</p>
+
 	</fieldset>
 
 

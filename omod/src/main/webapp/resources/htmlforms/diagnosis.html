@@ -1,46 +1,12 @@
-<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.4.1">
+<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.4.2">
 
+<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 <script type="text/javascript">
-	if(jQuery){
-		jQuery(document).ready(function(){
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
 
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
-		});
-
-
-		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
-		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
 </script>
 
 
@@ -87,7 +53,7 @@
 		<repeat>
 			<template>
 
-				<div id="{n}-toggleContainer" style="display:none;">
+				<div id="{n}-toggleContainer" templateBlockId="diagnosis" class="toggleContainer" style="display:none;">
 					<obsgroup groupingConceptId="CIEL:159947">
 						<table class="tg">
 							<tbody>
@@ -97,7 +63,7 @@
 									</td>
 									<td>
 										<p>
-											<obs conceptId="CIEL:159946"/>
+											<obs id="{n}" conceptId="CIEL:159946"/>
 										</p>
 									</td>
 								</tr>
@@ -124,8 +90,8 @@
 								</tr>
 								<tr>
 									<td colspan="2" style="text-align:right;">
-										<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-										<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+										<i class="addEntry icon-">&#xf055; Add</i>
+										<i class="removeEntry icon-">   &#xf056; Remove</i>
 									</td>
 								</tr>
 							</tbody>
