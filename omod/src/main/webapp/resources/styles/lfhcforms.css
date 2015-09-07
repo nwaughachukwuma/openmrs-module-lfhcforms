@@ -6,3 +6,8 @@
 	font-weight: normal;
 	margin-bottom: 10px;
 }
+
+/* Style to dispaly an "age when given" = "age given on time"  */
+.onTime {
+	color: green;
+}

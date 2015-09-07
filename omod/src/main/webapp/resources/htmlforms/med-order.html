@@ -1,68 +1,79 @@
-<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.4.1">
+
+<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.5">
 
 
+<ifMode mode="VIEW" include="false">
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-	<!-- 07/08/2015 Romain: Dose Calculation Helper is set aside for now to simplify the UI
+		<!-- 07/08/2015 Romain: Dose Calculation Helper is set aside for now to simplify the UI
 
-	function calculateDose (weight, doseCalculation){
-		var dose = (weight * doseCalculation);
-		return dose;
-	}
+		function calculateDose (weight, doseCalculation){
+			var dose = (weight * doseCalculation);
+			return dose;
+		}
 
 
-	function updateDose (weight, doseCalculation, sectionNo) {
+		function updateDose (weight, doseCalculation, sectionNo) {
 
-		if (!(weight == null) ) {
+			if (!(weight == null) ) {
+				jQuery("#weight-value").show();
+				jQuery("#weight-null").hide();
+
+				var dose = calculateDose(weight, doseCalculation);
+				setValue("dose.value", dose);
+				setValue("dose-unit.value", 161553)
+			}
+			else {
+				jQuery("#weight-value").hide();
+				jQuery("#weigh-null").show();
+			}
+
+		}
+
+	-->
+
+
+	jQuery(function () {
+
+
+		jQuery("#weight-value").hide();
+		jQuery("#weight-null").hide();
+
+
+	var weight = jQuery(htmlform).find("#weight").text();
+
+		if (!(weight === "")) {
 			jQuery("#weight-value").show();
 			jQuery("#weight-null").hide();
-
-			var dose = calculateDose(weight, doseCalculation);
-			setValue("dose.value", dose);
-			setValue("dose-unit.value", 161553)
-		}
-		else {
+		}else {
 			jQuery("#weight-value").hide();
-			jQuery("#weigh-null").show();
+			jQuery("#weight-null").show();
 		}
 
-	}
+		jQuery( ".dose-calculation" ).change(function() {
 
--->
+			var doseCalculation = document.getElementById("dose-calculation").value;
+			var weight = jQuery(htmlform).find("#weight").text();
+			updateDose(weight, doseCalculation);
 
-jQuery(function () {
+		});
 
-
-	jQuery("#weight-value").hide();
-	jQuery("#weight-null").hide();
-
-
-	var weight = jQuery(this).find("#weight").text();
-
-	if (!(weight === "")) {
-		jQuery("#weight-value").show();
-		jQuery("#weight-null").hide();
-	}else {
-		jQuery("#weight-value").hide();
-		jQuery("#weight-null").show();
-	}
-
-	jQuery( ".dose-calculation" ).change(function() {
-
-		var doseCalculation = document.getElementById("dose-calculation").value;
-		var weight = jQuery(htmlform).find("#weight").text();
-		updateDose(weight, doseCalculation);
 
 	});
 
-
-});
-
-
-
-
 </script>
+
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("f1ebd934-e291-430d-956c-cd7eea7af5c1");
+		});
+	</script>
+</ifMode>
 
 
 
@@ -94,34 +105,32 @@ jQuery(function () {
 </div>
 
 
+<section id="drug-order" sectionTag="section" headerStyle="title" headerCode="Medication Order">
 
-<ifMode mode="VIEW" include="false">
-	<section id="drug-order" sectionTag="section" headerStyle="title" headerCode="Medication Order">
+	<obsgroup groupingConceptId="CIEL:1442">
 
-		<obsgroup groupingConceptId="CIEL:1442">
+		<fieldset >
+			<legend>Drug</legend>
+			<h3>Drug to order</h3>
+			<small>Enter the drug want to prescribe (auto-complete field)</small>
+			<p>				
 
-			<fieldset >
-				<legend>Drug</legend>
-				<h3>Drug to order</h3>
-				<small>Enter the drug want to prescribe (auto-complete field)</small>
-				<p>				
+				<obs id="drug-ordered" conceptId="CIEL:1282" answerClasses="Drug" style="autocomplete" size="10"/>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>Route</legend>
+			<h3>Route</h3>
+			<small>Choose a route</small>
+			<p>
 
-					<obs id="drug-ordered" conceptId="CIEL:1282" answerClasses="Drug" style="autocomplete" size="10"/>
-				</p>
-			</fieldset>
-			<fieldset>
-				<legend>Route</legend>
-				<h3>Route</h3>
-				<small>Choose a route</small>
-				<p>
+				<obs id="route" conceptId="LFHC:1029"/>
 
-					<obs id="route" conceptId="LFHC:1029"/>
-
-				</p>
-			</fieldset>
-			<fieldset>
-				<legend>Dose</legend>
-				<h3>Dose</h3>
+			</p>
+		</fieldset>
+		<fieldset>
+			<legend>Dose</legend>
+			<h3>Dose</h3>
 
 <!-- 07/08/2015 Romain: Dose Calculation Helper is set aside to simplify the UI
 				<table>	
@@ -139,9 +148,7 @@ jQuery(function () {
 					</tr>
 				</table>
 			-->
-
-			<p>
-
+			<ifMode mode="VIEW" include="false">
 				<span id="weight-value">
 					<p><strong>Patient weight is <span id="weight"><lookup expression="fn.latestObs('CIEL:5089').valueNumeric" /></span>kg</strong>
 					</p>
@@ -149,15 +156,20 @@ jQuery(function () {
 				<span id="weight-null">
 					<font color="red"><i class="icon-">&#xf071;</i>Weight has not been recorded yet</font>
 				</span>
-
-				<p>
-					<obs id="dose" conceptId="CIEL:160856" labelText="Dose: " />
-				</p>
-				<p>
-					<obs id="dose-unit" conceptId="CIEL:161563" labelText="Unit: " answerConceptIds="CIEL:161553, CIEL:161554, CIEL:162263, CIEL:162366" answerLabels="mg, g, ml, mcg" />
-				</p>
-
+			</ifMode>
+			<p>
+				<ifMode mode="VIEW" include="false">
+					<span>Dose: </span>
+				</ifMode>
+				<obs id="dose" conceptId="CIEL:160856" />
 			</p>
+			<p>
+				<ifMode mode="VIEW" include="false">
+					<span>Unit: </span>
+				</ifMode>
+				<obs id="dose-unit" conceptId="CIEL:161563" answerConceptIds="CIEL:161553, CIEL:161554, CIEL:162263, CIEL:162366" answerLabels="mg, g, ml, mcg" />
+			</p>
+
 		</fieldset>
 		<fieldset>
 			<legend>Frequency</legend>
@@ -188,103 +200,7 @@ jQuery(function () {
 		</fieldset>
 	</obsgroup>
 </section>
-</ifMode>
-
-
-<ifMode mode="VIEW">
-
-	<obsgroup groupingConceptId="CIEL:1442">
-
-		<section>			
-
-			
-
-			<table>
-				<thead>
-					<tr>
-						<th colspan="2">
-							<p>Order Summary</p>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							Drug ordered: 
-						</td>
-						<td>
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;CIEL:1282&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;1282&quot;).valueCoded.getName()"/>
-							</includeIf>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Route: 
-						</td>
-						<td>
-
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;LFHC:1029&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;LFHC:1029&quot;).valueCoded.getName()"/>
-							</includeIf>
-
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Dose:	
-						</td>
-						<td>
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;CIEL:160856&quot;) || $fn.getObs($encounter,&quot;CIEL:161563&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;CIEL:160856&quot;).valueNumeric"/> <lookup complexExpression="$fn.getObs($encounter,&quot;CIEL:161563&quot;).valueCoded.getName()"/>
-							</includeIf>	
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Frequency: 	
-						</td>
-						<td>
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;CIEL:160855&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;CIEL:160855&quot;).valueCoded.getName()"/>
-							</includeIf>	
-						</td>
-
-					</tr>
-					<tr>
-						<td>
-							Duration: 
-						</td>
-						<td>
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;CIEL:159368&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;CIEL:159368&quot;).valueNumeric"/> days
-							</includeIf>
-
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Indication: 
-						</td>
-						<td>
-							<includeIf velocityTest="$fn.getObs($encounter,&quot;CIEL:160742&quot;)">
-								<lookup complexExpression="$fn.getObs($encounter,&quot;CIEL:160742&quot;).valueCoded.getName()"/>
-							</includeIf>
-
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-		</section>
-
-	</obsgroup>
-
-
-
-</ifMode>
-
 
 
 <submit/>
-</htmlform>			
+</htmlform>
