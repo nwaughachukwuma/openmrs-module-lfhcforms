@@ -45,13 +45,15 @@
 				jQuery(".check").closest("p").hide();
 				jQuery('br').remove();
 
+				/* Handle displaying On Time immunity given */
 				jQuery("fieldset").find(".check").each( function () {
 				
 					var obs = jQuery(this).attr("name");
 					var onTimeValue = jQuery(this).attr("onTimeValue");
 
+					/* assign the onTime class to given on time vaccines */
 					if (onTimeValue == jQuery(this).closest('fieldset').find("#"+obs+"-age").find('.value').text()) {
-						jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("style", "onTime");
+						jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("class", "onTime");
 					}
 				});
 
@@ -95,11 +97,11 @@
 			Immunity
 		</legend>
 		<h3>
-			Immunity
+			Is the patient Immunosuppressed ? 
 		</h3>
 		<obsgroup groupingConceptId="LFHC:1105">
 			<p>
-				<obs id="immu-suppr" conceptId="LFHC:1177" labelText="Is the patient Immunosuppressed ? ">
+				<obs id="immu-suppr" conceptId="LFHC:1177">
 					<controls>
 						<when value="CIEL:1065" thenDisplay="#immu-suppr-details"/>
 					</controls>
