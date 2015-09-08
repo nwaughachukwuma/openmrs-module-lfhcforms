@@ -138,9 +138,9 @@ var properViewModeForTable = function  (formUuid) {
 
 			/* iterate through each <td> of the forms */
 			jQuery(currentForm).find("fieldset").find("td").each(function (index, td){
-				/* hide if the <td> has emptyValue */
+				/* remove if the <td> has emptyValue */
 				if (jQuery(td).find(".emptyValue").text()) {
-					jQuery(td).hide();
+					jQuery(td).remove();
 				}
 			});
 
