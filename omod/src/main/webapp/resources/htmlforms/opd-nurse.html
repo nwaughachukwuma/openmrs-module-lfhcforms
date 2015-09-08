@@ -11,6 +11,21 @@
 	</script>
 </ifMode>
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
+
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
+		});
+
+		
+
+	</script>
+</ifMode>
+
+
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -172,14 +187,12 @@
 			</p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
-						<p>
-							<obs id="{n}" conceptId="CIEL:1273" labelText="Where"/>                                   
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-
-					</div>
+					<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
+						
+						<obs id="{n}" conceptId="CIEL:1273" labelText="Where"/>                                   
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</p>
 				</template>
 				<render n="401"/>
 				<render n="402"/>
@@ -215,14 +228,11 @@
 			<p>
 				<repeat>
 					<template>
-						<div id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
-							<p>
-								<obs id="{n}" conceptId="CIEL:1193" labelText="Medication Family"/>                                   
-								<i class="addEntry icon-">&#xf055; Add</i>
-								<i class="removeEntry icon-">   &#xf056; Remove</i>
-							</p>
-
-						</div>
+						<p id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
+							<obs id="{n}" conceptId="CIEL:1193" labelText="Medication Family"/>                                   
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
 					</template>
 					<render n="101"/>
 					<render n="102"/>
@@ -235,14 +245,11 @@
 			<span id="medication-now-other">
 				<repeat>
 					<template>
-						<div id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
-							<p>
-								<obs id="{n}" conceptId="CIEL:160632" labelText="Other" />
-								<i class="addEntry icon-">&#xf055; Add</i>
-								<i class="removeEntry icon-">   &#xf056; Remove</i>
-							</p>
-
-						</div>
+						<p id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
+							<obs id="{n}" conceptId="CIEL:160632" labelText="Other" />
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
 					</template>
 					<render n="201"/>
 					<render n="202"/>
@@ -270,7 +277,27 @@
 			Full term gestation
 		</h3>
 		<!-- The following will use a different Concept if the patient is a Male or a female -->
-		<includeIf velocityTest="$patient.gender == 'F' ">
+		<ifMode mode="VIEW" include="false">
+			<includeIf velocityTest="$patient.gender == 'F' ">
+				<p>
+					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+						<controls>
+							<when value="CIEL:1066" thenDisplay="#gestation-term" />
+						</controls>
+					</obs>
+				</p>
+			</includeIf>
+			<includeIf velocityTest="$patient.gender == 'M' ">
+				<p>
+					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+						<controls>
+							<when value="CIEL:1066" thenDisplay="#gestation-term" />
+						</controls>
+					</obs>
+				</p>
+			</includeIf>
+		</ifMode>
+		<ifMode mode="VIEW">
 			<p>
 				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
 					<controls>
@@ -278,8 +305,6 @@
 					</controls>
 				</obs>
 			</p>
-		</includeIf>
-		<includeIf velocityTest="$patient.gender == 'M' ">
 			<p>
 				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
 					<controls>
@@ -287,7 +312,7 @@
 					</controls>
 				</obs>
 			</p>
-		</includeIf>
+		</ifMode>
 		<span id="gestation-term">
 			<p>
 				<obs conceptId="CIEL:159926" labelText="Gestation term" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
@@ -319,14 +344,11 @@
 		<p>
 			<repeat>
 				<template>
-					<div id="{n}-toggleContainer" templateBlockId="matMed" class="toggleContainer" style="display:none;">
-						<p>
-							<obs id="{n}" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-
-					</div>
+					<p id="{n}-toggleContainer" templateBlockId="matMed" class="toggleContainer" style="display:none;">
+						<obs id="{n}" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</p>
 				</template>
 				<render n="501"/>
 				<render n="502"/>
@@ -455,17 +477,23 @@
 			</obs>
 		</p>
 		<span id="hepatitis-b-no">
-			<br />
-			<p>
-				<font color="red">Please notify doctor</font>
-			</p>
+			<ifMode mode="VIEW" include="false">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</ifMode>
 		</span>
+		
 		<span id="hepatitis-b-unknown">
-			<br />
-			<p>
-				<font color="red">Please notify doctor</font>
-			</p>
+			<ifMode mode="VIEW" include="false">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</ifMode>
 		</span>
+		
 	</fieldset>
 
 
