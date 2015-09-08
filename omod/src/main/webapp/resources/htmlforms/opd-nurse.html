@@ -13,15 +13,11 @@
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="properViewModeForTable">
-
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
 			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
 		});
-
-		
-
 	</script>
 </ifMode>
 
@@ -270,34 +266,13 @@
 
 	<fieldset field-separator=", ">
 		<legend>
-
 			Gestation term
 		</legend>
 		<h3>
 			Full term gestation
 		</h3>
 		<!-- The following will use a different Concept if the patient is a Male or a female -->
-		<ifMode mode="VIEW" include="false">
-			<includeIf velocityTest="$patient.gender == 'F' ">
-				<p>
-					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
-						<controls>
-							<when value="CIEL:1066" thenDisplay="#gestation-term" />
-						</controls>
-					</obs>
-				</p>
-			</includeIf>
-			<includeIf velocityTest="$patient.gender == 'M' ">
-				<p>
-					<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
-						<controls>
-							<when value="CIEL:1066" thenDisplay="#gestation-term" />
-						</controls>
-					</obs>
-				</p>
-			</includeIf>
-		</ifMode>
-		<ifMode mode="VIEW">
+		<includeIf velocityTest="$patient.gender == 'F' ">
 			<p>
 				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
 					<controls>
@@ -305,6 +280,8 @@
 					</controls>
 				</obs>
 			</p>
+		</includeIf>
+		<includeIf velocityTest="$patient.gender == 'M' ">
 			<p>
 				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
 					<controls>
@@ -312,7 +289,7 @@
 					</controls>
 				</obs>
 			</p>
-		</ifMode>
+		</includeIf>
 		<span id="gestation-term">
 			<p>
 				<obs conceptId="CIEL:159926" labelText="Gestation term" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
