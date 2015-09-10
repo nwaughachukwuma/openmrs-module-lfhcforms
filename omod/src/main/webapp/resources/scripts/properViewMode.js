@@ -165,6 +165,7 @@ if (hideSection) {
 var properViewModeForTable = function  (formUuid) {
 
 	jQuery("htmlform").each(function (index, currentForm) {
+
 		if (jQuery(currentForm).attr("formUuid") == formUuid) {
 
 			/* iterate through each <td> of the forms */
@@ -177,7 +178,7 @@ var properViewModeForTable = function  (formUuid) {
 
 			/* replacing the tables by a list of "p" included in a "span" */
 			$("table").each(function(index, table){
-				var span = $("<span>")
+				var span = $("<fieldset>")
 				$("th", this).each(function() {
 					var title = $("<span>");
 					title.append(this.innerHTML);
@@ -185,11 +186,13 @@ var properViewModeForTable = function  (formUuid) {
 					span.append(title);
 				});
 				$("td", this).each(function(){
-					span.append(this.innerHTML.replace("[X]&nbsp;", ""));
+					span.append("<fieldset>"+this.innerHTML.replace("[X]&nbsp;", "")+"</fieldset>");
 				});
 				$(table).replaceWith(span);
 			})
 
 		}
+
 	});
+
 }
