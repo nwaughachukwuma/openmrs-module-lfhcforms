@@ -91,35 +91,66 @@ var properViewMode = function (formUuid) {
 						} else {
 							hideFieldset = false;
 						}
+
+						/* display the text of a "p" as an obs title when there is class "questionLabel" */
+						/*<p>
+						/*		<span class="questionLabel">Patient is contact of known or suspected infectious case</span>
+						/*		<obs conceptId="162633"/>
+						/*</p>
+						*/
+
+						$(element).closest("p").find(".questionLabel").each(function (indexL, labelSpan) {
+
+							/* get the free text of the obs to be used as h3 */
+							var obsTitle = $(labelSpan)
+							.clone()
+							.children()
+							.remove()
+							.end()
+							.text();
+
+							/* get the "obsSpan" innerHTML */
+							var obsSpan = $(element).closest("span");
+
+							/* Create a new "p" */
+							var newP = $("<p>");
+							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(element).closest("span").clone()).html()+"</span>");
+							var newSpan = $("<span>");
+							$(newSpan).append("<br/><h3>"+obsTitle+"</h3>"+$('<div>').append($(newP).clone()).html());
+
+							/* replace the current "p" by its new version */
+							$(element).closest("p").replaceWith(newSpan);
+						});
+
 					});
 
-					/* hide the parent "p" section when Obs have emptyValue */
-					jQuery(currentFieldset).find(".emptyValue").closest("p").hide();
+/* hide the parent "p" section when Obs have emptyValue */
+jQuery(currentFieldset).find(".emptyValue").closest("p").hide();
 
-					if (hideFieldset) {
-						jQuery(currentFieldset).hide()
-					}
+if (hideFieldset) {
+	jQuery(currentFieldset).hide()
+}
 
-					/* handle the "when" markup */
-					jQuery(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
-						if (jQuery(thenDisplay).text() == "") {
-							jQuery(thenDisplay).closest("p").hide();
-						}
-					});
-					i = i+1;
+/* handle the "when" markup */
+jQuery(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
+	if (jQuery(thenDisplay).text() == "") {
+		jQuery(thenDisplay).closest("p").hide();
+	}
+});
+i = i+1;
 
-					/* if all fieldsets of the current section are hidden, define an empty fieldset */
-					if ($(currentFieldset).css("display") == "none"){
-						emptyFieldset = emptyFieldset+1;
-					}
+/* if all fieldsets of the current section are hidden, define an empty fieldset */
+if ($(currentFieldset).css("display") == "none"){
+	emptyFieldset = emptyFieldset+1;
+}
 
-					/*1 if all fieldsets are empty, define the hideSection */
-					if(emptyFieldset == indexF) {
-						hideSection = true;
-					} else {
-						hideSection = false;
-					}
-				});
+/*1 if all fieldsets are empty, define the hideSection */
+if(emptyFieldset == indexF) {
+	hideSection = true;
+} else {
+	hideSection = false;
+}
+});
 
 if (hideSection) {
 	jQuery(currentSection).hide()
