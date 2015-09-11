@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.MapType;
@@ -21,10 +22,12 @@ import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.Person;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.lfhcforms.activator.AdminConfigInitializer;
 import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import org.openmrs.ui.framework.UiUtils;
@@ -226,6 +229,7 @@ public class PewsScoreFragmentController {
 	}
 	
 	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
+			,	@SpringBean("adminService") AdministrationService adminService
 			,	@SpringBean("patientService") PatientService patientService
 			,	@SpringBean("conceptService") ConceptService conceptService
 			,	@SpringBean("obsService")	  ObsService obsService
@@ -233,6 +237,17 @@ public class PewsScoreFragmentController {
 	{	
 		patient = patientService.getPatient(patient.getId());
 		int ageInMonths = (int) (Days.daysBetween(new DateTime(patient.getBirthdate()), DateTime.now()).getDays() / (365.0/12)); // Patient age truncation in months
+		
+		String pewsTimeStr = adminService.getGlobalProperty(AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY);
+		long timeWindowInMin = AdminConfigInitializer.PEWS_FALLBACK_TIMEWINDOW;
+		if(pewsTimeStr != null) {
+			try {
+				timeWindowInMin = Integer.parseInt(pewsTimeStr);
+			}
+			catch(NumberFormatException e) {
+				Log.error("The global property '" + AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY + "''s value could not be parsed to an integer number of minutes. Falling back to the harcoded default value: " + timeWindowInMin, e);
+			}
+		}
 		
 		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
 		Map<String, Boundaries> boundariesMap = getBoundariesMapFromJson(json);
@@ -242,7 +257,7 @@ public class PewsScoreFragmentController {
 		Map<String, Component> pewsComponents = new HashMap<String, Component>();
 		
 		String modelErrMsg = "";	
-		Date lastPewsDate = new Date();
+		Date earliestObsDate = new Date();
 		for(String conceptMapping : boundariesMap.keySet()) {
 			
 			Boundaries boundaries = boundariesMap.get(conceptMapping);
@@ -254,15 +269,20 @@ public class PewsScoreFragmentController {
 
 			Obs obs = getLastObs(obsService, patient, concept);
 			if(obs == null) {
-				modelErrMsg = "'" + concept.getName(Locale.ENGLISH).getName() + "' required for PEWS score has no obs recorded.";
+				modelErrMsg = ui.message("lfhcforms.pewsscore.error.obsmissing", concept.getName(Locale.ENGLISH).getName());
 				break;
 			}
 			
-			Date obsDate = obs.getObsDatetime(); 
-			if(obsDate.before(lastPewsDate))
-				lastPewsDate = obsDate;
+			// Checking the PEWS obs time window
+			final Date obsDate = obs.getObsDatetime(); 
+			if(obsDate.before(earliestObsDate))
+				earliestObsDate = obsDate;
 			
-			// TODO Maybe check that all obs date-time are within a window (and record the oldest date-time as the PEWS timestamp
+			long minutes = TimeUnit.MILLISECONDS.toMinutes( obsDate.getTime() - earliestObsDate.getTime() );
+			if(minutes > timeWindowInMin) {
+				modelErrMsg = ui.message("lfhcforms.pewsscore.error.timewindow", timeWindowInMin);
+				break;
+			}
 			
 			String componentId = conceptMapping;			
 			// initialization
@@ -289,10 +309,10 @@ public class PewsScoreFragmentController {
 		Double pewsScore = 0.0;
 		for(Component component : pewsComponents.values())
 			pewsScore += component.value;
-		modelPews = "PEWS score = " + pewsScore;
+		modelPews = ui.message("lfhcforms.pewsscore.title") + " = " + pewsScore;
 		
-		modelLastUpdated = (new PrettyTime(Context.getLocale())).format(lastPewsDate);
-//		modelLastUpdated = (new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss")).format(lastPewsDate);
+//		modelLastUpdated = (new PrettyTime(Context.getLocale())).format(earliestObsDate);
+		modelLastUpdated = (new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss")).format(earliestObsDate);
 		
 		int actionIdx = getActionIndex(pewsScore);
 		modelAction = ui.message("lfhcforms.pewsscore.action" + actionIdx);

@@ -16,6 +16,7 @@ package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
@@ -26,6 +27,9 @@ import org.openmrs.module.lfhcforms.LFHCFormsActivator;
  */
 public class AdminConfigInitializer implements Initializer {
 
+	public final static String PEWS_TIME_WINDOW_PROPERTY = "lfhcforms.pewsTimeWindowInMin";
+	public final static int PEWS_FALLBACK_TIMEWINDOW = 0;
+	
 	protected static final Log log = LogFactory.getLog(AdminConfigInitializer.class);
 
 	/**
@@ -38,6 +42,12 @@ public class AdminConfigInitializer implements Initializer {
 		// Disabling the default Patient Registration app (page).
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
+		
+		AdministrationService adminService = Context.getAdministrationService();
+		String pewsTime = adminService.getGlobalProperty(PEWS_TIME_WINDOW_PROPERTY);
+		if(pewsTime == null) {
+			adminService.setGlobalProperty(PEWS_TIME_WINDOW_PROPERTY, (new Integer(PEWS_FALLBACK_TIMEWINDOW)).toString());
+		}
 	}
 
 	/**
