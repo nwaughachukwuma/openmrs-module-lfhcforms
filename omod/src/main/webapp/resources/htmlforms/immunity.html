@@ -47,7 +47,7 @@
 
 				/* Handle displaying On Time immunity given */
 				jQuery("fieldset").find(".check").each( function () {
-				
+					
 					var obs = jQuery(this).attr("name");
 					var onTimeValue = jQuery(this).attr("onTimeValue");
 
@@ -129,9 +129,11 @@
 			</obs>
 
 		</p>
-		<p>
-			<strong id="loose-stools-yes"><i class="icon-">&#xf071;</i> Needs enteric isolation</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<p>
+				<strong id="loose-stools-yes"><i class="icon-">&#xf071;</i> Needs enteric isolation</strong>
+			</p>
+		</ifMode>
 	</fieldset>
 	<fieldset>
 		<legend>
