@@ -1,4 +1,34 @@
-<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.4.3">
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Diagnostic Imaging" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.5">
+
+
+<!-- The following logic will ensure that observations enterered in ENTER mode are passed to the VIEW mode. -->
+<!-- This doesn't work out of the box because the observations in VIEW mode are nested within "obsgroups" so to link results and comments with the procedure ordered-->
+<!-- The main idea behind that is to lookup the procedure ordered (automatically filled in from the ENTER mode) and copy this obs into the "obsgroup" -->
+<!-- -->
+<!-- Write the HTML as above -->
+<!-- class="hiddenObs" is used to toggle the whole field when the obs has been selected -->
+<!-- class="source" is used to identify the obs that will be pasted into the "obsgroup" -->
+<!-- the id="8659-source" must be kept of this format. (The function parseFloat is used to determine the observation in the "obsgroup") -->
+<!--	-->
+<!--			<tr class="hiddenObs" style="display:none;"> -->
+<!--			<td> -->
+<!--				<span style="display:none;"> -->
+<!--					<obs id="8659-source" class="source" conceptId="LFHC:1008" answerConceptId="CIEL:301"/> -->
+<!--				</span> -->
+<!--				<obsgroup groupingConceptId="LFHC:1013"> -->
+<!--					<p> -->
+<!--						<obs id="8659" conceptId="LFHC:1008" answerConceptId="CIEL:301" style="checkbox"/> -->
+<!--					</p> -->
+<!--					<p> -->
+<!--						Results: <obs class="results" conceptId="LFHC:1173" /> -->
+<!--					</p> -->
+<!--					<p> -->
+<!--						Comments: <obs class="results" conceptId="LFHC:1174" /> -->
+<!--					</p> -->
+<!--				</obsgroup> -->
+<!--			</td> -->
+<!--			</tr> -->
+
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -8,25 +38,34 @@
 			toggleContainers();
 		});
 
-
 		jQuery(document).ready(function(){
+			var checked =  null;
+			$(".source").each(function (index, currentObs) {
+				checked =  null;
+				if (getValue($(currentObs).attr('id')+".value")) {
+					currentValue = getValue($(currentObs).attr('id')+".value");
+				//alert("current Value: "+currentValue);
+				$(currentObs).closest(".hiddenObs").toggle(true);
+				var targetId = parseFloat($(currentObs).attr("id"));
+				//alert("target ID: "+targetId);
+				$(currentObs).closest("htmlform").find("#"+targetId).find(":checkbox").attr("checked",true);
+				setValue(targetId+".value", currentValue);
+			}
+		});
+		});
 
-		// pasting the tests ordered into the tests answers
-		var checked =  null;
-		for (var i= 101; i &lt; 300; i++) {
-			checked =  null;
-			if (getValue(i+"-source.value")) {
-				checked = "checked";
-				jQuery(htmlform).find("#"+i+"-hidden").toggle(true);
-			};
-			jQuery(htmlform).find("#"+i+"-target").find(":checkbox").attr(checked,true);
+	</script>
+</ifMode>
 
-		};
-		var other =  null;
-		other = getValue("other-source.value");
-		jQuery(htmlform).find("#other-target").find("input").val(other);
-	});
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewModeForTable("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+			properViewMode("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+			
+		});
 	</script>
 </ifMode>
 
@@ -57,7 +96,7 @@
 	</p>
 </div>
 
-<ifMode mode="ENTER" >
+<ifMode mode="ENTER">
 	<section id="xray-order" sectionTag="section" headerStyle="title" headerCode="X-ray order">
 		<fieldset field-separator=", ">
 			<legend>X-ray order</legend>
@@ -65,7 +104,6 @@
 			<small>auto-complete field</small>
 			<repeat>
 				<template>
-
 					<div id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
 						<p>
 							<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
@@ -73,8 +111,6 @@
 							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
 					</div>
-					
-					
 				</template>
 				<render n="401"/>
 				<render n="402"/>
@@ -88,7 +124,7 @@
 
 			</repeat>
 			<p>
-				Other X-ray:
+				<span class="questionLabel">Other X-ray: </span>
 				<obs conceptId="LFHC:1012"/>
 			</p>
 		</fieldset>
@@ -124,10 +160,8 @@
 		</fieldset>
 	</section>
 	<submit/>
+
 </ifMode>
-
-
-
 
 <ifMode mode="EDIT">
 
@@ -154,7 +188,7 @@
 
 	<section>
 		<h3>X-rays</h3>
-		<fieldset>
+		<fieldset id="xray-fieldset">
 
 			<table class="tg">
 				<tbody>
@@ -166,19 +200,20 @@
 								<summary>
 									See more
 								</summary>
+
 								<table>
 									<tbody>
 
 										<repeat>
 											<template>	
-												<div style="display:none;">
-													<obs id="{m}-source" conceptId="LFHC:1008" answerConceptId="{n}"/>
-												</div>
-												<tr id="{m}-hidden" style="display:none;">
+												<tr class="hiddenObs" style="display:none;">
 													<td>
+														<span style="display:none;">
+															<obs id="{m}-source" class="source" conceptId="LFHC:1008" answerConceptId="{n}"/>
+														</span>
 														<obsgroup groupingConceptId="LFHC:1013">
 															<p>
-																<obs id="{m}-target" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
+																<obs id="{m}" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
 															</p>
 															<p>
 																Results: <obs class="results" conceptId="LFHC:1173" />
@@ -194,7 +229,6 @@
 											<render m="102" n="CIEL:101"/>
 											<render m="103" n="CIEL:386"/>
 											<render m="104" n="CIEL:392"/>
-											<render m="105" n="CIEL:309"/>
 											<render m="106" n="CIEL:161266"/>
 											<render m="107" n="CIEL:161267"/>
 											<render m="108" n="CIEL:161269"/>
@@ -238,15 +272,17 @@
 											<render m="146" n="CIEL:161349"/>
 											<render m="147" n="CIEL:161350"/>
 										</repeat>
-										<tr>
+										<tr class="hiddenObs"  style="display:none;">
+											
 											<td>
-												<div style="display:none;">
-													<obs id="other-source" conceptId="LFHC:1012"/>
-												</div>
+												<span style="display:none;">
+													<obs id="498-source" class="source" conceptId="LFHC:1008" style="checkbox"/>
+													<obs id="499-source" class="source" conceptId="LFHC:1012"/>
+												</span>
 												<obsgroup groupingConceptId="LFHC:1013">
 													<p>
-														Other X-ray:
-														<obs id="other-target" conceptId="LFHC:1012"/>
+														<obs id="498" conceptId="LFHC:1008" answerConceptId="CIEL:309" style="checkbox"/>
+														<obs id="499" conceptId="LFHC:1012"/>
 													</p>
 													<p>
 														Results: <obs class="results" conceptId="LFHC:1173" />
@@ -259,12 +295,14 @@
 										</tr>
 									</tbody>
 								</table>
+
 							</details>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 			<br/>
+
 			<table class="tg">
 				<tbody>
 					<tr>
@@ -275,18 +313,19 @@
 									See more
 								</summary>
 
+
 								<table>
 									<tbody>
 										<repeat>
 											<template>
-												<div style="display:none;">
-													<obs id="{m}-source" conceptId="LFHC:1009" answerConceptId="{n}"/>
-												</div>
-												<tr id="{m}-hidden" style="display:none;">
+												<tr class="hiddenObs" style="display:none;">
 													<td>
+														<span style="display:none;">
+															<obs id="{m}-source" class="source" conceptId="LFHC:1009" answerConceptId="{n}"/>
+														</span>
 														<obsgroup groupingConceptId="LFHC:1016">
 															<p>
-																<obs id="{m}-target" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
+																<obs id="{m}" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
 															</p>
 															<p>
 																Results: <obs class="results" conceptId="LFHC:1175" />
@@ -315,12 +354,12 @@
 
 									</tbody>
 								</table>
+
 							</details>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-
 
 
 		</fieldset>
@@ -330,7 +369,154 @@
 
 </ifMode>
 
+
+
+<ifMode mode="VIEW">
+
+
+	<section id="xray" sectionTag="section" headerStyle="title" headerCode="X-ray">
+		
+		<repeat>
+			<template>	
+				<fieldset>
+					<h3>X-Ray procedure ordered: </h3>
+					<p>
+						<obs conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
+					</p>
+					<obsgroup id="xray-obsgroup" groupingConceptId="LFHC:1013" style="display:none;">
+						<p style="display:none;">
+							<obs id="{m}-target" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
+						</p>
+						<p>
+							<span class="questionLabel">Results: </span>
+							<obs class="results" conceptId="LFHC:1173" />
+						</p>
+						<p>
+							<span class="questionLabel">Comments: </span>
+							<obs class="results" conceptId="LFHC:1174" />
+						</p>
+					</obsgroup>
+				</fieldset>
+			</template>
+			<render m="101" n="CIEL:12"/>
+			<render m="102" n="CIEL:101"/>
+			<render m="103" n="CIEL:386"/>
+			<render m="104" n="CIEL:392"/>
+			<render m="106" n="CIEL:161266"/>
+			<render m="107" n="CIEL:161267"/>
+			<render m="108" n="CIEL:161269"/>
+			<render m="109" n="CIEL:161270"/>
+			<render m="110" n="CIEL:161272"/>
+			<render m="111" n="CIEL:161295"/>
+			<render m="112" n="CIEL:161298"/>
+			<render m="113" n="CIEL:161299"/>
+			<render m="114" n="CIEL:161302"/>
+			<render m="115" n="CIEL:161303"/>
+			<render m="116" n="CIEL:161305"/>
+			<render m="117" n="CIEL:161306"/>
+			<render m="118" n="CIEL:161307"/>
+			<render m="119" n="CIEL:161317"/>
+			<render m="120" n="CIEL:161318"/>
+			<render m="121" n="CIEL:161319"/>
+			<render m="122" n="CIEL:159600"/>
+			<render m="123" n="CIEL:161265"/>
+			<render m="124" n="CIEL:161301"/>
+			<render m="125" n="CIEL:161320"/>
+			<render m="126" n="CIEL:161322"/>
+			<render m="127" n="CIEL:161321"/>
+			<render m="128" n="CIEL:161324"/>
+			<render m="129" n="CIEL:161325"/>
+			<render m="130" n="CIEL:161327"/>
+			<render m="131" n="CIEL:161329"/>
+			<render m="132" n="CIEL:161328"/>
+			<render m="133" n="CIEL:161330"/>
+			<render m="134" n="CIEL:161332"/>
+			<render m="135" n="CIEL:161333"/>
+			<render m="136" n="CIEL:161334"/>
+			<render m="137" n="CIEL:161337"/>
+			<render m="138" n="CIEL:161338"/>
+			<render m="139" n="CIEL:161341"/>
+			<render m="140" n="CIEL:161342"/>
+			<render m="141" n="CIEL:161343"/>
+			<render m="142" n="CIEL:161344"/>
+			<render m="143" n="CIEL:161345"/>
+			<render m="144" n="CIEL:161347"/>
+			<render m="145" n="CIEL:161348"/>
+			<render m="146" n="CIEL:161349"/>
+			<render m="147" n="CIEL:161350"/>
+		</repeat>
+
+		
+		<fieldset>
+			<h3>X-Ray procedure ordered: </h3>
+			<p>
+				<obs id="other-source" conceptId="CIEL:309" style="checkbox" />
+				<obs conceptId="LFHC:1012" style="checkbox" />
+			</p>
+			<obsgroup groupingConceptId="LFHC:1013" style="display:none;">
+				<p>
+					<obs id="309-other-source" conceptId="LFHC:1008" answerConceptId="CIEL:309" />
+				</p>
+				<p>
+					<obs id="other-target" conceptId="LFHC:1012" />
+				</p>
+				<p>
+					<span class="questionLabel">Results: </span>
+					<obs class="results" conceptId="LFHC:1173" />
+				</p>
+				<p>
+					<span class="questionLabel">Comments: </span>
+					<obs class="results" conceptId="LFHC:1174" />
+				</p>
+			</obsgroup>	
+		</fieldset>
+	</section>
+	<section id="utltrasound" sectionTag="section" headerStyle="title" headerCode="Ultrasound">
+	
+
+			<repeat>
+				<template>
+					<fieldset>
+					<h3>X-Ray procedure ordered: </h3>
+					<p>
+						
+						<obs id="{m}-target" conceptId="LFHC:1009" answerConceptId="{n}"/>
+					</p>
+					<obsgroup groupingConceptId="LFHC:1016">
+						<p style="display:none;">
+							<obs conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
+						</p>
+						<p>
+							<span class="questionLabel">Results: </span>
+							<obs class="results" conceptId="LFHC:1175" />
+						</p>
+						<p>
+							<span class="questionLabel">Comments: </span>
+							<obs class="results" conceptId="LFHC:1015" />
+						</p>
+					</obsgroup>
+					</fieldset>
+
+				</template>
+				<render m="201" n="CIEL:845"/>
+				<render m="202" n="CIEL:161274"/>
+				<render m="203" n="CIEL:161275"/>
+				<render m="204" n="CIEL:161276"/>
+				<render m="205" n="CIEL:161277"/>
+				<render m="206" n="CIEL:161279"/>
+				<render m="207" n="CIEL:161280"/>
+				<render m="208" n="CIEL:161283"/>
+				<render m="209" n="CIEL:161285"/>
+				<render m="210" n="CIEL:161288"/>
+				<render m="211" n="LFHC:1007"/>
+				<render m="212" n="LFHC:1010"/>
+			</repeat>
+
+
+		
+	</section>
+</ifMode>
 <ifMode mode="EDIT" include="false">
 	<submit/>
 </ifMode>
-</htmlform>
+</htmlform>	

@@ -7,7 +7,7 @@
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="properViewModeForTable">
 		// JavaScript for VIEW mode
-		jQuery(document).ready(function(){
+		$(document).ready(function(){
 			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
 			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
 		});
@@ -43,45 +43,45 @@
 
 var properViewMode = function (formUuid) { 
 
-	jQuery("htmlform").each(function (index, currentForm) {
-		if (jQuery(currentForm).attr("formUuid") == formUuid) {
-
+	$("htmlform").each(function (index, currentForm) {
+		if ($(currentForm).attr("formuuid") == formUuid) {
+			
 			/* Handle the VIEW mode for the toggleContainers */
 			/* display only fields with observations */
 			/* See toggleContainers.js for more documentation */
-			jQuery(currentForm).find(".toggleContainer").each(function (index, toggleContainer) {
-				if (!(jQuery(toggleContainer).find('.value').text() == "")) {
-					jQuery(toggleContainer).show();
+			$(currentForm).find(".toggleContainer").each(function (index, toggleContainer) {
+				if (!($(toggleContainer).find('.value').text() == "")) {
+					$(toggleContainer).show();
 				}
 			});
 
 			/* remove buttons */
-			jQuery(currentForm).find('.addEntry').remove();
-			jQuery(currentForm).find('.removeEntry').remove();
+			$(currentForm).find('.addEntry').remove();
+			$(currentForm).find('.removeEntry').remove();
 
 			var i = 1;
 			
 			/* Iterate through each section of the current HTML form */
-			jQuery(currentForm).find("section").each(function (indexS, currentSection) {
+			$(currentForm).find("section").each(function (indexS, currentSection) {
 
 				var emptyFieldset = -1;
 				var hideSection = false;
 
-				jQuery(currentSection).find("fieldset").each(function (indexF, currentFieldset) {
+				$(currentSection).find("fieldset").each(function (indexF, currentFieldset) {
 
 					var hideFieldset = false;
 
-					jQuery(currentFieldset).hide();
+					$(currentFieldset).hide();
 
 					/* Show all non-empty obs */	
-					jQuery(currentFieldset).find(".value").closest("fieldset").show();
+					$(currentFieldset).find(".value").closest("fieldset").show();
 
 					/* Hide empty values */
 					var emptyValue = -1;
-					jQuery(currentFieldset).find(".value").each(function (indexV, element) {
+					$(currentFieldset).find(".value").each(function (indexV, element) {
 						/* Hide "p" section when value is empty */
-						if (jQuery(element).text() == "") {
-							jQuery(element).closest("p").hide();
+						if ($(element).text() == "") {
+							$(element).closest("p").hide();
 							emptyValue= emptyValue+1;
 						}
 
@@ -116,7 +116,7 @@ var properViewMode = function (formUuid) {
 							var newP = $("<p>");
 							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(element).closest("span").clone()).html()+"</span>");
 							var newSpan = $("<span>");
-							$(newSpan).append("<br/><h3>"+obsTitle+"</h3>"+$('<div>').append($(newP).clone()).html());
+							$(newSpan).append("<h3>"+obsTitle+"</h3>"+$('<div>').append($(newP).clone()).html());
 
 							/* replace the current "p" by its new version */
 							$(element).closest("p").replaceWith(newSpan);
@@ -125,16 +125,16 @@ var properViewMode = function (formUuid) {
 					});
 
 /* hide the parent "p" section when Obs have emptyValue */
-jQuery(currentFieldset).find(".emptyValue").closest("p").hide();
+$(currentFieldset).find(".emptyValue").closest("p").hide();
 
 if (hideFieldset) {
-	jQuery(currentFieldset).hide()
+	$(currentFieldset).hide()
 }
 
 /* handle the "when" markup */
-jQuery(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
-	if (jQuery(thenDisplay).text() == "") {
-		jQuery(thenDisplay).closest("p").hide();
+$(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
+	if ($(thenDisplay).text() == "") {
+		$(thenDisplay).closest("p").hide();
 	}
 });
 i = i+1;
@@ -153,7 +153,7 @@ if(emptyFieldset == indexF) {
 });
 
 if (hideSection) {
-	jQuery(currentSection).hide()
+	$(currentSection).hide()
 }
 
 
@@ -164,21 +164,22 @@ if (hideSection) {
 
 var properViewModeForTable = function  (formUuid) {
 
-	jQuery("htmlform").each(function (index, currentForm) {
+	$("htmlform").each(function (index, currentForm) {
 
-		if (jQuery(currentForm).attr("formUuid") == formUuid) {
+		if ($(currentForm).attr("formUuid") == formUuid) {
 
 			/* iterate through each <td> of the forms */
-			jQuery(currentForm).find("fieldset").find("td").each(function (index, td){
+			$(currentForm).find("fieldset").find("td").each(function (index, td){
 				/* remove if the <td> has emptyValue */
-				if (jQuery(td).find(".emptyValue").text()) {
-					jQuery(td).remove();
+				if ($(td).find(".emptyValue").text()) {
+					$(td).remove();
 				}
 			});
 
 			/* replacing the tables by a list of "p" included in a "span" */
 			$("table").each(function(index, table){
-				var span = $("<fieldset>")
+				var span = $("<span>");
+				$(span).addClass("autogenerated");
 				$("th", this).each(function() {
 					var title = $("<span>");
 					title.append(this.innerHTML);
@@ -186,7 +187,7 @@ var properViewModeForTable = function  (formUuid) {
 					span.append(title);
 				});
 				$("td", this).each(function(){
-					span.append("<fieldset>"+this.innerHTML.replace("[X]&nbsp;", "")+"</fieldset>");
+					span.append("<fieldset class=\"autogenerated\">"+this.innerHTML+"</fieldset>");
 				});
 				$(table).replaceWith(span);
 			})
@@ -196,3 +197,5 @@ var properViewModeForTable = function  (formUuid) {
 	});
 
 }
+
+
