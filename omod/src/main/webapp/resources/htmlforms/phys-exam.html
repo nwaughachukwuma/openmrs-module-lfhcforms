@@ -1,5 +1,16 @@
 <htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Doctor Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.4.4">
 
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("f6dbee30-d965-47f5-b9b0-bc17f559dfad");
+			properViewModeForTable("f6dbee30-d965-47f5-b9b0-bc17f559dfad");
+		});
+	</script>
+</ifMode>
+
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -51,6 +62,7 @@
 			<legend>
 				Physical Exam
 			</legend>
+			
 			<h3>
 				Physical examination
 			</h3>
@@ -66,11 +78,15 @@
 				<tr>
 					<td>	
 						<obsgroup groupingConceptId="LFHC:1052">
+
 							<p>
 
+					<span class="questionLabel">Physical Exam: </span>
+				
 								<obs id="3-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1120" answerLabel="Skin exam" style="checkbox"/>
 							</p>
 							<p>
+								<span class="questionLabel">Results: </span>
 								<obs class="result" id="3-finding" conceptId="CIEL:1120">
 									<controls>
 										<when value="CIEL:1116" thenDisplay="#3-finding-abnormal"/>
@@ -79,6 +95,7 @@
 							</p>
 
 							<p>
+									<span class="questionLabel">Comments: </span>
 								<obs id="3-finding-abnormal" conceptId="CIEL:159395" rows="3" cols="30"/>
 							</p>
 						</obsgroup>
