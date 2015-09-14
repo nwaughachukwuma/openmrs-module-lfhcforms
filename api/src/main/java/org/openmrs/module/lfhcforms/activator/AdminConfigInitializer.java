@@ -27,8 +27,9 @@ import org.openmrs.module.lfhcforms.LFHCFormsActivator;
  */
 public class AdminConfigInitializer implements Initializer {
 
-	public final static String PEWS_TIME_WINDOW_PROPERTY = "lfhcforms.pewsTimeWindowInMin";
-	public final static int PEWS_FALLBACK_TIMEWINDOW = 0;
+	public static final String PEWS_TIME_WINDOW_PROPERTY = "lfhcforms.pewsTimeWindowInMin";
+	public static final int PEWS_FALLBACK_TIMEWINDOW = 0;
+	public static final String PEWS_EXPIRY_PROPERTY = "lfhcforms.pewsExpiryInMin";
 	
 	protected static final Log log = LogFactory.getLog(AdminConfigInitializer.class);
 
@@ -47,6 +48,13 @@ public class AdminConfigInitializer implements Initializer {
 		String pewsTime = adminService.getGlobalProperty(PEWS_TIME_WINDOW_PROPERTY);
 		if(pewsTime == null) {
 			adminService.setGlobalProperty(PEWS_TIME_WINDOW_PROPERTY, (new Integer(PEWS_FALLBACK_TIMEWINDOW)).toString());
+		}
+		
+		String pewsExpiry = adminService.getGlobalProperty(PEWS_EXPIRY_PROPERTY);
+		if(pewsExpiry == null) {
+			// The default is an empty String that won't convert to any integer.
+			// This triggers the default expiry time mechanism.
+			adminService.setGlobalProperty(PEWS_EXPIRY_PROPERTY, "");
 		}
 	}
 

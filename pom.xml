@@ -544,13 +544,6 @@
 				<classifier>tests</classifier>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>chartsearch-api</artifactId>
-				<version>${chartsearchVersion}</version>
-				<classifier>tests</classifier>
-				<scope>provided</scope>
-			</dependency>
 
 			<!-- OMOD dependencies -->
 			<dependency>

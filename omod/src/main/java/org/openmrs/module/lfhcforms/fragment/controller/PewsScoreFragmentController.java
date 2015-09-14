@@ -234,20 +234,13 @@ public class PewsScoreFragmentController {
 			,	@SpringBean("conceptService") ConceptService conceptService
 			,	@SpringBean("obsService")	  ObsService obsService
 																)
-	{	
+	{
+		Date now = new Date();	// Use this when 'now' is needed throughout the code
 		patient = patientService.getPatient(patient.getId());
-		int ageInMonths = (int) (Days.daysBetween(new DateTime(patient.getBirthdate()), DateTime.now()).getDays() / (365.0/12)); // Patient age truncation in months
+		int ageInMonths = (int) (Days.daysBetween(new DateTime(patient.getBirthdate()), new DateTime(now)).getDays() / (365.0/12)); // Patient age truncation in months
 		
-		String pewsTimeStr = adminService.getGlobalProperty(AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY);
-		long timeWindowInMin = AdminConfigInitializer.PEWS_FALLBACK_TIMEWINDOW;
-		if(pewsTimeStr != null) {
-			try {
-				timeWindowInMin = Integer.parseInt(pewsTimeStr);
-			}
-			catch(NumberFormatException e) {
-				Log.error("The global property '" + AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY + "''s value could not be parsed to an integer number of minutes. Falling back to the harcoded default value: " + timeWindowInMin, e);
-			}
-		}
+		long timeWindowInMin = getTimeWindowInMin(adminService);
+		long expiryInMin = getExpiryInMin(adminService);
 		
 		String json = getBoundariesJson(new OmodResouceLoaderImpl("lfhcforms"), "pewsScore/boundaries.json");
 		Map<String, Boundaries> boundariesMap = getBoundariesMapFromJson(json);
@@ -257,7 +250,7 @@ public class PewsScoreFragmentController {
 		Map<String, Component> pewsComponents = new HashMap<String, Component>();
 		
 		String modelErrMsg = "";	
-		Date earliestObsDate = new Date();
+		Date earliestObsDate = now;
 		for(String conceptMapping : boundariesMap.keySet()) {
 			
 			Boundaries boundaries = boundariesMap.get(conceptMapping);
@@ -278,8 +271,14 @@ public class PewsScoreFragmentController {
 			if(obsDate.before(earliestObsDate))
 				earliestObsDate = obsDate;
 			
-			long minutes = TimeUnit.MILLISECONDS.toMinutes( obsDate.getTime() - earliestObsDate.getTime() );
-			if(minutes > timeWindowInMin) {
+			long ageInMin = TimeUnit.MILLISECONDS.toMinutes( now.getTime() - earliestObsDate.getTime() );
+			if(ageInMin > expiryInMin) {
+				modelErrMsg = ui.message("lfhcforms.pewsscore.error.expiry", expiryInMin);
+				break;
+			}
+			
+			long obsSpanInMin = TimeUnit.MILLISECONDS.toMinutes( obsDate.getTime() - earliestObsDate.getTime() );
+			if(obsSpanInMin > timeWindowInMin) {
 				modelErrMsg = ui.message("lfhcforms.pewsscore.error.timewindow", timeWindowInMin);
 				break;
 			}
@@ -324,6 +323,39 @@ public class PewsScoreFragmentController {
 		model.addAttribute("pewsComponents", pewsComponents.values());
 	}
 	
+	private long getExpiryInMin(AdministrationService adminService) {
+		final String propertyName = AdminConfigInitializer.PEWS_EXPIRY_PROPERTY;
+		
+		String expiryString = adminService.getGlobalProperty(propertyName);
+		long expiryInMin = 0;
+		if(expiryString != null) {
+			try {
+				expiryInMin = Integer.parseInt(expiryString);
+			}
+			catch(NumberFormatException e) {
+				Log.warn("The global property '" + propertyName + "''s value could not be parsed to an integer number of minutes. Falling back to the harcoded default value: " + expiryInMin, e);
+			}
+		}
+		expiryInMin = Math.max(expiryInMin, getTimeWindowInMin(adminService));
+		return expiryInMin;
+	}
+
+	private long getTimeWindowInMin(AdministrationService adminService) {
+		final String propertyName = AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY;
+		
+		String timeWindowString = adminService.getGlobalProperty(propertyName);
+		long timeWindowInMin = AdminConfigInitializer.PEWS_FALLBACK_TIMEWINDOW;
+		if(timeWindowString != null) {
+			try {
+				timeWindowInMin = Integer.parseInt(timeWindowString);
+			}
+			catch(NumberFormatException e) {
+				Log.error("The global property '" + propertyName + "''s value could not be parsed to an integer number of minutes. Falling back to the harcoded default value: " + timeWindowInMin, e);
+			}
+		}
+		return timeWindowInMin;
+	}
+
 	private int getActionIndex(Double pewsScore) {
 		int idx = 5;
 		
