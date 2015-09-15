@@ -233,9 +233,6 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		
-
-
-		
 	}
 
 	/**

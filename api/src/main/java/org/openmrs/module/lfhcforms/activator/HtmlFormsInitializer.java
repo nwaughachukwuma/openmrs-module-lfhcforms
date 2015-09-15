@@ -1,5 +1,8 @@
 package org.openmrs.module.lfhcforms.activator;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +14,7 @@ import org.openmrs.module.htmlformentry.HtmlFormEntryService;
 import org.openmrs.module.htmlformentryui.HtmlFormUtil;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
 import org.openmrs.ui.framework.resource.ResourceFactory;
+import org.openmrs.ui.framework.resource.ResourceProvider;
 
 /**
  * Sets up the HFE forms
@@ -25,44 +29,44 @@ public class HtmlFormsInitializer implements Initializer {
 	@Override
 	public synchronized void started() {
 		log.info("Setting HFE forms for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
+
+		final ResourceFactory resourceFactory = ResourceFactory.getInstance();
 		
-		try {
-			ResourceFactory resourceFactory = ResourceFactory.getInstance();
-			FormService formService = Context.getFormService();
-			HtmlFormEntryService htmlFormEntryService = Context.getService(HtmlFormEntryService.class);
-
-			List<String> htmlforms = Arrays.asList(
-					"lfhcforms:htmlforms/clinicalnotes.html",
-					"lfhcforms:htmlforms/diagnosis.html",
-					"lfhcforms:htmlforms/diagnostic-imaging.html",
-					"lfhcforms:htmlforms/discharge.html",
-					"lfhcforms:htmlforms/dispense-med.html",
-					"lfhcforms:htmlforms/fluidbalance.html",
-					"lfhcforms:htmlforms/history.html",
-					"lfhcforms:htmlforms/immunity.html",
-					"lfhcforms:htmlforms/ipd-nurse.html",
-					"lfhcforms:htmlforms/lab-test-order.html",
-					"lfhcforms:htmlforms/lines-tubes.html",
-					"lfhcforms:htmlforms/med-order.html",
-					"lfhcforms:htmlforms/opd-nurse.html",
-					"lfhcforms:htmlforms/phys-exam.html",
-					"lfhcforms:htmlforms/treatment.html",
-					"lfhcforms:htmlforms/triage.html",
-					"lfhcforms:htmlforms/vitals-pews.html",
-					"lfhcforms:htmlforms/wound.html"
-					);
-
-			for (String htmlform : htmlforms) {
-				HtmlFormUtil.getHtmlFormFromUiResource(resourceFactory, formService, htmlFormEntryService, htmlform);
-			}
+		final String providerName = "lfhcforms";
+		final String formsPath = "htmlforms/";
+		final String prefixedFormsPath = providerName + ":" + formsPath;
+		
+		final ResourceProvider resourceProvider = resourceFactory.getResourceProviders().get(providerName);
+		final File formsDir = resourceProvider.getResource(formsPath);
+		if(formsDir == null || formsDir.isDirectory() == false) {
+			log.error("No HTML forms could be retrieved from the provided folder: " + prefixedFormsPath);
+			return;
 		}
-		catch (Exception e) {
-			// this is a hack to get component test to pass until we find the proper way to mock this
-			if (ResourceFactory.getInstance().getResourceProviders() == null) {
-				log.error("Unable to load HTML forms--this error is expected when running component tests");
+		
+		final List<String> formPaths = new ArrayList<String>();
+		for(File file : formsDir.listFiles()) {
+			String name = file.getName();
+			String resourcePath = formsPath + name;
+			String prefixedResourcePath = prefixedFormsPath + name;
+			String xml = "";
+			try {
+				xml = resourceFactory.getResourceAsString(providerName, resourcePath);
+			} catch (IOException e) {
+				log.error("The following resource file could not be flattened as a string: " + prefixedResourcePath, e);
+				continue;
 			}
-			else {
-				log.error(e.getMessage(), e);
+			// TODO: Validate that the XML is indeed a <htmlform> = PARSE the XLM with the new attributes and all
+			formPaths.add(prefixedResourcePath);
+		}
+		
+		final FormService formService = Context.getFormService();
+		final HtmlFormEntryService htmlFormEntryService = Context.getService(HtmlFormEntryService.class);
+		for (String formPath : formPaths) {
+			try {
+				HtmlFormUtil.getHtmlFormFromUiResource(resourceFactory, formService, htmlFormEntryService, formPath);
+			} catch (IOException e) {
+				final String errMsg = "Could not generate HTML form from the following resource file: " + formPath;
+				log.error(errMsg, e);
 			}
 		}
 	}
