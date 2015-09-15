@@ -15,8 +15,11 @@
 	<script type="text/javascript" id="properViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+
+			
 			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
+			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+			
 		});
 	</script>
 </ifMode>
@@ -120,7 +123,8 @@
 		</p>
 
 		<p>
-			<obs conceptId="159395" rows="6" cols="60" labelTesxt="Clinical Details: " labelNameTag="default"/>
+			<span class="questionLabel">Clinical Details: </span>
+			<obs conceptId="159395" rows="6" cols="60"/>
 		</p>
 
 
@@ -139,7 +143,7 @@
 			<obs id="sick" conceptId="CIEL:162741" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Very sick,Not very sick" size="3">
 				<controls>
 					<when value="CIEL:1065" thenDisplay="#very-sick" />
-				</controls>
+				</controls>				
 			</obs>
 			<span id="very-sick">
 				<font color="red"><strong> Take urgently to doctor</strong></font>
@@ -292,7 +296,8 @@
 		</includeIf>
 		<span id="gestation-term">
 			<p>
-				<obs conceptId="CIEL:159926" labelText="Gestation term" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
+				<span class="questionLabel">Gestation term: </span>
+				<obs conceptId="CIEL:159926" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
 			</p>
 		</span>
 
