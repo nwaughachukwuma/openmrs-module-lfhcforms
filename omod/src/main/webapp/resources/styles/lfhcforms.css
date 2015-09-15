@@ -8,7 +8,12 @@
 	margin-bottom: 10px;
 }
 
-/* Style to dispaly an "age when given" = "age given on time"  */
+/* Style to dispaly an "age when given" = "age given on time" */
 .onTime {
 	color: green;
+}
+
+/* Style to display a space between an "h3" an a "p" */
+.collapse htmlform h3 {
+	display:inline;
 }
