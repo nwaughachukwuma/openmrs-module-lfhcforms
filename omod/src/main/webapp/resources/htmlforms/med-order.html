@@ -7,15 +7,12 @@
 	<script type="text/javascript">
 
 		<!-- 07/08/2015 Romain: Dose Calculation Helper is set aside for now to simplify the UI
-
 		function calculateDose (weight, doseCalculation){
 			var dose = (weight * doseCalculation);
 			return dose;
 		}
 
-
 		function updateDose (weight, doseCalculation, sectionNo) {
-
 			if (!(weight == null) ) {
 				jQuery("#weight-value").show();
 				jQuery("#weight-null").hide();
@@ -28,21 +25,15 @@
 				jQuery("#weight-value").hide();
 				jQuery("#weigh-null").show();
 			}
-
 		}
-
 	-->
 
 
 	jQuery(function () {
-
-
 		jQuery("#weight-value").hide();
 		jQuery("#weight-null").hide();
 
-
-	var weight = jQuery(htmlform).find("#weight").text();
-
+		var weight = jQuery(htmlform).find("#weight").text();
 		if (!(weight === "")) {
 			jQuery("#weight-value").show();
 			jQuery("#weight-null").hide();
@@ -52,18 +43,13 @@
 		}
 
 		jQuery( ".dose-calculation" ).change(function() {
-
 			var doseCalculation = document.getElementById("dose-calculation").value;
 			var weight = jQuery(htmlform).find("#weight").text();
 			updateDose(weight, doseCalculation);
-
 		});
-
-
 	});
 
 </script>
-
 </ifMode>
 
 <ifMode mode="VIEW">
