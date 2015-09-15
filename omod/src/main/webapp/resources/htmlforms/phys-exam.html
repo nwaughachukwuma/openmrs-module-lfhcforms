@@ -20,10 +20,13 @@
 	<script type="text/javascript" id="properViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-
-			$("br").remove();
-			$("p").filter(":hidden").toggle(true);
-
+			
+			$("htmlform").each(function (index, currentForm) {
+				if ($(currentForm).attr("formuuid") == "f6dbee30-d965-47f5-b9b0-bc17f559dfad") {
+					$("br").remove();
+					$("p").filter(":hidden").toggle(true);
+				}
+			});
 			properViewMode("f6dbee30-d965-47f5-b9b0-bc17f559dfad");
 		});
 	</script>
