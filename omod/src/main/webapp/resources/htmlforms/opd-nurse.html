@@ -1,4 +1,4 @@
-<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.5">
+<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.5">
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -7,7 +7,6 @@
 		jQuery(document).ready(function(){
 			toggleContainers();
 		});
-
 	</script>
 </ifMode>
 
@@ -15,11 +14,15 @@
 	<script type="text/javascript" id="properViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-
-			
+				$("htmlform").each(function (index, currentForm) {
+				if ($(currentForm).attr("formuuid") == "44305e02-7e49-4f5a-8acf-49042acbe483") {
+					$("br").remove();
+					$("p").filter(":hidden").toggle(true);
+				}
+			});
 			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
 			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
-			
+		
 		});
 	</script>
 </ifMode>
@@ -183,13 +186,14 @@
 		</p>
 		<span id="previous-admission-yes">
 			<p>
-				<obs conceptId="CIEL:5704" labelText="Number of times"/>
+			<span class="questionLabel">Number of times: </span>
+				<obs conceptId="CIEL:5704" />
 			</p>
 			<repeat>
 				<template>
 					<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
-						
-						<obs id="{n}" conceptId="CIEL:1273" labelText="Where"/>                                   
+						<span class="questionLabel">Where: </span>
+						<obs id="{n}" conceptId="CIEL:1273"/>                                   
 						<i class="addEntry icon-">&#xf055; Add</i>
 						<i class="removeEntry icon-">   &#xf056; Remove</i>
 					</p>
@@ -229,7 +233,8 @@
 				<repeat>
 					<template>
 						<p id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
-							<obs id="{n}" conceptId="CIEL:1193" labelText="Medication Family"/>                                   
+						<span class="questionLabel">Medication Family </span>
+							<obs id="{n}" conceptId="CIEL:1193" />                                   
 							<i class="addEntry icon-">&#xf055; Add</i>
 							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
@@ -246,7 +251,8 @@
 				<repeat>
 					<template>
 						<p id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
-							<obs id="{n}" conceptId="CIEL:160632" labelText="Other" />
+						<span class="questionLabel">Other </span>
+							<obs id="{n}" conceptId="CIEL:160632" />
 							<i class="addEntry icon-">&#xf055; Add</i>
 							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
