@@ -1,4 +1,4 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.5">
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.5.1">
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -62,19 +62,23 @@
 	</script>
 </includeIf>
 
-
-
-<script type="text/javascript">
-
-	var limits = $.parseJSON('{"CIEL:5242":{"description":"Respiratory rate","label":"lfhcforms.pewsscore.components.label01","increment":1,"lows":[20,20,20],"highs":[60,50,40]},"respiratoryDistress":{"isConfig":"true","description":"Respiratory distress","label":"lfhcforms.pewsscore.components.label02","increment":1},"CIEL:136768":{"description":"Intercostal recession (Chest wall indrawing)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:1861":{"description":"Nostril flaring (Nasal flaring)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:113316":{"description":"Grunting (Noisy breathing)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"LFHC:1025":{"description":"Head bobbing","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:5087":{"description":"Heart rate &amp; blood pressure","label":"lfhcforms.pewsscore.components.label03","increment":1,"lows":[80,70,60],"highs":[160,140,130]},"CIEL:135592":{"description":"Loss of consciousness","label":"lfhcforms.pewsscore.components.label04","increment":1,"whenAnswers":["CIEL:1065"]},"CIEL:162643":{"isActive":"false","description":"Conscious level","increment":1,"whenAnswers":["CIEL:162644","CIEL:162645","CIEL:159508"]},"CIEL:5088":{"description":"Temperature","label":"lfhcforms.pewsscore.components.label05","increment":1,"lows":[35,35,35],"highs":[38,38,38]}}');
-
-</script>
-
-
 <!-- script that runs with in ENTER and EDIT mode -->
 <ifMode mode="VIEW" include="false">
+
+	<!-- Importing the boundaries JSON file to compare observations to limits -->
+	<uiInclude provider="lfhcforms" javascript="../pewsScore/boundaries.json"/>
+
 	<script type="text/javascript">
-		jq(function() {
+
+		/* create the limit object based on the boundaries defined in the JSON file */
+		var limits = [];
+		$(document).ready(function () {
+			$.getJSON("/openmrs/ms/uiframework/resource/lfhcforms/pewsScore/boundaries.json", function(data) {
+				limits = data;
+			});
+		});
+
+		$(document).ready(function() {
 
 			// PGCS
 			$( ".pgcs-helper" ).change(function() {
@@ -118,6 +122,8 @@
 
 						if (outOfLimits) {
 							$(currentObsWrapper).find(".limit-wrapper").show();
+						} else {
+							$(currentObsWrapper).find(".limit-wrapper").hide();
 						}
 
 					}
@@ -154,21 +160,15 @@
 
 		// JavaScript for VIEW mode
 		$(document).ready(function(){
-
 			var formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66";
-
 			properViewMode(formUuid);
 
 		});
 	</script>
 </ifMode>
 
-
-
 <script type="text/javascript">
-
 	var pgcs = 0;
-
 
 	function calculateBsa (wt, ht) {
 		var bsa = null
@@ -203,15 +203,13 @@
 </script>
 
 <style type="text/css">
-.dashboard .info-body h3 {
-	display: inline-grid;
-	width: 40%;
-}	
-
+	.dashboard .info-body h3 {
+		display: inline-grid;
+		width: 40%;
+	}	
 </style>
 
 <section id="vitals" sectionTag="section" headerStyle="title" headerCode="referenceapplication.vitals.title">
-
 	<!-- Heart Rate / Pulse -->
 	<fieldset field-separator=", ">
 		<legend>Heart rate</legend>
@@ -225,8 +223,6 @@
 				<font color="red" class="icon-"></font>
 			</span>
 		</p>
-
-		
 	</fieldset>
 
 	<!-- Respiratory Rate -->
@@ -240,14 +236,12 @@
 				<font color="red" class="icon-"></font>
 			</span>
 		</p>
-
 	</fieldset>
 
 	<ifMode mode="VIEW" include="false">
 		<fieldset field-separator=", ">
 			<legend>Respiratory distress</legend>
 			<h3>Respiratory distress</h3>
-
 			<p class="fieldset">			
 				<span class="questionLabel">Chest wall indrawing</span>
 				<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None "/>
@@ -302,7 +296,6 @@
 	<fieldset field-separator=", ">
 		<legend><lookup expression="fn.getConcept('CIEL:5092').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:5092').name"/></h3>
-
 		<p>
 			<obs conceptId="CIEL:5092" id="o2_sat" showUnits="uicommons.units.percent" unitsCssClass="append-to-value"/>
 		</p>
@@ -353,15 +346,12 @@
 	<fieldset field-separator=", ">
 		<legend><lookup expression="fn.getConcept('CIEL:162643').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:162643').name"/></h3>
-
 		<p class="left">
 			<obs conceptId="CIEL:162643"/>
 		</p>
 		<ifMode mode="VIEW" include="false">
 			<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
-
 			<p class="left">
-
 				<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
 			</p>
 		</ifMode>
@@ -373,7 +363,6 @@
 			<legend>
 				PGCS	
 			</legend>
-
 			<h3>
 				Pediactric Glasgow Coma Scale
 			</h3>
@@ -478,18 +467,14 @@
 						</p>
 					</td>
 				</tr>
-
 			</table>
-
 		</ifMode>
-
 		<span id="calculated-pgcs" style="display:none;">
 			<h3>PGCS</h3>
 			<p>
 				<obs conceptId="CIEL:160347" id="pgcs"/>
 			</p>
 		</span>
-
 	</fieldset>
 
 	<!-- Blood pressure -->
@@ -515,35 +500,28 @@
 	<fieldset field-separator=", ">
 		<legend><lookup expression="fn.getConcept('CIEL:5090').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:5090').name"/></h3>
-
 		<p class="left">
 			<obs conceptId="CIEL:5090" id="height" class="bsa" showUnits="uicommons.units.centimeters" unitsCssClass="append-to-value"/>
 		</p>
-
 	</fieldset>
 
 	<!-- Weight -->
 	<fieldset field-separator=", ">
 		<legend><lookup expression="fn.getConcept('CIEL:5089').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:5089').name"/></h3>
-
 		<p class="left">
 			<obs conceptId="CIEL:5089" id="weight" class="bsa" showUnits="uicommons.units.kilograms" unitsCssClass="append-to-value"/>
 		</p>
-
 	</fieldset>
 
 	<!-- Pain score -->
 	<fieldset field-separator=", ">
 		<legend><lookup expression="fn.getConcept('CIEL:160287').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:160287').name"/></h3>
-
 		<p class="left">
 			<obs conceptId="CIEL:160287" id="pain-score" />
 		</p>
-
 	</fieldset>
-
 
 	<!-- Z-score -->
 	<fieldset field-separator=", ">
