@@ -86,6 +86,7 @@
 		<groupId>org.ocpsoft.prettytime</groupId>
 		<artifactId>prettytime</artifactId>
 		<version>RELEASE</version>
+		<type>jar</type>
 		<scope>provided</scope>
 	</dependency>
 	
