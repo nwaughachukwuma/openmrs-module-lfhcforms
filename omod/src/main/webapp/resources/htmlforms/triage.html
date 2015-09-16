@@ -1,65 +1,75 @@
-<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.4">
-
-<script type="text/javascript">
-
-	$(document).ready(function() {
-
-		if (document.getElementById('under-two-months')) {
-			ageUnderTwoMonths = true;
-		}
-		setTriageLevel(ageUnderTwoMonths);
-
-	});
+<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.5.1">
 
 
-	jQuery(function () {
-		jQuery(".myclass").change(function () {
+<ifMode mode="VIEW" include="false">
+
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+
+			if (document.getElementById('under-two-months')) {
+				ageUnderTwoMonths = true;
+			}
 			setTriageLevel(ageUnderTwoMonths);
 		});
-	});
 
 
-	var ageUnderTwoMonths = false;
+		jQuery(function () {
+			jQuery(".complaint").change(function () {
+				setTriageLevel(ageUnderTwoMonths);
+			});
+		});
 
 
-	function setTriageLevel (ageUnderTwoMonths) {
+		var ageUnderTwoMonths = false;
 
-		var priority = 0;
-		var emergency = 0;
-		var queue = 0;
 
-		if (ageUnderTwoMonths) {
-			jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("checked",true);
-			jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("disabled",true);
-			priority = true;
+		function setTriageLevel (ageUnderTwoMonths) {
+
+			var priority = 0;
+			var emergency = 0;
+			var queue = 0;
+
+			if (ageUnderTwoMonths) {
+				jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("checked",true);
+				jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("disabled",true);
+				priority = true;
+			}
+			for (var i = 1 ; i &lt; 15 ; i++ ) { 
+				if (getValue('prio-'+i+'.value') ) { priority = priority + 1};
+			};
+			for (var i = 1; i &lt; 15 ; i++ ) { 
+				if (getValue('em-'+i+'.value') ) { emergency = emergency + 1};
+			};
+
+			if(priority == 0) {priority = null};
+			if(emergency == 0) {emergency = null};
+
+			if ( emergency ) {
+				setValue('triage-level.value', "Emergency");
+			}
+			if ( priority &amp;&amp; !emergency) {
+				setValue('triage-level.value', "Priority");
+			}
+			if (!priority &amp;&amp; !emergency) {
+				setValue('triage-level.value', "Queue");
+			}
 		}
-		for (var i = 1 ; i &lt; 15 ; i++ ) { 
-			if (getValue('prio-'+i+'.value') ) { priority = priority + 1};
-		};
-		for (var i = 1; i &lt; 15 ; i++ ) { 
-			if (getValue('em-'+i+'.value') ) { emergency = emergency + 1};
-		};
 
-		if(priority == 0) {priority = null};
-		if(emergency == 0) {emergency = null};
+	</script>
+</ifMode>
 
-		if ( emergency ) {
-			setValue('triage-level.value', "Emergency");
-		}
-		if ( priority &amp;&amp; !emergency) {
-			setValue('triage-level.value', "Priority");
-		}
-		if (!priority &amp;&amp; !emergency) {
-			setValue('triage-level.value', "Queue");
-		}
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
 
-	}
-	
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("5743bf01-7879-40a0-ab26-95fc2446e510");
+			properViewModeForTable("5743bf01-7879-40a0-ab26-95fc2446e510");
+		});
 
-
-</script>
-
-
+	</script>
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -94,6 +104,7 @@
 		width: 49%;
 		float:left;
 	}
+
 	table.two {
 		table-layout: fixed;
 		width: 49%;
@@ -102,13 +113,11 @@
 </style>
 
 <section id="triage">
+
+
 	<!-- Main Problem fieldset -->
 	<fieldset field-separator=", ">
-		<h3>
 
-			<!--<lookup expression="fn.getConcept('CIEL:5219').name" />-->
-		</h3>
-		
 		<table class="one">
 			<thead>
 				<tr>
@@ -121,21 +130,21 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" /> 
+							<obs class="complaint" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" /> 
+							<obs class="complaint" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" /> 
+							<obs class="complaint" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -143,21 +152,21 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" /> 
+							<obs class="complaint" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" /> 
+							<obs class="complaint" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" /> 
+							<obs class="complaint" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -190,36 +199,28 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" /> 
+							<obs class="complaint" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" /> 
+							<obs class="complaint" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" /> 
+							<obs class="complaint" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<p>
-							<obs class="myclass" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" /> 
+							<obs class="complaint" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -227,7 +228,7 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" /> 
+							<obs class="complaint" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -235,21 +236,7 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<obs class="myclass" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<obs class="myclass" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" /> 
+							<obs class="complaint" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -257,14 +244,36 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" /> 
+							<obs class="complaint" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="myclass" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" /> 
+							<obs class="complaint" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" /> 
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" /> 
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" /> 
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" /> 
 						</p>
 					</td>
 				</tr>
@@ -272,6 +281,7 @@
 			</tbody>
 		</table>
 	</fieldset>
+
 	<fieldset>
 
 		<h3>
@@ -280,8 +290,9 @@
 		<p>
 			<obs id="triage-level" conceptId="CIEL:159637" answerConceptIds="CIEL:1882, CIEL:1883, CIEL:1884" answerLabels="Emergency, Priority, Queue" required="true"/>
 		</p>
-
-		<p><font color="red">* required</font></p>
+		<ifMode mode="VIEW" include="false">
+			<p><font color="red">* required</font></p>
+		</ifMode>
 
 	</fieldset>
 

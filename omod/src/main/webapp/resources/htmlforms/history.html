@@ -1,44 +1,26 @@
-<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.4.2">
+<htmlform formUuid="400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4" formName="Doctor History" formEncounterType="a9702711-f39c-4a91-ad96-88c1213b12b7" formVersion="0.5">
 
-<script type="text/javascript">
-	if(jQuery){
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
 		jQuery(document).ready(function(){
-			
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
+			toggleContainers();
 		});
+	</script>
+</ifMode>
+
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
+		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
+			properViewMode("400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4");
+			properViewModeForTable("400a99d9-c1bd-4b5c-acb3-fedb4ccc0ea4");
 		});
+	</script>
+</ifMode>
 
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
-</script>
 
 
 
@@ -152,13 +134,13 @@
 		<repeat>
 			<template>
 
-				<div id="{n}-toggleContainer" style="display:none;">
+				<div id="{n}-toggleContainer" templateBlockId="chiefComplaintOther" class="toggleContainer" style="display:none;">
 					<p>
-						<obs conceptId="CIEL:5219" labelText="Other: (autocomplete)" answerClasses="Diagnosis" style="autocomplete" />
+						<obs id="{n}" conceptId="CIEL:5219" labelText="Other: (autocomplete)" answerClasses="Diagnosis" style="autocomplete" />
 					</p>
 
-					<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-					<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
 					<br/>
 
 				</div>
@@ -207,40 +189,45 @@
 			Beriberi risk
 		</h3>
 		<p>
-		</p>
-		<p>
-			<obs id="beriberi-risk" conceptId="LFHC:1003" labelText="Beriberi risk">
-				<controls>
-					<when value="CIEL:1065" thenDisplay="#beriberi-risk-yes"/>
-				</controls>
+			<ifMode mode="VIEW" include="false">
+				<span>Beriberi risk</span>
+			</ifMode>
+			<obs id="beriberi-risk" conceptId="LFHC:1003">
+				<ifMode mode="VIEW" include="false">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#beriberi-risk-yes"/>
+					</controls>
+				</ifMode>
 			</obs>
 		</p>
-		<span id="beriberi-risk-yes">
-			<p>
-				<br/>
-				<font color="red">Needs Vitamin B1</font>
-			</p>
-		</span>
-		<br/>
-		<h6>
-			Risk factors :
-		</h6>
-		<em>
-			<lookup expression="fn.getConcept('CIEL:158420').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:6023').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:122980').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:832').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:460').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:825').name" />
-			,
-			<lookup expression="fn.getConcept('CIEL:125063').name" />
+		<ifMode mode="VIEW" include="false">
+			<span id="beriberi-risk-yes">
+				<p>
+					<br/>
+					<font color="red">Needs Vitamin B1</font>
+				</p>
+			</span>
+			<br/>
+			<h6>
+				Risk factors:
+			</h6>
+			<em>
+				<lookup expression="fn.getConcept('CIEL:158420').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:6023').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:122980').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:832').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:460').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:825').name" />
+				,
+				<lookup expression="fn.getConcept('CIEL:125063').name" />
 
-		</em>
+			</em>
+		</ifMode>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -250,18 +237,25 @@
 			Tuberculosis risk
 		</h3>
 		<p>
-			<obs id="tb-risk" conceptId="CIEL:1496" labelText="Tuberculosis risk" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
-				<controls>
-					<when value="CIEL:1065" thenDisplay="#tb-risk-yes"/>
-				</controls>
+			<ifMode mode="VIEW" include="false">
+				<span>Tuberculosis risk</span>
+			</ifMode>
+			<obs id="tb-risk" conceptId="CIEL:1496" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
+				<ifMode mode="VIEW" include="false" >
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#tb-risk-yes"/>
+					</controls>
+				</ifMode>
 			</obs>
 		</p>
-		<span id="tb-risk-yes">
-			<br/>
-			<em><lookup expression="fn.getConcept('CIEL:1496').name" /></em>
-		</span>
+		<ifMode mode="VIEW" include="false" >
+			<span id="tb-risk-yes">
+				<br/>
+				<em><lookup expression="fn.getConcept('CIEL:1496').name" /></em>
+			</span>
+		</ifMode>
 		<p>
-			<lookup expression="fn.getConcept('CIEL:162633').name" />
+			<span class="questionLabel"><lookup expression="fn.getConcept('CIEL:162633').name" /></span>
 			<obs conceptId="162633"/>
 		</p>
 	</fieldset>

@@ -1,0 +1,19 @@
+/* Override the style when displaying HTML forms in VIEW mode in the Patient Dashboard */ 
+.collapse .title {
+	color: rgb(0, 147, 132);
+	font-family: OpenSans, Arial, sans-serif;
+	font-size: 1.1em;
+	font-weight: normal;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+/* Style to dispaly an "age when given" = "age given on time" */
+.onTime {
+	color: green;
+}
+
+/* Style to display a space between an "h3" an a "p" */
+.collapse htmlform h3 {
+	display:inline;
+}

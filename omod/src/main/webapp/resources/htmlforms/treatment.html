@@ -1,49 +1,24 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.4.5">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.2">
 
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
-
-<script type="text/javascript">
-	if(jQuery){
+	<script type="text/javascript">
 		jQuery(document).ready(function(){
-
-			jQuery('#10-addEntry').remove();
-			for (var i=1 ; i &lt; 10 ; i++) {
-
-				jQuery("#"+i+"01-removeEntry").remove();
-				jQuery("#"+i+"01-toggleContainer").show();
-			}
-			jQuery('#11-removeEntry').remove();
-			jQuery('#20-addEntry').remove();
-			jQuery('#11-toggleContainer').show();
-
+			toggleContainers();
 		});
+	</script>
+</ifMode>
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
 
+		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-
-			jQuery('i.addEntry').click(function(){
-				var correctedAddButtonId = parseFloat(this.id) + 1;
-
-				var contentAddId = "#" + correctedAddButtonId + "-toggleContainer";
-				jQuery(contentAddId).toggle(true);
-				jQuery('#' + this.id).toggle(false); jQuery('#' + parseFloat(this.id) + '-removeEntry').toggle(false);
-				return false;});
+			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
 		});
-
-		jQuery(document).ready(function(){
-			jQuery('i.removeEntry').click(function(){
-				var correctedRemoveButtonId = parseFloat(this.id) - 1;
-				var contentAddId = "#" + parseFloat(this.id) + "-toggleContainer";
-				jQuery(contentAddId).toggle(false);
-				jQuery( ':input:not(:button)', contentAddId).val([]);
-				jQuery('#' + correctedRemoveButtonId + '-addEntry').toggle(true); jQuery('#' + correctedRemoveButtonId + '-removeEntry').toggle(true);
-
-				return false;});
-
-		});
-	}
-</script>
-
+	</script>
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -71,13 +46,6 @@
 		</span>
 	</p>
 </div>
-<style type="text/css">
-	.tg {
-		table-layout: fixed;
-		width: 70%;
-		margin-left: 10px;
-	}
-</style>
 
 <section id="treatment" sectionTag="section" headerStyle="title" headerCode="Treatment">
 
@@ -106,61 +74,64 @@
 			Lab test order
 		</legend>
 		<h3>Laboratory test order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
-						<p>
-							<obs id="{n}-order" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-					</div>
-				</template>
-				<render n="101"/>
-				<render n="102"/>
-				<render n="103"/>
-				<render n="104"/>
-				<render n="105"/>
-				
-			</repeat>
-		</p>
-		<br/>
-		<p>
 
-			<strong>
-				Please also fill in the Lab Test Order form to order your tests
-			</strong>
-		</p>
+		<repeat>
+			<template>
+				
+				<p id="{n}-toggleContainer" templateBlockId="labTest" class="toggleContainer" style="display:none;" >
+					<obs id="{n}" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+					
+				</p>
+				
+			</template>
+			<render n="101"/>
+			<render n="102"/>
+			<render n="103"/>
+			<render n="104"/>
+			<render n="105"/>
+		</repeat>
+		
+		<ifMode mode="VIEW" include="false">
+			
+			<p>
+				<strong>
+					Please also fill in the Lab Test Order form to order your tests
+				</strong>
+			</p>
+		</ifMode>
 	</fieldset>
 	<fieldset field-separator=", ">
 
 		<legend>X-ray order</legend>
 		<h3>X-ray order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
-						<p>
-							<obs id="{n}-order" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-					</div>
-				</template>
-				<render n="401"/>
-				<render n="402"/>
-				<render n="403"/>
-				<render n="404"/>
-				<render n="405"/>
-			</repeat>
-		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the X-ray Order form to order your x-rays
-			</strong>
-		</p>
+
+		<repeat>
+			<template>
+				
+				<p id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
+					<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+
+			</template>
+			<render n="401"/>
+			<render n="402"/>
+			<render n="403"/>
+			<render n="404"/>
+			<render n="405"/>
+		</repeat>
+
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the X-ray Order form to order your x-rays
+				</strong>
+			</p>
+		</ifMode>
 
 	</fieldset>
 
@@ -168,38 +139,36 @@
 
 		<legend>Ultrasound order</legend>
 		<h3>Ultrasound order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
-						<p>
-							<obs id="{n}-order" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>    
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-					</div>
-				</template>
-				<render n="301"/>
-				<render n="302"/>
-				<render n="303"/>
-				<render n="304"/>
-				<render n="305"/>
-				<render n="306"/>
-				<render n="307"/>
-				<render n="308"/>
-				<render n="309"/>
 
-			</repeat>
-		</p>
-		<br/>
-		<p>
-			<strong>
-				Please also fill in the Ultrasound Order form to order your ultrasounds
-			</strong>
-		</p>
+		<repeat>
+			<template>
+				<p id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
+					<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>    
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+			</template>
+			<render n="301"/>
+			<render n="302"/>
+			<render n="303"/>
+			<render n="304"/>
+			<render n="305"/>
+			<render n="306"/>
+			<render n="307"/>
+			<render n="308"/>
+			<render n="309"/>
 
+		</repeat>
+
+		<ifMode mode="VIEW" include="false">
+			<br/>
+			<p>
+				<strong>
+					Please also fill in the Ultrasound Order form to order your ultrasounds
+				</strong>
+			</p>
+		</ifMode>
 	</fieldset>
-
 
 	<fieldset field-separator=", ">
 
@@ -215,24 +184,22 @@
 
 		<legend>Medication order</legend>
 		<h3>Medication order</h3>
-		<p>
-			<strong>
-				For IPD, medication to be ordered on the paper form
-			</strong>
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<p>
+				<strong>
+					For IPD, medication to be ordered on the paper form
+				</strong>
+			</p>
 
-		<p>
-			<strong>
-				For OPD, medication to be ordered on the electronic form: Medication Order
-			</strong>
-		</p>
+			<p>
+				<strong>
+					For OPD, medication to be ordered on the electronic form: Medication Order
+				</strong>
+			</p>
+		</ifMode>
 		<p>
 			<obs conceptId="LFHC:1176" rows="4" cols="50"/>
 		</p>
-		<p>
-			<input type="text" style="display:none;"/>
-		</p>
-
 
 	</fieldset>
 
@@ -240,37 +207,37 @@
 
 		<legend>IV fluids order</legend>
 		<h3>Intravenous fluids order</h3>
-		<p>
-			<repeat>
-				<template>
-					<div id="{n}-toggleContainer" style="display:none;" >
-						<obsgroup groupingConceptId="LFHC:1055">
-							<p>
-								<obs id="{n}-order" conceptId="LFHC:1054"/>
-							</p>
-							<p>
-								<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
-							</p>
-							<p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-							</p>
-							<br/>
-						</obsgroup>
-					</div>
-				</template>
-				<render n="501"/>
-				<render n="502"/>
-				<render n="503"/>
-				<render n="504"/>
-				<render n="505"/>
-				<render n="506"/>
-				<render n="507"/>
-				<render n="508"/>
-				<render n="509"/>
 
-			</repeat>
-		</p>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="ivs" class="toggleContainer" style="display:none;" >
+					<obsgroup groupingConceptId="LFHC:1055">
+						<p>
+							<obs id="{n}" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
+						</p>
+						<p>
+							<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
+						</p>
+						<p>
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
+						<br/>
+					</obsgroup>
+				</div>
+			</template>
+			<render n="501"/>
+			<render n="502"/>
+			<render n="503"/>
+			<render n="504"/>
+			<render n="505"/>
+			<render n="506"/>
+			<render n="507"/>
+			<render n="508"/>
+			<render n="509"/>
+
+		</repeat>
+
 	</fieldset>
 
 
@@ -278,8 +245,9 @@
 
 		<legend>Diet</legend>
 		<h3>Diet</h3>
-
-		What diet should the patient be eating?
+		<ifMode mode="VIEW" include="false">
+			What diet should the patient be eating?
+		</ifMode>
 		<p>
 			<obs id="diet" conceptId="LFHC:1047" answerConceptIds="CIEL:159596, LFHC:1046, CIEL:985, CIEL:161648, CIEL:162758, CIEL:162709, CIEL:159597, CIEL:122884" >
 				<controls>
@@ -289,17 +257,14 @@
 			</obs>
 		</p>
 		<br/>
-		<span id="feeding-plan">
+		<span class="thenDisplay" id="feeding-plan">
 			<obsgroup groupingConceptId="CIEL:162046">
 				<p>
-					Feeding plan:	
-					<obs conceptId="CIEL:985"/>
+					<obs conceptId="CIEL:985" labelText="Feeding plan: "/>
 				</p>
 				<p>
-					Comments
-					<obs conceptId="CIEL:160632" rows="4" columns="60"/>
+					<obs conceptId="CIEL:160632" labelText="Comments: " rows="4" columns="60"/>
 				</p>
-
 			</obsgroup>
 		</span>
 
