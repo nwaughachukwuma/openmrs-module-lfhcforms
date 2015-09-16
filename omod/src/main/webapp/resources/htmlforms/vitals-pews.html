@@ -1,6 +1,5 @@
 <htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.5">
 
-
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -28,7 +27,6 @@
 	</p>
 </div>
 
-
 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
 	<ifMode mode="VIEW" include="false">
 		<b><em>The patient is less than 100 year old: Vitals limits set for that range</em></b>
@@ -55,11 +53,20 @@
 		var limitsIndex = 2;
 	</script>
 </includeIf>
+<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 13">
+	<ifMode mode="VIEW" include="false">
+		<b><em>The patient is older than 13: No Vitals limits set for that age</em></b>
+	</ifMode>
+	<script type="text/javascript">
+		var limitsIndex = null;
+	</script>
+</includeIf>
+
 
 
 <script type="text/javascript">
 
-	var limits = jQuery.parseJSON('{"respiratoryRate":{"description":"Respiratory rate","conceptMapping":"CIEL:5242","lows":[20,20,20],"highs":[60,50,50]},"heartRate":{"description":"Heart rate &amp; blood pressure","conceptMapping":"CIEL:5087","lows":[80,70,70],"highs":[160,140,140]},"intercostalRecession":{"description":"Intercostal recession","conceptMapping":"CIEL:136768","whenAnswers":["CIEL:1065","CIEL:1067"]}}');
+	var limits = $.parseJSON('{"CIEL:5242":{"description":"Respiratory rate","label":"lfhcforms.pewsscore.components.label01","increment":1,"lows":[20,20,20],"highs":[60,50,40]},"respiratoryDistress":{"isConfig":"true","description":"Respiratory distress","label":"lfhcforms.pewsscore.components.label02","increment":1},"CIEL:136768":{"description":"Intercostal recession (Chest wall indrawing)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:1861":{"description":"Nostril flaring (Nasal flaring)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:113316":{"description":"Grunting (Noisy breathing)","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"LFHC:1025":{"description":"Head bobbing","increment":1,"parentId":"respiratoryDistress","whenAnswers":["CIEL:1065"]},"CIEL:5087":{"description":"Heart rate &amp; blood pressure","label":"lfhcforms.pewsscore.components.label03","increment":1,"lows":[80,70,60],"highs":[160,140,130]},"CIEL:135592":{"description":"Loss of consciousness","label":"lfhcforms.pewsscore.components.label04","increment":1,"whenAnswers":["CIEL:1065"]},"CIEL:162643":{"isActive":"false","description":"Conscious level","increment":1,"whenAnswers":["CIEL:162644","CIEL:162645","CIEL:159508"]},"CIEL:5088":{"description":"Temperature","label":"lfhcforms.pewsscore.components.label05","increment":1,"lows":[35,35,35],"highs":[38,38,38]}}');
 
 </script>
 
@@ -70,7 +77,7 @@
 		jq(function() {
 
 			// PGCS
-			jQuery( ".pgcs-helper" ).change(function() {
+			$( ".pgcs-helper" ).change(function() {
 
 				var eyesPgcs = document.getElementById("eyes").value *1;
 				var verbalPgcs = document.getElementById("verbal").value *1;
@@ -83,32 +90,38 @@
 
 
 			// Obs limits - only for numeric observations
-			jQuery(".boundaries").on('change', function () {
-				var obsName = jQuery(this).attr("id");
+			$(".boundaries").on('change', function () {
+				
+				$(this).closest(".obs-wrapper").each(function (index, currentObsWrapper) {
+					var obsName = $(currentObsWrapper).find(".boundaries").attr("id");
 
-				if ('obsName' in limits) {
-
-					if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
-						low = limits[obsName].lows[limitsIndex];
-						high = limits[obsName].highs[limitsIndex];
-
-						obsValue = getValue(obsName+".value");
-
-						if (obsValue &lt; low) {
-							jQuery("#" + obsName + "-out").find("font").html("&#xf071; Attention: value &lt; " + low);
-							outOfLimits = true;
+					if (obsName in limits) {
+						if (!limitsIndex) {
+							return;
 						}
-						if (obsValue >= high) {
-							jQuery("#" + obsName + "-out").find("font").html("&#xf071; Attention: value >= " + high);
-							outOfLimits = true;
+						var outOfLimits = false;
+						if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
+							low = limits[obsName].lows[limitsIndex];
+							high = limits[obsName].highs[limitsIndex];
+
+							obsValue = getValue(obsName+".value");
+
+							if (obsValue &lt; low) {
+								$(currentObsWrapper).find(".limit-wrapper").find("font").html("&#xf071; Attention: value &lt; " + low);
+								outOfLimits = true;
+							}
+							if (obsValue >= high) {
+								$(currentObsWrapper).find(".limit-wrapper").find("font").html("&#xf071; Attention: value >= " + high);
+								outOfLimits = true;
+							}
 						}
-					}
 
-					if (outOfLimits) {
-						jQuery("#" + obsName + "-limit-wrapper").show()
-					}
+						if (outOfLimits) {
+							$(currentObsWrapper).find(".limit-wrapper").show();
+						}
 
-				}
+					}
+				});
 
 			});
 
@@ -121,7 +134,7 @@
 			};
 
 
-			jQuery('.bsa').change(function() {
+			$('.bsa').change(function() {
 				bsa = calculateBsa(getValue("weight.value"),getValue("height.value"));
 				if (bsa) {
 					displayBsa(bsa);
@@ -135,6 +148,21 @@
 
 </script>
 </ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+		$(document).ready(function(){
+
+			var formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66";
+
+			properViewMode(formUuid);
+
+		});
+	</script>
+</ifMode>
+
 
 
 <script type="text/javascript">
@@ -174,71 +202,101 @@
 
 </script>
 
+<style type="text/css">
+.dashboard .info-body h3 {
+	display: inline-grid;
+	width: 40%;
+}	
+
+</style>
+
 <section id="vitals" sectionTag="section" headerStyle="title" headerCode="referenceapplication.vitals.title">
 
 	<!-- Heart Rate / Pulse -->
 	<fieldset field-separator=", ">
 		<legend>Heart rate</legend>
 		<h3>Heart rate</h3>
-
-		<p>
-			<obs conceptId="CIEL:5087" id="heartRate" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
-		</p>
-		<span id="heartRate-limit-wrapper" style="display:none;">
-			<p>
+		<!-- handle limits by using a class="obs-wrapper" wrapper
+		the "id" of the "obs" must be the name of the obs used in the JSON configuration file (boundaries.json)-->
+		<p class="obs-wrapper" >
+			<obs conceptId="CIEL:5087" id="CIEL:5087" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
+			<span class="limit-wrapper" style="display:none;">
 				<br/>
-				<span id='heartRate-out'>
-					<font color="red" class="icon-"></font>
-				</span>
-			</p>
-			
-		</span>
+				<font color="red" class="icon-"></font>
+			</span>
+		</p>
+
+		
 	</fieldset>
 
 	<!-- Respiratory Rate -->
 	<fieldset field-separator=", ">
 		<legend>Respiratory rate</legend>
 		<h3>Respiratory rate</h3>
-		<p>
-			<obs conceptId="CIEL:5242" id="respiratoryRate" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
-		</p>
-		<span id="respiratoryRate-limit-wrapper" style="display:none;">
-			<p>
+		<p class="obs-wrapper" >
+			<obs conceptId="CIEL:5242" id="CIEL:5242" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
+			<span class="limit-wrapper" style="display:none;">
 				<br/>
-				<span id='respiratoryRate-out'>
-					<font color="red" class="icon-"></font>
-				</span>
+				<font color="red" class="icon-"></font>
+			</span>
+		</p>
+
+	</fieldset>
+
+	<ifMode mode="VIEW" include="false">
+		<fieldset field-separator=", ">
+			<legend>Respiratory distress</legend>
+			<h3>Respiratory distress</h3>
+
+			<p class="fieldset">			
+				<span class="questionLabel">Chest wall indrawing</span>
+				<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None "/>
 			</p>
-			
-		</span>
-	</fieldset>
+			<p class="fieldset">			
+				<span class="questionLabel">Nasal flaring</span>
+				<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+			<p class="fieldset">
+				<span class="questionLabel">Grunting</span>
+				<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+			<p class="fieldset">
+				<span class="questionLabel">Head bobbing</span>
+				<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+		</fieldset>
+	</ifMode>
 
-
-	<fieldset field-separator=", ">
-		<legend>Respiratory distress</legend>
-
-		<h3>Chest wall indrawing</h3>
-		<p>			
-			<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate, Mild (None or a little bit)"/>
-		</p>
-
-
-		<h3>Nasal flaring</h3>
-		<p>
-			<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
-		</p>
-
-		<h3>Grunting</h3>
-		<p>
-			<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Present), Mild (None), Unknown"/>
-		</p>
-
-		<h3>Head bobbing</h3>
-		<p>
-			<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe/Moderate (Maybe present or present), Mild (None), Unknown"/>
-		</p>
-
-	</fieldset>
+	<ifMode mode="VIEW">
+		<fieldset field-separator=", ">
+			<legend>Chest wall indrawing</legend>
+			<h3>Chest wall indrawing</h3>
+			<p class="fieldset">			
+				<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None "/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Nasal flaring</legend>
+			<h3>Nasal flaring</h3>
+			<p class="fieldset">			
+				<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Grunting</legend>
+			<h3>Grunting</h3>
+			<p class="fieldset">
+				<obs conceptId="CIEL:113316" id="grunting" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Head bobbing</legend>
+			<h3>Head bobbing</h3>
+			<p class="fieldset">
+				<obs conceptId="LFHC:1025" id="head_bobbing" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
+			</p>
+		</fieldset>
+	</ifMode>
 
 	<!--Oxygen Saturation-->
 	<fieldset field-separator=", ">
@@ -254,18 +312,13 @@
 	<fieldset field-separator=", ">
 		<legend>Temperature</legend>
 		<h3>Temperature</h3>
-		<p class="left">
-			<obs conceptId="CIEL:5088" id="temperature" class="boundaries" showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value"/>
-		</p>
-		<span id="temperature-limit-wrapper" style="display:none;">
-			<p>
+		<p class="obs-wrapper">
+			<obs conceptId="CIEL:5088" id="CIEL:5088" class="boundaries" showUnits="uicommons.units.degreesCelsius" unitsCssClass="append-to-value"/>
+			<span class="limit-wrapper" style="display:none;">
 				<br/>
-				<span id='temperature-out'>
-					<font color="red" class="icon-"></font>
-				</span>
-			</p>
-
-		</span>
+				<font color="red" class="icon-"></font>
+			</span>
+		</p>
 
 	</fieldset>
 
@@ -304,13 +357,14 @@
 		<p class="left">
 			<obs conceptId="CIEL:162643"/>
 		</p>
+		<ifMode mode="VIEW" include="false">
+			<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
 
-		<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
+			<p class="left">
 
-		<p class="left">
-
-			<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
-		</p>
+				<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
+			</p>
+		</ifMode>
 	</fieldset>
 
 	<!-- PGCS -->
@@ -516,7 +570,7 @@
 	<fieldset field-separator=", ">
 		<legend>Body surface area</legend>
 		<h3>Body surface area (Calculated)</h3>				
-		<span id="no-calculated-bsa">
+		<span id="no-calculated-bsa" style="display:none;">
 			No calculated BSA<br/>
 			Please enter the Height and Weight to determine the BSA
 		</span>
@@ -534,4 +588,4 @@
 
 <submit/>
 
-</htmlform>							
+</htmlform>
