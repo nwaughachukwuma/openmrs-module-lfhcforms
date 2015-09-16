@@ -28,6 +28,9 @@
 		<require_module version="${htmlformentryuiVersion}">
 			org.openmrs.module.htmlformentryui
 		</require_module>
+		<require_module version="${formentryappVersion}">
+			org.openmrs.module.formentryapp
+		</require_module>
 	</require_modules>
 
 	

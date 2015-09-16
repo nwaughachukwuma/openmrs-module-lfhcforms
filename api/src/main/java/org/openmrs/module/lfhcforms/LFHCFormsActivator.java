@@ -40,9 +40,11 @@ public class LFHCFormsActivator implements ModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
 		
+	/*
+	 * The order is important here, be careful when swapping initializers around
+	 */
 	public List<Initializer> getInitializers() {
 		List<Initializer> l = new ArrayList<Initializer>();
-//		l.add(new MetadataInitializer());
 		l.add(new AdminConfigInitializer());
 		l.add(new AddressTemplateInitializer());
 		l.add(new EncounterTypesInitializer());
