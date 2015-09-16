@@ -1,4 +1,4 @@
-<htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Doctor Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.5">
+<htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Doctor Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.5.1">
 
 <ifMode mode="VIEW" include="false">
 	<script type="text/javascript">
@@ -23,6 +23,7 @@
 			
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == "f6dbee30-d965-47f5-b9b0-bc17f559dfad") {
+					$(".toHide").hide();
 					$("br").remove();
 					$("p").filter(":hidden").toggle(true);
 				}
@@ -88,7 +89,7 @@
 		<legend>
 			Skin Exam
 		</legend>
-		<h3>Skin Exam</h3>
+		<h3 class="toHide">Skin Exam</h3>
 
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
@@ -112,7 +113,7 @@
 		<legend>
 			Lymph node exam
 		</legend>
-		<h3>Lymph node exam</h3>
+		<h3 class="toHide">Lymph node exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="1-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1121" style="checkbox"/>
@@ -136,7 +137,7 @@
 		<legend>
 			HEENT exam
 		</legend>
-		<h3>HEENT exam</h3>
+		<h3 class="toHide">HEENT exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="4-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1122"  style="checkbox"/>
@@ -160,7 +161,7 @@
 		<legend>
 			Chest exam
 		</legend>
-		<h3>Chest exam</h3>
+		<h3 class="toHide">Chest exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="5-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1123"  style="checkbox"/>
@@ -184,7 +185,7 @@
 		<legend>
 			Cardiac exam
 		</legend>
-		<h3>Cardiac exam</h3>
+		<h3 class="toHide">Cardiac exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="6-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1124"  style="checkbox"/>
@@ -207,7 +208,7 @@
 		<legend>
 			Abdominal exam
 		</legend>
-		<h3>Abdominal exam</h3>
+		<h3 class="toHide">Abdominal exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="10-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1125" style="checkbox"/>
@@ -231,7 +232,7 @@
 		<legend>
 			Urogenital exam
 		</legend>
-		<h3>Urogenital exam</h3>
+		<h3 class="toHide">Urogenital exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="12-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1126"  style="checkbox"/>
@@ -255,7 +256,7 @@
 		<legend>
 			Extremity exam
 		</legend>
-		<h3>Extremity exam</h3>
+		<h3 class="toHide">Extremity exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="7-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1127" style="checkbox"/>
@@ -279,7 +280,7 @@
 		<legend>
 			Musculoskeletal exam
 		</legend>
-		<h3>Musculoskeletal exam</h3>
+		<h3 class="toHide">Musculoskeletal exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="8-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1128"  style="checkbox"/>
@@ -303,7 +304,7 @@
 		<legend>
 			Neurologic exam
 		</legend>
-		<h3>Neurologic exam</h3>
+		<h3 class="toHide">Neurologic exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="9-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1129"  style="checkbox"/>
@@ -327,7 +328,7 @@
 		<legend>
 			Psychiatric exam
 		</legend>
-		<h3>Psychiatric exam</h3>
+		<h3 class="toHide">Psychiatric exam</h3>
 		<obsgroup groupingConceptId="LFHC:1052">
 			<p style="display:none;">
 				<obs id="11-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1130"   style="checkbox"/>
