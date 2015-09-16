@@ -1,4 +1,4 @@
-<htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="ef469ea5-8b79-4a64-a1c8-ce3e09b4e703" formVersion="0.5">
+<htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="ef469ea5-8b79-4a64-a1c8-ce3e09b4e703" formVersion="0.5.1">
 
 <ifMode mode="VIEW" include="false">
 	<script type="text/javascript">
@@ -24,9 +24,17 @@
 	<script type="text/javascript" id="properViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			properViewMode("6021b82a-8f19-4308-a248-bc603ffaa880");
-			properViewModeForTable("6021b82a-8f19-4308-a248-bc603ffaa880");
-			$("br").remove();
+
+			var formUuid="6021b82a-8f19-4308-a248-bc603ffaa880"
+
+			properViewMode(formUuid);
+			properViewModeForTable(formUuid);
+			
+			$("htmlform").each(function (index, currentForm) {
+				if ($(currentForm).attr("formuuid") == formUuid) {
+					$("br").remove();
+				}
+			});
 		});
 	</script>
 </ifMode>
@@ -147,23 +155,23 @@
 
 			</span>
 		</section>
+
+		<style type="text/css">
+			.tg {
+				table-layout: fixed;
+				width: 50%;
+				margin-left:0px;
+
+			}
+		</style>
 	</ifMode>
-
-	<style type="text/css">
-		.tg {
-			table-layout: fixed;
-			width: 50%;
-			margin-left:0px;
-
-		}
-	</style>
 	<br/>
 	<section headerStyle="title" headerCode="Dispense Medication">
 		<obsgroup groupingConceptId="1442">
 			<table class="tg">
 				<tbody>
 					<tr>
-						
+
 						<td>
 							<h3>Drug dispensed:</h3>
 							<p>
@@ -173,18 +181,18 @@
 						</td>
 					</tr>
 					<tr>
-						
+
 
 						<td>
 							<h3>Dose dispensed: </h3>
 							<p>
 								<obs id="dose-dispensed" conceptId="160856"/>
-									<ifMode mode="VIEW" include="false">
+								<ifMode mode="VIEW" include="false">
 									<span>Unit: </span>
 								</ifMode>
 								<obs id="dose-unit" conceptId="161563" answerConceptIds="161554,161553,162263, 162366" required="true"/>
 							</p>
-							
+
 						</td>
 					</tr>
 					<tr>
