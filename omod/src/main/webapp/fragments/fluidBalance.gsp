@@ -2,7 +2,7 @@
 
 <div class="info-section">
     <div class="info-header">
-        <i class="icon-medical"></i>
+        <i class="icon-tint"></i>
         <h3>${ ui.message("lfhcforms.fluidbalance.title").toUpperCase() }</h3>
         
         <!-- <i class="icon-pencil edit-action right" title="${ ui.message("coreapps.edit") }" onclick="location.href='${ui.pageLink("allergyui", "allergies", [patientId: patient.patient.id])}';"></i> -->
