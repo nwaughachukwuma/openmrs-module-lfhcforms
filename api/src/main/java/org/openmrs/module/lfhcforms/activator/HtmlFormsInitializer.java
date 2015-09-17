@@ -60,16 +60,14 @@ public class HtmlFormsInitializer implements Initializer {
 			try {
 				htmlForm = HtmlFormUtil.getHtmlFormFromUiResource(resourceFactory, formService, hfeService, providerName, formPath);
 			} catch (IOException e) {
-				final String errMsg = "Could not generate HTML form from the following resource file: " + formPath;
-				log.error(errMsg, e);
+				log.error("Could not generate HTML form from the following resource file: " + formPath, e);
 				continue;
 			}
-			ExtensionForm extForm = null;
+			ExtensionForm extensionForm = null;
 			try {
-				extForm = ExtensionFormUtil.getExtensionFormFromForm(resourceFactory, providerName, formPath, hfeAppService, formManager, htmlForm.getForm());
+				extensionForm = ExtensionFormUtil.getExtensionFormFromUIResourceAndForm(resourceFactory, providerName, formPath, hfeAppService, formManager, htmlForm.getForm());
 			} catch (Exception e) {
-				final String errMsg = "The form was created but its extension point could not be created in Configure Metadata: " + formPath;
-				log.error(errMsg, e);
+				log.error("The form was created but its extension point could not be created in Configure Metadata: " + formPath, e);
 				continue;
 			}
 		}
