@@ -1,4 +1,4 @@
-<htmlform formUuid="cdc13a25-fe9e-43a5-85dd-7e2f31e8c860" formName="Doctor Discharge" formEncounterType="181820aa-88c9-479b-9077-af92f5364329" formVersion="0.4.3">
+<htmlform formUuid="cdc13a25-fe9e-43a5-85dd-7e2f31e8c860" formName="Doctor Discharge" formEncounterType="181820aa-88c9-479b-9077-af92f5364329" formVersion="0.5">
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -9,6 +9,21 @@
 		});
 	</script>
 </ifMode>
+
+		
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("cdc13a25-fe9e-43a5-85dd-7e2f31e8c860");
+			properViewModeForTable("cdc13a25-fe9e-43a5-85dd-7e2f31e8c860");
+		});
+	</script>
+</ifMode>
+
+		
+
 
 <div class="hidden" id="who-when-where">
 	<p id="who">

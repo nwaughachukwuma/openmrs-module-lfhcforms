@@ -1,25 +1,45 @@
-<htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="ef469ea5-8b79-4a64-a1c8-ce3e09b4e703" formVersion="0.4">
+<htmlform formUuid="6021b82a-8f19-4308-a248-bc603ffaa880" formName="Dispense medication" formEncounterType="ef469ea5-8b79-4a64-a1c8-ce3e09b4e703" formVersion="0.5.1">
 
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript">
 
-<script type="text/javascript">
+		jQuery(function () {
+			jQuery('#order-title').hide();
 
-	jQuery(function () {
-		jQuery('#order-title').hide();
-		
-		jQuery("#select-order-1, #select-order-2, #select-order-3, #select-order-4, #select-order-5, #select-order-6, #select-order-7, #select-order-8, #select-order-9, #select-order-10").click(function() {
-			
-			setValue('drug-dispensed.value', this.getAttribute("drugOrderedName"));
-			
-			setValue('dose-dispensed.value', this.getAttribute("Dose"));
-			setValue('dose-unit.value', this.getAttribute("Unit"));
+			jQuery("#select-order-1, #select-order-2, #select-order-3, #select-order-4, #select-order-5, #select-order-6, #select-order-7, #select-order-8, #select-order-9, #select-order-10").click(function() {
+
+				setValue('drug-dispensed.value', this.getAttribute("drugOrderedName"));
+
+				setValue('dose-dispensed.value', this.getAttribute("Dose"));
+				setValue('dose-unit.value', this.getAttribute("Unit"));
+
+			});
 
 		});
+	</script>
+</ifMode>
 
-	});
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewModeForTable">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+
+			var formUuid="6021b82a-8f19-4308-a248-bc603ffaa880"
+
+			properViewMode(formUuid);
+			properViewModeForTable(formUuid);
+			
+			$("htmlform").each(function (index, currentForm) {
+				if ($(currentForm).attr("formuuid") == formUuid) {
+					$("br").remove();
+				}
+			});
+		});
+	</script>
+</ifMode>
 
 
-
-</script>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -49,149 +69,151 @@
 </div>
 
 <obsgroup groupingConceptId="1442">
+	<ifMode mode="VIEW" include="false">
+		<section>
+			<!-- Display a list of all previous Drug orders-->
 
-	<section>
-				
-		<!-- Display a list of all previous Drug orders-->
+			<lookup complexExpression="
 
-		<lookup complexExpression="
-		
-		&lt;ul class=&quot;select&quot;>	
+			&lt;ul class=&quot;select&quot;>	
 
-		#set ($encounterMedList = $fn.allEncounters('3c462397-7840-4890-ae78-d123d9fd138b'))
-		#set ($x = 1)
-		#foreach ($encounterMed in $encounterMedList)
+			#set ($encounterMedList = $fn.allEncounters('3c462397-7840-4890-ae78-d123d9fd138b'))
+			#set ($x = 1)
+			#foreach ($encounterMed in $encounterMedList)
 
-		#if ($fn.getObs($encounterMed,&quot;1282&quot;))
+			#if ($fn.getObs($encounterMed,&quot;1282&quot;))
 
-		#set ($startTag = &quot;&lt;li&quot;)
+			#set ($startTag = &quot;&lt;li&quot;)
 
-		$startTag
-		id=&quot;select-order-$x&quot; medicationEncounterId=&quot;$encounterMed.encounterId&quot; medicationEncounterDatetime=&quot;$encounterMed.encounterDatetime&quot; &quot;
+			$startTag
+			id=&quot;select-order-$x&quot; medicationEncounterId=&quot;$encounterMed.encounterId&quot; medicationEncounterDatetime=&quot;$encounterMed.encounterDatetime&quot; &quot;
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;1282&quot;))
-		#foreach ($obs in $obsList)
-		drugOrderedId=&quot;$obs.valueCoded&quot; 
-		drugOrderedName=&quot;$obs.valueCoded.getName()&quot;
-		#set ($innerHtml = &quot;Date of order: &lt;strong>$encounterMed.encounterDatetime&lt;/strong>&lt;br>&quot;)
-		#set ($innerHtml = $innerHtml + &quot;Drug orderd: $obs.valueCoded.getName()&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;1282&quot;))
+			#foreach ($obs in $obsList)
+			drugOrderedId=&quot;$obs.valueCoded&quot; 
+			drugOrderedName=&quot;$obs.valueCoded.getName()&quot;
+			#set ($innerHtml = &quot;Date of order: &lt;strong>$encounterMed.encounterDatetime&lt;/strong>&lt;br>&quot;)
+			#set ($innerHtml = $innerHtml + &quot;Drug orderd: $obs.valueCoded.getName()&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;5219&quot;))
-		#foreach ($obs in $obsList)
-		#set ($innerHtml= $innerHtml + &quot;Route: $obs.valueCoded.getName()&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;5219&quot;))
+			#foreach ($obs in $obsList)
+			#set ($innerHtml= $innerHtml + &quot;Route: $obs.valueCoded.getName()&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;160856&quot;))
-		#foreach ($obs in $obsList)
-		dose=&quot;$obs.valueNumeric&quot;
-		#set ($innerHtml= $innerHtml + &quot;Dose: $obs.valueNumeric&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;160856&quot;))
+			#foreach ($obs in $obsList)
+			dose=&quot;$obs.valueNumeric&quot;
+			#set ($innerHtml= $innerHtml + &quot;Dose: $obs.valueNumeric&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;161563&quot;))
-		#foreach ($obs in $obsList)
-		unit=&quot;$obs.valueCoded.getName()&quot;
-		#set ($innerHtml= $innerHtml + &quot;Unit: $obs.valueCoded.getName()&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;161563&quot;))
+			#foreach ($obs in $obsList)
+			unit=&quot;$obs.valueCoded.getName()&quot;
+			#set ($innerHtml= $innerHtml + &quot;Unit: $obs.valueCoded.getName()&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;160855&quot;))
-		#foreach ($obs in $obsList)
-		#set ($innerHtml= $innerHtml + &quot;Frequency: $obs.valueCoded.getName()&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;160855&quot;))
+			#foreach ($obs in $obsList)
+			#set ($innerHtml= $innerHtml + &quot;Frequency: $obs.valueCoded.getName()&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;159368&quot;))
-		#foreach ($obs in $obsList)
-		#set ($innerHtml= $innerHtml + &quot;Duration: $obs.valueNumeric&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
+			#set ($obsList = $fn.allObs($encounterMed,&quot;159368&quot;))
+			#foreach ($obs in $obsList)
+			#set ($innerHtml= $innerHtml + &quot;Duration: $obs.valueNumeric&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
 
-		#set ($obsList = $fn.allObs($encounterMed,&quot;160742&quot;))
-		#foreach ($obs in $obsList)
-		#set ($innerHtml= $innerHtml + &quot;Indication: $obs.valueCoded.getName()&lt;br>&quot;)
-		#if($velocityHasNext), #end
-		#end
-		#set ($x = $x +1)
-		>$innerHtml
-		&lt;/li>
-		#end
-		#end
-		&lt;/ul
-		"							
-		/>
-
+			#set ($obsList = $fn.allObs($encounterMed,&quot;160742&quot;))
+			#foreach ($obs in $obsList)
+			#set ($innerHtml= $innerHtml + &quot;Indication: $obs.valueCoded.getName()&lt;br>&quot;)
+			#if($velocityHasNext), #end
+			#end
+			#set ($x = $x +1)
+			>$innerHtml
+			&lt;/li>
+			#end
+			#end
+			&lt;/ul
+			"							
+			/>
 
 
-	</section>
 
-	<section>			
-		
-		<span id="order-title">
-			<h3>Order Selected</h3>
-			<p id="order-details"></p>
+		</section>
 
-		</span>
-	</section>
+		<section>			
 
+			<span id="order-title">
+				<h3>Order Selected</h3>
+				<p id="order-details"></p>
 
-<style type="text/css">
-	.tg {
-		table-layout: fixed;
-		width: 50%;
-		margin-left:0px;
+			</span>
+		</section>
 
-	}
-</style>
-<br/>
-	<section>
+		<style type="text/css">
+			.tg {
+				table-layout: fixed;
+				width: 50%;
+				margin-left:0px;
+
+			}
+		</style>
+	</ifMode>
+	<br/>
+	<section headerStyle="title" headerCode="Dispense Medication">
 		<obsgroup groupingConceptId="1442">
 			<table class="tg">
 				<tbody>
 					<tr>
-						
-						<td>
-						 <h3>Drug dispensed:</h3>
-						 <p>
 
-							<obs id="drug-dispensed" conceptId="1282" answerClasses="Drug" style="autocomplete" required="true"/>
+						<td>
+							<h3>Drug dispensed:</h3>
+							<p>
+
+								<obs id="drug-dispensed" conceptId="1282" answerClasses="Drug" style="autocomplete" required="true"/>
 							</p>
 						</td>
 					</tr>
 					<tr>
-						
+
 
 						<td>
 							<h3>Dose dispensed: </h3>
 							<p>
-							<obs id="dose-dispensed" conceptId="160856"/>
-							</p><p>
-							<obs id="dose-unit" conceptId="161563" labelText="Unit: " answerConceptIds="161554,161553,162263, 162366" required="true"/>
+								<obs id="dose-dispensed" conceptId="160856"/>
+								<ifMode mode="VIEW" include="false">
+									<span>Unit: </span>
+								</ifMode>
+								<obs id="dose-unit" conceptId="161563" answerConceptIds="161554,161553,162263, 162366" required="true"/>
 							</p>
 
 						</td>
 					</tr>
 					<tr>
 						<td>
-						<h3>Number of pills dispensed</h3>
-						<p>
-							<obs conceptId="1443" size="6" showUnits="unit(s)" required="true"/>
+							<h3>Number of pills dispensed</h3>
+							<p>
+								<obs conceptId="1443" size="6" showUnits="unit(s)" required="true"/>
 							</p>
 						</td>
 					</tr>
 
 				</tbody>
 			</table>
+		</obsgroup>
 
-
-
+		<ifMode mode="VIEW" include="false">
 			<br/>
 			<font color="red">* required</font>
 			<br/>
-		</obsgroup>
+		</ifMode>
+
 
 	</section>
 </obsgroup>
