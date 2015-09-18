@@ -1,0 +1,210 @@
+<htmlform formUuid="d18289b0-d0a4-4753-a500-55767eb057de" formName="Neurovascular Observations" formEncounterType="4a4e04a0-1424-4fb1-bebb-ba6bb16dd628" formVersion="0.1">
+
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+</ifMode>
+
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+		// JavaScript for VIEW mode
+		if(jQuery){
+			jQuery(document).ready(function(){
+				properViewMode("d18289b0-d0a4-4753-a500-55767eb057de");
+			});
+		}
+	</script>
+
+</ifMode>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+<section id="general" sectionTag="section" headerStyle="title" headerCode="lfhcforms.nvobs.section.general">
+	<fieldset>
+		<!-- Skin Color -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.color" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1019').name"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1019" />
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<!-- Skin Temperature -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.skinTemperature" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1040').name"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1040" />
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<!-- Movement of affected extermity -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.movementExtermity" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1134').name"/>
+		</h3>
+		<repeat>
+			<template>
+				<p id="{n}-toggleContainer" templateBlockId="movement" class="toggleContainer" style="display:none;">
+					<obs id="{n}" conceptId="LFHC:1134" />
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+			</template>
+			<render n="10"/>
+			<render n="11"/>
+			<render n="12"/>
+			<render n="13"/>
+			<render n="14"/>
+		</repeat>
+
+	</fieldset>
+	<fieldset>
+		<!-- Sensation in Affected Extremity -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.sensationExtermity" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1137').name"/>
+		</h3>
+		<repeat>
+			<template>
+				<p id="{n}-toggleContainer" templateBlockId="sensation" class="toggleContainer" style="display:none;">
+					<obs id="{n}" conceptId="LFHC:1137" />
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+			</template>
+			<render n="20"/>
+			<render n="21"/>
+			<render n="22"/>
+			<render n="23"/>
+			<render n="24"/>
+		</repeat>
+
+	</fieldset>
+
+	<fieldset>
+		<!-- Swelling of Affected Extremity -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.swellingExtermity" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1138').name"/>
+		</h3>
+		<repeat>
+			<template>
+				<p id="{n}-toggleContainer" templateBlockId="swelling" class="toggleContainer" style="display:none;">
+					<obs id="{n}" conceptId="LFHC:1138" />
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+			</template>
+			<render n="30"/>
+			<render n="31"/>
+			<render n="32"/>
+			<render n="33"/>
+			<render n="34"/>
+		</repeat>
+
+	</fieldset>
+
+	<fieldset>
+		<!-- Pulse -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.pulse" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1129').name"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1129" />
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<!-- Capilary refill of extremity -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.capillaryRefill" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('CIEL:162513').name"/>
+		</h3>
+		<p>
+			<obs conceptId="CIEL:162513" showUnits="true"/>
+		</p>
+	</fieldset>
+
+
+	<fieldset>
+		<!-- Pain -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.pain" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('LFHC:1128').name"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1128"  showUnits="true"/>
+		</p>
+	</fieldset>
+
+	<fieldset>
+		<!-- Comments -->
+		<legend>
+			<uimessage code="lfhcforms.nvobs.legend.comments" />
+		</legend>
+		<h3>
+			<lookup expression="fn.getConcept('CIEL:159395').name"/>
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159395" rows="5" cols="50" />
+		</p>
+	</fieldset>
+
+</section>
+
+<submit/>
+</htmlform>	

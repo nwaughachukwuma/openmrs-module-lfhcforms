@@ -36,7 +36,7 @@ import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
  */
 public class LFHCFormsActivator implements ModuleActivator {
 	
-	public final static String ACTIVATOR_MODULE_NAME = "LFHC Form Module";
+	public final static String ACTIVATOR_MODULE_NAME = "LFHC Forms Module";
 	
 	protected Log log = LogFactory.getLog(getClass());
 		
