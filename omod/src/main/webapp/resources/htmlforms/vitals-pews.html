@@ -1,11 +1,11 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.5.1"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.visitActions"
-	formOrder="2"
-	formIcon="icon-medkit"
-	formShowIf=""
-	formDisplayStyle="Simple"
-	>
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="2"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -102,10 +102,8 @@
 
 			// Obs limits - only for numeric observations
 			$(".boundaries").on('change', function () {
-				
 				$(this).closest(".obs-wrapper").each(function (index, currentObsWrapper) {
 					var obsName = $(currentObsWrapper).find(".boundaries").attr("id");
-
 					if (obsName in limits) {
 						if (!limitsIndex) {
 							return;
@@ -136,7 +134,7 @@
 					}
 				});
 
-			});
+});
 
 
 			// BSA
@@ -354,7 +352,7 @@
 		<legend><lookup expression="fn.getConcept('CIEL:162643').name"/></legend>
 		<h3><lookup expression="fn.getConcept('CIEL:162643').name"/></h3>
 		<p class="left">
-			<obs conceptId="CIEL:162643"/>
+			<obs conceptId="CIEL:162643" />
 		</p>
 		<ifMode mode="VIEW" include="false">
 			<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
@@ -489,15 +487,20 @@
 		<obsgroup groupingConceptId="LFHC:1125">
 			<legend><uimessage code="referenceapplication.vitals.bloodPressure.title"/></legend>
 			<h3><uimessage code="referenceapplication.vitals.bloodPressure.title"/></h3>
-
-			<p class="left">
-				<obs conceptId="CIEL:5085" id="bp_systolic"/>
+			<p class="obs-wrapper">
+				<obs conceptId="CIEL:5085" id="CIEL:5085" class="boundaries" /> /
+				<span class="limit-wrapper" style="display:none;">
+					<br/>
+					<font color="red" class="icon-"></font>
+				</span>
 			</p>
-			<p class="left">
-				/
-			</p>
-			<p class="left">
-				<obs conceptId="CIEL:5086" id="bp_diastolic"/>
+				
+			<p class="obs-wrapper">
+				<obs conceptId="CIEL:5086" id="CIEL:5086" class="boundaries" />
+				<span class="limit-wrapper" style="display:none;">
+					<br/>
+					<font color="red" class="icon-"></font>
+				</span>
 			</p>
 		</obsgroup>
 	</fieldset>
