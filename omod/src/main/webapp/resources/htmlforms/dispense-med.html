@@ -21,14 +21,14 @@
 
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 
 			var formUuid="6021b82a-8f19-4308-a248-bc603ffaa880"
 
-			properViewMode(formUuid);
-			properViewModeForTable(formUuid);
+			handleViewMode(formUuid);
+			handleViewModeForTable(formUuid);
 			
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == formUuid) {

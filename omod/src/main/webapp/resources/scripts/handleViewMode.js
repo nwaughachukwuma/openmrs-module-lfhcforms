@@ -1,15 +1,15 @@
 // By Romain - romain@mekomsolutions.com
-// Generic JavaScript to proper the VIEW mode (handles the toggleContainers, the "when" HFE markup and empty observations)
+// Generic JavaScript to clean the VIEW mode (handles the toggleContainers, the "when" HFE markup and empty observations...)
 
 /* All forms should be in the form of :
 <htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.5">
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		$(document).ready(function(){
-			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
-			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
+			handleViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+			handleViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
 		});
 	</script>
 </ifMode>
@@ -41,7 +41,7 @@
 
 
 
-var properViewMode = function (formUuid) { 
+var handleViewMode = function (formUuid) { 
 
 	$("htmlform").each(function (index, currentForm) {
 		if ($(currentForm).attr("formuuid") == formUuid) {
@@ -164,7 +164,7 @@ if (hideSection) {
 });
 }
 
-var properViewModeForTable = function  (formUuid) {
+var handleViewModeForTable = function  (formUuid) {
 
 	$("htmlform").each(function (index, currentForm) {
 
