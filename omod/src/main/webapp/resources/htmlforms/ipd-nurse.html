@@ -1,4 +1,4 @@
-<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.4"
+<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.5"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="14"
@@ -7,6 +7,16 @@
 	formDisplayStyle="Simple"
 	>
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("348c2a9e-17c8-4c15-8cef-e8f332a69853");
+		});
+	</script>
+
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -34,13 +44,6 @@
 		</span>
 	</p>
 </div>
-<style type="text/css">
-	.tg {
-		table-layout: fixed;
-		width: 70%;
-		margin-left: 10px;
-	}
-</style>
 
 <section id="admission-checklist" sectionTag="section" headerStyle="title" headerCode="Nursing Admission Checklist">
 	<fieldset field-separator=", ">
@@ -97,8 +100,6 @@
 		</p>
 	</fieldset>
 </section>
-
-
 
 <submit/>
 </htmlform>

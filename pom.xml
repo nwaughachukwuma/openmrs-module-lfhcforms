@@ -339,12 +339,7 @@
 				<version>${chartsearchVersion}</version>
 				<scope>provided</scope>
 			</dependency>
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>chartsearch-api</artifactId>
-				<version>${chartsearchVersion}</version>
-				<scope>provided</scope>
-			</dependency>
+
 			<!-- API test dependencies -->
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
@@ -541,13 +536,6 @@
 				<version>${atlasVersion}</version>
 				<classifier>tests</classifier>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>chartsearch-api</artifactId>
-				<version>${chartsearchVersion}</version>
-				<classifier>tests</classifier>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
@@ -786,7 +774,6 @@
 				<scope>provided</scope>
 			</dependency>
 			
-			
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
 				<artifactId>allergyui-api</artifactId>
@@ -835,22 +822,8 @@
 			</dependency>
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
-				<artifactId>chartsearch-omod</artifactId>
-				<version>${chartsearchVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
 				<artifactId>appointmentscheduling-omod</artifactId>
 				<version>${appointmentschedulingVersion}</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>appointmentschedulingui-omod</artifactId>
-				<version>${appointmentschedulinguiVersion}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -867,12 +840,6 @@
 				<version>${uicommonsVersion}</version>
 				<scope>provided</scope>
 				<type>zip</type>
-			</dependency>
-			<dependency>
-				<groupId>org.openmrs.module</groupId>
-				<artifactId>chartsearch-server</artifactId>
-				<version>${chartsearchVersion}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.openmrs.module</groupId>

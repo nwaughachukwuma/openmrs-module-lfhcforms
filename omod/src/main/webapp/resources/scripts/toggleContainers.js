@@ -9,13 +9,11 @@
 /*
 <repeat>
     <template>
-        <div id="{n}-toggleContainer" templateBlockId="xrayObs" class="toggleContainer" style="display:none;" >
-            <p>
-                <obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:161350" style="autocomplete"/>
-                <i class="addEntry icon-">&#xf055; Add</i>
-                <i class="removeEntry icon-">   &#xf056; Remove</i>
-            </p>
-        </div>
+        <p id="{n}-toggleContainer" templateBlockId="xrayObs" class="toggleContainer" style="display:none;" >
+            <obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:161350" style="autocomplete"/>
+            <i class="addEntry icon-">&#xf055; Add</i>
+            <i class="removeEntry icon-">   &#xf056; Remove</i>
+        </p>
     </template>
     <render n="401" />
     <render n="402" />
@@ -24,13 +22,13 @@
 
 For future tests:
 templateBlockId will identify the whole block template. It has to be unique. It is mandatory
-class="toggleContainer" has to be provided to the div in order to apply any logic. Mandatory
+class="toggleContainer" has to be provided to the "p" in order to apply any logic (if multiple "obs" are to be added in a single container, all "p" could be wrapped within a "div". Mandatory
 the *toggleContainer id has to be in the form of {n}String* (ex: {n}thisIsAToggleContainer) because of the parsefloat function
 the obs id has to be {n} 
 style="display:none;" is mandatory
 a field with class="addEntry" has to be provided somewhere. Mandatory
 a field with class="removeEntry" has to be provided somewhere. Mandatory
-the n value can be any integer, as soon as it is unique over the whole htmlform.
+the {n} value can be any integer, as soon as it is unique over the whole htmlform.
 
  */
 

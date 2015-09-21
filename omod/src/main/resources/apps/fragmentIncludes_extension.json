@@ -1,10 +1,18 @@
 [
     {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.fluidBalance",
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
             "fragment": "fluidBalance"
+        }
+    },
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.pews",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+            "provider": "${project.parent.artifactId}",
+            "fragment": "pewsScore"
         }
     }
 ]
