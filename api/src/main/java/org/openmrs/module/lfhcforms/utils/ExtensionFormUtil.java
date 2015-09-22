@@ -75,9 +75,9 @@ public class ExtensionFormUtil {
 	/**
 	 * @return A <i>partially</i> filled ExtensionForm from the XML representation of a form.
 	 */
-	protected static ExtensionForm getExtensionFormFromXML(String formXlm) throws Exception {
+	protected static ExtensionForm getExtensionFormFromXML(String formXml) throws Exception {
 		
-		Document doc = HtmlFormEntryUtil.stringToDocument(formXlm);
+		Document doc = HtmlFormEntryUtil.stringToDocument(formXml);
         Node htmlFormNode = HtmlFormEntryUtil.findChild(doc, "htmlform");
 
         String processFlag = getAttributeStringValue(htmlFormNode, "formAddMetadata", "");
