@@ -1,7 +1,9 @@
 package org.openmrs.module.lfhcforms.utils;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jfree.util.Log;
@@ -38,6 +40,7 @@ public class ExtensionFormUtil {
 		final ExtensionForm extensionForm = getExtensionFormFromXML(xml);
 		extensionForm.setId("");
 		extensionForm.setLabel(form.getName());
+		extensionForm.setForm(form);
 		
 		// If this form is already saved on the specified UI location, we remove it first
 		final List<Extension> extensions = hfeAppService.getFormExtensions(form);
@@ -56,6 +59,12 @@ public class ExtensionFormUtil {
 			if(extensionForm.getOrder() != null) {	// This must be satisfied when the XML has been parsed (a bit clunky)
 				final Extension extension = new Extension();
 				extensionForm.copyTo(extension);
+				
+				extension.setType("link");
+				Map<String, String> options = new HashMap<String, String>();
+				options.put("displayStyle", extensionForm.getDisplayStyle());
+				extension.setUrl(formManager.getFormUrl(extensionForm.getForm(), options));
+				
 				hfeAppService.saveFormExtension(form, extension);
 			}
 		}
