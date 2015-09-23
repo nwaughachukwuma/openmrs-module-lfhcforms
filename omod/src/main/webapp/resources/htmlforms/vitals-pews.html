@@ -1,4 +1,4 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals and PEWS" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6"
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="2"
@@ -331,8 +331,8 @@ formDisplayStyle="Simple"
 
 	<!-- O2 Ammount -->
 	<fieldset field-separator=", ">
-		<legend>Receiving O2</legend>
-		<h3>Receiving O2</h3>
+		<legend>O2 Amount</legend>
+		<h3>O2 Amount</h3>
 		<p>
 			<obs conceptId="LFHC:1027" id="o2_amount" showUnits="true" />
 		</p>
@@ -355,9 +355,9 @@ formDisplayStyle="Simple"
 			<obs conceptId="CIEL:162643" />
 		</p>
 		<ifMode mode="VIEW" include="false">
-			<h3><br/>Loss of conciousness<small> (for PEWS calculation)</small></h3>
+			<h3><br/>Loss of consciousness<small> (for PEWS calculation)</small></h3>
 			<p class="left">
-				<obs conceptId="CIEL:135592" id="conciousness_loss" labelText="Is patient uncouncious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
+				<obs conceptId="CIEL:135592" id="consciousness_loss" labelText="Is patient uncounscious ? " answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
 			</p>
 		</ifMode>
 	</fieldset>
