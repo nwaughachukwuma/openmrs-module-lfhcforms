@@ -1,5 +1,5 @@
 <htmlform
-	formUuid="d0c9f084-a2dc-4ed2-b69b-ab7fd3e71a97" formName="Clinical Notes" formEncounterType="49e7bc6c-bfbd-40dc-8164-45d82c55b5f9" formVersion="0.4"
+	formUuid="d0c9f084-a2dc-4ed2-b69b-ab7fd3e71a97" formName="Clinical Notes" formEncounterType="49e7bc6c-bfbd-40dc-8164-45d82c55b5f9" formVersion="0.5"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="12"
@@ -7,6 +7,17 @@
 	formShowIf=""
 	formDisplayStyle="Simple"
 	>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("d0c9f084-a2dc-4ed2-b69b-ab7fd3e71a97");
+		});
+	</script>
+</ifMode>
+>>>>>>> LFHCFORMS-62
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -44,7 +55,10 @@
 			<lookup expression="fn.getConcept('159395').name"/>
 		</h3>
 		<p>
-			<obs conceptId="159395" rows="6" cols="60" labelNameTag="default"/>
+			<ifMode mode="VIEW" include="false">
+			<span><lookup expression="fn.getConcept('159395').name"/></span>
+			</ifMode>
+			<obs conceptId="159395" rows="6" cols="60"/>
 		</p>
 
 	</fieldset>

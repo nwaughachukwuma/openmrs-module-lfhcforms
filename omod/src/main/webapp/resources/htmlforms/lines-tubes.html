@@ -1,4 +1,4 @@
-<htmlform formUuid="592bddc7-9889-490b-b3fd-5795648b078a" formName="Lines and Tubes" formEncounterType="934aad8b-250d-450b-9cb3-ca5f01841f61" formVersion="0.4.2"
+<htmlform formUuid="592bddc7-9889-490b-b3fd-5795648b078a" formName="Lines and Tubes" formEncounterType="934aad8b-250d-450b-9cb3-ca5f01841f61" formVersion="0.5"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="16"
@@ -6,6 +6,22 @@
 	formShowIf=""
 	formDisplayStyle="Simple"
 	>
+
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+
+		if(jQuery){
+			jQuery(document).ready(function(){
+				properViewMode("592bddc7-9889-490b-b3fd-5795648b078a");
+			});
+		}
+	</script>
+
+</ifMode>
+>>>>>>> LFHCFORMS-62
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -51,13 +67,13 @@
 				<obs conceptId="LFHC:1063" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1064" labelText="Size: " />
+				<obs conceptId="LFHC:1064" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1065" labelText="Site: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1178" labelText="Date removed: "/>
+				<obs conceptId="LFHC:1182" labelText="Date removed: "/>
 			</p>
 		</obsgroup>
 	</fieldset>
@@ -69,13 +85,13 @@
 				<obs conceptId="LFHC:1066" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1067" labelText="Size: "/>
+				<obs conceptId="LFHC:1067" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1068" labelText="Site: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1178" labelText="Date removed: "/>
+				<obs conceptId="LFHC:1183" labelText="Date removed: "/>
 			</p>
 
 		</obsgroup>
@@ -88,13 +104,13 @@
 				<obs conceptId="LFHC:1069" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1070" labelText="Size: "/>
+				<obs conceptId="LFHC:1070" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1071" labelText="Site: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1178" labelText="Date removed: "/>
+				<obs conceptId="LFHC:1184" labelText="Date removed: "/>
 			</p>
 		</obsgroup>
 	</fieldset>
@@ -130,7 +146,7 @@
 				<obs conceptId="LFHC:1076" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1077" labelText="Size: "/>
+				<obs conceptId="LFHC:1077" labelText="Size: " showUnits="true" />
 			</p>
 		</obsgroup>
 	</fieldset>

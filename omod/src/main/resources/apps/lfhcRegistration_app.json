@@ -74,12 +74,12 @@
                "label":"Ethnicity",
                "questions":[
                   {
-                     "legend":"Ethnicity",
+                     "legend":"lfhcforms.app.registerPatient.section.ethnicity",
                      "fields":[
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:912",
-                           "label":"Ethnicity?",
+                           "label":"lfhcforms.app.registerPatient.ethnicity",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/ethnicity"
@@ -88,7 +88,7 @@
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:920",
-                           "label":"Language spoken",
+                           "label":"lfhcforms.app.registerPatient.language",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/language"

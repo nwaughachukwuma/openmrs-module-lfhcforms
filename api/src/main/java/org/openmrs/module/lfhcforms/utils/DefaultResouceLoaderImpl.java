@@ -5,6 +5,12 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * This resource loader's implementation can be used in unit tests or on the API side.
+ * Refer to {@link OmodResouceLoaderImpl} for omod side resource loading.
+ * 
+ * @author Dimitri Renault
+ */
 public class DefaultResouceLoaderImpl implements ResourceLoader {
 
 	@Override
