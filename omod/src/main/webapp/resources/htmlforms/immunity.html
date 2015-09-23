@@ -1,11 +1,11 @@
-<htmlform formUuid="b44b99a5-2048-4d45-bf75-40e2eba29c8c" formName="Immunity and Infection" formEncounterType="e864f775-d1d0-4936-85df-557ad5c44ae1" formVersion="0.5"
+<htmlform formUuid="b44b99a5-2048-4d45-bf75-40e2eba29c8c" formName="Immunity and Infection" formEncounterType="e864f775-d1d0-4936-85df-557ad5c44ae1" formVersion="0.5.1"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="6"
 	formIcon="icon-stethoscope"
 	formShowIf=""
 	formDisplayStyle="Simple"
-	>
+>
 
 
 <ifMode mode="VIEW" include="false">
@@ -40,32 +40,35 @@
 
 	</script>
 </ifMode>
->>>>>>> LFHCFORMS-62
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
+	<script type="text/javascript" id="handleViewMode">
 
 		// JavaScript for VIEW mode
 
 		if(jQuery){
 			jQuery(document).ready(function(){
 				
-				properViewMode("b44b99a5-2048-4d45-bf75-40e2eba29c8c");
-				jQuery(".check").closest("p").hide();
-				jQuery('br').remove();
+				handleViewMode("b44b99a5-2048-4d45-bf75-40e2eba29c8c");
 
-				/* Handle displaying On Time immunity given */
-				jQuery("fieldset").find(".check").each( function () {
-					
-					var obs = jQuery(this).attr("name");
-					var onTimeValue = jQuery(this).attr("onTimeValue");
+				$("htmlform").each(function (index, currentForm) {
+					if ($(currentForm).attr("formuuid") == "b44b99a5-2048-4d45-bf75-40e2eba29c8c") {
+						jQuery(".check").closest("p").hide();
+						jQuery('br').remove();
 
-					/* assign the onTime class to given on time vaccines */
-					if (onTimeValue == jQuery(this).closest('fieldset').find("#"+obs+"-age").find('.value').text()) {
-						jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("class", "onTime");
+						/* Handle displaying On Time immunity given */
+						jQuery("fieldset").find(".check").each( function () {
+
+							var obs = jQuery(this).attr("name");
+							var onTimeValue = jQuery(this).attr("onTimeValue");
+
+							/* assign the onTime class to given on time vaccines */
+							if (onTimeValue == jQuery(this).closest('fieldset').find("#"+obs+"-age").find('.value').text()) {
+								jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("class", "onTime");
+							}
+						});
 					}
 				});
-
 			});
 		}
 
@@ -254,9 +257,7 @@
 				<p>
 					<input class="check" id="1-dpt-ontime" name="1-dpt" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
 
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="2-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
@@ -271,10 +272,7 @@
 					<input class="check" id="2-dpt-ontime" name="2-dpt" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 
 				</p>
-			</obsgroup>
 
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="3-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
@@ -318,9 +316,6 @@
 				<p>
 					<input class="check" id="1-opv-ontime" name="1-opv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="2-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
@@ -335,9 +330,6 @@
 				<p>
 					<input class="check" id="2-opv-ontime" name="2-opv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="3-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
@@ -382,9 +374,6 @@
 				<p>
 					<input class="check" id="1-pcv-ontime" name="1-pcv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="2-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
@@ -398,9 +387,6 @@
 				<p>
 					<input class="check" id="2-pcv-ontime" name="2-pcv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-			</obsgroup>
-			
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="3-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
