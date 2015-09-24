@@ -368,7 +368,7 @@ public class PewsScoreFragmentController {
 		else if(pewsScore >= 2)
 			idx = 2;
 		else
-			idx = 0;
+			idx = 1;
 		return idx;
 	}
 
