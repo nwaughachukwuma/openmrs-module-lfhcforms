@@ -1,4 +1,4 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6"
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6.1"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="2"
@@ -134,7 +134,7 @@ formDisplayStyle="Simple"
 					}
 				});
 
-});
+			});
 
 
 			// BSA
@@ -321,22 +321,42 @@ formDisplayStyle="Simple"
 	</fieldset>
 
 	<!-- Receiving O2 -->
-	<fieldset field-separator=", ">
-		<legend>Receiving O2</legend>
-		<h3><lookup expression="fn.getConcept('LFHC:1026').name"/></h3>
-		<p>
-			<obs conceptId="LFHC:1026" id="receiving_o2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
-		</p>
-	</fieldset>
+	<ifMode mode="VIEW" include="false">
+		<fieldset field-separator=", ">
+			<legend>Receiving O2</legend>
+			<h3><lookup expression="fn.getConcept('LFHC:1026').name"/></h3>
+			<p>
+				<obs conceptId="LFHC:1026" id="receiving_O2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067">
+					<controls>
+						<when value="CIEL:1065" thenDisplay="#o2_amount" />
+					</controls>		
+				</obs>
+			</p>
+			<p id="o2_amount">
+				<span class="questionLabel">O2 amount</span>
+				<obs conceptId="LFHC:1027" showUnits="true" />
+			</p>
+		</fieldset>
+	</ifMode>
+	<ifMode mode="VIEW">
+		<fieldset field-separator=", ">
+			<h3>
+				<lookup expression="fn.getConcept('LFHC:1026').name"/>
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1026" id="receiving_O2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067"/>
+			</p>
+		</fieldset>
 
-	<!-- O2 Ammount -->
-	<fieldset field-separator=", ">
-		<legend>O2 Amount</legend>
-		<h3>O2 Amount</h3>
-		<p>
-			<obs conceptId="LFHC:1027" id="o2_amount" showUnits="true" />
-		</p>
-	</fieldset>
+		<fieldset field-separator=", ">
+			<h3>
+				<lookup expression="fn.getConcept('LFHC:1027').name"/>
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1027" showUnits="true" />
+			</p>
+		</fieldset>
+	</ifMode>
 
 	<!-- Capillary Refill -->
 	<fieldset field-separator=", ">
@@ -494,7 +514,7 @@ formDisplayStyle="Simple"
 					<font color="red" class="icon-"></font>
 				</span>
 			</p>
-				
+
 			<p class="obs-wrapper">
 				<obs conceptId="CIEL:5086" id="CIEL:5086" class="boundaries" />
 				<span class="limit-wrapper" style="display:none;">

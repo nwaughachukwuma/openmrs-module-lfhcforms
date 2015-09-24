@@ -103,6 +103,14 @@
       99999.0
     ]
   },  
+  "LFHC:1026":{
+    "description":"Receiving O2",
+    "label":"lfhcforms.pewsscore.components.label07",
+    "increment":1.0,
+    "whenAnswers":[
+      "CIEL:1065"
+    ]
+  },
   "CIEL:135592":{
     "description":"Loss of consciousness",
     "label":"lfhcforms.pewsscore.components.label04",
