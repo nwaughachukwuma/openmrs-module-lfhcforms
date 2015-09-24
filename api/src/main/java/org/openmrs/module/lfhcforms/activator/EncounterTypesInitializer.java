@@ -57,7 +57,7 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		{
-			String name = "Diagnostic Imaging";
+			String name = "Xray/Ultrasound Order";
 			String desc = "";
 			String uuid = "301e0396-2069-4085-919e-5a7b423b54f8"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
