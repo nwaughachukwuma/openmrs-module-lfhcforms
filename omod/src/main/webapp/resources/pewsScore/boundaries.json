@@ -134,9 +134,9 @@
     "label":"lfhcforms.pewsscore.components.label05",
     "increment":1.0,
     "lows":[
-      35.0,
-      35.0,
-      35.0
+      36.0,
+      36.0,
+      36.0
     ],
     "highs":[
       38.0,
