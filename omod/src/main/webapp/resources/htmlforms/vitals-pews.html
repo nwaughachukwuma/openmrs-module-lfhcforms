@@ -1,4 +1,4 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6.1"
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6.2"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="2"
@@ -101,6 +101,20 @@ formDisplayStyle="Simple"
 
 
 			// Obs limits - only for numeric observations
+			// follow the pattern below
+			/* <p class="obs-wrapper" >
+			<obs conceptId="CIEL:5242" id="CIEL:5242" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
+			<span class="limit-wrapper" style="display:none;">
+				<br/>
+				<font color="red" class="icon-"></font>
+			</span>
+			</p>*/
+
+			// "p" of "obs" is provided with class="boundaries" to trigger the script
+			// "id" of "obs" is equal to the concept mapping (referred in the config JSON)
+			// class="limit-wrapper" to contain the limit field text
+			// class="obs-wrapper" to contain all the above
+
 			$(".boundaries").on('change', function () {
 				$(this).closest(".obs-wrapper").each(function (index, currentObsWrapper) {
 					var obsName = $(currentObsWrapper).find(".boundaries").attr("id");
@@ -160,17 +174,6 @@ formDisplayStyle="Simple"
 </script>
 </ifMode>
 
-<ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
-
-		// JavaScript for VIEW mode
-		$(document).ready(function(){
-			var formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66";
-			handleViewMode(formUuid);
-
-		});
-	</script>
-</ifMode>
 
 <script type="text/javascript">
 	var pgcs = 0;

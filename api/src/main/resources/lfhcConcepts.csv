@@ -65,7 +65,7 @@ LFHC:1043		Dressing Change Frequency			how frequently do you need to change the 
 LFHC:1044		Analgesia Required			Is pain treatment or analgesia required during the procedure?	Question	No	Coded	1065, 1066								
 LFHC:1045		Referral Site			where was the patient referred from?	Question	No	Coded	1175, 159671, 159662, 1588, 1725, 160547, 5622, 1644								
 LFHC:1046		Fasting (nothing by mouth)			patient should not be eating or drinking	Misc	No	N/A									
-LFHC:1047		Diet			what should the patient be eating?	Question	No	Coded	LFHC:1046, 985, 159596, 152129, 122884, 161648, 162709, 162758, 159597								
+LFHC:1047		Diet			what should the patient be eating?	Question	No	Coded	159596, LFHC:1046, 985, 161648, 162758, 162709, 159597, 122884								
 LFHC:1048		Acute airway obstruction			"Does the patient have any airway problems?
 "	Diagnosis	No	Coded	1065, 1066, 1067								
 LFHC:1049		Emergency Triage			"does the patient have any emergency symptoms that require emergency triage?
@@ -78,7 +78,7 @@ LFHC:1052		Physical Examination				Finding	Yes	N/A
 LFHC:1053		"when necessary
 "			"frequency is at the patients choice
 "	Misc	No	N/A									
-LFHC:1054		iv fluid type			what type of iv fluid is required by the patient?	Question	No	Coded	80804, 78617, 162857, 162859, 161922, 162858								
+LFHC:1054		iv fluid type			what type of iv fluid is required by the patient?	Question	No	Coded	LFHC:1205, 80804, LFHC:1206, 78617, LFHC:1207, 161922								
 LFHC:1055		IV orders			type and rate of iv fluid	ConvSet	Yes	N/A	LFHC:1054, 162745								
 LFHC:1056		patient bracelet	ID bracelet	ID bracelet	"does the patient have an id bracelet in place?
 "	Question	No	Coded	1065, 1066								
@@ -142,7 +142,7 @@ LFHC:1105		Immunity 			link for the immunity set	ConvSet	Yes	N/A	LFHC:1104, LFHC
 "							
 LFHC:1118		bone test set				LabSet	Yes	N/A	161154, 159643, 159497, 785								
 LFHC:1119		streptococcus A swab			"result of strep A test
-"	Test	No	Coded	1065, 1066, 1067								
+"	Test	No	Coded	664, 703, 1138								
 LFHC:1120		rotavirus antigen			"result of rotavirus antigen
 "	Test	No	Coded	1065, 1066, 1138								
 LFHC:1121		adenovirus rapid test			"result of adenovirus test
@@ -158,7 +158,7 @@ LFHC:1125		blood pressure set			"link for systolic and diastolic pressure
 LFHC:1126		"GeneXpert (gene test for TB)
 "			"result of GeneXpert test
 "	Test	No	Coded	1065, 1066, 1138								
-LFHC:1127		mixed white cells	mixed		sum of eosinophil, monocytes and basophils	Test	No	Numeric		cells							
+LFHC:1127		MIXED WHITE BLOOD CELLS	mixed		sum of eosinophil, monocytes and basophils	Test	No	Numeric		cells							
 LFHC:1128		pain in limb (amount)			amount of pain in limb out of 10	Finding	No	Numeric		number out of 10	10					1	
 LFHC:1129		extremity pulse			quality of pulse in affected limb	Finding	No	Coded	158955, 124823, 150518								
 LFHC:1130		Active movement without pain			Active movement without pain	Finding	No	N/A									
@@ -174,7 +174,7 @@ LFHC:1135		patient sleeping			patient sleeping	State	No	N/A
 LFHC:1136		Moves to touch			moves to touch	Finding	No	N/A									
 LFHC:1137		Sensation of Affected Extremity			what is the sensation of the affected extremity	Question	No	Coded	159534, 5135, 150528, 130182, LFHC:1136								
 LFHC:1138		Swelling of affected extremity			is swelling present in the affected extremity	Question	No	Coded	 1066, 159562, 159563								
-LFHC:1139		Blood transfusion number			what is the blood transfusion unit number	Question	No	Numeric								0	
+LFHC:1139		Blood transfusion number			what is the blood transfusion unit number	Question	No	Text								0	
 LFHC:1140		admission unit			what unit is the patient admitted to?	Question	No	Coded	"LFHC:1141, LFHC:1142, LFHC:1143
 "								
 LFHC:1141		inpatient			inpatient	Misc	No	N/A									
@@ -204,7 +204,7 @@ LFHC:1156		Respiratory Care			set to link oxygen therapy	ConvSet	Yes	N/A	LFHC:11
 LFHC:1157		Oxygen delivery method			"how should oxygen be delivered
 "	Procedure	No	Coded	LFHC:1161, LFHC:1162, LFHC:1163, LFHC:1164								
 LFHC:1158		Oxygen delivery rate			"how much oxygen is required
-"	Drug	No	Numeric		litre	15	0					
+"	Drug	No	Numeric		litre	15					0	
 LFHC:1159		Oxygen saturation goal			what is the goal for oxygen saturation	Finding	No	Numeric		%	100	90					
 LFHC:1160		airway suctioning			"is airway suctioning required
 "	Procedure	No	Coded	1065, 1066								
@@ -231,3 +231,65 @@ LFHC:1175		ultrasound results			Question to provide ultrasound tests results (li
 LFHC:1176		medication comments			what medications are being used	Question	No	Text									
 LFHC:1177		Immunocompromised			is the patient immunocompromised	Question	No	Coded	"
 1065, 1066, 1067"								
+LFHC:1178		NG tube Removed	NG Removed		date of NG removal	Procedure	No	Date									
+LFHC:1179		RAPID TEST SET	"RAPID TEST
+"		set for the available rapid tests	Test	Yes	N/A	LFHC:1179, 1643, 1325, 45, LFHC:1120,  LFHC:1121, LFHC:1122, LFHC:1123, LFHC:1124, 1040, 299, 306, LFHC:1204								
+LFHC:1180		BLOOD pH			pH of the blood	Test	No	Numeric		mm Hg	7.6	7.5	7.45	7.35	7.3	6.7	Yes
+																	
+LFHC:1182		IVC#1 date removed	IVC#1 Removed		Date of IVC#1 removed	Procedure	No	Date									
+LFHC:1183		IVC#2 date removed	IVC#2 Removed		Date of IVC#2 removed	Procedure	No	Date									
+LFHC:1184		IVC#3 date removed	IVC#3 Removed		Date of IVC#3 removed	Procedure	No	Date									
+LFHC:1185		"pCO2
+"			PARTIAL PRESSURE OF CARBON DIOXIDE	Test	No	Numeric		"mm Hg
+"	110	55	48	30	15	0	
+LFHC:1186		pO2			PARTIAL PRESSURE OF oxygen in the blood	Test	No	Numeric		"mm Hg
+"	400	150	100	70	50	40	
+LFHC:1187		Coagulation set			"coagulation test set
+"	Test	Yes	N/A	161483, 161153								
+LFHC:1188		"eGFR
+"			"estimated glomerular filtration rate (Schwartz method)
+"	Indicator	No	Numeric									
+LFHC:1189		PERIPHERAL SMEAR	"
+"		SET OF THINGS TO LOOK AT IN A PERIPHERAL SMEAR	LabSet	Yes	N/A	1022, 1336, 1021, 1332, 1024, LFHC:1190, 1023, 1333, 1025, 1327, LFHC:1127, 161424								
+LFHC:1190		"MONOCYTES TOTAL
+"			MONOCYTES TOTAL	Test	No	Numeric		10e9 cells/L							
+LFHC:1191		OTHER HEMATOLOGY			OTHER HEMATOLOGY TESTS	LabSet	Yes	N/A	32, 300								
+LFHC:1192		CHEMISTRY			TESTS FOR SERUM CHEMISTRY	LabSet	Yes	N/A	887, 160912, 1132, 1133, 1134, 1135, 857, 790, 1012								
+LFHC:1193		BLOOD GAS SET			"BLOOD GAS
+"	LabSet	Yes	N/A	LFHC: 1180, LFHC:1185, LFHC:1186								
+LFHC:1194		CALCIUM (IONIZED)			CALCIUM (IONIZED)	Test	No	Numeric		mmol/L							
+LFHC:1195		LIVER FUNCTION SET			SET OF LIVER TESTS AT LFHC	LabSet	Yes	N/A	655, 1297, LFHC:1196, 654, 653, 1014, 785, 717, 848, 1013, 1299								
+LFHC:1196		"GGT
+"			GGT (LIVER TEST)	Test	No	Numeric		"ukat/L
+"							
+LFHC:1197		"TB Tests
+"			"tests to diagnosis TB
+"	LabSet	Yes	N/A	307, LFHC: 1126								
+LFHC:1198		LIPID PROFILE			"LIPID TESTS
+"	LabSet	Yes	N/A	1006, 1009, 1007, 1008								
+LFHC:1199		CULTURE SETS			"CULTURES TO DO
+"	LabSet	Yes	N/A	161156, 161155, 159648, LFHC:1200, LFHC:1201, LFHC:1202, 161484, 161485								
+LFHC:1200		THROAT			THROAT CULTURE	Test	No	Coded	664, 703								
+LFHC:1201		STOOL			STOOL CULTURE	Test	No	Coded	1115, 1116								
+LFHC:1202		PERTUSSIS			PERTUSSIS CULTURE	Test	No	Coded	664, 703								
+LFHC:1203		"OTHER TESTS
+"			OTHER LFHC TESTS	LabSet	Yes	N/A	159362, 161511, 159828, 160226, 159825, 161500, 855, 159644, 5497, 856, 730, 161505, 161503, 161504, 304, 161449								
+LFHC:1204		JAPANESE ENCEPHALITIS	"
+"		RAPID TEST FOR JE	Test	No	Coded	664, 703								
+LFHC:1205		DEXTROSE 5%and SALINE 0.9%			dextrose 5% and saline 0.9%	Drug	No	N/A									
+LFHC:1206		DEXTROSE 5%and SALINE 0.45%			dextrose 5% and saline 0.45%	Drug	No	N/A									
+LFHC:1207		DEXTROSE 5%and SALINE 0.225%			dextrose 5% and saline 0.225%	Drug	No	N/A									
+LFHC:1208		HEXIN LICE KILLER			"LICE MEDICATION
+"	Drug	No	N/A									
+LFHC:1209		"RESOMAL
+"			MALNUTRITION REHYDRATION SOLUTION	Drug	No	N/A									
+LFHC:1210		"DRUG TO ORDER
+"			WHAT DRUG TO ORDER FROM lfhc FORMULARY	Drug	No	Coded	70245, 20272, 70439, 70991, 71160, 450, 71188, 71780,71101, 1447, 71681, 71668, 72120, 72484, 71916, 72650, 103987, 72621, 73087, 73034, 73018, 73041, 73136, 73239, 913, 73449, 73628, 74793, 105281, 161922, 161923, 74609, LFHC:1205, 74935, 74745, 74860, 75161, 84323, 75222, 75744, 75842, 76342, 773, 76488, 76613, 76734, 76948, 100, 77164, LFHC:1208, 77675, 77714, 75953, 77897, 282, 78056, 78280, 78476, 78617, 78632, 104584, 79053, 79303, 103529, 79224, 79247, 79413, 79782, 79831, 79236, 80106, 461, 80804, 80945, 81022, 81041, 351, 86684, 70116, 81725, 81730, 82384, 81951, 82350, 82416, 82667, 82732, 45, 83075, 413, 767, 798, 83920, 84501, 84323, 77850, 84877, 84879, 84893, 85356, 492, 86339, 84995, 86353, 74085, 86688, 76488, 75633, 78849, 80367, 82023, 71160, 72039, 83920, 72075, 78809, 71916, 72822, 84114, 82446, 72609, 70229, 83075, 74860, 82023, LFHC:1209, 81073, 75015, 80194, 84888, 81031, 73263, 82350, 73628, 75177, 77054, 82912, 81041, 85151, 75015, 71681, 77413, 85456, 76272, 79782, 78010, 104983, 82281, 81834, 103774								
+LFHC:1211		volume of blood to transfuse			amount of blood to transfuse	Question	No	Numeric		ml							
+LFHC:1212		duration of transfusion			how long should the transfusion be given over?	Question	No	Numeric		minutes							
+LFHC:1213		Calculated rate of blood transfusion			calculated rate of blood transfusion	Question	No	Numeric		drops/minute							
+LFHC:1214		transfusion start time			transfusion start time	Question	No	Time									
+LFHC:1215		anticipated transfusion end time			anticipated transfusion end time	Question	No	Time									
+LFHC:1216		Time transfusion stopped			Time Transfusion stopped	Question	No	Time									
+LFHC:1217		Actual volume of transfusion given			Actual volume of transfusion given	Question	No	Numeric		ml							
+LFHC:1218		Runny Nose		rhinorrhea, nasal congestion, dripping nose	runny nose	Symptom	No	N/A									
