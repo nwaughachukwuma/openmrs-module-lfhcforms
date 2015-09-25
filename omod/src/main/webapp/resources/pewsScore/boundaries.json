@@ -111,21 +111,12 @@
       "CIEL:1065"
     ]
   },
-  "CIEL:135592":{
-    "description":"Loss of consciousness",
+  "CIEL:162643":{
+  	"description":"Conscious level",
     "label":"lfhcforms.pewsscore.components.label04",
     "increment":1.0,
     "whenAnswers":[
-      "CIEL:1065"
-    ]
-  },
-  "CIEL:162643":{
-  	"isActive":"false",
-    "description":"Conscious level",
-    "increment":1.0,
-    "whenAnswers":[
       "CIEL:162644",
-      "CIEL:162645",
       "CIEL:159508"    
     ]
   },
