@@ -17,3 +17,8 @@
 .collapse htmlform h3 {
 	display:inline;
 }
+
+/* customize style for Units */
+.units {
+	margin-left: 3px;
+}

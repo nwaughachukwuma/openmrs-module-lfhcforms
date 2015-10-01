@@ -1,4 +1,4 @@
-<htmlform formUuid="074c6c42-7f24-46dc-87d4-e71951207d22" formName="Lab Test Order" formEncounterType="39deb891-8dc6-451b-9361-dbf564f27250" formVersion="0.5"
+<htmlform formUuid="074c6c42-7f24-46dc-87d4-e71951207d22" formName="Lab Test Order" formEncounterType="39deb891-8dc6-451b-9361-dbf564f27250" formVersion="0.5.1"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="8"
@@ -111,6 +111,7 @@ formDisplayStyle="Simple"
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == "074c6c42-7f24-46dc-87d4-e71951207d22") {
 					$(".hiddenObs").show();
+					$("p").css("display","inline-block");
 				}	
 			});
 			handleViewMode("074c6c42-7f24-46dc-87d4-e71951207d22");
@@ -132,13 +133,18 @@ formDisplayStyle="Simple"
 		<repeat>
 			<template>
 				<div class="hiddenObs" style="display:none;">
-					<obsgroup groupingConceptId="CIEL:1271">
+										<obsgroup groupingConceptId="CIEL:1271">
 						<p>
 							<obs id="{n}" class="toCheck" conceptId="CIEL:1271" answerConceptId="{m}"/>
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}" showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -174,7 +180,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -216,7 +227,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -245,7 +261,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}" showUnits="{u}" />
 							</p>
 						</ifMode>
@@ -284,7 +305,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}" />
 							</p>
 						</ifMode>
@@ -319,7 +345,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}" />
 							</p>
 						</ifMode>
@@ -348,7 +379,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -376,7 +412,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -406,7 +447,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -443,7 +489,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -485,7 +536,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -524,7 +580,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -552,7 +613,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -582,7 +648,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>
@@ -612,7 +683,12 @@ formDisplayStyle="Simple"
 						</p>
 						<ifMode mode="enter" include="false">
 							<p>
-								<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								<ifMode mode="edit">
+									<span class="questionLabel"><lookup expression="fn.getConcept('{m}').name"/></span>
+								</ifMode>
+								<ifMode mode="view">
+									:
+								</ifMode>
 								<obs conceptId="{m}"  showUnits="{u}"/>
 							</p>
 						</ifMode>

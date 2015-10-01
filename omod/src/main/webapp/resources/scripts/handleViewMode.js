@@ -1,4 +1,4 @@
-// By Romain - romain@mekomsolutions.com
+	// By Romain - romain@mekomsolutions.com
 // Generic JavaScript to clean the VIEW mode (handles the toggleContainers, the "when" HFE markup and empty observations...)
 
 /* All forms should be in the form of :
