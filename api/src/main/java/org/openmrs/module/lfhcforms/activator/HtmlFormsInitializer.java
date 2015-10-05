@@ -73,7 +73,7 @@ public class HtmlFormsInitializer implements Initializer {
 			// Adds meta data
 			ExtensionForm extensionForm = null;
 			try {
-				extensionForm = ExtensionFormUtil.getExtensionFormFromUIResourceAndForm(resourceFactory, providerName, formPath, hfeAppService, formManager, htmlForm.getForm());
+				extensionForm = ExtensionFormUtil.getExtensionFormFromUiResourceAndForm(resourceFactory, providerName, formPath, hfeAppService, formManager, htmlForm.getForm());
 			} catch (Exception e) {
 				log.error("The form was created but its extension point could not be created in Manage Forms \\ Configure Metadata: " + formPath, e);
 				continue;
