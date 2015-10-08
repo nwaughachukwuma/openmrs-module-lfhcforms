@@ -1,4 +1,4 @@
-<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.5.1"
+	<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.5.1"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="13"
@@ -7,99 +7,213 @@
 	formDisplayStyle="Simple"
 	>
 
-<ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
+	<ifMode mode="VIEW">
+		<script type="text/javascript" id="handleViewMode">
 
-		// JavaScript for VIEW mode
-		jQuery(document).ready(function(){
-			handleViewMode("348c2a9e-17c8-4c15-8cef-e8f332a69853");
+			// JavaScript for VIEW mode
+			jQuery(document).ready(function(){
+				handleViewMode("348c2a9e-17c8-4c15-8cef-e8f332a69853");
+
+				$("htmlform").each(function (index, currentForm) {
+					if ($(currentForm).attr("formuuid") == "348c2a9e-17c8-4c15-8cef-e8f332a69853") {
+						$("#when-div").addClass("hidden");
+					}	
+				});
+
+			});
+		</script>
+
+	</ifMode>
+
+
+	<ifMode mode="enter">
+		<uiInclude provider="lfhcforms" javascript="encounterDate.js"/>
+		<script type="text/javascript" id="handleViewMode">
+
+			var displayToast = true
+
+			function visitDate(visitStartDate, visitEndDate, message) {
+
+				var visitStartDate = new Date(visitStartDate);
+				var visitEndDate = new Date(visitEndDate);
+				var currentDate = new Date();
+
+				if (!(visitEndDate.getTime())) {
+					console.log("no visit end date");
+				} else {
+					console.log("is past visit");
+					if (displayToast) {
+						$().toastmessage( 'showToast', { type: 'alert',
+	                                              position: 'top-right',
+	                                              text:  message } );
+						displayToast = false;
+					};
+					$("#startDate").text(("0" + visitStartDate.getDate()).slice(-2) + "/" + ("0" + (visitStartDate.getMonth() + 1)).slice(-2) + "/" + visitStartDate.getFullYear() + "   " + visitStartDate.getHours() + ":" + visitStartDate.getMinutes());
+					$("#endDate").text(("0" + visitEndDate.getDate()).slice(-2) + "/" + ("0" + (visitEndDate.getMonth() + 1)).slice(-2) + "/" + visitEndDate.getFullYear() + "   " + visitEndDate.getHours() + ":" + visitEndDate.getMinutes());
+
+					setHoursMinutesWidget(visitStartDate,visitEndDate);
+
+					$(".hfe-seconds").hide()
+					$(".hfe-hours").css("display", "inline-block");
+					$(".hfe-minutes").css("display", "inline-block");
+					$(".editEncounterDate").show();
+					showEditEncounterDateDialog();
+
+				}
+			}
+
+		function setHoursMinutesWidget (visitStartDate, visitEndDate) {
+
+			$(".hfe-hours").val(visitEndDate.getHours());
+			$(".hfe-minutes").val(visitEndDate.getMinutes());
+			$(".hfe-seconds").val(0);
+		}
+
+		</script>
+
+		<lookup complexExpression="
+		#set($message = $fn.message('lfhcforms.pastencounter.alert'))
+		#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+&lt;script type=&quot;text/javascript&quot;>
+			var successMessage = '${successMessage}';
+
+			jQuery(document).ready(function(){
+			visitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
+			$('.editDate').bind('click', function () {
+			visitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
 		});
-	</script>
+	});
+	&lt;/script>" />
 
-</ifMode>
+	<style type="text/css">
+		
+		.dialog select, .ngdialog.ngdialog-theme-default .ngdialog-content select {
+			width:35%;
 
-<div class="hidden" id="who-when-where">
-	<p id="who">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.provider" />
-		</label>
-		<span>
-			<encounterProvider default="currentUser" required="true" />
-		</span>
-	</p>
-	<p id="when">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.location" />
-		</label>
-		<span>
-			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-		</span>
-	</p>
-	<p id="where">
-		<label>
-			<uimessage code="coreapps.patientDashBoard.date" />
-		</label>
-		<span>
-			<encounterDate id="encounterDate" default="now" />
-		</span>
-	</p>
-</div>
+		}
 
-<section id="admission-checklist" sectionTag="section" headerStyle="title" headerCode="Nursing Admission Checklist">
-	<fieldset field-separator=", ">
-		<legend>ID bracelet</legend>
-		<h3>Patient ID bracelet</h3>
-		<p>
-			<obs conceptId="LFHC:1056" />
-		</p>
-	</fieldset>
-	<fieldset field-separator=", ">
-		<legend>Re-weighed in IPD</legend>
-		<h3>Patient re-weighed on IPD scales</h3>
-		<p>
-			<obs conceptId="LFHC:1057" />
-		</p>
-	</fieldset>
-	<fieldset field-separator=", ">
-		<legend>Visting policy</legend>
-		<h3>Visiting policy/orientation for family explained</h3>
-		<p>
-			<obs conceptId="LFHC:1059"/>
-		</p>
-	</fieldset>
-	<fieldset field-separator=", ">
-		<legend>Family aware of reason</legend>
-		<h3>Family aware of plan/reason for admission</h3>
-		<p>
-			<obs conceptId="LFHC:1060"/>
-		</p>
-	</fieldset>
-	<fieldset field-separator=", ">
-		<legend>Administration</legend>
-		<h3>Administration informed/chart made</h3>
-		<p>
-			<obs conceptId="LFHC:1061"/>
-		</p>
-	</fieldset>
+	</style>
+	</ifMode>
 
-	<fieldset field-separator=", ">
-		<legend>Medical plan</legend>
-		<h3>Medical plan written</h3>
-		<p>
-			<obs conceptId="LFHC:1062"/>
-		</p>
-	</fieldset>
+	<div id="encounter-date-dialog" class="dialog" style="display:none;">
+		<div class="dialog-header">
+			<h3><uimessage code="lfhcforms.pastencounter.editencounterdate" /></h3>
+		</div>
+		<div class="dialog-content">
+			<p style="margin-bottom:10px;">
+				<em><uimessage code="lfhcforms.pastencounter.enterencounterdate" /></em>
+			</p>
+			<ul>
+				<li class="info">
+					<span>
+						<uimessage code="lfhcforms.pastencounter.visitstartdate" />
+					</span>
+					<h6 id="startDate">
+					</h6>
+				</li>
+				<li class="info">
+					<span>
+						<uimessage code="lfhcforms.pastencounter.visitenddate" />
+					</span>
+					<h6 id="endDate">
+					</h6>
+				</li>
+				<li class="info">
+					<span>
+						<uimessage code="lfhcforms.pastencounter.encounterdate" />
+					</span>
+					<span>
+						<encounterDate id="encounterDate" default="now" showTime="true"/>
+					</span>
+				</li>
+			</ul>
 
-</section>
-<section id="nursing-assessment" sectionTag="section" headerStyle="title" headerCode="Nursing Assessment">
-	<fieldset field-separator=", ">
-		<legend>Nursing assessment</legend>
-		<h3>Nursing assessment</h3>
-		<p>
-			<obs conceptId="LFHC:1085" rows="4" cols="50"/>
-		</p>
-	</fieldset>
-</section>
+			<button class="confirm">OK</button>
 
-<submit/>
-</htmlform>
+		</div>
+	</div>
+
+	<div class="hidden" id="who-where">
+
+		<p id="who">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.provider" />
+			</label>
+			<span>
+				<encounterProvider default="currentUser" required="true" />
+			</span>
+		</p>
+
+		<p id="where">
+			<label>
+				<uimessage code="coreapps.patientDashBoard.location" />
+			</label>
+			<span>
+				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+			</span>
+		</p>
+	</div>
+
+	<div class="editEncounterDate hidden">
+		<a class="editDate"><uimessage code="lfhcforms.pastencounter.editencounterdate" /></a>
+	</div>
+
+	<section id="admission-checklist" sectionTag="section" headerStyle="title" headerCode="Nursing Admission Checklist">
+		<fieldset field-separator=", ">
+			<legend>ID bracelet</legend>
+			<h3>Patient ID bracelet</h3>
+			<p class="first">
+				<obs conceptId="LFHC:1056" />
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Re-weighed in IPD</legend>
+			<h3>Patient re-weighed on IPD scales</h3>
+			<p>
+				<obs conceptId="LFHC:1057" />
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Visting policy</legend>
+			<h3>Visiting policy/orientation for family explained</h3>
+			<p>
+				<obs conceptId="LFHC:1059"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Family aware of reason</legend>
+			<h3>Family aware of plan/reason for admission</h3>
+			<p>
+				<obs conceptId="LFHC:1060"/>
+			</p>
+		</fieldset>
+		<fieldset field-separator=", ">
+			<legend>Administration</legend>
+			<h3>Administration informed/chart made</h3>
+			<p>
+				<obs conceptId="LFHC:1061"/>
+			</p>
+		</fieldset>
+
+		<fieldset field-separator=", ">
+			<legend>Medical plan</legend>
+			<h3>Medical plan written</h3>
+			<p>
+				<obs conceptId="LFHC:1062"/>
+			</p>
+		</fieldset>
+	</section>
+
+	<section id="nursing-assessment" sectionTag="section" headerStyle="title" headerCode="Nursing Assessment">
+		<fieldset field-separator=", ">
+			<legend>Nursing assessment</legend>
+			<h3>Nursing assessment</h3>
+			<p>
+				<obs conceptId="LFHC:1085" rows="4" cols="50"/>
+			</p>
+		</fieldset>
+	</section>
+
+	<submit/>
+	</htmlform>
