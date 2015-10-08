@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 public class ExtensionFormUtil {
 	
 	public static final String DEFAULT_UILOCATION = "patientDashboard.overallActions";
+	protected static final String DISPLAY_STYLE = "displayStyle";
 	
 	/**
 	 * Returns the ExtensionForm corresponding to a Form instance AND saves it.
@@ -33,7 +34,7 @@ public class ExtensionFormUtil {
 	 * @param formPath The relative form path under webapp/resources (eg. "htmlforms/myform.xml")
 	 * @param form The Form instance
 	 */
-	public static ExtensionForm getExtensionFormFromUIResourceAndForm(ResourceFactory resourceFactory, String providerName, String formPath, FormEntryAppService hfeAppService, FormManager formManager, Form form) throws Exception {
+	public static ExtensionForm getExtensionFormFromUiResourceAndForm(ResourceFactory resourceFactory, String providerName, String formPath, FormEntryAppService hfeAppService, FormManager formManager, Form form) throws Exception {
 
 		final String xml = resourceFactory.getResourceAsString(providerName, formPath);
 		
@@ -54,16 +55,17 @@ public class ExtensionFormUtil {
 		}
 		
 		// Then if the provided UI location is valid, we add it to that one
-		final Set<String> allowedUiiLocations = new HashSet<String>( formManager.getUILocations(form) );
-		if(allowedUiiLocations.contains(extensionForm.getUiLocation())) {
+		final Set<String> allowedUiLocations = new HashSet<String>( formManager.getUILocations(form) );
+		if(allowedUiLocations.contains(extensionForm.getUiLocation())) {
 			if(extensionForm.getOrder() != null) {	// This must be satisfied when the XML has been parsed (a bit clunky)
 				final Extension extension = new Extension();
 				extensionForm.copyTo(extension);
 				
 				extension.setType("link");
 				Map<String, String> options = new HashMap<String, String>();
-				options.put("displayStyle", extensionForm.getDisplayStyle());
-				extension.setUrl(formManager.getFormUrl(extensionForm.getForm(), options));
+				options.put(DISPLAY_STYLE, extensionForm.getDisplayStyle());
+				extension.setUrl(getFormUrl(extensionForm.getForm(), options));
+//				extension.setUrl(formManager.getFormUrl(extensionForm.getForm(), options));
 				
 				hfeAppService.saveFormExtension(form, extension);
 			}
@@ -111,5 +113,15 @@ public class ExtensionFormUtil {
     	}
     	return val;
     }
-	
+    
+    /**
+     * {@link FormManager#getFormUrl(Form, Map)} eventually fails if there is no authenticated user.
+     * Hence the need for this simpler version of it.
+     */
+    protected static String getFormUrl(Form form, Map<String, String> options) {
+		String displayStyle = options.get(DISPLAY_STYLE);
+		String url = "htmlformentryui/htmlform/enterHtmlFormWith" + displayStyle
+		        + "Ui.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&formUuid=";
+		return url + form.getUuid();
+	}
 }
