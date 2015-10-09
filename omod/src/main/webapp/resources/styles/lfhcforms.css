@@ -17,3 +17,8 @@
 .collapse htmlform h3 {
 	display:inline;
 }
+
+/* Style to improve display*/
+.simple-form-ui select, .simple-form-ui form select {
+    min-width: 0;
+}

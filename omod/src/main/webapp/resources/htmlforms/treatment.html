@@ -20,6 +20,20 @@
 	</script>
 </ifMode>
 
+
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript" id="properViewMode">
+
+
+		jQuery(document).ready(function(){
+
+			/* hide the 'seconds' time field */
+			$(".hfe-seconds").hide();
+		});
+	</script>
+</ifMode>
+
+
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -237,6 +251,54 @@
 			<render n="509"/>
 
 		</repeat>
+
+	</fieldset>
+
+	<fieldset field-separator=", ">
+
+		<legend>Blood Transfusion</legend>
+		<h3>Blood transfusion</h3>
+
+		<p>
+			<span class="questionLabel">Blood Unit Number:</span>
+			<obs conceptId="LFHC:1139" />
+		</p>
+		<p>
+			<span class="questionLabel">Volume of blood to be administered:</span>
+			<obs conceptId="LFHC:1211" showUnits="true" />
+		</p>
+		<p>
+			<span class="questionLabel">Type of transfusion fluid: </span>
+			<obs conceptId="CIEL:161927" />
+		</p>
+		<p>
+			<span class="questionLabel">Duration of transfusion:</span>
+			<obs conceptId="LFHC:1212" showUnits="true" />
+		</p>
+		<p>
+			<span class="questionLabel">Calculated Rate</span>
+			<obs conceptId="LFHC:1213" showUnits="true" />
+		</p>
+		<p>
+			<span class="questionLabel">Transfusion start time:</span>
+			<obs conceptId="LFHC:1214" />
+		</p>
+		<p>
+			<span class="questionLabel">Anticipated end time:</span>
+			<obs conceptId="LFHC:1215" />
+		</p>
+		<p>
+			<span class="questionLabel">Monitoring</span>
+			<obs conceptId="LFHC:1153" />
+		</p>
+		<p>
+			<span class="questionLabel">Time transfusion stopped:</span>
+			<obs conceptId="LFHC:1216" />
+		</p>
+		<p>
+			<span class="questionLabel">Volume of blood transfused:</span>
+			<obs conceptId="LFHC:1217" showUnits="true" />
+		</p>
 
 	</fieldset>
 
