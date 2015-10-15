@@ -102,14 +102,15 @@ formDisplayStyle="Simple"
 
 			// Obs limits - only for numeric observations
 			// follow the pattern below
-			/* <p class="obs-wrapper" >
-			<obs conceptId="CIEL:5242" id="CIEL:5242" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
-			<span class="limit-wrapper" style="display:none;">
-				<br/>
-				<font color="red" class="icon-"></font>
-			</span>
-			</p>*/
-
+			<!-- /*
+			<p class="obs-wrapper" > 
+			<obs conceptId="CIEL:5242" id="CIEL:5242" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/> 
+			<span class="limit-wrapper" style="display:none;"> 
+				<br/> 
+				<font color="red" class="icon-"></font> 
+			</span> 
+			</p>
+			*/ -->
 			// "p" of "obs" is provided with class="boundaries" to trigger the script
 			// "id" of "obs" is equal to the concept mapping (referred in the config JSON)
 			// class="limit-wrapper" to contain the limit field text
@@ -126,8 +127,9 @@ formDisplayStyle="Simple"
 						if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
 							low = limits[obsName].lows[limitsIndex];
 							high = limits[obsName].highs[limitsIndex];
-
-							obsValue = getValue(obsName+".value");
+							console.log(obsName);
+							var obsValue = getValue(obsName+".value");
+							console.log(obsValue);
 
 							if (obsValue &lt; low) {
 								$(currentObsWrapper).find(".limit-wrapper").find("font").html("&#xf071; Attention: value &lt; " + low);
@@ -148,7 +150,7 @@ formDisplayStyle="Simple"
 					}
 				});
 
-			});
+});
 
 
 			// BSA
