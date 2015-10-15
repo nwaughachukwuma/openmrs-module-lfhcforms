@@ -36,7 +36,7 @@ formDisplayStyle="Simple"
 
 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
 	<ifMode mode="VIEW" include="false">
-		<b><em>The patient is less than 100 year old: Vitals limits set for that range</em></b>
+		<b><em>The patient is less than 1 year old: Vitals limits set for that range</em></b>
 	</ifMode>
 	<script type="text/javascript">
 		var limitsIndex = 0;
@@ -60,7 +60,7 @@ formDisplayStyle="Simple"
 		var limitsIndex = 2;
 	</script>
 </includeIf>
-<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 13">
+<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) >= 13">
 	<ifMode mode="VIEW" include="false">
 		<b><em>The patient is older than 13: No Vitals limits set for that age</em></b>
 	</ifMode>
@@ -127,9 +127,9 @@ formDisplayStyle="Simple"
 						if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
 							low = limits[obsName].lows[limitsIndex];
 							high = limits[obsName].highs[limitsIndex];
-							console.log(obsName);
+							//console.log(obsName);
 							var obsValue = getValue(obsName+".value");
-							console.log(obsValue);
+							//console.log(obsValue);
 
 							if (obsValue &lt; low) {
 								$(currentObsWrapper).find(".limit-wrapper").find("font").html("&#xf071; Attention: value &lt; " + low);
