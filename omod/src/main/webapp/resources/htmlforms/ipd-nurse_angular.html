@@ -1,0 +1,227 @@
+	<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.5.4"
+
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.visitActions"
+	formOrder="13"
+	formIcon="icon-medkit"
+	formShowIf=""
+	formDisplayStyle="Simple"
+	>
+
+	<ifMode mode="VIEW">
+		<script type="text/javascript" id="handleViewMode">
+
+				// JavaScript for VIEW mode
+				jQuery(document).ready(function(){
+					handleViewMode("348c2a9e-17c8-4c15-8cef-e8f332a69853");
+
+					$("htmlform").each(function (index, currentForm) {
+						if ($(currentForm).attr("formuuid") == "348c2a9e-17c8-4c15-8cef-e8f332a69853") {
+							$("#when-div").addClass("hidden");
+						}	
+					});
+
+				});
+			</script>
+
+		</ifMode>
+
+		<ifMode mode="enter">
+
+			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.2.3/css/ngDialog.css" />
+
+			<uiInclude provider="uicommons" javascript="angular.js" />
+			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.js" />
+			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.min.css" />
+
+			<uiInclude provider="lfhcforms" javascript="editEncounterDate.js"/>
+			<uiInclude provider="lfhcforms" javascript="editEncounterDateAngular.js"/>
+
+			<div id="your-page-app" ng-controller="YourPageCtrl">
+
+				<script type="text/ng-template" id="dialogTemplate">
+					<div class="dialog-header">
+						<h3><uimessage code="lfhcforms.pastencounter.editencounterdate" /></h3>
+					</div>
+					<div class="dialog-content">
+						<p style="margin-bottom:10px;">
+							<em><uimessage code="lfhcforms.pastencounter.enterencounterdate" /></em>
+						</p>
+						<ul>
+							<li>
+								<span>
+									<uimessage code="lfhcforms.pastencounter.visitstartdate" />
+								</span>
+								<h6 id="startDate">
+								</h6>
+							</li>
+							<li >
+								<span>
+									<uimessage code="lfhcforms.pastencounter.visitenddate" />
+								</span>
+								<h6 id="endDate">
+								</h6>
+							</li>
+							<li >
+								<span>
+									<uimessage code="lfhcforms.pastencounter.encounterdate" />
+								</span>
+								<span>
+									<span id="datetime2">
+										<label for="datetime2-display">
+											Date Time Picker 
+										</label>
+										
+									</span>
+								</span>
+							</li>
+						</ul>
+
+					</div>
+				</script>
+
+				<a ng-click="showEditEncounterDateDialog()">
+					<i class="icon-plus-sign"></i>
+					Edit Encounter Date
+				</a>
+			</div>
+
+			<script type="text/javascript">
+	    // manually bootstrap angular app, in case there are multiple angular apps on a page
+	    angular.bootstrap('#your-page-app', ['yourpageapp']);
+	</script>
+
+
+	<script type="text/javascript" id="handleViewMode">
+
+		var displayToast = true
+
+		function handleDisplayVisitDate(visitStartDate, visitEndDate, message) {
+
+		}
+
+		function setHoursMinutesWidget (visitStartDate, visitEndDate) {
+
+		}
+
+	</script>
+
+	<lookup complexExpression="
+	#set($message = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var successMessage = '${successMessage}';
+
+	jQuery(document).ready(function(){
+	handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
+	$('.editDate').bind('click', function () {
+	handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
+});
+});
+&lt;/script>" />
+
+<style type="text/css">
+
+	.dialog select, .ngdialog.ngdialog-theme-default .ngdialog-content select {
+		width:35%;
+
+	}
+
+</style>
+</ifMode>
+
+<div class="hidden" id="who-where-when">
+
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+
+	<p id="when">
+		<span>
+			<uimessage code="lfhcforms.pastencounter.encounterdate" />
+		</span>
+		<span>
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+
+
+<section id="admission-checklist" sectionTag="section" headerStyle="title" headerCode="Nursing Admission Checklist">
+	<fieldset field-separator=", ">
+		<legend>ID bracelet</legend>
+		<h3>Patient ID bracelet</h3>
+		<p class="first">
+			<obs conceptId="LFHC:1056" />
+		</p>
+		<p>
+			<uiInclude provider="uicommons" fragment="field/datetimepicker" config="id: 'startDate', formFieldName: 'startDate', label:'', useTime: false, startDate: config.startDateLowerLimit, endDate: config.startDateUpperLimit, defaultDate: config.defaultStartDate "/>
+		</p>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>Re-weighed in IPD</legend>
+		<h3>Patient re-weighed on IPD scales</h3>
+		<p>
+			<obs conceptId="LFHC:1057" />
+		</p>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>Visting policy</legend>
+		<h3>Visiting policy/orientation for family explained</h3>
+		<p>
+			<obs conceptId="LFHC:1059"/>
+		</p>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>Family aware of reason</legend>
+		<h3>Family aware of plan/reason for admission</h3>
+		<p>
+			<obs conceptId="LFHC:1060"/>
+		</p>
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>Administration</legend>
+		<h3>Administration informed/chart made</h3>
+		<p>
+			<obs conceptId="LFHC:1061"/>
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>Medical plan</legend>
+		<h3>Medical plan written</h3>
+		<p>
+			<obs conceptId="LFHC:1062"/>
+		</p>
+	</fieldset>
+</section>
+
+<section id="nursing-assessment" sectionTag="section" headerStyle="title" headerCode="Nursing Assessment">
+	<fieldset field-separator=", ">
+		<legend>Nursing assessment</legend>
+		<h3>Nursing assessment</h3>
+		<p>
+			<obs conceptId="LFHC:1085" rows="4" cols="50"/>
+		</p>
+	</fieldset>
+</section>
+
+
+<submit/>
+</htmlform>

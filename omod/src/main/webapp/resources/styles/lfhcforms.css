@@ -22,3 +22,9 @@
 .units {
 	margin-left: 3px;
 }
+
+
+.ngdialog-overlay
+{
+        z-index: -1;   
+}

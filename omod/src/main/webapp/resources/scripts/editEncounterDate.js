@@ -5,9 +5,9 @@ function showEditEncounterDateDialog() {
 			selector: '#encounter-date-dialog',
 			actions: {
 				confirm: function() {
-					console.log("confirmed");
-					$("#encounter-date-dialog").hide();
-										$().toastmessage( 'showToast', { type: 'success',
+					//console.log("confirmed");
+					editEncounterDateDialog.close();
+					$().toastmessage( 'showToast', { type: 'success',
                                               position: 'top-right',
                                               text:  successMessage } );
 					return true;
