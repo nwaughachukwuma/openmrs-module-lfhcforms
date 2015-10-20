@@ -1,7 +1,9 @@
-angular.module('yourpageapp', ['ngDialog']). // make sure to declare a dependency on ngDialog in your app
+var myApp = angular.module('yourpageapp', ['ngDialog']);
+
+myApp. // make sure to declare a dependency on ngDialog in your app
  
-controller('YourPageCtrl', ['$scope', 'ngDialog',
-function($scope, ngDialog) {
+controller('YourPageCtrl', ['$scope', 'ngDialog', '$templateCache',
+function($scope, ngDialog, $templateCache) {
     $scope.showEditEncounterDateDialog = function() {
         ngDialog.openConfirm({
             showClose: false,
@@ -9,8 +11,9 @@ function($scope, ngDialog) {
             closeByDocument: true,
             data: angular.toJson({
                 helperData: "One way to push data into the dialog"
-            }),
-            template: 'dialogTemplate' // in this example we defined this inline with <script type="ng-template"> but you can also give a url
+                         }),
+             // in this example we defined this inline with <script type="ng-template"> but you can also give a url
+            
         }).then(function(reason) {
             console.log("They chose reason: " + reason);
         }, function() {
@@ -18,3 +21,4 @@ function($scope, ngDialog) {
         });
     };
 }]);
+

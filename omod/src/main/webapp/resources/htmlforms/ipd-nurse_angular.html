@@ -30,7 +30,7 @@
 
 			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.2.3/css/ngDialog.css" />
 
-			<uiInclude provider="uicommons" javascript="angular.js" />
+			
 			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.js" />
 			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.min.css" />
 
@@ -38,8 +38,8 @@
 			<uiInclude provider="lfhcforms" javascript="editEncounterDateAngular.js"/>
 
 			<div id="your-page-app" ng-controller="YourPageCtrl">
-
 				<script type="text/ng-template" id="dialogTemplate">
+
 					<div class="dialog-header">
 						<h3><uimessage code="lfhcforms.pastencounter.editencounterdate" /></h3>
 					</div>
@@ -51,34 +51,16 @@
 							<li>
 								<span>
 									<uimessage code="lfhcforms.pastencounter.visitstartdate" />
+									{{ ngDialogData.helperData }}
 								</span>
 								<h6 id="startDate">
 								</h6>
 							</li>
-							<li >
-								<span>
-									<uimessage code="lfhcforms.pastencounter.visitenddate" />
-								</span>
-								<h6 id="endDate">
-								</h6>
-							</li>
-							<li >
-								<span>
-									<uimessage code="lfhcforms.pastencounter.encounterdate" />
-								</span>
-								<span>
-									<span id="datetime2">
-										<label for="datetime2-display">
-											Date Time Picker 
-										</label>
-										
-									</span>
-								</span>
-							</li>
 						</ul>
-
 					</div>
+
 				</script>
+
 
 				<a ng-click="showEditEncounterDateDialog()">
 					<i class="icon-plus-sign"></i>
@@ -87,48 +69,50 @@
 			</div>
 
 			<script type="text/javascript">
-	    // manually bootstrap angular app, in case there are multiple angular apps on a page
-	    angular.bootstrap('#your-page-app', ['yourpageapp']);
-	</script>
+				angular.bootstrap('#your-page-app', ['yourpageapp']);
+			</script>
 
 
-	<script type="text/javascript" id="handleViewMode">
+			<script type="text/javascript" id="handleViewMode">
 
-		var displayToast = true
+				var displayToast = true
+				var variable1 = true;
+				function handleDisplayVisitDate(visitStartDate, visitEndDate, message) {
+					console.log(visitStartDate);
+					console.log(visitEndDate);
+					$("#startDate").html('visitStartDate');
+					$("#endDate").html('visitEndDate');
+				}
 
-		function handleDisplayVisitDate(visitStartDate, visitEndDate, message) {
+				function setHoursMinutesWidget (visitStartDate, visitEndDate) {
+
+				}
+
+			</script>
+
+			<lookup complexExpression="
+			#set($message = $fn.message('lfhcforms.pastencounter.alert'))
+			#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+			&lt;script type=&quot;text/javascript&quot;>
+			var successMessage = '${successMessage}';
+
+			jQuery(document).ready(function(){	
+			handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
+			$('.editDate').bind('click', function () {
+			handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
+		});
+	});
+	&lt;/script>" />
+
+	<style type="text/css">
+
+		.dialog select, .ngdialog.ngdialog-theme-default .ngdialog-content select {
+			width:35%;
 
 		}
 
-		function setHoursMinutesWidget (visitStartDate, visitEndDate) {
-
-		}
-
-	</script>
-
-	<lookup complexExpression="
-	#set($message = $fn.message('lfhcforms.pastencounter.alert'))
-	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
-
-	&lt;script type=&quot;text/javascript&quot;>
-	var successMessage = '${successMessage}';
-
-	jQuery(document).ready(function(){
-	handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
-	$('.editDate').bind('click', function () {
-	handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
-});
-});
-&lt;/script>" />
-
-<style type="text/css">
-
-	.dialog select, .ngdialog.ngdialog-theme-default .ngdialog-content select {
-		width:35%;
-
-	}
-
-</style>
+	</style>
 </ifMode>
 
 <div class="hidden" id="who-where-when">
@@ -169,9 +153,6 @@
 		<h3>Patient ID bracelet</h3>
 		<p class="first">
 			<obs conceptId="LFHC:1056" />
-		</p>
-		<p>
-			<uiInclude provider="uicommons" fragment="field/datetimepicker" config="id: 'startDate', formFieldName: 'startDate', label:'', useTime: false, startDate: config.startDateLowerLimit, endDate: config.startDateUpperLimit, defaultDate: config.defaultStartDate "/>
 		</p>
 	</fieldset>
 	<fieldset field-separator=", ">
