@@ -6,12 +6,14 @@
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
-	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<package>${project.parent.groupId}.${project.parent.artifactId}
+	</package>
 	<author>Mekom Solutions</author>
 	<description>
 		${project.parent.description}
 	</description>
-	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf
+	</updateURL>
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
@@ -33,14 +35,15 @@
 		</require_module>
 	</require_modules>
 
-	
+
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.LFHCFormsActivator</activator>
-	
-	
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.LFHCFormsActivator
+	</activator>
+
+
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-		
+
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -58,6 +61,87 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
+
+
+	<!-- Privileges -->
+
+	<privilege>
+		<name>Task: lfhcforms.triage</name>
+		<description>Able to use the Triage form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.vitals</name>
+		<description>Able to use the Vitals form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.opd-nurse</name>
+		<description>Able to use the OPD Nurse form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.doctor-history</name>
+		<description>Able to use the Doctor History form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.doctor-physical-exam</name>
+		<description>Able to use the Doctor Physical Exam form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.immunity-and-infection</name>
+		<description>Able to use the Immunity and Infection form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.treatment-plan-order</name>
+		<description>Able to use the Treatment Plan/Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.lab-test-order</name>
+		<description>Able to use the Lab Test Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.xray-ultrasound-order</name>
+		<description>Able to use the Xray/Ultrasound Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.medication-order</name>
+		<description>Able to use the Medication Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.diagnosis</name>
+		<description>Able to use the Diagnosis form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.clinical-notes</name>
+		<description>Able to use the Clinical Notes form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.ipd-nurse</name>
+		<description>Able to use the IPD Nurse form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.fluid-balance</name>
+		<description>Able to use the Fluid Balance form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.lines-and-tubes</name>
+		<description>Able to use the Lines and Tubes form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.neurovascular-obs</name>
+		<description>Able to use the Neurovascular Obs form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.wound-details</name>
+		<description>Able to use the Wound Details form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.dispense-medication</name>
+		<description>Able to use the Dispense medication form</description>
+	</privilege>
+	<privilege>
+		<name>Task: lfhcforms.discharge</name>
+		<description>Able to use the Discharge form</description>
+	</privilege>
+
 
 </module>
 
