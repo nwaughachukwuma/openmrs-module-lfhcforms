@@ -22,6 +22,7 @@
             "encounterRole":"a0b03050-c99b-11e0-9572-0800200c9a66"
          },
          "afterCreatedUrl":"coreapps/clinicianfacing/patient.page?patientId={{patientId}}",
+         "patientDashboardLink":"",
          "allowUnknownPatients":false,
          "allowManualIdentifier":false,
          "allowRetrospectiveEntry":true,
@@ -42,9 +43,7 @@
                                   "providerName": "registrationapp",
                                   "fragmentId": "field/personAddressWithHierarchy",
                                   "config": {
-                                  	"manualFields": [
-                                  		"Foobar"
-                                  	]
+                                  	"manualFields": ["address1"]
                                   }
                               }
                           }
