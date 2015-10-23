@@ -4,7 +4,6 @@
 	formOrder="19"
 	formIcon="icon-plus-sign-alt"
 	formShowIf=""
-	formPrivilege="Task: refapp.lfhc.forms.dispense-medication"
 	formDisplayStyle="Standard"
 	>
 
@@ -38,7 +37,7 @@
 
 			handleViewMode(formUuid);
 			handleViewModeForTable(formUuid);
-			
+
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == formUuid) {
 					$("br").remove();
@@ -84,7 +83,7 @@
 
 			<lookup complexExpression="
 
-			&lt;ul class=&quot;select&quot;>	
+			&lt;ul class=&quot;select&quot;>
 
 			#set ($encounterMedList = $fn.allEncounters('3c462397-7840-4890-ae78-d123d9fd138b'))
 			#set ($x = 1)
@@ -99,7 +98,7 @@
 
 			#set ($obsList = $fn.allObs($encounterMed,&quot;1282&quot;))
 			#foreach ($obs in $obsList)
-			drugOrderedId=&quot;$obs.valueCoded&quot; 
+			drugOrderedId=&quot;$obs.valueCoded&quot;
 			drugOrderedName=&quot;$obs.valueCoded.getName()&quot;
 			#set ($innerHtml = &quot;Date of order: &lt;strong>$encounterMed.encounterDatetime&lt;/strong>&lt;br>&quot;)
 			#set ($innerHtml = $innerHtml + &quot;Drug orderd: $obs.valueCoded.getName()&lt;br>&quot;)
@@ -149,14 +148,14 @@
 			#end
 			#end
 			&lt;/ul
-			"							
+			"
 			/>
 
 
 
 		</section>
 
-		<section>			
+		<section>
 
 			<span id="order-title">
 				<h3>Order Selected</h3>

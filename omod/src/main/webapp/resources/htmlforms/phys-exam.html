@@ -4,7 +4,6 @@
 	formOrder="5"
 	formIcon="icon-stethoscope"
 	formShowIf=""
-	formPrivilege="Task: refapp.lfhc.forms.doctor-physical-exam"
 	formDisplayStyle="Simple"
 	>
 
@@ -15,9 +14,9 @@
 			$(".result").change(function () {
 				// Check the hidden observation when the "Given On Time" box is checked
 				if (!(getValue($(this).attr("id")+".value") == "")){
-					$(this).closest("fieldset").find(":checkbox").attr("checked", true);	
+					$(this).closest("fieldset").find(":checkbox").attr("checked", true);
 				} else {
-					$(this).closest("fieldset").find(":checkbox").attr("checked", false);	
+					$(this).closest("fieldset").find(":checkbox").attr("checked", false);
 				}
 			});
 		});
@@ -29,7 +28,7 @@
 	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			
+
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == "f6dbee30-d965-47f5-b9b0-bc17f559dfad") {
 					$(".toHide").hide();
@@ -368,7 +367,7 @@
 			</p>
 		</ifMode>
 		<p>
-			<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
+			<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />
 		</p>
 	</fieldset>
 
@@ -388,4 +387,4 @@
 
 <submit/>
 
-</htmlform>	
+</htmlform>
