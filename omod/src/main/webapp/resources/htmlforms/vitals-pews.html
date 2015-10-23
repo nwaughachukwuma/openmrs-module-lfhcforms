@@ -1,10 +1,10 @@
-<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6.3"
-formAddMetadata="yes"
-formUILocation="patientDashboard.visitActions"
-formOrder="2"
-formIcon="icon-medkit"
-formShowIf=""
-formDisplayStyle="Simple"
+<htmlform formUuid="8a9a1b54-6bf6-4e56-94bc-178fe4545b66" formName="Vitals" formEncounterType="67a71486-1a54-468f-ac3e-7091a9a79584" formVersion="0.6.5"
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.visitActions"
+	formOrder="2"
+	formIcon="icon-medkit"
+	formShowIf=""
+	formDisplayStyle="Simple"
 >
 
 <div class="hidden" id="who-when-where">
@@ -36,7 +36,7 @@ formDisplayStyle="Simple"
 
 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 1">
 	<ifMode mode="VIEW" include="false">
-		<b><em>The patient is less than 100 year old: Vitals limits set for that range</em></b>
+		<b><em>The patient is less than 1 year old: Vitals limits set for that range</em></b>
 	</ifMode>
 	<script type="text/javascript">
 		var limitsIndex = 0;
@@ -60,7 +60,7 @@ formDisplayStyle="Simple"
 		var limitsIndex = 2;
 	</script>
 </includeIf>
-<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) > 13">
+<includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) >= 13">
 	<ifMode mode="VIEW" include="false">
 		<b><em>The patient is older than 13: No Vitals limits set for that age</em></b>
 	</ifMode>
@@ -102,14 +102,15 @@ formDisplayStyle="Simple"
 
 			// Obs limits - only for numeric observations
 			// follow the pattern below
-			/* <p class="obs-wrapper" >
+			<!-- /*
+			<p class="obs-wrapper" >
 			<obs conceptId="CIEL:5242" id="CIEL:5242" class="boundaries" showUnits="uicommons.units.perMinute" unitsCssClass="append-to-value"/>
 			<span class="limit-wrapper" style="display:none;">
 				<br/>
 				<font color="red" class="icon-"></font>
 			</span>
-			</p>*/
-
+			</p>
+			*/ -->
 			// "p" of "obs" is provided with class="boundaries" to trigger the script
 			// "id" of "obs" is equal to the concept mapping (referred in the config JSON)
 			// class="limit-wrapper" to contain the limit field text
@@ -126,8 +127,9 @@ formDisplayStyle="Simple"
 						if( ('lows' in limits[obsName]) || ('highs' in limits[obsName] )) {
 							low = limits[obsName].lows[limitsIndex];
 							high = limits[obsName].highs[limitsIndex];
-
-							obsValue = getValue(obsName+".value");
+							//console.log(obsName);
+							var obsValue = getValue(obsName+".value");
+							//console.log(obsValue);
 
 							if (obsValue &lt; low) {
 								$(currentObsWrapper).find(".limit-wrapper").find("font").html("&#xf071; Attention: value &lt; " + low);
@@ -148,7 +150,7 @@ formDisplayStyle="Simple"
 					}
 				});
 
-			});
+});
 
 
 			// BSA
@@ -168,7 +170,7 @@ formDisplayStyle="Simple"
 			});
 
 
-			
+
 		});
 
 </script>
@@ -214,7 +216,7 @@ formDisplayStyle="Simple"
 	.dashboard .info-body h3 {
 		display: inline-grid;
 		width: 40%;
-	}	
+	}
 </style>
 
 <section id="vitals" sectionTag="section" headerStyle="title" headerCode="referenceapplication.vitals.title">
@@ -250,11 +252,11 @@ formDisplayStyle="Simple"
 		<fieldset field-separator=", ">
 			<legend>Respiratory distress</legend>
 			<h3>Respiratory distress</h3>
-			<p class="fieldset">			
+			<p class="fieldset">
 				<span class="questionLabel">Chest wall indrawing</span>
 				<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None "/>
 			</p>
-			<p class="fieldset">			
+			<p class="fieldset">
 				<span class="questionLabel">Nasal flaring</span>
 				<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
 			</p>
@@ -273,14 +275,14 @@ formDisplayStyle="Simple"
 		<fieldset field-separator=", ">
 			<legend>Chest wall indrawing</legend>
 			<h3>Chest wall indrawing</h3>
-			<p class="fieldset">			
+			<p class="fieldset">
 				<obs conceptId="CIEL:136768" id="intercostal_recession" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None "/>
 			</p>
 		</fieldset>
 		<fieldset field-separator=", ">
 			<legend>Nasal flaring</legend>
 			<h3>Nasal flaring</h3>
-			<p class="fieldset">			
+			<p class="fieldset">
 				<obs conceptId="CIEL:1861" id="nostril_flaring" answerConceptIds="CIEL:1065,CIEL:1065,CIEL:1066,CIEL:1067" answerLabels="Severe, Moderate, None, Unknown"/>
 			</p>
 		</fieldset>
@@ -332,7 +334,7 @@ formDisplayStyle="Simple"
 				<obs conceptId="LFHC:1026" id="receiving_O2" answerConceptIds="CIEL:1065, CIEL:1066, CIEL:1067">
 					<controls>
 						<when value="CIEL:1065" thenDisplay="#o2_amount" />
-					</controls>		
+					</controls>
 				</obs>
 			</p>
 			<p id="o2_amount">
@@ -383,7 +385,7 @@ formDisplayStyle="Simple"
 	<fieldset field-separator=", ">
 		<ifMode mode="VIEW" include="false">
 			<legend>
-				PGCS	
+				PGCS
 			</legend>
 			<h3>
 				Pediactric Glasgow Coma Scale
@@ -413,7 +415,7 @@ formDisplayStyle="Simple"
 									<option value="1">Does not open eyes</option>
 								</select>
 							</includeIf>
-						</p>	
+						</p>
 					</td>
 				</tr>
 				<tr>
@@ -455,7 +457,7 @@ formDisplayStyle="Simple"
 							</includeIf>
 						</p>
 					</td>
-				</tr>						
+				</tr>
 
 				<tr>
 					<td>
@@ -574,7 +576,7 @@ formDisplayStyle="Simple"
 
 	<fieldset field-separator=", ">
 		<legend>Body surface area</legend>
-		<h3>Body surface area (Calculated)</h3>				
+		<h3>Body surface area (Calculated)</h3>
 		<span id="no-calculated-bsa" style="display:none;">
 			No calculated BSA<br/>
 			Please enter the Height and Weight to determine the BSA

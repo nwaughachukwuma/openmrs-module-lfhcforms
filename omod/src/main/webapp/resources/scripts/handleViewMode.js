@@ -79,11 +79,11 @@ var handleViewMode = function (formUuid) {
 
 					/* Hide empty values */
 					var emptyValue = -1;
-					$(currentFieldset).find(".value").each(function (indexV, currentValue) {
+					$(currentFieldset).find(".value").each(function (indexV, element) {
 						/* Hide "p" section when value is empty */
-						if ($(currentValue).text() == "") {
-							$(currentValue).closest("p").hide();
-							$(currentValue).closest("p").prev("h3").hide();
+						if ($(element).text() == "") {
+							$(element).closest("p").hide();
+							$(element).closest("p").prev("h3").hide();
 							emptyValue= emptyValue+1;
 						}
 
@@ -101,7 +101,7 @@ var handleViewMode = function (formUuid) {
 						/*</p>
 						*/
 
-						$(currentValue).closest("p").find(".questionLabel").filter(":visible").each(function (indexL, labelSpan) {
+						$(element).closest("p").find(".questionLabel").filter(":visible").each(function (indexL, labelSpan) {
 
 							/* get the free text of the obs to be used as h3 */
 							var obsTitle = $(labelSpan)
@@ -111,21 +111,17 @@ var handleViewMode = function (formUuid) {
 							.end()
 							.text();
 
+							/* get the "obsSpan" innerHTML */
+							var obsSpan = $(element).closest("span");
+
 							/* Create a new "p" */
 							var newP = $("<p>");
-
-							/* handle the 'units' */
-							var units = $(currentValue).closest("p").find(".units").html();
-							if (typeof units ==="undefined") {
-								units = "";
-							}
-
-							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(currentValue).closest("span").clone()).html()+units+"</span>");
+							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(element).closest("span").clone()).html()+"</span>");
 							/*var newSpan = $("<span>"); */
 							/*$(newSpan).append("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html()); */
 
 							/* replace the current "p" by its new version */
-							$(currentValue).closest("p").replaceWith("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html());
+							$(element).closest("p").replaceWith("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html());
 						});
 
 					});
