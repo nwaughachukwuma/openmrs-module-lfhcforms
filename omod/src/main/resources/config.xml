@@ -66,82 +66,81 @@
 	<!-- Privileges -->
 
 	<privilege>
-		<name>Task: lfhcforms.triage</name>
+		<name>Task: refapp.lfhc.forms.triage</name>
 		<description>Able to use the Triage form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.vitals</name>
+		<name>Task: refapp.lfhc.forms.vitals</name>
 		<description>Able to use the Vitals form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.opd-nurse</name>
+		<name>Task: refapp.lfhc.forms.opd-nurse</name>
 		<description>Able to use the OPD Nurse form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.doctor-history</name>
+		<name>Task: refapp.lfhc.forms.doctor-history</name>
 		<description>Able to use the Doctor History form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.doctor-physical-exam</name>
+		<name>Task: refapp.lfhc.forms.doctor-physical-exam</name>
 		<description>Able to use the Doctor Physical Exam form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.immunity-and-infection</name>
+		<name>Task: refapp.lfhc.forms.immunity-and-infection</name>
 		<description>Able to use the Immunity and Infection form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.treatment-plan-order</name>
+		<name>Task: refapp.lfhc.forms.treatment-plan-order</name>
 		<description>Able to use the Treatment Plan/Order form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.lab-test-order</name>
+		<name>Task: refapp.lfhc.forms.lab-test-order</name>
 		<description>Able to use the Lab Test Order form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.xray-ultrasound-order</name>
+		<name>Task: refapp.lfhc.forms.xray-ultrasound-order</name>
 		<description>Able to use the Xray/Ultrasound Order form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.medication-order</name>
+		<name>Task: refapp.lfhc.forms.medication-order</name>
 		<description>Able to use the Medication Order form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.diagnosis</name>
+		<name>Task: refapp.lfhc.forms.diagnosis</name>
 		<description>Able to use the Diagnosis form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.clinical-notes</name>
+		<name>Task: refapp.lfhc.forms.clinical-notes</name>
 		<description>Able to use the Clinical Notes form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.ipd-nurse</name>
+		<name>Task: refapp.lfhc.forms.ipd-nurse</name>
 		<description>Able to use the IPD Nurse form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.fluid-balance</name>
+		<name>Task: refapp.lfhc.forms.fluid-balance</name>
 		<description>Able to use the Fluid Balance form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.lines-and-tubes</name>
+		<name>Task: refapp.lfhc.forms.lines-and-tubes</name>
 		<description>Able to use the Lines and Tubes form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.neurovascular-obs</name>
+		<name>Task: refapp.lfhc.forms.neurovascular-obs</name>
 		<description>Able to use the Neurovascular Obs form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.wound-details</name>
+		<name>Task: refapp.lfhc.forms.wound-details</name>
 		<description>Able to use the Wound Details form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.dispense-medication</name>
+		<name>Task: refapp.lfhc.forms.dispense-medication</name>
 		<description>Able to use the Dispense medication form</description>
 	</privilege>
 	<privilege>
-		<name>Task: lfhcforms.discharge</name>
+		<name>Task: refapp.lfhc.forms.discharge</name>
 		<description>Able to use the Discharge form</description>
 	</privilege>
 
 
 </module>
-
