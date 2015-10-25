@@ -1,4 +1,4 @@
-	<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.5.2"
+<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.5.1"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="1"
@@ -7,332 +7,304 @@
 	formDisplayStyle="Standard"
 	>
 
-	<ifMode mode="VIEW" include="false">
-
-		<script type="text/javascript">
-
-			$(document).ready(function() {
-
-				if (document.getElementById('under-two-months')) {
-					ageUnderTwoMonths = true;
-				}
-				setTriageLevel(ageUnderTwoMonths);
-			});
-
-
-			jQuery(function () {
-				jQuery(".complaint").change(function () {
-					setTriageLevel(ageUnderTwoMonths);
-				});
-			});
-
-
-			var ageUnderTwoMonths = false;
-
-
-			function setTriageLevel (ageUnderTwoMonths) {
-
-				var priority = 0;
-				var emergency = 0;
-				var queue = 0;
-
-				if (ageUnderTwoMonths) {
-					jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("checked",true);
-					jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("disabled",true);
-					priority = true;
-				}
-				for (var i = 1 ; i &lt; 15 ; i++ ) { 
-					if (getValue('prio-'+i+'.value') ) { priority = priority + 1};
-				};
-				for (var i = 1; i &lt; 15 ; i++ ) { 
-					if (getValue('em-'+i+'.value') ) { emergency = emergency + 1};
-				};
-
-				if(priority == 0) {priority = null};
-				if(emergency == 0) {emergency = null};
-
-				if ( emergency ) {
-					setValue('triage-level.value', "Emergency");
-				}
-				if ( priority &amp;&amp; !emergency) {
-					setValue('triage-level.value', "Priority");
-				}
-				if (!priority &amp;&amp; !emergency) {
-					setValue('triage-level.value', "Queue");
-				}
-			}
-
-		</script>
-	</ifMode>
-
-	<ifMode mode="VIEW">
-		<script type="text/javascript" id="handleViewModeForTable">
-
-			// JavaScript for VIEW mode
-			jQuery(document).ready(function(){
-				handleViewMode("5743bf01-7879-40a0-ab26-95fc2446e510");
-				handleViewModeForTable("5743bf01-7879-40a0-ab26-95fc2446e510");
-			});
-
-		</script>
-	</ifMode>
+<ifMode mode="VIEW" include="false">
 
 	<script type="text/javascript">
 
-		function displayVisitDate (visitEndDate, message) {
-			var visitEndDate = new Date(visitEndDate);
-			var currentDate = new Date();
+		$(document).ready(function() {
 
-			if (visitEndDate.getTime()) {
-				$().toastmessage('showWarningToast', message);
-				$("#when").show();
-				$("#who-when-where").show();
+			if (document.getElementById('under-two-months')) {
+				ageUnderTwoMonths = true;
+			}
+			setTriageLevel(ageUnderTwoMonths);
+		});
+
+
+		jQuery(function () {
+			jQuery(".complaint").change(function () {
+				setTriageLevel(ageUnderTwoMonths);
+			});
+		});
+
+
+		var ageUnderTwoMonths = false;
+
+
+		function setTriageLevel (ageUnderTwoMonths) {
+
+			var priority = 0;
+			var emergency = 0;
+			var queue = 0;
+
+			if (ageUnderTwoMonths) {
+				jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("checked",true);
+				jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("disabled",true);
+				priority = true;
+			}
+			for (var i = 1 ; i &lt; 15 ; i++ ) {
+				if (getValue('prio-'+i+'.value') ) { priority = priority + 1};
+			};
+			for (var i = 1; i &lt; 15 ; i++ ) {
+				if (getValue('em-'+i+'.value') ) { emergency = emergency + 1};
+			};
+
+			if(priority == 0) {priority = null};
+			if(emergency == 0) {emergency = null};
+
+			if ( emergency ) {
+				setValue('triage-level.value', "Emergency");
+			}
+			if ( priority &amp;&amp; !emergency) {
+				setValue('triage-level.value', "Priority");
+			}
+			if (!priority &amp;&amp; !emergency) {
+				setValue('triage-level.value', "Queue");
 			}
 		}
 
-
 	</script>
-
-<ifMode mode="enter">
-	<lookup complexExpression="&lt;script type=&quot;text/javascript&quot;>
-		#set($message = $fn.message('lfhcforms.pastvisit.alert'))
-		jQuery(document).ready(function(){
-		displayVisitDate('${visit.stopDatetime}', '${message}');
-	});
-	&lt;/script>" />
 </ifMode>
 
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="handleViewModeForTable">
 
-	<div style="display:none;" id="who-when-where">
-		<p id="who" style="display:none;">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			handleViewMode("5743bf01-7879-40a0-ab26-95fc2446e510");
+			handleViewModeForTable("5743bf01-7879-40a0-ab26-95fc2446e510");
+		});
+
+	</script>
+</ifMode>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+<style type="text/css">
+	table.one {
+		table-layout: fixed;
+		width: 49%;
+		float:left;
+	}
+
+	table.two {
+		table-layout: fixed;
+		width: 49%;
+		float:right;
+	}
+</style>
+
+<section id="triage">
+
+
+	<!-- Main Problem fieldset -->
+	<fieldset field-separator=", ">
+
+		<table class="one">
+			<thead>
+				<tr>
+					<th>
+						Emergency Status
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+
+
+			</tbody>
+		</table>
+		<table class="two">
+			<thead>
+				<tr>
+					<th>
+						Priority Status
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<includeIf velocityTest="$fn.patientAgeInMonths() &lt; 2">
+					<tr>
+						<td>
+							<p>
+								<input id="under-two-months" type="checkbox" onclick="return false;" checked="checked" style="display:none;"/>
+								<obs id="under-two-months-obs" conceptId="LFHC:1049" answerConceptId="LFHC:1051" style="checkbox"/>
+								<em>Patient is less than 2 months</em>
+							</p>
+						</td>
+					</tr>
+				</includeIf>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</fieldset>
+
+	<fieldset>
+
+		<h3>
+			Suggested triage level
+		</h3>
+		<p>
+			<obs id="triage-level" conceptId="CIEL:159637" answerConceptIds="CIEL:1882, CIEL:1883, CIEL:1884" answerLabels="Emergency, Priority, Queue" required="true"/>
 		</p>
-		<p id="when" style="display:none;">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" showTime="true" default="now" />
-			</span>
-		</p>
-		<p id="where" style="display:none;">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-	</div>
+		<ifMode mode="VIEW" include="false">
+			<p><font color="red">* required</font></p>
+		</ifMode>
 
-	
-
-	<style type="text/css">
-		table.one {
-			table-layout: fixed;
-			width: 49%;
-			float:left;
-		}
-
-		table.two {
-			table-layout: fixed;
-			width: 49%;
-			float:right;
-		}
-	</style>
-
-	<section id="triage">
+	</fieldset>
 
 
-		<!-- Main Problem fieldset -->
-		<fieldset field-separator=", ">
+</section>
 
-			<table class="one">
-				<thead>
-					<tr>
-						<th>
-							Emergency Status
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
+<submit/>
 
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-
-
-				</tbody>
-			</table>
-			<table class="two">
-				<thead>
-					<tr>
-						<th>
-							Priority Status
-						</th>
-
-					</tr>
-				</thead>
-				<tbody>
-					<includeIf velocityTest="$fn.patientAgeInMonths() &lt; 2">
-						<tr>
-							<td>
-								<p>
-									<input id="under-two-months" type="checkbox" onclick="return false;" checked="checked" style="display:none;"/>
-									<obs id="under-two-months-obs" conceptId="LFHC:1049" answerConceptId="LFHC:1051" style="checkbox"/>
-									<em>Patient is less than 2 months</em>
-								</p>
-							</td>
-						</tr>
-					</includeIf>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>
-								<obs class="complaint" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" /> 
-							</p>
-						</td>
-					</tr>
-
-				</tbody>
-			</table>
-		</fieldset>
-
-		<fieldset>
-
-			<h3>
-				Suggested triage level
-			</h3>
-			<p>
-				<obs id="triage-level" conceptId="CIEL:159637" answerConceptIds="CIEL:1882, CIEL:1883, CIEL:1884" answerLabels="Emergency, Priority, Queue" required="true"/>
-			</p>
-			<ifMode mode="VIEW" include="false">
-				<p><font color="red">* required</font></p>
-			</ifMode>
-
-		</fieldset>
-
-
-	</section>
-
-	<submit/>
-
-	</htmlform>		
+</htmlform>
