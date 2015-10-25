@@ -18,7 +18,7 @@
 					$("htmlform").each(function (index, currentForm) {
 						if ($(currentForm).attr("formuuid") == "348c2a9e-17c8-4c15-8cef-e8f332a69853") {
 							$("#when-div").addClass("hidden");
-						}	
+						}
 					});
 
 				});
@@ -30,7 +30,7 @@
 
 			<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.2.3/css/ngDialog.css" />
 
-			
+
 			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.js" />
 			<uiInclude provider="uicommons" javascript="ngDialog/ngDialog.min.css" />
 
@@ -80,8 +80,9 @@
 				function handleDisplayVisitDate(visitStartDate, visitEndDate, message) {
 					console.log(visitStartDate);
 					console.log(visitEndDate);
-					$("#startDate").html('visitStartDate');
-					$("#endDate").html('visitEndDate');
+
+					//$("#startDate").html('visitStartDate');
+					//$("#endDate").html('visitEndDate');
 				}
 
 				function setHoursMinutesWidget (visitStartDate, visitEndDate) {
@@ -97,7 +98,7 @@
 			&lt;script type=&quot;text/javascript&quot;>
 			var successMessage = '${successMessage}';
 
-			jQuery(document).ready(function(){	
+			jQuery(document).ready(function(){
 			handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
 			$('.editDate').bind('click', function () {
 			handleDisplayVisitDate('${visit.startDatetime}', '${visit.stopDatetime}', '${message}');
