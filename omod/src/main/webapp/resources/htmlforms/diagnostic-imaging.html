@@ -1,5 +1,4 @@
-
-<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Xray/Ultrasound Order" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.5"
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Xray/Ultrasound Order" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.5.1"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="9"
@@ -8,72 +7,36 @@ formShowIf=""
 formDisplayStyle="Simple"
 >
 
-
-
-<!-- The following logic will ensure that observations enterered in ENTER mode are passed to the VIEW mode. -->
-<!-- This doesn't work out of the box because the observations in VIEW mode are nested within "obsgroups" so to link results and comments with the procedure ordered-->
-<!-- The main idea behind that is to lookup the procedure ordered (automatically filled in from the ENTER mode) and copy this obs into the "obsgroup" -->
-<!-- -->
-<!-- Please write your HTML code as below -->
-<!-- class="hiddenObs" is used to toggle the whole field when the obs has been selected -->
-<!-- class="source" is used to identify the obs that will be pasted into the "obsgroup" -->
-<!-- the id="8659-source" must be kept of this format. (The function parseFloat is used to determine the observation in the "obsgroup") -->
-<!--	-->
-<!--			<tr class="hiddenObs" style="display:none;"> -->
-<!--			<td> -->
-<!--				<span style="display:none;"> -->
-<!--					<obs id="8659-source" class="source" conceptId="LFHC:1008" answerConceptId="CIEL:301"/> -->
-<!--				</span> -->
-<!--				<obsgroup groupingConceptId="LFHC:1013"> -->
-<!--					<p> -->
-<!--						<obs id="8659" conceptId="LFHC:1008" answerConceptId="CIEL:301" style="checkbox"/> -->
-<!--					</p> -->
-<!--					<p> -->
-<!--						Results: <obs class="results" conceptId="LFHC:1173" /> -->
-<!--					</p> -->
-<!--					<p> -->
-<!--						Comments: <obs class="results" conceptId="LFHC:1174" /> -->
-<!--					</p> -->
-<!--				</obsgroup> -->
-<!--			</td> -->
-<!--			</tr> -->
-
-<ifMode mode="VIEW" include="false">
+<ifMode mode="ENTER">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
-
 	<script type="text/javascript">
-		jQuery(document).ready(function(){
-			toggleContainers();
-		});
-
-		jQuery(document).ready(function(){
-			var checked =  null;
-			$(".source").each(function (index, currentObs) {
-				checked =  null;
-				if (getValue($(currentObs).attr('id')+".value")) {
-					currentValue = getValue($(currentObs).attr('id')+".value");
-				//alert("current Value: "+currentValue);
-				$(currentObs).closest(".hiddenObs").toggle(true);
-				var targetId = parseFloat($(currentObs).attr("id"));
-				//alert("target ID: "+targetId);
-				$(currentObs).closest("htmlform").find("#"+targetId).find(":checkbox").attr("checked",true);
-				setValue(targetId+".value", currentValue);
-			}
-		});
-		});
-
+	jQuery(document).ready(function(){
+		toggleContainers();
+	});
 	</script>
 </ifMode>
 
+<ifMode mode="EDIT">
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+		// Hides the observations that don't have any value
+		$(".obs-field").each(function (index, currentObs) {
+			//console.log(getValue($(currentObs).attr('id')+".value"));
+			if (getValue($(currentObs).attr('id')+".value")) {
+				currentValue = getValue($(currentObs).attr('id')+".value");
+				$(currentObs).closest(".obsContainer").toggle(true);
+			}
+		});
+	});
+	</script>
+</ifMode>
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="handleViewModeForTable">
-		// JavaScript for VIEW mode
-		jQuery(document).ready(function(){
-			handleViewModeForTable("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
-			handleViewMode("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
-			
-		});
+	jQuery(document).ready(function(){
+		handleViewModeForTable("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+		handleViewMode("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+	});
 	</script>
 </ifMode>
 
@@ -113,31 +76,28 @@ formDisplayStyle="Simple"
 			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
-						<p>
-							<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, LFHC:1012, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete">
-								<controls>
-									<when value="LFHC:1012" thenDisplay="#{n}-xray-other" />
-								</controls>
-							</obs>
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-						<p id="{n}-xray-other">
-							<span class="questionLabel">Other X-ray: </span>
-							<obs conceptId="LFHC:1012"/>
-						</p>
+						<obsgroup groupingConceptId="LFHC:1013">
+							<p>
+								<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, LFHC:1012, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete">
+									<controls>
+										<when value="LFHC:1012" thenDisplay="#{n}-xray-other" />
+									</controls>
+								</obs>
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+							</p>
+							<p id="{n}-xray-other">
+								<span class="questionLabel">Other X-ray: </span>
+								<obs conceptId="LFHC:1012"/>
+							</p>
+						</obsgroup>
 					</div>
 				</template>
 				<render n="401"/>
 				<render n="402"/>
-				<render n="403"/>		
+				<render n="403"/>
 				<render n="404"/>
 				<render n="405"/>
-				<render n="406"/>
-				<render n="407"/>
-				<render n="408"/>
-				<render n="409"/>
-
 			</repeat>
 		</fieldset>
 	</section>
@@ -148,19 +108,21 @@ formDisplayStyle="Simple"
 			<repeat>
 				<template>
 					<div id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
-						<p>
-						<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010, LFHC:1230">    
-								<controls>
-									<when value="LFHC:1230" thenDisplay="#{n}-ultrasound-other" />
-								</controls>
-							</obs>
-							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
-							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-						<p id="{n}-ultrasound-other">
-							<span class="questionLabel">Other Ultrasound: </span>
-							<obs conceptId="LFHC:1230"/>
-						</p>
+						<obsgroup groupingConceptId="LFHC:1016">
+							<p>
+								<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010, LFHC:1230">
+									<controls>
+										<when value="LFHC:1230" thenDisplay="#{n}-ultrasound-other" />
+									</controls>
+								</obs>
+								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; Add</i>
+								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; Remove</i>
+							</p>
+							<p id="{n}-ultrasound-other">
+								<span class="questionLabel">Other Ultrasound: </span>
+								<obs conceptId="LFHC:1230"/>
+							</p>
+						</obsgroup>
 					</div>
 				</template>
 				<render n="301"/>
@@ -168,260 +130,212 @@ formDisplayStyle="Simple"
 				<render n="303"/>
 				<render n="304"/>
 				<render n="305"/>
-				<render n="306"/>
-				<render n="307"/>
-				<render n="308"/>
-				<render n="309"/>
-
 			</repeat>
 		</fieldset>
 	</section>
-	<submit/>
 
+	<submit/>
 </ifMode>
 
 <ifMode mode="EDIT">
+<style type="text/css">
+.tg {
+	table-layout: fixed;
+	width: 50%;
+	margin-left: 10px;
+}
+.tg td {
+	width: 35%;
+}
+.customSubmit {
+	background-color: green;
+}
+</style>
 
+<section>
+	<h3>X-rays</h3>
+	<fieldset id="xray-fieldset">
+		<table class="tg">
+			<tbody>
+				<tr>
+					<td>
+						<h3>X-rays</h3>
+						<details>
+							<summary>
+								See more
+							</summary>
+							<table>
+								<tbody>
+									<repeat>
+										<template>
+											<tr class="obsContainer" style="display:none;">
+												<td>
+													<obsgroup groupingConceptId="LFHC:1013">
+														<p>
+															<obs id="{m}" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
+														</p>
+														<p>
+															Results: <obs class="results" conceptId="LFHC:1173" />
+														</p>
+														<p>
+															Comments: <obs class="results" conceptId="LFHC:1174" />
+														</p>
+													</obsgroup>
+												</td>
+											</tr>
+										</template>
+										<render m="101" n="CIEL:12"/>
+										<render m="102" n="CIEL:101"/>
+										<render m="103" n="CIEL:386"/>
+										<render m="104" n="CIEL:392"/>
+										<render m="106" n="CIEL:161266"/>
+										<render m="107" n="CIEL:161267"/>
+										<render m="108" n="CIEL:161269"/>
+										<render m="109" n="CIEL:161270"/>
+										<render m="110" n="CIEL:161272"/>
+										<render m="111" n="CIEL:161295"/>
+										<render m="112" n="CIEL:161298"/>
+										<render m="113" n="CIEL:161299"/>
+										<render m="114" n="CIEL:161302"/>
+										<render m="115" n="CIEL:161303"/>
+										<render m="116" n="CIEL:161305"/>
+										<render m="117" n="CIEL:161306"/>
+										<render m="118" n="CIEL:161307"/>
+										<render m="119" n="CIEL:161317"/>
+										<render m="120" n="CIEL:161318"/>
+										<render m="121" n="CIEL:161319"/>
+										<render m="122" n="CIEL:159600"/>
+										<render m="123" n="CIEL:161265"/>
+										<render m="124" n="CIEL:161301"/>
+										<render m="125" n="CIEL:161320"/>
+										<render m="126" n="CIEL:161322"/>
+										<render m="127" n="CIEL:161321"/>
+										<render m="128" n="CIEL:161324"/>
+										<render m="129" n="CIEL:161325"/>
+										<render m="130" n="CIEL:161327"/>
+										<render m="131" n="CIEL:161329"/>
+										<render m="132" n="CIEL:161328"/>
+										<render m="133" n="CIEL:161330"/>
+										<render m="134" n="CIEL:161332"/>
+										<render m="135" n="CIEL:161333"/>
+										<render m="136" n="CIEL:161334"/>
+										<render m="137" n="CIEL:161337"/>
+										<render m="138" n="CIEL:161338"/>
+										<render m="139" n="CIEL:161341"/>
+										<render m="140" n="CIEL:161342"/>
+										<render m="141" n="CIEL:161343"/>
+										<render m="142" n="CIEL:161344"/>
+										<render m="143" n="CIEL:161345"/>
+										<render m="144" n="CIEL:161347"/>
+										<render m="145" n="CIEL:161348"/>
+										<render m="146" n="CIEL:161349"/>
+										<render m="147" n="CIEL:161350"/>
+									</repeat>
+									<tr class="obsContainer" style="display:none;">
+										<td>
+											<obsgroup groupingConceptId="LFHC:1013">
+												<p>
+													<obs id="198" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
+													<obs id="199" conceptId="LFHC:1012"/>
+												</p>
+												<p>
+													Results: <obs class="results" conceptId="LFHC:1173" />
+												</p>
+												<p>
+													Comments: <obs class="results" conceptId="LFHC:1174" />
+												</p>
+											</obsgroup>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</details>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
 
-	<style type="text/css">
-
-		.tg {
-			table-layout: fixed;
-			width: 50%;
-			margin-left: 10px;
-		}
-
-		.tg td {
-			width: 35%;
-		}
-
-		.customSubmit {
-			background-color: green;
-		}
-
-		
-
-	</style>
-
-	<section>
-		<h3>X-rays</h3>
-		<fieldset id="xray-fieldset">
-
-			<table class="tg">
-				<tbody>
-					<tr>
-						<td>
-							<h3>X-rays</h3>
-
-							<details>
-								<summary>
-									See more
-								</summary>
-
-								<table>
-									<tbody>
-
-										<repeat>
-											<template>	
-												<tr class="hiddenObs" style="display:none;">
-													<td>
-														<span style="display:none;">
-															<obs id="{m}-source" class="source" conceptId="LFHC:1008" answerConceptId="{n}"/>
-														</span>
-														<obsgroup groupingConceptId="LFHC:1013">
-															<p>
-																<obs id="{m}" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
-															</p>
-															<p>
-																Results: <obs class="results" conceptId="LFHC:1173" />
-															</p>
-															<p>
-																Comments: <obs class="results" conceptId="LFHC:1174" />
-															</p>
-														</obsgroup>
-													</td>
-												</tr>
-											</template>
-											<render m="101" n="CIEL:12"/>
-											<render m="102" n="CIEL:101"/>
-											<render m="103" n="CIEL:386"/>
-											<render m="104" n="CIEL:392"/>
-											<render m="106" n="CIEL:161266"/>
-											<render m="107" n="CIEL:161267"/>
-											<render m="108" n="CIEL:161269"/>
-											<render m="109" n="CIEL:161270"/>
-											<render m="110" n="CIEL:161272"/>
-											<render m="111" n="CIEL:161295"/>
-											<render m="112" n="CIEL:161298"/>
-											<render m="113" n="CIEL:161299"/>
-											<render m="114" n="CIEL:161302"/>
-											<render m="115" n="CIEL:161303"/>
-											<render m="116" n="CIEL:161305"/>
-											<render m="117" n="CIEL:161306"/>
-											<render m="118" n="CIEL:161307"/>
-											<render m="119" n="CIEL:161317"/>
-											<render m="120" n="CIEL:161318"/>
-											<render m="121" n="CIEL:161319"/>
-											<render m="122" n="CIEL:159600"/>
-											<render m="123" n="CIEL:161265"/>
-											<render m="124" n="CIEL:161301"/>
-											<render m="125" n="CIEL:161320"/>
-											<render m="126" n="CIEL:161322"/>
-											<render m="127" n="CIEL:161321"/>
-											<render m="128" n="CIEL:161324"/>
-											<render m="129" n="CIEL:161325"/>
-											<render m="130" n="CIEL:161327"/>
-											<render m="131" n="CIEL:161329"/>
-											<render m="132" n="CIEL:161328"/>
-											<render m="133" n="CIEL:161330"/>
-											<render m="134" n="CIEL:161332"/>
-											<render m="135" n="CIEL:161333"/>
-											<render m="136" n="CIEL:161334"/>
-											<render m="137" n="CIEL:161337"/>
-											<render m="138" n="CIEL:161338"/>
-											<render m="139" n="CIEL:161341"/>
-											<render m="140" n="CIEL:161342"/>
-											<render m="141" n="CIEL:161343"/>
-											<render m="142" n="CIEL:161344"/>
-											<render m="143" n="CIEL:161345"/>
-											<render m="144" n="CIEL:161347"/>
-											<render m="145" n="CIEL:161348"/>
-											<render m="146" n="CIEL:161349"/>
-											<render m="147" n="CIEL:161350"/>
-										</repeat>
-										<tr class="hiddenObs"  style="display:none;">
-											
-											<td>
-												<span style="display:none;">
-													<obs id="198-source" class="source" conceptId="LFHC:1008" style="checkbox"/>
-													<obs id="199-source" class="source" conceptId="LFHC:1012"/>
-												</span>
-												<obsgroup groupingConceptId="LFHC:1013">
-													<p>
-														<obs id="198" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
-														<obs id="199" conceptId="LFHC:1012"/>
-													</p>
-													<p>
-														Results: <obs class="results" conceptId="LFHC:1173" />
-													</p>
-													<p>
-														Comments: <obs class="results" conceptId="LFHC:1174" />
-													</p>
-												</obsgroup>	
-											</td>
-										</tr>
-									</tbody>
-								</table>
-
-							</details>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<br/>
-
-			<table class="tg">
-				<tbody>
-					<tr>
-						<td >
-							<h3>Ultrasound</h3>
-							<details>
-								<summary>
-									See more
-								</summary>
-
-
-								<table>
-									<tbody>
-										<repeat>
-											<template>
-												<tr class="hiddenObs" style="display:none;">
-													<td>
-														<span style="display:none;">
-															<obs id="{m}-source" class="source" conceptId="LFHC:1009" answerConceptId="{n}"/>
-														</span>
-														<obsgroup groupingConceptId="LFHC:1016">
-															<p>
-																<obs id="{m}" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
-															</p>
-															<p>
-																Results: <obs class="results" conceptId="LFHC:1175" />
-															</p>	
-															<p>
-																Comments: <obs class="results" conceptId="LFHC:1015" />
-															</p>
-														</obsgroup>
-													</td>
-												</tr>
-											</template>
-											<render m="201" n="CIEL:845"/>
-											<render m="202" n="CIEL:161274"/>
-											<render m="203" n="CIEL:161275"/>
-											<render m="204" n="CIEL:161276"/>
-											<render m="205" n="CIEL:161277"/>
-											<render m="206" n="CIEL:161279"/>
-											<render m="207" n="CIEL:161280"/>
-											<render m="208" n="CIEL:161283"/>
-											<render m="209" n="CIEL:161285"/>
-											<render m="210" n="CIEL:161288"/>
-											<render m="211" n="LFHC:1007"/>
-											<render m="212" n="LFHC:1010"/>
-										</repeat>
-										<tr class="hiddenObs" style="display:none;">
-											<td>
-												<span style="display:none;">
-													<obs id="298-source" class="source" conceptId="LFHC:1009" answerConceptId="LFHC:1230"/>
-													<obs id="299-source" class="source" conceptId="LFHC:1230"/>
-												</span>
-												<obsgroup groupingConceptId="LFHC:1016">
-													<p>
-														<obs id="298" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
-														<obs id="299" conceptId="LFHC:1230"/>
-													</p>
-													<p>
-														Results: <obs class="results" conceptId="LFHC:1175" />
-													</p>
-													<p>
-														Comments: <obs class="results" conceptId="LFHC:1015" />
-													</p>
-												</obsgroup>	
-											</td>
-										</tr>
-
-									</tbody>
-								</table>
-
-							</details>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-
-		</fieldset>
-	</section>
-	<a class="button cancel" >Cancel</a>
-	<submit submitStyle="customSubmit" submitLabel="Save"/>
-
+		<table class="tg">
+			<tbody>
+				<tr>
+					<td >
+						<h3>Ultrasound</h3>
+						<details>
+							<summary>
+								See more
+							</summary>
+							<table>
+								<tbody>
+									<repeat>
+										<template>
+											<tr class="obsContainer" style="display:none;">
+												<td>
+													<obsgroup groupingConceptId="LFHC:1016">
+														<p>
+															<obs id="{m}" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
+														</p>
+														<p>
+															Results: <obs class="results" conceptId="LFHC:1175" />
+														</p>
+														<p>
+															Comments: <obs class="results" conceptId="LFHC:1015" />
+														</p>
+													</obsgroup>
+												</td>
+											</tr>
+										</template>
+										<render m="201" n="CIEL:845"/>
+										<render m="202" n="CIEL:161274"/>
+										<render m="203" n="CIEL:161275"/>
+										<render m="204" n="CIEL:161276"/>
+										<render m="205" n="CIEL:161277"/>
+										<render m="206" n="CIEL:161279"/>
+										<render m="207" n="CIEL:161280"/>
+										<render m="208" n="CIEL:161283"/>
+										<render m="209" n="CIEL:161285"/>
+										<render m="210" n="CIEL:161288"/>
+										<render m="211" n="LFHC:1007"/>
+										<render m="212" n="LFHC:1010"/>
+									</repeat>
+									<tr class="obsContainer" style="display:none;">
+										<td>
+											<obsgroup groupingConceptId="LFHC:1016">
+												<p>
+													<obs id="298" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
+													<obs id="299" conceptId="LFHC:1230"/>
+												</p>
+												<p>
+													Results: <obs class="results" conceptId="LFHC:1175" />
+												</p>
+												<p>
+													Comments: <obs class="results" conceptId="LFHC:1015" />
+												</p>
+											</obsgroup>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</details>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
+</section>
+<a class="button cancel" >Cancel</a>
+<submit submitStyle="customSubmit" submitLabel="Save"/>
 </ifMode>
 
-
-
 <ifMode mode="VIEW">
-
-
 	<section id="xray" sectionTag="section" headerStyle="title" headerCode="X-ray">
-		
 		<repeat>
-			<template>	
+			<template>
 				<fieldset>
 					<h3>X-Ray procedure ordered: </h3>
-					<p>
-						<obs conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
-					</p>
 					<obsgroup id="xray-obsgroup" groupingConceptId="LFHC:1013" style="display:none;">
-						<p style="display:none;">
-							<obs id="{m}-target" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
+						<p>
+							<obs conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
 						</p>
 						<p>
 							<span class="questionLabel">Results: </span>
@@ -481,20 +395,14 @@ formDisplayStyle="Simple"
 			<render m="146" n="CIEL:161349"/>
 			<render m="147" n="CIEL:161350"/>
 		</repeat>
-
-		
 		<fieldset>
 			<h3>X-Ray procedure ordered: </h3>
-			<p>
-				<obs id="other-source" conceptId="LFHC:1012" style="checkbox" />
-				<obs conceptId="LFHC:1012" style="checkbox" />
-			</p>
 			<obsgroup groupingConceptId="LFHC:1013" style="display:none;">
 				<p>
-					<obs id="309-other-source" conceptId="LFHC:1008" answerConceptId="LFHC:1012" />
+					<obs conceptId="LFHC:1008" answerConceptId="LFHC:1012" />:
 				</p>
 				<p>
-					<obs id="other-target" conceptId="LFHC:1012" />
+					<obs conceptId="LFHC:1012" />
 				</p>
 				<p>
 					<span class="questionLabel">Results: </span>
@@ -504,22 +412,16 @@ formDisplayStyle="Simple"
 					<span class="questionLabel">Comments: </span>
 					<obs class="results" conceptId="LFHC:1174" />
 				</p>
-			</obsgroup>	
+			</obsgroup>
 		</fieldset>
 	</section>
 	<section id="utltrasound" sectionTag="section" headerStyle="title" headerCode="Ultrasound">
-
-
 		<repeat>
 			<template>
 				<fieldset>
 					<h3>Ultrasound procedure ordered: </h3>
-					<p>
-						
-						<obs id="{m}-target" conceptId="LFHC:1009" answerConceptId="{n}"/>
-					</p>
-					<obsgroup groupingConceptId="LFHC:1016">
-						<p style="display:none;">
+					<obsgroup groupingConceptId="LFHC:1016" style="display:none;">
+						<p>
 							<obs conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
 						</p>
 						<p>
@@ -532,7 +434,6 @@ formDisplayStyle="Simple"
 						</p>
 					</obsgroup>
 				</fieldset>
-
 			</template>
 			<render m="201" n="CIEL:845"/>
 			<render m="202" n="CIEL:161274"/>
@@ -546,20 +447,16 @@ formDisplayStyle="Simple"
 			<render m="210" n="CIEL:161288"/>
 			<render m="211" n="LFHC:1007"/>
 			<render m="212" n="LFHC:1010"/>
+			<render m="213" n="LFHC:1230"/>
 		</repeat>
-
 		<fieldset>
 			<h3>Ultrasound procedure ordered: </h3>
-			<p>
-				<obs id="other-source" conceptId="LFHC:1230" style="checkbox" />
-				<obs conceptId="LFHC:1230" style="checkbox" />
-			</p>
 			<obsgroup groupingConceptId="LFHC:1016" style="display:none;">
 				<p>
-					<obs id="999-other-source" conceptId="LFHC:1009" answerConceptId="LFHC:1230" />
+					<obs conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
 				</p>
 				<p>
-					<obs id="other-target" conceptId="LFHC:1230" />
+					<obs conceptId="LFHC:1230" />
 				</p>
 				<p>
 					<span class="questionLabel">Results: </span>
@@ -569,12 +466,8 @@ formDisplayStyle="Simple"
 					<span class="questionLabel">Comments: </span>
 					<obs class="results" conceptId="LFHC:1015" />
 				</p>
-			</obsgroup>	
+			</obsgroup>
 		</fieldset>
-		
 	</section>
 </ifMode>
-<ifMode mode="EDIT" include="false">
-	<submit/>
-</ifMode>
-</htmlform>	
+</htmlform>
