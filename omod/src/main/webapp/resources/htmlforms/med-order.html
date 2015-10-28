@@ -1,4 +1,4 @@
-<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.5"
+<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.5.1"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="10"
@@ -104,7 +104,7 @@
 			<legend>Drug</legend>
 			<h3>Drug to order</h3>
 			<small>Enter the drug want to prescribe (auto-complete field)</small>
-			<p>				
+			<p>
 
 				<obs id="drug-ordered" conceptId="CIEL:1282" answerClasses="Drug" style="autocomplete" size="10"/>
 			</p>
@@ -124,12 +124,12 @@
 			<h3>Dose</h3>
 
 <!-- 07/08/2015 Romain: Dose Calculation Helper is set aside to simplify the UI
-				<table>	
+				<table>
 					<tr>
 						<td>
 							<p><em>Dose calculation helper</em>
 								<br/>
-								<small>Enter an amount in mg/kg to help you calculate the Dose  
+								<small>Enter an amount in mg/kg to help you calculate the Dose
 
 									<input id="dose-calculation" class="dose-calculation" name="dose-calculation" size="6" />mg/kg
 
@@ -166,7 +166,7 @@
 			<legend>Frequency</legend>
 			<h3>Frequency</h3>
 			<small>Enter the frequency</small>
-			<p>	
+			<p>
 				<obs id="frequency"	conceptId="CIEL:160855"/>
 			</p>
 			<p>
@@ -177,7 +177,7 @@
 			<legend>Duration</legend>
 			<h3>Duration</h3>
 			<small>Enter the duration</small>
-			<p>	
+			<p>
 				<obs id="duration" conceptId="CIEL:159368" showUnits="days"/>
 			</p>
 		</fieldset>
