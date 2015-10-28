@@ -59,6 +59,11 @@
 		<!-- End OpenMRS core -->
 
 		<dependency>
+			<groupId>org.openmrs.module</groupId>						
+			<artifactId>reporting-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>appframework-api</artifactId>
 			<scope>provided</scope>

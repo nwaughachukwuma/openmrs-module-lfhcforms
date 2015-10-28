@@ -44,6 +44,7 @@ public class AdminConfigInitializer implements Initializer {
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
 		service.disableApp("referenceapplication.vitals");
+		service.disableApp("reportingui.reports");
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
 		

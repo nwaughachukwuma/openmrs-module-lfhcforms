@@ -22,10 +22,11 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.lfhcforms.activator.AddressTemplateInitializer;
 import org.openmrs.module.lfhcforms.activator.AdminConfigInitializer;
-import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
+import org.openmrs.module.lfhcforms.activator.ReportsInitializer;
 import org.openmrs.module.lfhcforms.activator.HtmlFormsInitializer;
 import org.openmrs.module.lfhcforms.activator.Initializer;
 import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
+import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -50,6 +51,7 @@ public class LFHCFormsActivator implements ModuleActivator {
 		l.add(new EncounterTypesInitializer());
 		l.add(new LFHCConceptsInitializer());
 		l.add(new HtmlFormsInitializer());
+		l.add(new ReportsInitializer());
 		return l;
 	}
 	
@@ -83,7 +85,7 @@ public class LFHCFormsActivator implements ModuleActivator {
 		for (Initializer initializer : getInitializers()) {
 			initializer.started();
 		}
-		
+				
 		log.info("LFHC Forms Module started");
 	}
 	
