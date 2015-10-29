@@ -26,6 +26,7 @@ import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
 import org.openmrs.module.lfhcforms.activator.HtmlFormsInitializer;
 import org.openmrs.module.lfhcforms.activator.Initializer;
 import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
+import org.openmrs.module.lfhcforms.activator.PersonInitializer;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -50,6 +51,7 @@ public class LFHCFormsActivator implements ModuleActivator {
 		l.add(new EncounterTypesInitializer());
 		l.add(new LFHCConceptsInitializer());
 		l.add(new HtmlFormsInitializer());
+		l.add(new PersonInitializer());
 		return l;
 	}
 	
