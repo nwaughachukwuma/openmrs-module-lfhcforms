@@ -19,3 +19,6 @@ omod/.classpath
 omod/.project
 omod/.settings/*
 omod/target/*
+
+# OS X auto-generated files #
+.DS_Store
