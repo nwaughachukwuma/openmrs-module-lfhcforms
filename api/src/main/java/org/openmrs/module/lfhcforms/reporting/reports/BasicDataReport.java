@@ -19,6 +19,11 @@ import org.openmrs.module.reporting.report.manager.BaseReportManager;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class was inspired by <a href=”https://github.com/PIH/openmrs-module-pihmalawi/tree/master/api/src/main/java/org/openmrs/module/pihmalawi/reporting/reports”>PIH/openmrs-module-pihmalawi</a> handling of their reports.
+ * 
+ * @author Dimitri Renault
+ */
 @Component
 public class BasicDataReport extends BaseReportManager {
 
@@ -29,22 +34,29 @@ public class BasicDataReport extends BaseReportManager {
 	public BasicDataReport() {};
 	
 	@Override
+	public String getVersion() {
+		// Append with -SNAPSHOT to install modifications.
+		// Versions withtout -SNAPSHOT are ignored unless the version number has changed.
+		return "1.0-SNAPSHOT";
+	}
+	
+	@Override
 	public ReportDefinition constructReportDefinition() {
 		
 		String sqlQuery = getSqlFromResource();
 		
-		SqlDataSetDefinition dsd = new SqlDataSetDefinition(getShortName() + " " + MessageUtil.translate("lfhcforms.reporting.labels.dataset"), "", sqlQuery);
-		dsd.setParameters(getParameters());
+		SqlDataSetDefinition dataSetDef = new SqlDataSetDefinition(getShortName() + " " + MessageUtil.translate("lfhcforms.reporting.labels.dataset"), "", sqlQuery);
+		dataSetDef.setParameters(getParameters());
 
-		ReportDefinition rd = new ReportDefinition();
-		rd.setUuid(getUuid());
-		rd.setName(getName());
-		rd.setName(rd.getName() + " (" + getUuid() + ")");	//TODO Remove this eventually
-		rd.setDescription(getDescription());
-		rd.setParameters(getParameters());
+		ReportDefinition reportDef = new ReportDefinition();
+		reportDef.setUuid(getUuid());
+		reportDef.setName(getName());
+		reportDef.setName(reportDef.getName());
+		reportDef.setDescription(getDescription());
+		reportDef.setParameters(getParameters());
 	
-		rd.addDataSetDefinition(getDataSetKey(), Mapped.mapStraightThrough(dsd));
-		return rd;
+		reportDef.addDataSetDefinition(getDataSetKey(), Mapped.mapStraightThrough(dataSetDef));
+		return reportDef;
 	}
 
 	protected String getSqlFromResource() {
@@ -63,7 +75,7 @@ public class BasicDataReport extends BaseReportManager {
 	public List<ReportDesign> constructReportDesigns(ReportDefinition reportDefinition) {
 		ReportDesign design = ReportManagerUtil.createExcelDesign(getReportDesignUuid(), reportDefinition);
 		design.setName(MessageUtil.translate("lfhcforms.reports.basicdata.reportdesign"));
-		design.setName(design.getName() + " (" + getUuid() + ")");	//TODO Remove this eventually
+		design.setName(design.getName());	//TODO Remove this eventually
 		
 		List<ReportDesign> l = new ArrayList<ReportDesign>();
         l.add(design);
@@ -103,10 +115,5 @@ public class BasicDataReport extends BaseReportManager {
 	
 	protected String getReportDesignUuid() {
 		return "508f0193-d800-43ac-ad26-e227f32eaadd";
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.0";
 	}
 }
