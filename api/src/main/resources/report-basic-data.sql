@@ -1,7 +1,9 @@
 SELECT
 	CONVERT(patient_identifier.identifier, char) AS 'Identifier',
 	myperson.full_name AS 'Full name',
-    IF(myperson.ageYears > 0, CONCAT(myperson.ageYears, 'y'), CONCAT(myperson.ageMonths, 'm')) as 'Age',
+    IF(TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) > 12, CONCAT( TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) , 'y'),
+		IF(TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) > 0, CONCAT( ROUND(TIMESTAMPDIFF(DAY, myperson.birthdate, visit.date_started) / (365/12), 1), 'm'),
+			CONCAT( TIMESTAMPDIFF(DAY, myperson.birthdate, visit.date_started) , 'd') ) ) as 'Age',
 	myperson.gender AS 'Gender',
 	"" AS 'Parent name',
 	CONVERT(IFNULL(myperson.phone,""), char) AS 'Phone',
@@ -77,8 +79,7 @@ AS diagnoses
 		(
 			SELECT
 				person.person_id AS person_id,
-                TIMESTAMPDIFF(YEAR, person.birthdate, CURDATE()) AS ageYears,
-                TIMESTAMPDIFF(MONTH, person.birthdate, CURDATE()) AS ageMonths,
+                person.birthdate AS birthdate,
 				person.gender AS gender,
 				CONCAT(person_name.given_name, ' ', person_name.family_name) AS full_name,
 				person_attribute.value AS phone,
