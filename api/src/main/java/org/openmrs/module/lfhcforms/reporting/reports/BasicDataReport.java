@@ -110,10 +110,10 @@ public class BasicDataReport extends BaseReportManager {
 
 	@Override
 	public String getUuid() {
-		return "5f500704-bbe3-4c55-bc46-297f836f4f78";
+		return "201b4ba8-7e2a-11e5-8bcf-feff819cdc9f";
 	}
 	
 	protected String getReportDesignUuid() {
-		return "508f0193-d800-43ac-ad26-e227f32eaadd";
+		return "201b4f72-7e2a-11e5-8bcf-feff819cdc9f";
 	}
 }
