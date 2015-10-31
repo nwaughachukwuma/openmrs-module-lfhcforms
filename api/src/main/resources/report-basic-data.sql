@@ -6,7 +6,8 @@ SELECT
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
     TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(myperson.birthdate, INTERVAL @years YEAR), INTERVAL @months MONTH), visit.date_started) AS 'Days',
 	myperson.gender AS 'Gender',
-	myperson.parents_names AS 'Next of kin',
+    IFNULL(myperson.father_name,"") AS 'Father\'s name',
+    IFNULL(myperson.mother_name,"") AS 'Mother\'s name',
 	CONVERT(IFNULL(myperson.phone,""), char) AS 'Phone',
 	IFNULL(myperson.city_village,"") AS 'Village',
 	IFNULL(myperson.county_district,"") AS 'District',
@@ -84,7 +85,8 @@ AS diagnoses
 				person.gender AS gender,
 				myname.full_name,
                 phone.value AS phone,
-                CONCAT(father_name.value, ', ', mother_name.value) AS parents_names,
+                father_name.value AS father_name,
+                mother_name.value AS mother_name,
 				myaddress.city_village,
 				myaddress.county_district,
 				myaddress.state_province
@@ -126,7 +128,8 @@ AS diagnoses
 															FROM
 																person_attribute pa2
 															WHERE
-																pa2.person_id = person_attribute.person_id 	)
+																pa2.person_id = person_attribute.person_id 	AND
+                                                                pa2.person_attribute_type_id = person_attribute_type.person_attribute_type_id)
 				) AS phone
                 ON
 					person.person_id = phone.person_id
@@ -148,7 +151,8 @@ AS diagnoses
 															FROM
 																person_attribute pa2
 															WHERE
-																pa2.person_id = person_attribute.person_id 	)
+																pa2.person_id = person_attribute.person_id 	AND
+                                                                pa2.person_attribute_type_id = person_attribute_type.person_attribute_type_id)
 				) AS father_name
                 ON
 					person.person_id = father_name.person_id
@@ -170,7 +174,8 @@ AS diagnoses
 															FROM
 																person_attribute pa2
 															WHERE
-																pa2.person_id = person_attribute.person_id 	)
+																pa2.person_id = person_attribute.person_id 	AND
+                                                                pa2.person_attribute_type_id = person_attribute_type.person_attribute_type_id)
 				) AS mother_name
                 ON
 					person.person_id = mother_name.person_id
@@ -221,8 +226,8 @@ AS diagnoses
 		visit
 	ON
 		diagnoses.visit_id = visit.visit_id
-WHERE
+/*WHERE
     visit.date_started >= :startDate AND
-    visit.date_started <= :endDate
+    visit.date_started <= :endDate*/
 ORDER BY visit.date_started DESC
 ;
