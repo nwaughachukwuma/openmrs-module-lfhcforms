@@ -226,8 +226,8 @@ AS diagnoses
 		visit
 	ON
 		diagnoses.visit_id = visit.visit_id
-/*WHERE
+WHERE
     visit.date_started >= :startDate AND
-    visit.date_started <= :endDate*/
+    visit.date_started <= :endDate
 ORDER BY visit.date_started DESC
 ;
