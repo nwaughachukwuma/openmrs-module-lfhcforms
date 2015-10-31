@@ -1,11 +1,12 @@
 SELECT
-	CONVERT(patient_identifier.identifier, char) AS 'Identifier',
+	CONVERT(myidentifier.identifier, char) AS 'Identifier',
 	myperson.full_name AS 'Full name',
-    IF(TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) > 12, CONCAT( TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) , 'y'),
-		IF(TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) > 0, CONCAT( ROUND(TIMESTAMPDIFF(DAY, myperson.birthdate, visit.date_started) / (365/12), 1), 'm'),
-			CONCAT( TIMESTAMPDIFF(DAY, myperson.birthdate, visit.date_started) , 'd') ) ) as 'Age',
+    DATE_FORMAT(myperson.birthdate,'%d-%m-%Y') AS 'DOB',
+    @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
+    @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
+    TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(myperson.birthdate, INTERVAL @years YEAR), INTERVAL @months MONTH), visit.date_started) AS 'Days',
 	myperson.gender AS 'Gender',
-	"" AS 'Parent name',
+	myperson.parents_names AS 'Next of kin',
 	CONVERT(IFNULL(myperson.phone,""), char) AS 'Phone',
 	IFNULL(myperson.city_village,"") AS 'Village',
 	IFNULL(myperson.county_district,"") AS 'District',
@@ -81,37 +82,114 @@ AS diagnoses
 				person.person_id AS person_id,
                 person.birthdate AS birthdate,
 				person.gender AS gender,
-				CONCAT(person_name.given_name, ' ', person_name.family_name) AS full_name,
-				person_attribute.value AS phone,
+				myname.full_name,
+                phone.value AS phone,
+                CONCAT(father_name.value, ', ', mother_name.value) AS parents_names,
 				myaddress.city_village,
 				myaddress.county_district,
 				myaddress.state_province
 			FROM
 				person
 				LEFT JOIN
-					person_name
+				(
+					SELECT
+						person_name.person_id,
+						CONCAT(person_name.given_name, ' ', person_name.family_name) AS full_name
+					FROM
+						person_name
+					WHERE
+						person_name.date_created = (	SELECT
+															MAX(nm2.date_created)
+														FROM
+															person_name nm2
+														WHERE
+															nm2.person_id = person_name.person_id 	)
+				)
+				AS myname
 				ON
-					person.person_id = person_name.person_id
+					person.person_id = myname.person_id				
 				LEFT JOIN
-					person_attribute
-				ON
-					(person.person_id = person_attribute.person_id AND person_attribute.person_attribute_type_id = '8')
+                (
+					SELECT
+						person_attribute.person_id AS person_id,
+                        person_attribute.value AS value
+                    FROM
+						person_attribute
+						LEFT JOIN
+							person_attribute_type
+						ON
+							person_attribute.person_attribute_type_id = person_attribute_type.person_attribute_type_id AND
+                            person_attribute_type.uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7'
+					WHERE
+						person_attribute.date_created =  (	SELECT
+																MAX(pa2.date_created)
+															FROM
+																person_attribute pa2
+															WHERE
+																pa2.person_id = person_attribute.person_id 	)
+				) AS phone
+                ON
+					person.person_id = phone.person_id
+				LEFT JOIN
+                (
+					SELECT
+						person_attribute.person_id AS person_id,
+                        person_attribute.value AS value
+                    FROM
+						person_attribute
+						LEFT JOIN
+							person_attribute_type
+						ON
+							person_attribute.person_attribute_type_id = person_attribute_type.person_attribute_type_id AND
+                            person_attribute_type.uuid = '51c5e4f4-7e13-11e5-8bcf-feff819cdc9f'
+					WHERE
+						person_attribute.date_created =  (	SELECT
+																MAX(pa2.date_created)
+															FROM
+																person_attribute pa2
+															WHERE
+																pa2.person_id = person_attribute.person_id 	)
+				) AS father_name
+                ON
+					person.person_id = father_name.person_id
+				LEFT JOIN
+                (
+					SELECT
+						person_attribute.person_id AS person_id,
+                        person_attribute.value AS value
+                    FROM
+						person_attribute
+						LEFT JOIN
+							person_attribute_type
+						ON
+							person_attribute.person_attribute_type_id = person_attribute_type.person_attribute_type_id AND
+                            person_attribute_type.uuid = '8d871d18-c2cc-11de-8d13-0010c6dffd0f'
+					WHERE
+						person_attribute.date_created =  (	SELECT
+																MAX(pa2.date_created)
+															FROM
+																person_attribute pa2
+															WHERE
+																pa2.person_id = person_attribute.person_id 	)
+				) AS mother_name
+                ON
+					person.person_id = mother_name.person_id
 				LEFT JOIN
 				(
 					SELECT
-						ad1.person_id,
-						ad1.city_village,
-						ad1.county_district,
-						ad1.state_province
+						person_address.person_id,
+						person_address.city_village,
+						person_address.county_district,
+						person_address.state_province
 					FROM
-						person_address ad1
+						person_address
 					WHERE
-						ad1.date_created = (	SELECT
-													MAX(ad2.date_created)
-												FROM
-													person_address ad2
-												WHERE
-													ad2.person_id = ad1.person_id 	)
+						person_address.date_created = (	SELECT
+															MAX(pa2.date_created)
+														FROM
+															person_address pa2
+														WHERE
+															pa2.person_id = person_address.person_id 	)
 				)
 				AS myaddress
 				ON
@@ -121,9 +199,24 @@ AS diagnoses
 	ON
 		diagnoses.patient_id = myperson.person_id
 	LEFT JOIN
-		patient_identifier
+		(
+			SELECT
+				patient_identifier.patient_id,
+                patient_identifier.identifier
+		
+			FROM
+				patient_identifier
+			WHERE
+				patient_identifier.date_created = (	SELECT
+														MAX(pi2.date_created)
+													FROM
+														patient_identifier pi2
+													WHERE
+														pi2.patient_id = patient_identifier.patient_id 	)
+        )
+        AS myidentifier
 	ON
-		diagnoses.patient_id = patient_identifier.patient_id
+		diagnoses.patient_id = myidentifier.patient_id
 	LEFT JOIN
 		visit
 	ON
