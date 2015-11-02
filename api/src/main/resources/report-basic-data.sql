@@ -1,7 +1,6 @@
 SELECT
 	CONVERT(myidentifier.identifier, char) AS 'Identifier',
 	myperson.full_name AS 'Full name',
-    DATE_FORMAT(myperson.birthdate,'%d-%m-%Y') AS 'DOB',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
     TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(myperson.birthdate, INTERVAL @years YEAR), INTERVAL @months MONTH), visit.date_started) AS 'Days',
