@@ -141,6 +141,14 @@
 		<name>Task: refapp.lfhc.forms.discharge</name>
 		<description>Able to use the Discharge form</description>
 	</privilege>
+	<privilege>
+		<name>App: lfhc.refapp.reportingui.reports</name>
+		<description>Able to use the Reporting UI app</description>
+	</privilege>
+	<privilege>
+		<name>App: lfhc.refapp.reportingui.reports.basicdata</name>
+		<description>Able to access the Basic Data report</description>
+	</privilege>
 
 
 </module>

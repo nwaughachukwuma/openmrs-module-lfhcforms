@@ -29,7 +29,7 @@
                 "url": "reportingui/reportsapp/home.page",
                 "icon": "icon-list-alt",
                 "order": 5,
-                "requiredPrivilege": ""
+                "requiredPrivilege": "App: lfhc.refapp.reportingui.reports"
             },
             {
                 "id": "lfhc.refapp.reportingui.reports.basicdata",
@@ -38,19 +38,9 @@
                 "label": "${project.parent.artifactId}.reports.basicdata.name",
                 "url": "reportingui/runReport.page?reportDefinition=201b4ba8-7e2a-11e5-8bcf-feff819cdc9f",
                 "order": 10,
-                "requiredPrivilege": ""
-            },
-            {
-                "id": "reportingui.dataExports.adHoc",
-                "extensionPointId": "org.openmrs.module.reportingui.reports.dataexport",
-                "type": "link",
-                "label": "reportingui.adHocAnalysis.label",
-                "url": "reportingui/adHocManage.page",
-                "order": 9999,
-                "requiredPrivilege": "",
-                "featureToggle": "reportingui_adHocAnalysis"
+                "requiredPrivilege": "App: lfhc.refapp.reportingui.reports.basicdata"
             }
         ],
-        "requiredPrivilege": ""
+        "requiredPrivilege": "App: lfhc.refapp.reportingui.reports"
     }
 ]
