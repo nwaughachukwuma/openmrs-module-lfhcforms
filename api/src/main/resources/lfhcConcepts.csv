@@ -350,7 +350,7 @@ LFHC:1272		Additional special tests			Additional tests not currently on list	Que
 LFHC:1273		Bolus Amount			Amount of IV Bolus	Question	No	Numeric		ml							Yes
 LFHC:1274		Bolus 			Link of IV bolus to amount	ConvSet	Yes	N/A	LFHC:1220, LFHC:1273								
 LFHC:1275		Transfusion			does the patient need a blood transfusion?	Question	No	Coded	1065, 1066, 1067								
-LFHC:1276		Lab test ordered			Represents a laboratory test that is ordered	ConvSet	Yes	N/A	CIEL:1271								
+LFHC:1276		Lab test ordered			Represents a laboratory test that is ordered	Test	No	Coded	CIEL:1271								
 LFHC:1277		Blood culture			Blood culture	Test	No	Coded	664, 703								
 LFHC:1278		Urine culture			urine culture	Test	No	Coded	664, 704								
 LFHC:1279		Wound culture			wound culture	Test	No	Coded	664, 705								
