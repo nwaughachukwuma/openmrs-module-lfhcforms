@@ -45,14 +45,18 @@ public class ExtensionFormUtil {
 
 		// If this form is already saved on the specified UI location, we remove it first
 		final List<Extension> extensions = hfeAppService.getFormExtensions(form);
+		String defaultPrivilege = "";
 		for(Extension extension : extensions) {
 			final ExtensionForm runningExtensionForm = new ExtensionForm();
 			runningExtensionForm.copyFrom(extension);
 			if(runningExtensionForm.getUiLocation().equals(extensionForm.getUiLocation())) {
+				defaultPrivilege = extension.getRequiredPrivilege();
 				hfeAppService.purgeFormExtension(form, extension);
 				break;
 			}
 		}
+		if(extensionForm.getRequiredPrivilege() == null)
+			extensionForm.setRequiredPrivilege(defaultPrivilege);
 
 		// Then if the provided UI location is valid, we add it to that one
 		final Set<String> allowedUiLocations = new HashSet<String>( formManager.getUILocations(form) );
@@ -93,6 +97,7 @@ public class ExtensionFormUtil {
 			extensionForm.setIcon( getAttributeStringValue(htmlFormNode, "formIcon", "icon-file") );
 			extensionForm.setDisplayStyle( getAttributeStringValue(htmlFormNode, "formDisplayStyle", "Simple") );
 			extensionForm.setShowIf( getAttributeStringValue(htmlFormNode, "formShowIf", "") );
+			extensionForm.setRequiredPrivilege( getAttributeStringValue(htmlFormNode, "formPrivilege", null) );
 		}
 
 		return extensionForm;
