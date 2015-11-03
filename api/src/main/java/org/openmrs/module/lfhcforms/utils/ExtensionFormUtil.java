@@ -65,7 +65,7 @@ public class ExtensionFormUtil {
 				Map<String, String> options = new HashMap<String, String>();
 				options.put(DISPLAY_STYLE, extensionForm.getDisplayStyle());
 				extension.setUrl(getFormUrl(extensionForm.getForm(), options));
-//				extension.setUrl(formManager.getFormUrl(extensionForm.getForm(), options));
+				//				extension.setUrl(formManager.getFormUrl(extensionForm.getForm(), options));
 
 				hfeAppService.saveFormExtension(form, extension);
 			}
@@ -80,52 +80,48 @@ public class ExtensionFormUtil {
 	protected static ExtensionForm getExtensionFormFromXML(String formXml) throws Exception {
 
 		Document doc = HtmlFormEntryUtil.stringToDocument(formXml);
-        Node htmlFormNode = HtmlFormEntryUtil.findChild(doc, "htmlform");
+		Node htmlFormNode = HtmlFormEntryUtil.findChild(doc, "htmlform");
 
-        String processFlag = getAttributeStringValue(htmlFormNode, "formAddMetadata", "");
-        processFlag = processFlag.trim().toLowerCase();
-        boolean doProcess = processFlag.equalsIgnoreCase("yes") || processFlag.equalsIgnoreCase("true") || processFlag.equalsIgnoreCase("1");
+		String processFlag = getAttributeStringValue(htmlFormNode, "formAddMetadata", "");
+		processFlag = processFlag.trim().toLowerCase();
+		boolean doProcess = processFlag.equalsIgnoreCase("yes") || processFlag.equalsIgnoreCase("true") || processFlag.equalsIgnoreCase("1");
 
-        final ExtensionForm extensionForm = new ExtensionForm();
-        if(doProcess) {
-        	extensionForm.setOrder( getAttributeIntegerValue(htmlFormNode, "formOrder", 0) );
-        	extensionForm.setUiLocation( getAttributeStringValue(htmlFormNode, "formUILocation", DEFAULT_UILOCATION) );
-        	extensionForm.setIcon( getAttributeStringValue(htmlFormNode, "formIcon", "icon-file") );
-        	extensionForm.setDisplayStyle( getAttributeStringValue(htmlFormNode, "formDisplayStyle", "Simple") );
-	        extensionForm.setShowIf( getAttributeStringValue(htmlFormNode, "formShowIf", "") );
+		final ExtensionForm extensionForm = new ExtensionForm();
+		if(doProcess) {
+			extensionForm.setOrder( getAttributeIntegerValue(htmlFormNode, "formOrder", 0) );
+			extensionForm.setUiLocation( getAttributeStringValue(htmlFormNode, "formUILocation", DEFAULT_UILOCATION) );
+			extensionForm.setIcon( getAttributeStringValue(htmlFormNode, "formIcon", "icon-file") );
+			extensionForm.setDisplayStyle( getAttributeStringValue(htmlFormNode, "formDisplayStyle", "Simple") );
+			extensionForm.setShowIf( getAttributeStringValue(htmlFormNode, "formShowIf", "") );
+		}
 
-					String formPrivilege = getAttributeStringValue(htmlFormNode, "formPrivilege", "");
-					// TODO: LFHCFORMS-97: Handle the case where a "formPrivilege" assigned to a form doesn't exist
-	        extensionForm.setRequiredPrivilege(formPrivilege);
-        }
-
-        return extensionForm;
+		return extensionForm;
 	}
 
-    protected static String getAttributeStringValue(Node htmlForm, String attributeName, String defaultValue) {
-        Node item = htmlForm.getAttributes().getNamedItem(attributeName);
-        return item == null ? defaultValue : item.getNodeValue();
-    }
+	protected static String getAttributeStringValue(Node htmlForm, String attributeName, String defaultValue) {
+		Node item = htmlForm.getAttributes().getNamedItem(attributeName);
+		return item == null ? defaultValue : item.getNodeValue();
+	}
 
-    protected static int getAttributeIntegerValue(Node htmlForm, String attributeName, int defaultValue) {
-    	String stringValue = getAttributeStringValue(htmlForm, attributeName, (new Integer(defaultValue)).toString());
-    	int val = defaultValue;
-    	try {
-    		val = Integer.parseInt(stringValue);
-    	} catch(NumberFormatException e) {
-    		Log.error(stringValue + "could not be parsed to an integer while parsing\n" + htmlForm.toString(), e);
-    	}
-    	return val;
-    }
+	protected static int getAttributeIntegerValue(Node htmlForm, String attributeName, int defaultValue) {
+		String stringValue = getAttributeStringValue(htmlForm, attributeName, (new Integer(defaultValue)).toString());
+		int val = defaultValue;
+		try {
+			val = Integer.parseInt(stringValue);
+		} catch(NumberFormatException e) {
+			Log.error(stringValue + "could not be parsed to an integer while parsing\n" + htmlForm.toString(), e);
+		}
+		return val;
+	}
 
-    /**
-     * {@link FormManager#getFormUrl(Form, Map)} eventually fails if there is no authenticated user.
-     * Hence the need for this simpler version of it.
-     */
-    protected static String getFormUrl(Form form, Map<String, String> options) {
+	/**
+	 * {@link FormManager#getFormUrl(Form, Map)} eventually fails if there is no authenticated user.
+	 * Hence the need for this simpler version of it.
+	 */
+	protected static String getFormUrl(Form form, Map<String, String> options) {
 		String displayStyle = options.get(DISPLAY_STYLE);
 		String url = "htmlformentryui/htmlform/enterHtmlFormWith" + displayStyle
-		        + "Ui.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&formUuid=";
+				+ "Ui.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&formUuid=";
 		return url + form.getUuid();
 	}
 }
