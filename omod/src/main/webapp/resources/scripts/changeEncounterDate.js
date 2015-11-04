@@ -2,7 +2,7 @@ var displayToast = true
 
 function changeEncounterDate(visitEndDate) {
 
-	//console.log(visitEndDate);
+	console.log(visitEndDate);
 
 	if (displayToast) {
 		$().toastmessage( 'showToast', { type: 'alert',
