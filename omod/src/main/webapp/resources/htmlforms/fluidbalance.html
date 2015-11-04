@@ -1,4 +1,4 @@
-<htmlform formUuid="1c6c9d87-748b-43c4-b764-3df7e711762f" formName="Fluid Balance" formEncounterType="9f5c90b2-03e0-4374-8534-6c32ea71f3ab" formVersion="0.5.2"
+<htmlform formUuid="1c6c9d87-748b-43c4-b764-3df7e711762f" formName="Fluid Balance" formEncounterType="9f5c90b2-03e0-4374-8534-6c32ea71f3ab" formVersion="0.6"
 	formAddMetadata="yes"
 	formUILocation="patientDashboard.visitActions"
 	formOrder="14"
@@ -17,6 +17,24 @@
 	</script>
 </ifMode>
 
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -40,7 +58,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>

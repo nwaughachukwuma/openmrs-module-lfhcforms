@@ -1,299 +1,256 @@
-	<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Xray/Ultrasound Order" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.6"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.visitActions"
-	formOrder="9"
-	formIcon="icon-stethoscope"
-	formShowIf=""
-	formDisplayStyle="Simple"
-	>
+<htmlform formUuid="eb7b12ef-bea9-4aa8-8771-adbd9879d191" formName="Xray/Ultrasound Order" formEncounterType="301e0396-2069-4085-919e-5a7b423b54f8" formVersion="0.6.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="9"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
-	<ifMode mode="ENTER">
-		<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
-		<script type="text/javascript">
-			jQuery(document).ready(function(){
-				toggleContainers();
+<ifMode mode="ENTER">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
 
-				$(".greyed").change(function () {
-					currentValue = getValue($(this).attr("id")+".value");
-					console.log(currentValue);
-					var toBeGreyed = $(this).closest(".toggleContainer").find(".greyed").not(this).find("input,select");
-					if(!(currentValue == "")) {
-						console.log("is not empty");
-						$(toBeGreyed).attr("disabled", true);
-						$(toBeGreyed).addClass("input-disabled");
-					}else {
-						console.log("is empty");
-						$(toBeGreyed).attr("disabled", false);
-						$(toBeGreyed).removeClass("input-disabled");
-					}
-				});
-
-				$(".other").change(function () {
-					currentValue = getValue($(this).attr("id")+".value");
-					var toBeOthered = $(this).closest(".toggleContainer").find(".otherToSelect").find("input,select");
-					if(!(currentValue == "")) {
-						toBeOthered.prop("checked",true);
-					} else {
-						toBeOthered.prop("checked",false);
-					}
-
-				})
-			});
-		</script>
-
-		<style type="text/css">
-			.input-disabled {
-				background-color:#EBEBE4;
-			}
-
-			.toggleContainer {
-				margin-top: 10px;
-				margin-bottom: 10px;
-			}
-
-		</style>
-	</ifMode>
-
-	<ifMode mode="EDIT">
-		<script type="text/javascript">
-			jQuery(document).ready(function(){
-			// Hides the observations that don't have any value
-			$(".obs-field").each(function (index, currentObs) {
-				//console.log(getValue($(currentObs).attr('id')+".value"));
-				if (getValue($(currentObs).attr('id')+".value")) {
-					currentValue = getValue($(currentObs).attr('id')+".value");
-					$(currentObs).closest(".obsContainer").toggle(true);
+			$(".greyed").change(function () {
+				currentValue = getValue($(this).attr("id")+".value");
+				console.log(currentValue);
+				var toBeGreyed = $(this).closest(".toggleContainer").find(".greyed").not(this).find("input,select");
+				if(!(currentValue == "")) {
+					console.log("is not empty");
+					$(toBeGreyed).attr("disabled", true);
+					$(toBeGreyed).addClass("input-disabled");
+				}else {
+					console.log("is empty");
+					$(toBeGreyed).attr("disabled", false);
+					$(toBeGreyed).removeClass("input-disabled");
 				}
 			});
+
+			$(".other").change(function () {
+				currentValue = getValue($(this).attr("id")+".value");
+				var toBeOthered = $(this).closest(".toggleContainer").find(".otherToSelect").find("input,select");
+				if(!(currentValue == "")) {
+					toBeOthered.prop("checked",true);
+				} else {
+					toBeOthered.prop("checked",false);
+				}
+
+			})
 		});
-		</script>
-	</ifMode>
+	</script>
 
-	<ifMode mode="VIEW">
-		<script type="text/javascript" id="handleViewModeForTable">
-			jQuery(document).ready(function(){
-				handleViewModeForTable("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
-				handleViewMode("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
-			});
-		</script>
-	</ifMode>
+	<style type="text/css">
+		.input-disabled {
+			background-color:#EBEBE4;
+		}
 
-	<div class="hidden" id="who-when-where">
-		<p id="who">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.provider" />
-			</label>
-			<span>
-				<encounterProvider default="currentUser" required="true" />
-			</span>
-		</p>
-		<p id="when">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.location" />
-			</label>
-			<span>
-				<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
-			</span>
-		</p>
-		<p id="where">
-			<label>
-				<uimessage code="coreapps.patientDashBoard.date" />
-			</label>
-			<span>
-				<encounterDate id="encounterDate" default="now" />
-			</span>
-		</p>
-	</div>
+		.toggleContainer {
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
 
-	<ifMode mode="ENTER">
-		<section id="xray-order" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.xrayorder">
-			<fieldset field-separator=", ">
-				<legend><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></legend>
-				<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
-				<uimessage code="lfhcforms.diagnosticimaging.selectxray" />
-				<lookup complexExpression="
-				#set( $otherXrayId = 0 )
-				#set( $otherXrayName = 0 )
-				#set ($otherXrayId = $fn.getConcept('LFHC:1012') )
-				#set ($otherXrayName = $fn.getConcept('LFHC:1012').name )
-				#if( $otherXrayId != 0 )
+	</style>
+</ifMode>
 
-				&lt;script type=&quot;text/javascript&quot;>
-				var otherXrayId = '${otherXrayId}';
-				var otherXrayName = '${otherXrayName}';
+<ifMode mode="EDIT">
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+	// Hides the observations that don't have any value
+	$(".obs-field").each(function (index, currentObs) {
+		//console.log(getValue($(currentObs).attr('id')+".value"));
+		if (getValue($(currentObs).attr('id')+".value")) {
+			currentValue = getValue($(currentObs).attr('id')+".value");
+			$(currentObs).closest(".obsContainer").toggle(true);
+		}
+	});
+});
+	</script>
+</ifMode>
 
-				&lt;/script>
-				#end
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="handleViewModeForTable">
+		jQuery(document).ready(function(){
+			handleViewModeForTable("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+			handleViewMode("eb7b12ef-bea9-4aa8-8771-adbd9879d191");
+		});
+	</script>
+</ifMode>
 
-				"/>
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
 
-				<repeat>
-					<template>
-						<div id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
-							<obsgroup groupingConceptId="LFHC:1013">
-								<p>
-									
-									<obs id="{n}" class="greyed" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>
-									<small>(autocomplete list)</small>
-								</p>
-								<p style="display:none;">
-									<obs class="otherToSelect" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
-								</p>
-								<p>
-									<span class="questionLabel"><small><uimessage code="lfhcforms.diagnosticimaging.orotherxray" /></small></span>
-									<obs id="{n}-xray-other" class="greyed other" conceptId="LFHC:1012" placeholder="free text"/>
-								</p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
-							</obsgroup>
-							<br/>
-						</div>
-					</template>
-					<render n="401"/>
-					<render n="402"/>
-					<render n="403"/>
-					<render n="404"/>
-					<render n="405"/>
-				</repeat>
-			</fieldset>
-		</section>
-		<section id="ultrasound-order" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.ultrasoundorder">
-			<fieldset field-separator=", ">
-				<legend><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></legend>
-				<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
-				<uimessage code="lfhcforms.diagnosticimaging.selectultrasound" />
-				<repeat>
-					<template>
-						<div id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
-							<obsgroup groupingConceptId="LFHC:1016">
-								<p>
-									<obs id="{n}" class="greyed" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010" />
-								</p>
-								<p style="display:none;">
-									<obs class="otherToSelect" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
-								</p>
-								<p>
-									<span class="questionLabel"><small><uimessage code="lfhcforms.diagnosticimaging.orotherultrasound" /></small></span>
-									<obs id="{n}-ultrasound-other" class="greyed other" conceptId="LFHC:1230" placeholder="free text"/>
-								</p>
-								<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
-								<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
-							</obsgroup>
-						</div>
-					</template>
-					<render n="301"/>
-					<render n="302"/>
-					<render n="303"/>
-					<render n="304"/>
-					<render n="305"/>
-				</repeat>
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+</ifMode>
 
-			</fieldset>
-		</section>
+<div class="hidden" id="who-when-where">
+<p id="who">
+	<label>
+		<uimessage code="coreapps.patientDashBoard.provider" />
+	</label>
+	<span>
+		<encounterProvider default="currentUser" required="true" />
+	</span>
+</p>
+<p id="when">
+	<label>
+		<uimessage code="coreapps.patientDashBoard.location" />
+	</label>
+	<span>
+		<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+	</span>
+</p>
+<p id="where">
+	<label>
+		<uimessage code="coreapps.patientDashBoard.date" />
+	</label>
+	<span>
+		<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+	</span>
+</p>
+</div>
 
-		<submit/>
-	</ifMode>
+<ifMode mode="ENTER">
+<section id="xray-order" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.xrayorder">
+	<fieldset field-separator=", ">
+		<legend><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></legend>
+		<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
+		<uimessage code="lfhcforms.diagnosticimaging.selectxray" />
+		<lookup complexExpression="
+		#set( $otherXrayId = 0 )
+		#set( $otherXrayName = 0 )
+		#set ($otherXrayId = $fn.getConcept('LFHC:1012') )
+		#set ($otherXrayName = $fn.getConcept('LFHC:1012').name )
+		#if( $otherXrayId != 0 )
 
-	<ifMode mode="EDIT">
-		<style type="text/css">
-			.tg {
-				table-layout: fixed;
-				width: 50%;
-				margin-left: 10px;
-			}
-			.tg td {
-				width: 35%;
-			}
-			.customSubmit {
-				background-color: green;
-			}
-		</style>
+		&lt;script type=&quot;text/javascript&quot;>
+		var otherXrayId = '${otherXrayId}';
+		var otherXrayName = '${otherXrayName}';
 
-		<section>
-			<h3><uimessage code="lfhcforms.diagnosticimaging.title" /></h3>
-			<fieldset id="xray-fieldset">
-				<table class="tg">
-					<tbody>
-						<tr>
-							<td>
-								<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
-								<details>
-									<summary>
-										<uimessage code="lfhcforms.button.seemore" />
-									</summary>
-									<table>
-										<tbody>
-											<repeat>
-												<template>
-													<tr class="obsContainer" style="display:none;">
-														<td>
-															<obsgroup groupingConceptId="LFHC:1013">
-																<p>
-																	<obs id="{m}" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
-																</p>
-																<p>
-																	<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1173" />
-																</p>
-																<p>
-																	<uimessage code="lfhcforms.diagnosticimaging.comments" />: <obs class="results" conceptId="LFHC:1174" />
-																</p>
-															</obsgroup>
-														</td>
-													</tr>
-												</template>
-												<render m="101" n="CIEL:12"/>
-												<render m="102" n="CIEL:101"/>
-												<render m="103" n="CIEL:386"/>
-												<render m="104" n="CIEL:392"/>
-												<render m="106" n="CIEL:161266"/>
-												<render m="107" n="CIEL:161267"/>
-												<render m="108" n="CIEL:161269"/>
-												<render m="109" n="CIEL:161270"/>
-												<render m="110" n="CIEL:161272"/>
-												<render m="111" n="CIEL:161295"/>
-												<render m="112" n="CIEL:161298"/>
-												<render m="113" n="CIEL:161299"/>
-												<render m="114" n="CIEL:161302"/>
-												<render m="115" n="CIEL:161303"/>
-												<render m="116" n="CIEL:161305"/>
-												<render m="117" n="CIEL:161306"/>
-												<render m="118" n="CIEL:161307"/>
-												<render m="119" n="CIEL:161317"/>
-												<render m="120" n="CIEL:161318"/>
-												<render m="121" n="CIEL:161319"/>
-												<render m="122" n="CIEL:159600"/>
-												<render m="123" n="CIEL:161265"/>
-												<render m="124" n="CIEL:161301"/>
-												<render m="125" n="CIEL:161320"/>
-												<render m="126" n="CIEL:161322"/>
-												<render m="127" n="CIEL:161321"/>
-												<render m="128" n="CIEL:161324"/>
-												<render m="129" n="CIEL:161325"/>
-												<render m="130" n="CIEL:161327"/>
-												<render m="131" n="CIEL:161329"/>
-												<render m="132" n="CIEL:161328"/>
-												<render m="133" n="CIEL:161330"/>
-												<render m="134" n="CIEL:161332"/>
-												<render m="135" n="CIEL:161333"/>
-												<render m="136" n="CIEL:161334"/>
-												<render m="137" n="CIEL:161337"/>
-												<render m="138" n="CIEL:161338"/>
-												<render m="139" n="CIEL:161341"/>
-												<render m="140" n="CIEL:161342"/>
-												<render m="141" n="CIEL:161343"/>
-												<render m="142" n="CIEL:161344"/>
-												<render m="143" n="CIEL:161345"/>
-												<render m="144" n="CIEL:161347"/>
-												<render m="145" n="CIEL:161348"/>
-												<render m="146" n="CIEL:161349"/>
-												<render m="147" n="CIEL:161350"/>
-											</repeat>
+		&lt;/script>
+		#end
+
+		"/>
+
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
+					<obsgroup groupingConceptId="LFHC:1013">
+						<p>
+
+							<obs id="{n}" class="greyed" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>
+							<small>(autocomplete list)</small>
+						</p>
+						<p style="display:none;">
+							<obs class="otherToSelect" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
+						</p>
+						<p>
+							<span class="questionLabel"><small><uimessage code="lfhcforms.diagnosticimaging.orotherxray" /></small></span>
+							<obs id="{n}-xray-other" class="greyed other" conceptId="LFHC:1012" placeholder="free text"/>
+						</p>
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
+					</obsgroup>
+					<br/>
+				</div>
+			</template>
+			<render n="401"/>
+			<render n="402"/>
+			<render n="403"/>
+			<render n="404"/>
+			<render n="405"/>
+		</repeat>
+	</fieldset>
+</section>
+<section id="ultrasound-order" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.ultrasoundorder">
+	<fieldset field-separator=", ">
+		<legend><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></legend>
+		<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
+		<uimessage code="lfhcforms.diagnosticimaging.selectultrasound" />
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
+					<obsgroup groupingConceptId="LFHC:1016">
+						<p>
+							<obs id="{n}" class="greyed" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288, LFHC:1007, LFHC:1010" />
+						</p>
+						<p style="display:none;">
+							<obs class="otherToSelect" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
+						</p>
+						<p>
+							<span class="questionLabel"><small><uimessage code="lfhcforms.diagnosticimaging.orotherultrasound" /></small></span>
+							<obs id="{n}-ultrasound-other" class="greyed other" conceptId="LFHC:1230" placeholder="free text"/>
+						</p>
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
+					</obsgroup>
+				</div>
+			</template>
+			<render n="301"/>
+			<render n="302"/>
+			<render n="303"/>
+			<render n="304"/>
+			<render n="305"/>
+		</repeat>
+
+	</fieldset>
+</section>
+
+<submit/>
+</ifMode>
+
+<ifMode mode="EDIT">
+<style type="text/css">
+	.tg {
+		table-layout: fixed;
+		width: 50%;
+		margin-left: 10px;
+	}
+	.tg td {
+		width: 35%;
+	}
+	.customSubmit {
+		background-color: green;
+	}
+</style>
+
+<section>
+	<h3><uimessage code="lfhcforms.diagnosticimaging.title" /></h3>
+	<fieldset id="xray-fieldset">
+		<table class="tg">
+			<tbody>
+				<tr>
+					<td>
+						<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
+						<details>
+							<summary>
+								<uimessage code="lfhcforms.button.seemore" />
+							</summary>
+							<table>
+								<tbody>
+									<repeat>
+										<template>
 											<tr class="obsContainer" style="display:none;">
 												<td>
 													<obsgroup groupingConceptId="LFHC:1013">
 														<p>
-															<obs id="198" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
-															<obs id="199" conceptId="LFHC:1012"/>
+															<obs id="{m}" conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
 														</p>
 														<p>
 															<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1173" />
@@ -304,63 +261,97 @@
 													</obsgroup>
 												</td>
 											</tr>
-										</tbody>
-									</table>
-								</details>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<br/>
+										</template>
+										<render m="101" n="CIEL:12"/>
+										<render m="102" n="CIEL:101"/>
+										<render m="103" n="CIEL:386"/>
+										<render m="104" n="CIEL:392"/>
+										<render m="106" n="CIEL:161266"/>
+										<render m="107" n="CIEL:161267"/>
+										<render m="108" n="CIEL:161269"/>
+										<render m="109" n="CIEL:161270"/>
+										<render m="110" n="CIEL:161272"/>
+										<render m="111" n="CIEL:161295"/>
+										<render m="112" n="CIEL:161298"/>
+										<render m="113" n="CIEL:161299"/>
+										<render m="114" n="CIEL:161302"/>
+										<render m="115" n="CIEL:161303"/>
+										<render m="116" n="CIEL:161305"/>
+										<render m="117" n="CIEL:161306"/>
+										<render m="118" n="CIEL:161307"/>
+										<render m="119" n="CIEL:161317"/>
+										<render m="120" n="CIEL:161318"/>
+										<render m="121" n="CIEL:161319"/>
+										<render m="122" n="CIEL:159600"/>
+										<render m="123" n="CIEL:161265"/>
+										<render m="124" n="CIEL:161301"/>
+										<render m="125" n="CIEL:161320"/>
+										<render m="126" n="CIEL:161322"/>
+										<render m="127" n="CIEL:161321"/>
+										<render m="128" n="CIEL:161324"/>
+										<render m="129" n="CIEL:161325"/>
+										<render m="130" n="CIEL:161327"/>
+										<render m="131" n="CIEL:161329"/>
+										<render m="132" n="CIEL:161328"/>
+										<render m="133" n="CIEL:161330"/>
+										<render m="134" n="CIEL:161332"/>
+										<render m="135" n="CIEL:161333"/>
+										<render m="136" n="CIEL:161334"/>
+										<render m="137" n="CIEL:161337"/>
+										<render m="138" n="CIEL:161338"/>
+										<render m="139" n="CIEL:161341"/>
+										<render m="140" n="CIEL:161342"/>
+										<render m="141" n="CIEL:161343"/>
+										<render m="142" n="CIEL:161344"/>
+										<render m="143" n="CIEL:161345"/>
+										<render m="144" n="CIEL:161347"/>
+										<render m="145" n="CIEL:161348"/>
+										<render m="146" n="CIEL:161349"/>
+										<render m="147" n="CIEL:161350"/>
+									</repeat>
+									<tr class="obsContainer" style="display:none;">
+										<td>
+											<obsgroup groupingConceptId="LFHC:1013">
+												<p>
+													<obs id="198" conceptId="LFHC:1008" answerConceptId="LFHC:1012" style="checkbox"/>
+													<obs id="199" conceptId="LFHC:1012"/>
+												</p>
+												<p>
+													<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1173" />
+												</p>
+												<p>
+													<uimessage code="lfhcforms.diagnosticimaging.comments" />: <obs class="results" conceptId="LFHC:1174" />
+												</p>
+											</obsgroup>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</details>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br/>
 
-				<table class="tg">
-					<tbody>
-						<tr>
-							<td >
-								<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
-								<details>
-									<summary>
-										<uimessage code="lfhcforms.button.seemore" />
-									</summary>
-									<table>
-										<tbody>
-											<repeat>
-												<template>
-													<tr class="obsContainer" style="display:none;">
-														<td>
-															<obsgroup groupingConceptId="LFHC:1016">
-																<p>
-																	<obs id="{m}" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
-																</p>
-																<p>
-																	<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1175" />
-																</p>
-																<p>
-																	<uimessage code="lfhcforms.diagnosticimaging.comments" />: <obs class="results" conceptId="LFHC:1015" />
-																</p>
-															</obsgroup>
-														</td>
-													</tr>
-												</template>
-												<render m="201" n="CIEL:845"/>
-												<render m="202" n="CIEL:161274"/>
-												<render m="203" n="CIEL:161275"/>
-												<render m="204" n="CIEL:161276"/>
-												<render m="205" n="CIEL:161277"/>
-												<render m="206" n="CIEL:161279"/>
-												<render m="207" n="CIEL:161280"/>
-												<render m="208" n="CIEL:161283"/>
-												<render m="209" n="CIEL:161285"/>
-												<render m="210" n="CIEL:161288"/>
-												<render m="211" n="LFHC:1007"/>
-												<render m="212" n="LFHC:1010"/>
-											</repeat>
+		<table class="tg">
+			<tbody>
+				<tr>
+					<td >
+						<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
+						<details>
+							<summary>
+								<uimessage code="lfhcforms.button.seemore" />
+							</summary>
+							<table>
+								<tbody>
+									<repeat>
+										<template>
 											<tr class="obsContainer" style="display:none;">
 												<td>
 													<obsgroup groupingConceptId="LFHC:1016">
 														<p>
-															<obs id="298" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
-															<obs id="299" conceptId="LFHC:1230"/>
+															<obs id="{m}" conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
 														</p>
 														<p>
 															<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1175" />
@@ -371,95 +362,58 @@
 													</obsgroup>
 												</td>
 											</tr>
-										</tbody>
-									</table>
-								</details>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</fieldset>
-		</section>
-		<a class="button cancel" ><uimessage code="general.cancel" /></a>
-		<submit submitStyle="customSubmit" submitLabel="Save"/>
-	</ifMode>
+										</template>
+										<render m="201" n="CIEL:845"/>
+										<render m="202" n="CIEL:161274"/>
+										<render m="203" n="CIEL:161275"/>
+										<render m="204" n="CIEL:161276"/>
+										<render m="205" n="CIEL:161277"/>
+										<render m="206" n="CIEL:161279"/>
+										<render m="207" n="CIEL:161280"/>
+										<render m="208" n="CIEL:161283"/>
+										<render m="209" n="CIEL:161285"/>
+										<render m="210" n="CIEL:161288"/>
+										<render m="211" n="LFHC:1007"/>
+										<render m="212" n="LFHC:1010"/>
+									</repeat>
+									<tr class="obsContainer" style="display:none;">
+										<td>
+											<obsgroup groupingConceptId="LFHC:1016">
+												<p>
+													<obs id="298" conceptId="LFHC:1009" answerConceptId="LFHC:1230" style="checkbox"/>
+													<obs id="299" conceptId="LFHC:1230"/>
+												</p>
+												<p>
+													<uimessage code="lfhcforms.diagnosticimaging.results" />: <obs class="results" conceptId="LFHC:1175" />
+												</p>
+												<p>
+													<uimessage code="lfhcforms.diagnosticimaging.comments" />: <obs class="results" conceptId="LFHC:1015" />
+												</p>
+											</obsgroup>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</details>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
+</section>
+<a class="button cancel" ><uimessage code="general.cancel" /></a>
+<submit submitStyle="customSubmit" submitLabel="Save"/>
+</ifMode>
 
-	<ifMode mode="VIEW">
-		<section id="xray" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.xrayorder">
-			<repeat>
-				<template>
-					<fieldset>
-						<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
-						<obsgroup id="xray-obsgroup" groupingConceptId="LFHC:1013" style="display:none;">
-							<p>
-								<obs conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
-							</p>
-							<p>
-								<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
-								<obs class="results" conceptId="LFHC:1173" />
-							</p>
-							<p>
-								<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.comments" />: </span>
-								<obs class="results" conceptId="LFHC:1174" />
-							</p>
-						</obsgroup>
-					</fieldset>
-				</template>
-				<render m="101" n="CIEL:12"/>
-				<render m="102" n="CIEL:101"/>
-				<render m="103" n="CIEL:386"/>
-				<render m="104" n="CIEL:392"/>
-				<render m="106" n="CIEL:161266"/>
-				<render m="107" n="CIEL:161267"/>
-				<render m="108" n="CIEL:161269"/>
-				<render m="109" n="CIEL:161270"/>
-				<render m="110" n="CIEL:161272"/>
-				<render m="111" n="CIEL:161295"/>
-				<render m="112" n="CIEL:161298"/>
-				<render m="113" n="CIEL:161299"/>
-				<render m="114" n="CIEL:161302"/>
-				<render m="115" n="CIEL:161303"/>
-				<render m="116" n="CIEL:161305"/>
-				<render m="117" n="CIEL:161306"/>
-				<render m="118" n="CIEL:161307"/>
-				<render m="119" n="CIEL:161317"/>
-				<render m="120" n="CIEL:161318"/>
-				<render m="121" n="CIEL:161319"/>
-				<render m="122" n="CIEL:159600"/>
-				<render m="123" n="CIEL:161265"/>
-				<render m="124" n="CIEL:161301"/>
-				<render m="125" n="CIEL:161320"/>
-				<render m="126" n="CIEL:161322"/>
-				<render m="127" n="CIEL:161321"/>
-				<render m="128" n="CIEL:161324"/>
-				<render m="129" n="CIEL:161325"/>
-				<render m="130" n="CIEL:161327"/>
-				<render m="131" n="CIEL:161329"/>
-				<render m="132" n="CIEL:161328"/>
-				<render m="133" n="CIEL:161330"/>
-				<render m="134" n="CIEL:161332"/>
-				<render m="135" n="CIEL:161333"/>
-				<render m="136" n="CIEL:161334"/>
-				<render m="137" n="CIEL:161337"/>
-				<render m="138" n="CIEL:161338"/>
-				<render m="139" n="CIEL:161341"/>
-				<render m="140" n="CIEL:161342"/>
-				<render m="141" n="CIEL:161343"/>
-				<render m="142" n="CIEL:161344"/>
-				<render m="143" n="CIEL:161345"/>
-				<render m="144" n="CIEL:161347"/>
-				<render m="145" n="CIEL:161348"/>
-				<render m="146" n="CIEL:161349"/>
-				<render m="147" n="CIEL:161350"/>
-			</repeat>
+<ifMode mode="VIEW">
+<section id="xray" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.xrayorder">
+	<repeat>
+		<template>
 			<fieldset>
 				<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
-				<obsgroup groupingConceptId="LFHC:1013" style="display:none;">
+				<obsgroup id="xray-obsgroup" groupingConceptId="LFHC:1013" style="display:none;">
 					<p>
-						<obs conceptId="LFHC:1008" answerConceptId="LFHC:1012" />:
-					</p>
-					<p>
-						<obs conceptId="LFHC:1012" />
+						<obs conceptId="LFHC:1008" answerConceptId="{n}" style="checkbox"/>
 					</p>
 					<p>
 						<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
@@ -471,48 +425,82 @@
 					</p>
 				</obsgroup>
 			</fieldset>
-		</section>
-		<section id="utltrasound" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.ultrasoundorder">
-			<repeat>
-				<template>
-					<fieldset>
-						<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
-						<obsgroup groupingConceptId="LFHC:1016" style="display:none;">
-							<p>
-								<obs conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
-							</p>
-							<p>
-								<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
-								<obs class="results" conceptId="LFHC:1175" />
-							</p>
-							<p>
-								<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.comments" />: </span>
-								<obs class="results" conceptId="LFHC:1015" />
-							</p>
-						</obsgroup>
-					</fieldset>
-				</template>
-				<render m="201" n="CIEL:845"/>
-				<render m="202" n="CIEL:161274"/>
-				<render m="203" n="CIEL:161275"/>
-				<render m="204" n="CIEL:161276"/>
-				<render m="205" n="CIEL:161277"/>
-				<render m="206" n="CIEL:161279"/>
-				<render m="207" n="CIEL:161280"/>
-				<render m="208" n="CIEL:161283"/>
-				<render m="209" n="CIEL:161285"/>
-				<render m="210" n="CIEL:161288"/>
-				<render m="211" n="LFHC:1007"/>
-				<render m="212" n="LFHC:1010"/>
-			</repeat>
+		</template>
+		<render m="101" n="CIEL:12"/>
+		<render m="102" n="CIEL:101"/>
+		<render m="103" n="CIEL:386"/>
+		<render m="104" n="CIEL:392"/>
+		<render m="106" n="CIEL:161266"/>
+		<render m="107" n="CIEL:161267"/>
+		<render m="108" n="CIEL:161269"/>
+		<render m="109" n="CIEL:161270"/>
+		<render m="110" n="CIEL:161272"/>
+		<render m="111" n="CIEL:161295"/>
+		<render m="112" n="CIEL:161298"/>
+		<render m="113" n="CIEL:161299"/>
+		<render m="114" n="CIEL:161302"/>
+		<render m="115" n="CIEL:161303"/>
+		<render m="116" n="CIEL:161305"/>
+		<render m="117" n="CIEL:161306"/>
+		<render m="118" n="CIEL:161307"/>
+		<render m="119" n="CIEL:161317"/>
+		<render m="120" n="CIEL:161318"/>
+		<render m="121" n="CIEL:161319"/>
+		<render m="122" n="CIEL:159600"/>
+		<render m="123" n="CIEL:161265"/>
+		<render m="124" n="CIEL:161301"/>
+		<render m="125" n="CIEL:161320"/>
+		<render m="126" n="CIEL:161322"/>
+		<render m="127" n="CIEL:161321"/>
+		<render m="128" n="CIEL:161324"/>
+		<render m="129" n="CIEL:161325"/>
+		<render m="130" n="CIEL:161327"/>
+		<render m="131" n="CIEL:161329"/>
+		<render m="132" n="CIEL:161328"/>
+		<render m="133" n="CIEL:161330"/>
+		<render m="134" n="CIEL:161332"/>
+		<render m="135" n="CIEL:161333"/>
+		<render m="136" n="CIEL:161334"/>
+		<render m="137" n="CIEL:161337"/>
+		<render m="138" n="CIEL:161338"/>
+		<render m="139" n="CIEL:161341"/>
+		<render m="140" n="CIEL:161342"/>
+		<render m="141" n="CIEL:161343"/>
+		<render m="142" n="CIEL:161344"/>
+		<render m="143" n="CIEL:161345"/>
+		<render m="144" n="CIEL:161347"/>
+		<render m="145" n="CIEL:161348"/>
+		<render m="146" n="CIEL:161349"/>
+		<render m="147" n="CIEL:161350"/>
+	</repeat>
+	<fieldset>
+		<h3><uimessage code="lfhcforms.diagnosticimaging.section.xrayorder" /></h3>
+		<obsgroup groupingConceptId="LFHC:1013" style="display:none;">
+			<p>
+				<obs conceptId="LFHC:1008" answerConceptId="LFHC:1012" />:
+			</p>
+			<p>
+				<obs conceptId="LFHC:1012" />
+			</p>
+			<p>
+				<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
+				<obs class="results" conceptId="LFHC:1173" />
+			</p>
+			<p>
+				<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.comments" />: </span>
+				<obs class="results" conceptId="LFHC:1174" />
+			</p>
+		</obsgroup>
+	</fieldset>
+</section>
+<section id="utltrasound" sectionTag="section" headerStyle="title" headerCode="lfhcforms.diagnosticimaging.section.ultrasoundorder">
+	<repeat>
+		<template>
 			<fieldset>
 				<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
 				<obsgroup groupingConceptId="LFHC:1016" style="display:none;">
 					<p>
-						<obs conceptId="LFHC:1009" answerConceptId="LFHC:1230"/>: 
-					</p>
-					<p>
-						<obs conceptId="LFHC:1230" />
+						<obs conceptId="LFHC:1009" answerConceptId="{n}" style="checkbox"/>
 					</p>
 					<p>
 						<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
@@ -524,6 +512,39 @@
 					</p>
 				</obsgroup>
 			</fieldset>
-		</section>
-	</ifMode>
-	</htmlform>
+		</template>
+		<render m="201" n="CIEL:845"/>
+		<render m="202" n="CIEL:161274"/>
+		<render m="203" n="CIEL:161275"/>
+		<render m="204" n="CIEL:161276"/>
+		<render m="205" n="CIEL:161277"/>
+		<render m="206" n="CIEL:161279"/>
+		<render m="207" n="CIEL:161280"/>
+		<render m="208" n="CIEL:161283"/>
+		<render m="209" n="CIEL:161285"/>
+		<render m="210" n="CIEL:161288"/>
+		<render m="211" n="LFHC:1007"/>
+		<render m="212" n="LFHC:1010"/>
+	</repeat>
+	<fieldset>
+		<h3><uimessage code="lfhcforms.diagnosticimaging.section.ultrasoundorder" /></h3>
+		<obsgroup groupingConceptId="LFHC:1016" style="display:none;">
+			<p>
+				<obs conceptId="LFHC:1009" answerConceptId="LFHC:1230"/>: 
+			</p>
+			<p>
+				<obs conceptId="LFHC:1230" />
+			</p>
+			<p>
+				<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.results" />: </span>
+				<obs class="results" conceptId="LFHC:1175" />
+			</p>
+			<p>
+				<span class="questionLabel"><uimessage code="lfhcforms.diagnosticimaging.comments" />: </span>
+				<obs class="results" conceptId="LFHC:1015" />
+			</p>
+		</obsgroup>
+	</fieldset>
+</section>
+</ifMode>
+</htmlform>
