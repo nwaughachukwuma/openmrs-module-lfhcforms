@@ -33,6 +33,9 @@
 		<require_module version="${formentryappVersion}">
 			org.openmrs.module.formentryapp
 		</require_module>
+		<require_module version="${reportinguiVersion}">
+			org.openmrs.module.reportingui
+		</require_module>
 	</require_modules>
 
 
@@ -149,6 +152,5 @@
 		<name>App: lfhc.refapp.reportingui.reports.basicdata</name>
 		<description>Able to access the Basic Data report</description>
 	</privilege>
-
 
 </module>
