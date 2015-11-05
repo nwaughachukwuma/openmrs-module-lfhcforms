@@ -46,6 +46,7 @@
 		<htmlwidgetsVersion>1.6.8</htmlwidgetsVersion>
 		<reportingVersion>0.9.7</reportingVersion>
 		<reportingRestVersion>1.4</reportingRestVersion>
+		<reportinguiVersion>1.1-SNAPSHOT</reportinguiVersion>
 		<metadatadeployVersion>1.4</metadatadeployVersion>
 		<metadatasharingVersion>1.1.9</metadatasharingVersion>
 		<metadatamappingVersion>1.0.2</metadatamappingVersion>
