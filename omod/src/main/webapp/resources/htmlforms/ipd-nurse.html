@@ -122,12 +122,21 @@ formDisplayStyle="Simple"
 			<obs conceptId="LFHC:1062"/>
 		</p>
 	</fieldset>
-		<fieldset field-separator=", ">
+	<fieldset field-separator=", ">
 		<legend>Financial assessment</legend>
 		<h3>Initial financial assessment completed</h3>
 		<p>
-			<obs conceptId="LFHC:1219"/>
+			<obs id="fin-ass" conceptId="LFHC:1219">
+				<controls>
+					<when value="CIEL:1065" thenDisplay="#fin-ass-yes"/>
+				</controls>
+			</obs>
 		</p>
+		<p id="fin-ass-yes">
+			<span class="questionLabel"><lookup expression="fn.getConcept('LFHC:1227').name" /></span>
+			<obs conceptId="LFHC:1227" style="checkbox"/>
+		</p>
+
 	</fieldset>
 </section>
 
@@ -143,4 +152,3 @@ formDisplayStyle="Simple"
 
 <submit/>
 </htmlform>
-	
