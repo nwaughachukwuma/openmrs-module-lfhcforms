@@ -1,7 +1,8 @@
-<p class="required">
+<!-- <p class="required"> -->
+<p>
     <label>
         ${config.label}
-        <span>(${ ui.message("emr.formValidation.messages.requiredField.label") })</span>
+        <!-- <span>(${ ui.message("emr.formValidation.messages.requiredField.label") })</span> -->
     </label>
     <select name="${config.formFieldName}" size="6">
         <option value ="LFHC:901">Lao</option>
