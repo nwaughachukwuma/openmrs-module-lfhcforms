@@ -1,11 +1,11 @@
-<htmlform formUuid="cdc13a25-fe9e-43a5-85dd-7e2f31e8c860" formName="Discharge" formEncounterType="181820aa-88c9-479b-9077-af92f5364329" formVersion="0.5.2"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.visitActions"
-	formOrder="20"
-	formIcon="icon-group"
-	formShowIf=""
-	formDisplayStyle="Simple"
-	>
+<htmlform formUuid="cdc13a25-fe9e-43a5-85dd-7e2f31e8c860" formName="Discharge" formEncounterType="181820aa-88c9-479b-9077-af92f5364329" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="20"
+formIcon="icon-group"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 
 <ifMode mode="VIEW" include="false">
@@ -30,8 +30,24 @@
 	</script>
 </ifMode>
 
-
-
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -55,7 +71,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
