@@ -96,7 +96,7 @@ var handleViewMode = function (formUuid) {
 
 						/* display the text of a "p" as an obs title when there is class "questionLabel" */
 						/*<p>
-						/*		<span class="questionLabel">Patient is contact of known or suspected infectious case</span>
+						/*		<span class="questionLabel">Patient is in contact of known or suspected infectious case</span>
 						/*		<obs conceptId="162633"/>
 						/*</p>
 						*/
@@ -111,12 +111,14 @@ var handleViewMode = function (formUuid) {
 							.end()
 							.text();
 
-							/* get the "obsSpan" innerHTML */
+							/* get the innerHTML of the obs value */
 							var obsSpan = $(element).closest("span");
+							/* get the innerHTML of the obs units*/
+							var unitsSpan = $(element).next("span.units");
 
 							/* Create a new "p" */
 							var newP = $("<p>");
-							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(element).closest("span").clone()).html()+"</span>");
+							$(newP).append("<span class=\"obs-field\">"+$('<div>').append(obsSpan.clone()).html()+$('<div>').append(unitsSpan.clone()).html()+"</span>");
 							/*var newSpan = $("<span>"); */
 							/*$(newSpan).append("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html()); */
 
