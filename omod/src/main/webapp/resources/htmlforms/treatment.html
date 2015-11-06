@@ -1,4 +1,4 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.2">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.4">
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -260,45 +260,20 @@
 		<h3>Blood transfusion</h3>
 
 		<p>
-			<span class="questionLabel">Blood Unit Number:</span>
-			<obs conceptId="LFHC:1139" />
+			<span class="questionLabel">Order blood transfusion</span>
+			<obs id="btrans" conceptId="LFHC:1275" >
+				<controls>
+					<when value="CIEL:1065" thenDisplay="#btrans-yes"></when>
+				</controls>
+			</obs>
 		</p>
-		<p>
-			<span class="questionLabel">Volume of blood to be administered:</span>
-			<obs conceptId="LFHC:1211" showUnits="true" />
-		</p>
-		<p>
-			<span class="questionLabel">Type of transfusion fluid: </span>
-			<obs conceptId="CIEL:161927" />
-		</p>
-		<p>
-			<span class="questionLabel">Duration of transfusion:</span>
-			<obs conceptId="LFHC:1212" showUnits="true" />
-		</p>
-		<p>
-			<span class="questionLabel">Calculated Rate</span>
-			<obs conceptId="LFHC:1213" showUnits="true" />
-		</p>
-		<p>
-			<span class="questionLabel">Transfusion start time:</span>
-			<obs conceptId="LFHC:1214" />
-		</p>
-		<p>
-			<span class="questionLabel">Anticipated end time:</span>
-			<obs conceptId="LFHC:1215" />
-		</p>
-		<p>
-			<span class="questionLabel">Monitoring</span>
-			<obs conceptId="LFHC:1153" />
-		</p>
-		<p>
-			<span class="questionLabel">Time transfusion stopped:</span>
-			<obs conceptId="LFHC:1216" />
-		</p>
-		<p>
-			<span class="questionLabel">Volume of blood transfused:</span>
-			<obs conceptId="LFHC:1217" showUnits="true" />
-		</p>
+		<ifMode mode="VIEW" include="false">
+			<p id="btrans-yes">
+				<strong>
+					Please fill in the Doctor/Nurse Blood Transfusion forms to order blood transfusion
+				</strong>
+			</p>
+		</ifMode>
 
 	</fieldset>
 

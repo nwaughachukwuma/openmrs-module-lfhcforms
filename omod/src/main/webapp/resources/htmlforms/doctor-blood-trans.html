@@ -1,0 +1,82 @@
+<htmlform formUuid="2f86d386-5cd4-464a-bde6-9da718c30d0a" formName="Doctor Blood Transfusion" formEncounterType="02956dc7-c5fb-4405-b237-2b5bf119a4b4" formVersion="0.1">
+
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="properViewMode">
+
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
+		});
+	</script>
+</ifMode>
+
+
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript" id="properViewMode">
+
+
+		jQuery(document).ready(function(){
+
+			/* hide the 'seconds' time field */
+			$(".hfe-seconds").hide();
+		});
+	</script>
+</ifMode>
+
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<encounterDate id="encounterDate" default="now" />
+		</span>
+	</p>
+</div>
+
+<section id="blood-trans" sectionTag="section" headerStyle="title" headerCode="Blood Transfusion">
+	<legend>Blood Transfusion</legend>
+	<h3>Blood transfusion</h3>
+	<p>
+		<span class="questionLabel">Volume of blood to be administered:</span>
+		<obs conceptId="LFHC:1211" showUnits="true" />
+	</p>
+	<p>
+		<span class="questionLabel">Type of transfusion fluid: </span>
+		<obs conceptId="CIEL:161927" />
+	</p>
+	<p>
+		<span class="questionLabel">Duration of transfusion:</span>
+		<obs conceptId="LFHC:1212" showUnits="true" />
+	</p>
+</section>
+
+<submit/>
+</htmlform>
