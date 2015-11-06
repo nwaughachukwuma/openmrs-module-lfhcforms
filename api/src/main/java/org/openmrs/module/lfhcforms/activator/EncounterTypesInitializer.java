@@ -57,7 +57,7 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		{
-			String name = "Diagnostic Imaging";
+			String name = "Xray/Ultrasound Order";
 			String desc = "";
 			String uuid = "301e0396-2069-4085-919e-5a7b423b54f8"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
@@ -222,9 +222,20 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		{
-			String name = "Blood Transfusion";
+			String name = "Nurse Blood Transfusion";
 			String desc = "";
 			String uuid = "10c20ebf-1af2-4ddf-bdaa-219fe8ff930b"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
+		{
+			String name = "Doctor Blood Transfusion";
+			String desc = "";
+			String uuid = "02956dc7-c5fb-4405-b237-2b5bf119a4b4"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
 			if(encounterType == null) {
 				encounterType = new EncounterType(name, desc);
