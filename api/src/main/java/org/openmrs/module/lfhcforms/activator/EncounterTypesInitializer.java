@@ -235,7 +235,7 @@ public class EncounterTypesInitializer implements Initializer {
 		{
 			String name = "Doctor Blood Transfusion";
 			String desc = "";
-			String uuid = "02956dc7-c5fb-4405-b237-2b5bf119a4b4"; 
+			String uuid = "89886052-4a6b-4b74-a71b-4b87094b02cb"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
 			if(encounterType == null) {
 				encounterType = new EncounterType(name, desc);
