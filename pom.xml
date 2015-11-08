@@ -4,14 +4,13 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>lfhcforms</artifactId>
-	<version>0.1.4-alpha</version>
+	<version>0.1.7-alpha</version>
 	<packaging>pom</packaging>
 	<name>LFHC Forms Module</name>
 	<url>https://github.com/mekomsolutions/openmrs-module-lfhcforms</url>
 	
 	<developers>
 		<developer>
-			<name>Mekom Solutions</name>
 		</developer>
 	</developers>
 	
@@ -45,8 +44,9 @@
 		<calculationVersion>1.1</calculationVersion>
 		<serialization.xstreamVersion>0.2.7</serialization.xstreamVersion>
 		<htmlwidgetsVersion>1.6.8</htmlwidgetsVersion>
-		<reportingVersion>0.9.5-SNAPSHOT</reportingVersion>
+		<reportingVersion>0.9.7</reportingVersion>
 		<reportingRestVersion>1.4</reportingRestVersion>
+		<reportinguiVersion>1.1-SNAPSHOT</reportinguiVersion>
 		<metadatadeployVersion>1.4</metadatadeployVersion>
 		<metadatasharingVersion>1.1.9</metadatasharingVersion>
 		<metadatamappingVersion>1.0.2</metadatamappingVersion>

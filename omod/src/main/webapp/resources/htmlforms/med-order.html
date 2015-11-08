@@ -1,6 +1,11 @@
-
-<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.5">
-
+<htmlform formUuid="f1ebd934-e291-430d-956c-cd7eea7af5c1" formName="Medication Order" formEncounterType="3c462397-7840-4890-ae78-d123d9fd138b" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="10"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 
@@ -56,12 +61,29 @@
 	<script type="text/javascript">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			properViewMode("f1ebd934-e291-430d-956c-cd7eea7af5c1");
+			handleViewMode("f1ebd934-e291-430d-956c-cd7eea7af5c1");
 		});
 	</script>
 </ifMode>
 
-
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -85,7 +107,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -99,7 +122,7 @@
 			<legend>Drug</legend>
 			<h3>Drug to order</h3>
 			<small>Enter the drug want to prescribe (auto-complete field)</small>
-			<p>				
+			<p>
 
 				<obs id="drug-ordered" conceptId="CIEL:1282" answerClasses="Drug" style="autocomplete" size="10"/>
 			</p>
@@ -119,12 +142,12 @@
 			<h3>Dose</h3>
 
 <!-- 07/08/2015 Romain: Dose Calculation Helper is set aside to simplify the UI
-				<table>	
+				<table>
 					<tr>
 						<td>
 							<p><em>Dose calculation helper</em>
 								<br/>
-								<small>Enter an amount in mg/kg to help you calculate the Dose  
+								<small>Enter an amount in mg/kg to help you calculate the Dose
 
 									<input id="dose-calculation" class="dose-calculation" name="dose-calculation" size="6" />mg/kg
 
@@ -161,7 +184,7 @@
 			<legend>Frequency</legend>
 			<h3>Frequency</h3>
 			<small>Enter the frequency</small>
-			<p>	
+			<p>
 				<obs id="frequency"	conceptId="CIEL:160855"/>
 			</p>
 			<p>
@@ -172,7 +195,7 @@
 			<legend>Duration</legend>
 			<h3>Duration</h3>
 			<small>Enter the duration</small>
-			<p>	
+			<p>
 				<obs id="duration" conceptId="CIEL:159368" showUnits="days"/>
 			</p>
 		</fieldset>

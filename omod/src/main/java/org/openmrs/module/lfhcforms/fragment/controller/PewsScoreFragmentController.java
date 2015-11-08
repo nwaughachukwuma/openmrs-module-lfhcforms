@@ -368,7 +368,7 @@ public class PewsScoreFragmentController {
 		else if(pewsScore >= 2)
 			idx = 2;
 		else
-			idx = 0;
+			idx = 1;
 		return idx;
 	}
 
@@ -398,7 +398,7 @@ public class PewsScoreFragmentController {
 		Double increment = 0.0;
 		if(boundaries.isNumeric()) {
 			int ageIdx = getIndexBasedOnAge(patientAge);
-			if(boundaries.getHighs().get(ageIdx) <= obs.getValueNumeric() || boundaries.getLows().get(ageIdx) >= obs.getValueNumeric())
+			if(boundaries.getHighs().get(ageIdx) <= obs.getValueNumeric() || boundaries.getLows().get(ageIdx) > obs.getValueNumeric())
 				increment = boundaries.getIncrement();	
 		}
 		else {

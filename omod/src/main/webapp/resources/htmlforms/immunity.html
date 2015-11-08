@@ -1,4 +1,11 @@
-<htmlform formUuid="b44b99a5-2048-4d45-bf75-40e2eba29c8c" formName="Immunity and Infection" formEncounterType="e864f775-d1d0-4936-85df-557ad5c44ae1" formVersion="0.5">
+<htmlform formUuid="b44b99a5-2048-4d45-bf75-40e2eba29c8c" formName="Immunity and Infection" formEncounterType="e864f775-d1d0-4936-85df-557ad5c44ae1" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="6"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<script type="text/javascript">
@@ -34,34 +41,57 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
+	<script type="text/javascript" id="handleViewMode">
 
 		// JavaScript for VIEW mode
 
 		if(jQuery){
 			jQuery(document).ready(function(){
-				
-				properViewMode("b44b99a5-2048-4d45-bf75-40e2eba29c8c");
-				jQuery(".check").closest("p").hide();
-				jQuery('br').remove();
 
-				/* Handle displaying On Time immunity given */
-				jQuery("fieldset").find(".check").each( function () {
-					
-					var obs = jQuery(this).attr("name");
-					var onTimeValue = jQuery(this).attr("onTimeValue");
+				handleViewMode("b44b99a5-2048-4d45-bf75-40e2eba29c8c");
 
-					/* assign the onTime class to given on time vaccines */
-					if (onTimeValue == jQuery(this).closest('fieldset').find("#"+obs+"-age").find('.value').text()) {
-						jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("class", "onTime");
+				$("htmlform").each(function (index, currentForm) {
+					if ($(currentForm).attr("formuuid") == "b44b99a5-2048-4d45-bf75-40e2eba29c8c") {
+						jQuery(".check").closest("p").hide();
+						jQuery('br').remove();
+
+						/* Handle displaying On Time immunity given */
+						jQuery("fieldset").find(".check").each( function () {
+
+							var obs = jQuery(this).attr("name");
+							var onTimeValue = jQuery(this).attr("onTimeValue");
+
+							/* assign the onTime class to given on time vaccines */
+							if (onTimeValue == jQuery(this).closest('fieldset').find("#"+obs+"-age").find('.value').text()) {
+								jQuery(this).closest('fieldset').find("#"+obs+"-age").attr("class", "onTime");
+							}
+						});
 					}
 				});
-
 			});
 		}
 
 	</script>
 
+</ifMode>
+
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -86,7 +116,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -97,7 +128,7 @@
 			Immunity
 		</legend>
 		<h3>
-			Is the patient Immunosuppressed ? 
+			Is the patient Immunosuppressed ?
 		</h3>
 		<obsgroup groupingConceptId="LFHC:1105">
 			<p>
@@ -245,9 +276,7 @@
 				<p>
 					<input class="check" id="1-dpt-ontime" name="1-dpt" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
 
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="2-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
@@ -262,10 +291,7 @@
 					<input class="check" id="2-dpt-ontime" name="2-dpt" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 
 				</p>
-			</obsgroup>
 
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="3-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
@@ -280,7 +306,7 @@
 				</p>
 			</obsgroup>
 
-		</span>		
+		</span>
 	</fieldset>
 
 	<fieldset>
@@ -309,9 +335,6 @@
 				<p>
 					<input class="check" id="1-opv-ontime" name="1-opv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="2-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
@@ -326,9 +349,6 @@
 				<p>
 					<input class="check" id="2-opv-ontime" name="2-opv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="3-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
@@ -344,7 +364,7 @@
 				</p>
 			</obsgroup>
 
-		</span>		
+		</span>
 	</fieldset>
 
 	<fieldset>
@@ -373,9 +393,6 @@
 				<p>
 					<input class="check" id="1-pcv-ontime" name="1-pcv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-			</obsgroup>
-
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span>
 					<p style="display:none">
 						<obs id="2-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
@@ -389,9 +406,6 @@
 				<p>
 					<input class="check" id="2-pcv-ontime" name="2-pcv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-			</obsgroup>
-			
-			<obsgroup groupingConceptId="LFHC:1103">
 				<span >
 					<p style="display:none">
 						<obs id="3-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
@@ -406,7 +420,7 @@
 					<input class="check" id="3-pcv-ontime" name="3-pcv" type="checkbox" onTimeValue="3.5">Given on time (14 weeks)</input>
 				</p>
 			</obsgroup>
-		</span>		
+		</span>
 	</fieldset>
 
 	<fieldset>
@@ -437,7 +451,7 @@
 				</p>
 			</obsgroup>
 
-		</span>		
+		</span>
 	</fieldset>
 
 	<fieldset>
@@ -465,9 +479,9 @@
 					<input class="check" id="td-ontime" name="td" type="checkbox" onTimeValue="180">Given on time (15-45 years)</input>
 				</p>
 			</obsgroup>
-		</span>		
+		</span>
 	</fieldset>
 </section>
 
 <submit/>
-</htmlform>	
+</htmlform>

@@ -53,7 +53,7 @@
     ]
   },
   "CIEL:5087":{
-    "description":"Heart rate & blood pressure",
+    "description":"Heart rate",
     "label":"lfhcforms.pewsscore.components.label03",
     "increment":1.0,
     "lows":[
@@ -67,21 +67,56 @@
       130.0
     ]
   },
-  "CIEL:135592":{
-    "description":"Loss of consciousness",
-    "label":"lfhcforms.pewsscore.components.label04",
+  "bloodPressure":{
+    "isConfig":"true",
+    "description":"Blood pressure",
+    "label":"lfhcforms.pewsscore.components.label06",
+    "increment":1.0
+  },
+  "CIEL:5085":{
+    "description":"Systolic blood pressure",
+    "parentId":"bloodPressure",
+    "increment":1.0,
+    "lows":[
+      0,
+      0,
+      0
+    ],
+    "highs":[
+      160.0,
+      140.0,
+      130.0
+    ] 
+  },  
+  "CIEL:5086":{
+    "description":"Diastolic blood pressure",
+    "parentId":"bloodPressure",
+    "increment":1.0,
+    "lows":[
+      80.0,
+      70.0,
+      60.0
+    ],
+    "highs":[
+      99999.0,
+      99999.0,
+      99999.0
+    ]
+  },  
+  "LFHC:1026":{
+    "description":"Receiving O2",
+    "label":"lfhcforms.pewsscore.components.label07",
     "increment":1.0,
     "whenAnswers":[
       "CIEL:1065"
     ]
   },
   "CIEL:162643":{
-  	"isActive":"false",
-    "description":"Conscious level",
+  	"description":"Conscious level",
+    "label":"lfhcforms.pewsscore.components.label04",
     "increment":1.0,
     "whenAnswers":[
       "CIEL:162644",
-      "CIEL:162645",
       "CIEL:159508"    
     ]
   },
@@ -90,9 +125,9 @@
     "label":"lfhcforms.pewsscore.components.label05",
     "increment":1.0,
     "lows":[
-      35.0,
-      35.0,
-      35.0
+      36.0,
+      36.0,
+      36.0
     ],
     "highs":[
       38.0,

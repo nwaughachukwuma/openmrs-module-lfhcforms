@@ -1,17 +1,41 @@
-<htmlform formUuid="592bddc7-9889-490b-b3fd-5795648b078a" formName="Lines and Tubes" formEncounterType="934aad8b-250d-450b-9cb3-ca5f01841f61" formVersion="0.5">
+<htmlform formUuid="592bddc7-9889-490b-b3fd-5795648b078a" formName="Lines and Tubes" formEncounterType="934aad8b-250d-450b-9cb3-ca5f01841f61" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="16"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
+
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
-
+	<script type="text/javascript" id="handleViewMode">
 		// JavaScript for VIEW mode
-
 		if(jQuery){
 			jQuery(document).ready(function(){
-				properViewMode("592bddc7-9889-490b-b3fd-5795648b078a");
+				handleViewMode("592bddc7-9889-490b-b3fd-5795648b078a");
 			});
 		}
 	</script>
+</ifMode>
 
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -36,7 +60,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -61,7 +86,7 @@
 				<obs conceptId="LFHC:1064" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
-				<obs conceptId="LFHC:1065" labelText="Site: "/>
+				<obs conceptId="LFHC:1065" labelText="Site: " />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1182" labelText="Date removed: "/>
@@ -79,7 +104,7 @@
 				<obs conceptId="LFHC:1067" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
-				<obs conceptId="LFHC:1068" labelText="Site: "/>
+				<obs conceptId="LFHC:1068" labelText="Site: " />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1183" labelText="Date removed: "/>
@@ -98,7 +123,7 @@
 				<obs conceptId="LFHC:1070" labelText="Size: " showUnits="true" />
 			</p>
 			<p>
-				<obs conceptId="LFHC:1071" labelText="Site: "/>
+				<obs conceptId="LFHC:1071" labelText="Site: " />
 			</p>
 			<p>
 				<obs conceptId="LFHC:1184" labelText="Date removed: "/>
@@ -113,7 +138,7 @@
 				<obs conceptId="LFHC:1072" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1073" labelText="Site: " />
+				<obs conceptId="LFHC:1073" labelText="Site: "  />
 			</p>
 		</obsgroup>
 	</fieldset>
@@ -125,7 +150,7 @@
 				<obs conceptId="LFHC:1074" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1075" labelText="Size: "/>
+				<obs conceptId="LFHC:1075" labelText="Size: " showUnits="true" />
 			</p>
 		</obsgroup>
 	</fieldset>
@@ -137,7 +162,10 @@
 				<obs conceptId="LFHC:1076" labelText="Date inserted: "/>
 			</p>
 			<p>
-				<obs conceptId="LFHC:1077" labelText="Size: " showUnits="true" />
+				<obs conceptId="LFHC:1221" labelText="Size: " showUnits="true" />
+			</p>
+			<p>
+				<obs conceptId="LFHC:1077" labelText="Site: " />
 			</p>
 		</obsgroup>
 	</fieldset>

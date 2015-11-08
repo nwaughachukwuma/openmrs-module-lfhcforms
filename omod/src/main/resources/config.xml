@@ -6,12 +6,14 @@
 	<id>${project.parent.artifactId}</id>
 	<name>${project.parent.name}</name>
 	<version>${project.parent.version}</version>
-	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<package>${project.parent.groupId}.${project.parent.artifactId}
+	</package>
 	<author>Mekom Solutions</author>
 	<description>
 		${project.parent.description}
 	</description>
-	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf
+	</updateURL>
 	<require_version>${openMRSVersion}</require_version>
 	<!-- / Module Properties -->
 
@@ -28,16 +30,23 @@
 		<require_module version="${htmlformentryuiVersion}">
 			org.openmrs.module.htmlformentryui
 		</require_module>
+		<require_module version="${formentryappVersion}">
+			org.openmrs.module.formentryapp
+		</require_module>
+		<require_module version="${reportinguiVersion}">
+			org.openmrs.module.reportingui
+		</require_module>
 	</require_modules>
 
-	
+
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.LFHCFormsActivator</activator>
-	
-	
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.LFHCFormsActivator
+	</activator>
+
+
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
-		
+
 	</mappingFiles>
 
 	<!-- Internationalization -->
@@ -56,5 +65,92 @@
 	</messages>
 	<!-- /Internationalization -->
 
-</module>
 
+	<!-- Privileges -->
+
+	<privilege>
+		<name>Task: refapp.lfhc.forms.triage</name>
+		<description>Able to use the Triage form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.vitals</name>
+		<description>Able to use the Vitals form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.opd-nurse</name>
+		<description>Able to use the OPD Nurse form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.doctor-history</name>
+		<description>Able to use the Doctor History form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.doctor-physical-exam</name>
+		<description>Able to use the Doctor Physical Exam form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.immunity-and-infection</name>
+		<description>Able to use the Immunity and Infection form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.treatment-plan-order</name>
+		<description>Able to use the Treatment Plan/Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.lab-test-order</name>
+		<description>Able to use the Lab Test Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.xray-ultrasound-order</name>
+		<description>Able to use the Xray/Ultrasound Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.medication-order</name>
+		<description>Able to use the Medication Order form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.diagnosis</name>
+		<description>Able to use the Diagnosis form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.clinical-notes</name>
+		<description>Able to use the Clinical Notes form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.ipd-nurse</name>
+		<description>Able to use the IPD Nurse form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.fluid-balance</name>
+		<description>Able to use the Fluid Balance form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.lines-and-tubes</name>
+		<description>Able to use the Lines and Tubes form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.neurovascular-obs</name>
+		<description>Able to use the Neurovascular Obs form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.wound-details</name>
+		<description>Able to use the Wound Details form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.dispense-medication</name>
+		<description>Able to use the Dispense medication form</description>
+	</privilege>
+	<privilege>
+		<name>Task: refapp.lfhc.forms.discharge</name>
+		<description>Able to use the Discharge form</description>
+	</privilege>
+	<privilege>
+		<name>App: lfhc.refapp.reportingui.reports</name>
+		<description>Able to use the Reporting UI app</description>
+	</privilege>
+	<privilege>
+		<name>App: lfhc.refapp.reportingui.reports.basicdata</name>
+		<description>Able to access the Basic Data report</description>
+	</privilege>
+
+</module>

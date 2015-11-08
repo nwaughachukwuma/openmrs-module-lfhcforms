@@ -1,16 +1,40 @@
-<htmlform formUuid="52c43d9d-c3b6-4fda-8f6b-3590034e7c42" formName="Wound Details" formEncounterType="75a97fa9-4b04-4968-8f5b-041e5d0a3dae" formVersion="0.5">
+<htmlform formUuid="52c43d9d-c3b6-4fda-8f6b-3590034e7c42" formName="Wound Details" formEncounterType="75a97fa9-4b04-4968-8f5b-041e5d0a3dae" formVersion="0.6"
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.visitActions"
+	formOrder="18"
+	formIcon="icon-medkit"
+	formShowIf=""
+	formDisplayStyle="Simple"
+	>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
-
+	<script type="text/javascript" id="handleViewMode">
 		// JavaScript for VIEW mode
-
 		if(jQuery){
 			jQuery(document).ready(function(){
-				properViewMode("52c43d9d-c3b6-4fda-8f6b-3590034e7c42");
+				handleViewMode("52c43d9d-c3b6-4fda-8f6b-3590034e7c42");
 			});
 		}
 	</script>
+</ifMode>
+
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -35,7 +59,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -111,8 +136,8 @@
 		<p>
 			<obs conceptId="LFHC:1035" />
 		</p>
-		Type of exudate
 		<p>
+			<span class="questionLabel">Type of exudate</span>
 			<obs conceptId="LFHC:1037"/>
 		</p>
 
@@ -141,7 +166,7 @@
 		</p>
 
 	</fieldset>
-<fieldset field-separator=", ">
+	<fieldset field-separator=", ">
 		<legend>
 			Color/condition
 		</legend>
@@ -153,7 +178,7 @@
 		</p>
 
 	</fieldset>
-<fieldset field-separator=", ">
+	<fieldset field-separator=", ">
 		<legend>
 			Dressing change
 		</legend>

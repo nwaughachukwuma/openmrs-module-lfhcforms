@@ -1,15 +1,15 @@
-// By Romain - romain@mekomsolutions.com
-// Generic JavaScript to proper the VIEW mode (handles the toggleContainers, the "when" HFE markup and empty observations)
+	// By Romain - romain@mekomsolutions.com
+// Generic JavaScript to clean the VIEW mode (handles the toggleContainers, the "when" HFE markup and empty observations...)
 
 /* All forms should be in the form of :
 <htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.4.5">
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		$(document).ready(function(){
-			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
-			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
+			handleViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+			handleViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
 		});
 	</script>
 </ifMode>
@@ -41,7 +41,7 @@
 
 
 
-var properViewMode = function (formUuid) { 
+var handleViewMode = function (formUuid) { 
 
 	$("htmlform").each(function (index, currentForm) {
 		if ($(currentForm).attr("formuuid") == formUuid) {
@@ -96,7 +96,7 @@ var properViewMode = function (formUuid) {
 
 						/* display the text of a "p" as an obs title when there is class "questionLabel" */
 						/*<p>
-						/*		<span class="questionLabel">Patient is contact of known or suspected infectious case</span>
+						/*		<span class="questionLabel">Patient is in contact of known or suspected infectious case</span>
 						/*		<obs conceptId="162633"/>
 						/*</p>
 						*/
@@ -111,12 +111,14 @@ var properViewMode = function (formUuid) {
 							.end()
 							.text();
 
-							/* get the "obsSpan" innerHTML */
+							/* get the innerHTML of the obs value */
 							var obsSpan = $(element).closest("span");
+							/* get the innerHTML of the obs units*/
+							var unitsSpan = $(element).next("span.units");
 
 							/* Create a new "p" */
 							var newP = $("<p>");
-							$(newP).append("<span class=\"obs-field\">"+$('<div>').append($(element).closest("span").clone()).html()+"</span>");
+							$(newP).append("<span class=\"obs-field\">"+$('<div>').append(obsSpan.clone()).html()+$('<div>').append(unitsSpan.clone()).html()+"</span>");
 							/*var newSpan = $("<span>"); */
 							/*$(newSpan).append("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html()); */
 
@@ -164,7 +166,7 @@ if (hideSection) {
 });
 }
 
-var properViewModeForTable = function  (formUuid) {
+var handleViewModeForTable = function  (formUuid) {
 
 	$("htmlform").each(function (index, currentForm) {
 

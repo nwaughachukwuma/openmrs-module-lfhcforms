@@ -1,4 +1,11 @@
-<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.5">
+<htmlform formUuid="44305e02-7e49-4f5a-8acf-49042acbe483" formName="OPD Nurse" formEncounterType="c7700650-63a6-4893-976e-7a7a0cc43b04" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="3"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -11,7 +18,7 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 			$("htmlform").each(function (index, currentForm) {
@@ -20,13 +27,31 @@
 					$("p").filter(":hidden").toggle(true);
 				}
 			});
-			properViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
-			properViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
-			
+			handleViewModeForTable("44305e02-7e49-4f5a-8acf-49042acbe483");
+			handleViewMode("44305e02-7e49-4f5a-8acf-49042acbe483");
+
 		});
 	</script>
 </ifMode>
 
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -50,7 +75,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -73,7 +99,7 @@
 
 		</style>
 
-		
+
 		<table class="tg">
 			<tr>
 				<td class="tg-031e"><p><obs conceptId="CIEL:5219" style="checkbox" answerConceptId="CIEL:140238" /></p></td>
@@ -146,7 +172,7 @@
 			<obs id="sick" conceptId="CIEL:162741" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Very sick,Not very sick" size="3">
 				<controls>
 					<when value="CIEL:1065" thenDisplay="#very-sick" />
-				</controls>				
+				</controls>
 			</obs>
 			<ifMode mode="VIEW" include="false">
 				<span id="very-sick">
@@ -155,7 +181,7 @@
 			</ifMode>
 		</p>
 	</fieldset>
-	
+
 	<fieldset field-separator=", ">
 		<legend>
 			Days sick
@@ -195,7 +221,7 @@
 				<template>
 					<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
 						<span class="questionLabel">Where: </span>
-						<obs id="{n}" conceptId="CIEL:1273"/>                                   
+						<obs id="{n}" conceptId="CIEL:1273"/>
 						<i class="addEntry icon-">&#xf055; Add</i>
 						<i class="removeEntry icon-">   &#xf056; Remove</i>
 					</p>
@@ -204,7 +230,7 @@
 				<render n="402"/>
 				<render n="403"/>
 				<render n="404"/>
-				
+
 			</repeat>
 
 		</span>
@@ -236,7 +262,7 @@
 					<template>
 						<p id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
 							<span class="questionLabel">Medication Family </span>
-							<obs id="{n}" conceptId="CIEL:1193" />                                   
+							<obs id="{n}" conceptId="CIEL:1193" />
 							<i class="addEntry icon-">&#xf055; Add</i>
 							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
@@ -274,7 +300,7 @@
 
 
 <section id="newborn" sectionTag="section" headerStyle="title" headerCode="Newborn (&lt; 3 months old)">
-	
+
 
 	<fieldset field-separator=", ">
 		<legend>
@@ -474,7 +500,7 @@
 				</p>
 			</ifMode>
 		</span>
-		
+
 		<span id="hepatitis-b-unknown">
 			<ifMode mode="VIEW" include="false">
 				<br />
@@ -483,7 +509,7 @@
 				</p>
 			</ifMode>
 		</span>
-		
+
 	</fieldset>
 
 
@@ -507,7 +533,7 @@
 			<br />
 			<p>
 				<obs id="feeding-history" conceptId="1151"/>
-			</p>	
+			</p>
 		</span>
 
 	</fieldset>
@@ -518,4 +544,4 @@
 
 <submit />
 
-</htmlform>	
+</htmlform>

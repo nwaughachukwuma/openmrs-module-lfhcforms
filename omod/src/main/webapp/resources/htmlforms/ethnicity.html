@@ -1,0 +1,103 @@
+<htmlform formUuid="49772477-83f7-4b08-a357-4102f42f2e14" formName="Edit Ethnicity" formEncounterType="3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c" formVersion="0.4"
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.overallActions"
+	formOrder="1"
+	formIcon="icon-user"
+	formShowIf=""
+	formDisplayStyle="Simple"
+>
+
+<ifMode mode="ENTER">
+	<script type="text/javascript">
+		function loadPastEncounter(encounterId, patientId) {
+			var currentPath = window.location.href;
+			if (currentPath.indexOf("enterHtml") > -1) {
+				newPath = currentPath.replace("enterHtml","editHtml")
+				var urlParts = newPath.split('?');
+				newPath = urlParts[0];
+				var form = "definitionUiResource=lfhcforms:htmlforms/ethnicity.html"
+				newArgs = ("?patientId="+patientId+"&amp;encounterId="+encounterId+"&amp;"+form);
+				window.location.href = (newPath+"?patientId="+patientId+"&amp;encounterId="+encounterId+"&amp;"+form);
+
+			}
+		}
+	</script>
+</ifMode>
+
+<ifMode mode="EDIT" include="false">
+	<lookup complexExpression="
+	#set( $encounter = 0 )
+	#set( $encounter = $fn.latestEncounter('3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c') )
+	#if( $encounter != 0 )
+
+	&lt;script type=&quot;text/javascript&quot;>
+	jq('redirect').show();
+	loadPastEncounter(${encounter.id}, ${patient.id});
+
+	&lt;/script>
+	#end
+	"/>
+</ifMode>
+
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+<ifMode mode="ENTER">
+	<div id="redirect" style="display:none;">
+		<uimessage code="lfhcforms.ethnicity.redirect"/>
+	</div>
+</ifMode>
+
+<section id="demographics" sectionTag="section" headerStyle="title" headerCode="lfhcforms.app.registerPatient.section.ethnicity">
+	<fieldset>
+		<legend>
+			<uimessage code="lfhcforms.app.registerPatient.ethnicity"/>
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.app.registerPatient.ethnicity"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:912"/>
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>
+			<uimessage code="lfhcforms.app.registerPatient.language"/>
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.app.registerPatient.language"/>
+		</h3>
+		<p>
+			<obs conceptId="LFHC:920"/>
+		</p>
+	</fieldset>
+</section>
+
+<submit/>
+</htmlform>

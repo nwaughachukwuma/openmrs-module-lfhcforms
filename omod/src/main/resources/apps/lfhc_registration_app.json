@@ -22,6 +22,7 @@
             "encounterRole":"a0b03050-c99b-11e0-9572-0800200c9a66"
          },
          "afterCreatedUrl":"coreapps/clinicianfacing/patient.page?patientId={{patientId}}",
+         "patientDashboardLink":"",
          "allowUnknownPatients":false,
          "allowManualIdentifier":false,
          "allowRetrospectiveEntry":true,
@@ -37,14 +38,10 @@
                               "type": "personAddress",
                               "label": "registrationapp.patient.address.question",
                               "widget": {
-                                  //"providerName": "uicommons",
-                                  //"fragmentId": "field/personAddress"
                                   "providerName": "registrationapp",
                                   "fragmentId": "field/personAddressWithHierarchy",
                                   "config": {
-                                  	"manualFields": [
-                                  		"Foobar"
-                                  	]
+                                    "manualFields": ["address1"]
                                   }
                               }
                           }
@@ -70,16 +67,87 @@
                ]
             },
             {
+               "id":"nextOfKin",
+               "label": "Next of Kin",
+               "questions":[
+                  {
+                      "legend": "Father",
+                      "fields": [
+                          {
+                              "type": "personAttribute",
+                              "label": "Father's name",
+                              "formFieldName": "fatherName",
+                              "uuid": "51c5e4f4-7e13-11e5-8bcf-feff819cdc9f",
+                              "widget": {
+                                  "providerName": "uicommons",
+                                  "fragmentId": "field/text"
+                              }
+                          },
+                          {
+                              "type": "personAttribute",
+                              "label": "Father's occupation",
+                              "formFieldName": "fatherOccupation",
+                              "uuid": "51c5e88c-7e13-11e5-8bcf-feff819cdc9f",
+                              "widget": {
+                                  "providerName": "uicommons",
+                                  "fragmentId": "field/text",
+                                  "config": {
+                                    "size": 150
+                                  }
+                              }
+                          }
+                      ]
+                  },
+                  {
+                      "legend": "Mother",
+                      "fields": [
+                          {
+                              "type": "personAttribute",
+                              "label": "Mother's name",
+                              "formFieldName": "motherName",
+                              "uuid": "8d871d18-c2cc-11de-8d13-0010c6dffd0f",
+                              "widget": {
+                                  "providerName": "uicommons",
+                                  "fragmentId": "field/text"
+                              }
+                          }
+                      ]
+                  }
+               ]
+            },
+            {
+               "id":"insurance",
+               "label":"Insurance",
+               "questions":[
+                  {
+                     "legend":"Insurance",
+                     "fields":[
+                        {
+                            "type": "personAttribute",
+                            "label": "Insurance details",
+                            "formFieldName": "insuranceDetails",
+                            "uuid": "5c6ee7c2-7e1b-11e5-8bcf-feff819cdc9f",
+                            "widget": {
+                                "providerName": "uicommons",
+                                "fragmentId": "field/text",
+                                "size": 150
+                            }
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
                "id":"ethnicity",
                "label":"Ethnicity",
                "questions":[
                   {
-                     "legend":"Ethnicity",
+                     "legend":"lfhcforms.app.registerPatient.section.ethnicity",
                      "fields":[
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:912",
-                           "label":"Ethnicity?",
+                           "label":"lfhcforms.app.registerPatient.ethnicity",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/ethnicity"
@@ -88,7 +156,7 @@
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:920",
-                           "label":"Language spoken",
+                           "label":"lfhcforms.app.registerPatient.language",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/language"

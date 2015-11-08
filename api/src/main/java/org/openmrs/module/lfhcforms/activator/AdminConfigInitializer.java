@@ -43,6 +43,10 @@ public class AdminConfigInitializer implements Initializer {
 		// Disabling the default Patient Registration app (page).
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
+		service.disableApp("referenceapplication.vitals");
+		service.disableApp("reportingui.reports");
+		service.disableExtension("referenceapplication.realTime.vitals");
+		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
 		
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(PEWS_TIME_WINDOW_PROPERTY);
@@ -67,5 +71,8 @@ public class AdminConfigInitializer implements Initializer {
 
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.enableApp("referenceapplication.registrationapp.registerPatient");
+		service.enableApp("referenceapplication.vitals");
+		service.enableExtension("referenceapplication.realTime.vitals");
+		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
 	}
 }

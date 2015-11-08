@@ -1,5 +1,11 @@
-<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.5.1">
-
+<htmlform formUuid="5743bf01-7879-40a0-ab26-95fc2446e510" formName="Triage" formEncounterType="5235f7da-194e-4278-afbd-a473bb430857" formVersion="0.6"
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.visitActions"
+	formOrder="1"
+	formIcon="icon-medkit"
+	formShowIf=""
+	formDisplayStyle="Standard"
+	>
 
 <ifMode mode="VIEW" include="false">
 
@@ -35,10 +41,10 @@
 				jQuery(htmlform).find("#under-two-months-obs").find(":checkbox").attr("disabled",true);
 				priority = true;
 			}
-			for (var i = 1 ; i &lt; 15 ; i++ ) { 
+			for (var i = 1 ; i &lt; 15 ; i++ ) {
 				if (getValue('prio-'+i+'.value') ) { priority = priority + 1};
 			};
-			for (var i = 1; i &lt; 15 ; i++ ) { 
+			for (var i = 1; i &lt; 15 ; i++ ) {
 				if (getValue('em-'+i+'.value') ) { emergency = emergency + 1};
 			};
 
@@ -60,15 +66,34 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			properViewMode("5743bf01-7879-40a0-ab26-95fc2446e510");
-			properViewModeForTable("5743bf01-7879-40a0-ab26-95fc2446e510");
+			handleViewMode("5743bf01-7879-40a0-ab26-95fc2446e510");
+			handleViewModeForTable("5743bf01-7879-40a0-ab26-95fc2446e510");
 		});
 
 	</script>
+</ifMode>
+
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -93,7 +118,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -130,21 +156,21 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" /> 
+							<obs class="complaint" id="em-1" conceptId="LFHC:1049" answerConceptId="LFHC:1048" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" /> 
+							<obs class="complaint" id="em-2" conceptId="LFHC:1049" answerConceptId="CIEL:122496" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" /> 
+							<obs class="complaint" id="em-3" conceptId="LFHC:1049" answerConceptId="CIEL:113948" style="checkbox" />
 						</p>
 					</td>
 				</tr>
@@ -152,21 +178,21 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" /> 
+							<obs class="complaint" id="em-4" conceptId="LFHC:1049" answerConceptId="CIEL:144576" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" /> 
+							<obs class="complaint" id="em-5" conceptId="LFHC:1049" answerConceptId="CIEL:206" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" /> 
+							<obs class="complaint" id="em-6" conceptId="LFHC:1049" answerConceptId="CIEL:142630" style="checkbox" />
 						</p>
 					</td>
 				</tr>
@@ -199,36 +225,28 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" /> 
+							<obs class="complaint" id="prio-1" conceptId="LFHC:1050" answerConceptId="CIEL:5088" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" /> 
+							<obs class="complaint" id="prio-2" conceptId="LFHC:1050" answerConceptId="CIEL:124193" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" /> 
+							<obs class="complaint" id="prio-3" conceptId="LFHC:1050" answerConceptId="CIEL:5245" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-
-				<tr>
-					<td>
-						<p>
-							<obs class="complaint" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" /> 
+							<obs class="complaint" id="prio-4" conceptId="LFHC:1050" answerConceptId="CIEL:114088" style="checkbox" />
 						</p>
 					</td>
 				</tr>
@@ -236,7 +254,7 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" /> 
+							<obs class="complaint" id="prio-5" conceptId="LFHC:1050" answerConceptId="CIEL:110598" style="checkbox" />
 						</p>
 					</td>
 				</tr>
@@ -244,21 +262,7 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<obs class="complaint" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" /> 
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p>
-							<obs class="complaint" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" /> 
+							<obs class="complaint" id="prio-6" conceptId="LFHC:1050" answerConceptId="CIEL:127639" style="checkbox" />
 						</p>
 					</td>
 				</tr>
@@ -266,14 +270,36 @@
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" /> 
+							<obs class="complaint" id="prio-7" conceptId="LFHC:1050" answerConceptId="CIEL:116334" style="checkbox" />
 						</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<p>
-							<obs class="complaint" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" /> 
+							<obs class="complaint" id="prio-8" conceptId="LFHC:1050" answerConceptId="CIEL:160338" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-9" conceptId="LFHC:1050" answerConceptId="CIEL:115122" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-10" conceptId="LFHC:1050" answerConceptId="CIEL:460" style="checkbox" />
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<p>
+							<obs class="complaint" id="prio-11" conceptId="LFHC:1050" answerConceptId="CIEL:116543" style="checkbox" />
 						</p>
 					</td>
 				</tr>

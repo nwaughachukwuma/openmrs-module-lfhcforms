@@ -1,23 +1,86 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.4">
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.4"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="7"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
 	<script type="text/javascript">
-		jQuery(document).ready(function(){
+		$(document).ready(function(){
 			toggleContainers();
 		});
 	</script>
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
+	<script type="text/javascript" id="handleViewMode">
 
 		// JavaScript for VIEW mode
-		jQuery(document).ready(function(){
-			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
+		$(document).ready(function(){
+			handleViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
 		});
 	</script>
+</ifMode>
+<ifMode mode="enter">
+
+</ifMode>
+
+<ifMode mode="view" include="false">
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+
+			$(".bolus").each(function (index, currentBolus) {
+				$(currentBolus).trigger("change");
+				})
+			$(".bolus-amount").hide();
+			$(".bolus-default").show();
+			$(".bolus").change(function () {
+				// retrieve the numeric prefix in order to toggle the correct section
+				var prefix = parseFloat($(this).attr("id"));
+				if ($(this).is(':checked')) {
+					var bolusAmount = getValue(prefix+"-bolus-no-amount.value");
+					setValue(prefix+"-bolus-no-amount.value", "");
+					setValue(prefix+"-bolus-yes-amount.value", bolusAmount);
+					$("#"+prefix+"-bolus-no").hide();
+					$("#"+prefix+"-bolus-yes").show();
+				}
+				else {
+					var noBolusAmount = getValue(prefix+"-bolus-yes-amount.value");
+					setValue(prefix+"-bolus-yes-amount.value", "");
+					setValue(prefix+"-bolus-no-amount.value", noBolusAmount);
+
+					$("#"+prefix+"-bolus-no").show();
+					setValue(prefix+"-bolus-yes-amount.value", "");
+					$("#"+prefix+"-bolus-yes").hide();
+				}
+			});
+		})
+	</script>
+</ifMode>
+
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	$(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 
@@ -56,7 +119,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -91,14 +155,14 @@
 
 		<repeat>
 			<template>
-				
+
 				<p id="{n}-toggleContainer" templateBlockId="labTest" class="toggleContainer" style="display:none;" >
-					<obs id="{n}" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>    
+					<obs id="{n}" conceptId="CIEL:1271" answerConceptIds="CIEL:1019,CIEL:953,CIEL:5473,CIEL:161446,LFHC:1118,CIEL:300,CIEL:302,CIEL:161445,CIEL:299,CIEL:306,CIEL:887,CIEL:160912,CIEL:160914,CIEL:857,CIEL:790,CIEL:1013,CIEL:159825,CIEL:717,CIEL:848,CIEL:1006,CIEL:1009,CIEL:1299,CIEL:1019,CIEL:5497,CIEL:856,CIEL:730,CIEL:161505,CIEL:161504,CIEL:857,CIEL:790,CIEL:1643,CIEL:159362,CIEL:1040,LFHC:1120,LFHC:1121,LFHC:1122,LFHC:1123,LFHC:1124,CIEL:45,CIEL:307,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644,CIEL:159644,LFHC:1126,CIEL:161511,CIEL:1327,CIEL:160226,CIEL:159828,CIEL:1007,CIEL:1008,CIEL:161500,CIEL:855,CIEL:159644" style="autocomplete"/>
 					<i class="addEntry icon-">&#xf055; Add</i>
 					<i class="removeEntry icon-">   &#xf056; Remove</i>
-					
+
 				</p>
-				
+
 			</template>
 			<render n="101"/>
 			<render n="102"/>
@@ -106,9 +170,9 @@
 			<render n="104"/>
 			<render n="105"/>
 		</repeat>
-		
+
 		<ifMode mode="VIEW" include="false">
-			
+
 			<p>
 				<strong>
 					Please also fill in the Lab Test Order form to order your tests
@@ -123,9 +187,9 @@
 
 		<repeat>
 			<template>
-				
+
 				<p id="{n}-toggleContainer" templateBlockId="xray" class="toggleContainer" style="display:none;" >
-					<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>    
+					<obs id="{n}" conceptId="LFHC:1008" answerConceptIds="CIEL:12, CIEL:101, CIEL:386, CIEL:392, CIEL:309, CIEL:161266, CIEL:161267, CIEL:161269, CIEL:161270, CIEL:161272, CIEL:161295, CIEL:161298, CIEL:161299, CIEL:161302, CIEL:161303, CIEL:161305, CIEL:161306, CIEL:161307, CIEL:161317, CIEL:161318, CIEL:161319, CIEL:159600, CIEL:161265, CIEL:161301, CIEL:161320, CIEL:161322, CIEL:161321, CIEL:161324, CIEL:161325, CIEL:161327, CIEL:161329, CIEL:161328, CIEL:161330, CIEL:161332, CIEL:161333, CIEL:161334, CIEL:161337, CIEL:161338, CIEL:161341, CIEL:161342, CIEL:161343, CIEL:161344, CIEL:161345, CIEL:161347, CIEL:161348, CIEL:161349, CIEL:161350" style="autocomplete"/>
 					<i class="addEntry icon-">&#xf055; Add</i>
 					<i class="removeEntry icon-">   &#xf056; Remove</i>
 				</p>
@@ -157,7 +221,7 @@
 		<repeat>
 			<template>
 				<p id="{n}-toggleContainer" templateBlockId="ultrasound" class="toggleContainer" style="display:none;" >
-					<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>    
+					<obs id="{n}" conceptId="LFHC:1009" answerConceptIds="CIEL:845, CIEL:161274, CIEL:161275, CIEL:161276, CIEL:161277, CIEL:161279, CIEL:161280, CIEL:161283, CIEL:161285, CIEL:161288"/>
 					<i class="addEntry icon-">&#xf055; Add</i>
 					<i class="removeEntry icon-">   &#xf056; Remove</i>
 				</p>
@@ -217,7 +281,7 @@
 
 	</fieldset>
 
-	<fieldset field-separator=", ">
+	<fieldset>
 
 		<legend>IV fluids order</legend>
 		<h3>Intravenous fluids order</h3>
@@ -225,19 +289,31 @@
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" templateBlockId="ivs" class="toggleContainer" style="display:none;" >
-					<obsgroup groupingConceptId="LFHC:1055">
-						<p>
-							<obs id="{n}" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
-						</p>
-						<p>
-							<obs conceptId="CIEL:162745" labelText="Rate of IV fluid per hour: " showUnits="true"/>   
-						</p>
-						<p>
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-						<br/>
-					</obsgroup>
+					<div class="order">
+						<obsgroup groupingConceptId="LFHC:1055">
+							<p>
+								<obs id="{n}" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
+							</p>
+							<p class="bolus-default bolus-amount" id="{n}-bolus-no">
+								<span class="questionLabel">Rate of IV fluid: </span>
+								<obs id="{n}-bolus-no-amount" conceptId="CIEL:162745" showUnits="true"/>
+							</p>
+							<p class="bolus-amount" id="{n}-bolus-yes">
+								<span class="questionLabel">Amount of IV fluid: </span>
+								<obs id="{n}-bolus-yes-amount" conceptId="LFHC:1273" showUnits="true"/>
+							</p>
+							<ifMode mode="view" include="false">
+								<p>
+									<input type="checkbox" class="bolus" id="{n}-bolus" name="bolus" value="true"/>
+									Bolus
+								</p>
+							</ifMode>
+						</obsgroup>
+					</div>
+					<p>
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</p>
 				</div>
 			</template>
 			<render n="501"/>
@@ -249,16 +325,11 @@
 			<render n="507"/>
 			<render n="508"/>
 			<render n="509"/>
-
 		</repeat>
-
 	</fieldset>
-
 	<fieldset field-separator=", ">
-
 		<legend>Blood Transfusion</legend>
 		<h3>Blood transfusion</h3>
-
 		<p>
 			<span class="questionLabel">Order blood transfusion</span>
 			<obs id="btrans" conceptId="LFHC:1275" >
@@ -274,10 +345,7 @@
 				</strong>
 			</p>
 		</ifMode>
-
 	</fieldset>
-
-
 	<fieldset field-separator=", ">
 
 		<legend>Diet</legend>

@@ -1,16 +1,73 @@
-<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.4.3">
+<htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.6"
+	formAddMetadata="yes"
+	formUILocation="patientDashboard.visitActions"
+	formOrder="11"
+	formIcon="icon-stethoscope"
+	formShowIf=""
+	formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
 
+	<!-- Retrieve concept Id from concept mapping (and define it as global variable) -->
+	<!-- Used for defaulting the value of the Diagnosis Classification to Primary and avoid hardcoding database id  -->
+	<lookup complexExpression="
+	#set( $defaultConcept = 0)
+	#set( $defaultConcept = $fn.getConcept('CIEL:159943'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var defaultConcept = ${defaultConcept};
+	&lt;/script>
+	" />
+
 	<script type="text/javascript">
 		jQuery(document).ready(function(){
 			toggleContainers();
+			$(".autoCompleteText").change(function (){
+				onchangeCustomFunction(this);
+			});
 		});
+
+		function onchangeCustomFunction(element) {
+			if(!(typeof $(element) == "undefined")) {
+				var hiddenValue = $(element).closest("span").find("#"+$(element).attr("id")+"_hid").val();
+				//console.log("hiddenValue: " + hiddenValue);
+				if ( !((hiddenValue == "ERROR") || (hiddenValue == ""))) {
+					setValue($(element).closest("span").attr("id")+"-opt1.value", defaultConcept );
+				} else {
+					//console.log("in else");
+					setValue($(element).closest("span").attr("id")+"-opt1.value", "" );
+				}
+			}
+		}
 
 	</script>
 </ifMode>
+<ifMode mode="enter">
 
+	
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+
+
+</ifMode>
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -33,7 +90,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -47,78 +105,36 @@
 
 <section id="diagnosis" sectionTag="section" headerStyle="title" headerCode="Diagnosis">
 	<fieldset field-separator=", ">
-
 		<legend>Diagnoses</legend>
 		<h3>Diagnoses</h3>
-
 		<repeat>
 			<template>
-
 				<div id="{n}-toggleContainer" templateBlockId="diagnosis" class="toggleContainer" style="display:none;">
 					<obsgroup groupingConceptId="CIEL:159947">
-						<table class="tg">
-							<tbody>
-								<tr>
-									<td>
-										Diagnosis classification	
-									</td>
-									<td>
-										<p>
-											<obs id="{n}" conceptId="CIEL:159946"/>
-										</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Diagnosis		
-									</td>
-									<td>
-										<p>
-											<obs conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
-										</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Diagnosis certainty
-									</td>
-									<td>
-										<p>
-											<obs conceptId="CIEL:159394" answerConceptIds="CIEL:159393,CIEL:159392"/>
-										</p>
-									</td>
-
-								</tr>
-								<tr>
-									<td colspan="2" style="text-align:right;">
-										<i class="addEntry icon-">&#xf055; Add</i>
-										<i class="removeEntry icon-">   &#xf056; Remove</i>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-
 						<p>
-
-
+							Diagnosis #{n}
+							<obs id="{n}" conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
-
+						<details>
+							<summary>
+								Options
+							</summary>
+							<p>
+								Diagnosis classification
+								<obs id="{n}-opt1" conceptId="CIEL:159946" />
+							</p>
+						</details>
 						<br/>
-
 					</obsgroup>
 				</div>
-
 			</template>
-			<render n="201"/>
-			<render n="202"/>
-			<render n="203"/>
+			<render n="1"/>
+			<render n="2"/>
+			<render n="3"/>
 		</repeat>
-
-
 	</fieldset>
-
 </section>
-
 <submit/>
-</htmlform>					
+</htmlform>

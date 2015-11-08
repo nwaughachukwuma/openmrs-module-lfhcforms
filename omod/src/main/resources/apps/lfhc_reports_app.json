@@ -1,0 +1,46 @@
+[
+    {
+        "id": "lfhc.refapp.reportingui.reports",
+        "description": "Homepage showing a list of different kinds of reports",
+        "order": 10,
+        "extensionPoints": [
+            {
+                "id": "org.openmrs.module.reportingui.reports.overview",
+                "description": "Links to available Overview Reports",
+                "supportedExtensionTypes": [ "link" ]
+            },
+            {
+                "id": "org.openmrs.module.reportingui.reports.dataquality",
+                "description": "Links to available Data Quality Reports",
+                "supportedExtensionTypes": [ "link" ]
+            },
+            {
+                "id": "org.openmrs.module.reportingui.reports.dataexport",
+                "description": "Links to available Data Exports",
+                "supportedExtensionTypes": [ "link" ]
+            }
+        ],
+        "extensions": [
+            {
+                "id": "reportingui.reports.homepagelink",
+                "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+                "type": "link",
+                "label": "reportingui.reportsapp.home.title",
+                "url": "reportingui/reportsapp/home.page",
+                "icon": "icon-list-alt",
+                "order": 5,
+                "requiredPrivilege": "App: lfhc.refapp.reportingui.reports"
+            },
+            {
+                "id": "lfhc.refapp.reportingui.reports.basicdata",
+                "extensionPointId": "org.openmrs.module.reportingui.reports.dataexport",
+                "type": "link",
+                "label": "${project.parent.artifactId}.reports.basicdata.name",
+                "url": "reportingui/runReport.page?reportDefinition=201b4ba8-7e2a-11e5-8bcf-feff819cdc9f",
+                "order": 10,
+                "requiredPrivilege": "App: lfhc.refapp.reportingui.reports.basicdata"
+            }
+        ],
+        "requiredPrivilege": "App: lfhc.refapp.reportingui.reports"
+    }
+]

@@ -30,50 +30,91 @@ a field with class="addEntry" has to be provided somewhere. Mandatory
 a field with class="removeEntry" has to be provided somewhere. Mandatory
 the {n} value can be any integer, as soon as it is unique over the whole htmlform.
 
- */
+*/
 
 var toggleContainers = function() {
 
-	jQuery(".toggleContainer").each(function (index, toggleContainer) {
+	$(".toggleContainer").each(function (index, toggleContainer) {
 
 		// checks if this toggleContainer is the first of its block
-		if(!(jQuery(toggleContainer).prev().attr("templateBlockId") == jQuery(toggleContainer).attr("templateBlockId") )) {
-			jQuery(toggleContainer).show();
-			jQuery(toggleContainer).find(".removeEntry").remove();
+		if(!($(toggleContainer).prev().attr("templateBlockId") == $(toggleContainer).attr("templateBlockId") )) {
+			$(toggleContainer).show();
+			$(toggleContainer).find(".removeEntry").remove();
 		};
 
 		// checks if this toggleContainer is the last
-		if(!(jQuery(toggleContainer).next().attr("templateBlockId") == jQuery(toggleContainer).attr("templateBlockId") )) {
-			jQuery(toggleContainer).find(".addEntry").remove();
+		if(!($(toggleContainer).next().attr("templateBlockId") == $(toggleContainer).attr("templateBlockId") )) {
+			$(toggleContainer).find(".addEntry").remove();
 		};
 		
 		// if the obs is not empty, show the field 
 		if (!(getValue(parseFloat(toggleContainer.id)+".value") == "") || (getValue(parseFloat(toggleContainer.id)+".value") == null) ) {
-			jQuery(toggleContainer).show();
+			$(toggleContainer).show();
 			
 			// if the next obs is not empty, hide buttons
-			if (!(getValue(parseFloat(jQuery(toggleContainer).next().attr("id"))+".value") == "")) {
-				jQuery(toggleContainer).find(".addEntry").hide();
-				jQuery(toggleContainer).find(".removeEntry").hide();
+			if (!(getValue(parseFloat($(toggleContainer).next().attr("id"))+".value") == "")) {
+				$(toggleContainer).find(".addEntry").hide();
+				$(toggleContainer).find(".removeEntry").hide();
 			}
 		}
 	});
 
-	jQuery('i.addEntry').click(function(){
-		// allow Add only if field is not empty
-		if (!(getValue(parseFloat(jQuery(this).closest(".toggleContainer").attr("id"))+".value") == "") ) {
-			jQuery(this).hide();
-			jQuery(this).closest(".toggleContainer").find(".removeEntry").hide();
-			jQuery(this).closest(".toggleContainer").next().show();
+	$('i.addEntry').click(function(){
+		// allow Add only if one field is NOT empty
+		var currentAddEntry = $(this);
+		var addContainer = 0;
+		$(currentAddEntry).closest(".toggleContainer").find("input").each( function (index, currentInput) {
+			if (!($(currentInput).val() == "")) {
+				// handle checkbox fields
+				if ($(currentInput).attr('type') == "checkbox") {
+					if($(currentInput).prop("checked") == true) {
+						addContainer = addContainer + 1;
+					}
+				} else {
+					addContainer = addContainer + 1;
+				}
+			}
+		});
+		// handle drop down lists
+		$(currentAddEntry).closest(".toggleContainer").find("select").each( function (index, currentSelect) {
+			if (!($(currentSelect).find(":selected").text() == "")) {
+				addContainer = addContainer + 1;
+			}
+		});
+		if (addContainer > 0) {
+			$(currentAddEntry).hide();
+			$(currentAddEntry).closest(".toggleContainer").find(".removeEntry").hide();
+			$(currentAddEntry).closest(".toggleContainer").next().show();		
 		}
 		return false;});
 
-	jQuery('i.removeEntry').click(function(){
-		// do not allow Remove if some text is in the field		
-		if ((getValue(parseFloat(jQuery(this).closest(".toggleContainer").attr("id"))+".value") == "")) {
-			jQuery(this).closest(".toggleContainer").hide();
-			jQuery(this).closest(".toggleContainer").prev().find(".addEntry").show();
-			jQuery(this).closest(".toggleContainer").prev().find(".removeEntry").show();
+	$('i.removeEntry').click(function(){
+		// do not allow Remove if fields have a value	
+		var currentRemoveEntry = $(this);
+		var removeContainer = 0;
+
+		$(currentRemoveEntry).closest(".toggleContainer").find("input").each( function (index, currentInput) {
+			if (!($(currentInput).val() == "")) {
+				// handle checkbox fields
+				if ($(currentInput).attr('type') == "checkbox") {
+					if($(currentInput).prop("checked") == true) {
+						removeContainer = removeContainer + 1;
+					}
+				} else {
+					removeContainer = removeContainer + 1;
+				}
+			}
+		})
+		// handle drop down lists
+		$(currentRemoveEntry).closest(".toggleContainer").find("select").each( function (index, currentSelect) {
+			if (!($(currentSelect).find(":selected").text() == "")) {
+				removeContainer = removeContainer + 1;
+			}
+		});
+		if (removeContainer == 0) {
+			$(currentRemoveEntry).closest(".toggleContainer").hide();
+			$(currentRemoveEntry).closest(".toggleContainer").prev().find(".addEntry").show();
+			$(currentRemoveEntry).closest(".toggleContainer").prev().find(".removeEntry").show();
 		}
 		return false;});
 }

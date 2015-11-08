@@ -18,7 +18,39 @@
 	display:inline;
 }
 
-/* Style to improve display*/
+/* Style to improve display of select fields (ex: date and time fields)*/
 .simple-form-ui select, .simple-form-ui form select {
     min-width: 0;
 }
+
+/* customize style for Units */
+.units {
+	margin-left: 3px;
+}
+
+/* style for angular dialog box */
+.ngdialog-overlay
+{
+	z-index: -1;   
+}
+
+/* style for add/remove button sections */
+.order {
+    margin-top: 10px!important; 
+    margin-bottom: 10px!important;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    background-color: white;
+    border-color: #E0E0E0;
+    border-style: solid;
+    border-width: 1px;
+    width: 80%;
+}
+
+/* style for disabled input */
+.input-disabled {
+            background-color:#EBEBE4;
+        }
+

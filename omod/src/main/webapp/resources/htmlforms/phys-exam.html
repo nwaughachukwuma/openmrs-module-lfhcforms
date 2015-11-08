@@ -1,4 +1,11 @@
-<htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Doctor Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.5.1">
+<htmlform formUuid="f6dbee30-d965-47f5-b9b0-bc17f559dfad" formName="Doctor Physical Exam" formEncounterType="0d9203a9-c1a1-4358-832d-2fc91373558e" formVersion="0.6"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="5"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<script type="text/javascript">
@@ -6,21 +13,20 @@
 			$(".result").change(function () {
 				// Check the hidden observation when the "Given On Time" box is checked
 				if (!(getValue($(this).attr("id")+".value") == "")){
-					$(this).closest("fieldset").find(":checkbox").attr("checked", true);	
+					$(this).closest("fieldset").find(":checkbox").attr("checked", true);
 				} else {
-					$(this).closest("fieldset").find(":checkbox").attr("checked", false);	
+					$(this).closest("fieldset").find(":checkbox").attr("checked", false);
 				}
 			});
 		});
 	</script>
 </ifMode>
 
-
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewModeForTable">
+	<script type="text/javascript" id="handleViewModeForTable">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-			
+
 			$("htmlform").each(function (index, currentForm) {
 				if ($(currentForm).attr("formuuid") == "f6dbee30-d965-47f5-b9b0-bc17f559dfad") {
 					$(".toHide").hide();
@@ -28,9 +34,28 @@
 					$("p").filter(":hidden").toggle(true);
 				}
 			});
-			properViewMode("f6dbee30-d965-47f5-b9b0-bc17f559dfad");
+			handleViewMode("f6dbee30-d965-47f5-b9b0-bc17f559dfad");
 		});
 	</script>
+</ifMode>
+
+<ifMode mode="enter">
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
 </ifMode>
 
 <div class="hidden" id="who-when-where">
@@ -55,7 +80,8 @@
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
 		<span>
-			<encounterDate id="encounterDate" default="now" />
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
 		</span>
 	</p>
 </div>
@@ -353,11 +379,13 @@
 			Other comments
 		</legend>
 		<h3>Other comments</h3>
+		<ifMode mode="VIEW" include="false">
+			<p>
+				Other comments
+			</p>
+		</ifMode>
 		<p>
-			Other comments
-		</p>
-		<p>
-			<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />              
+			<obs id="19-finding" conceptId="CIEL:159395" rows="4" cols="40" />
 		</p>
 	</fieldset>
 
@@ -369,7 +397,7 @@
 			Growth chart
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1854" answerConceptIds="CIEL:1115, CIEL:134723, CIEL:134722, CIEL:126598, CIEL:114413, CIEL:1067" answerLabels="Normal, Malnutrition of moderate degree (Z-score: -1), Malnutrition of moderate degree (Z-score: -2), Malnutrition of moderate degree (Z-score: -3), Overweight, Unknown" />
+			<obs conceptId="CIEL:1854" answerConceptIds="CIEL:1115, CIEL:134723, CIEL:134722, CIEL:126598, CIEL:114413, CIEL:1067" answerLabels="Normal, Malnutrition of mild degree (Z-score: -1), Malnutrition of moderate degree (Z-score: -2), Severe Protein-Calorie Malnutrition (Z-score: -3), Overweight, Unknown" />
 		</p>
 	</fieldset>
 </section>
@@ -377,4 +405,4 @@
 
 <submit/>
 
-</htmlform>	
+</htmlform>
