@@ -25,10 +25,14 @@ function changeEncounterDate(visitEndDate) {
 
 function setEncounterTime (visitEndDate) {
 
-	if (typeof $(".hfe-hours").val() === "undefined") {
-		console.error("$('.hfe-hours') field not found. Time may not be set correctly");
+	var hoursField = $('#encounterDate').find('.hfe-hours');
+	var minutesField = $('#encounterDate').find('.hfe-minutes');
+	var secondsField = $('#encounterDate').find('.hfe-seconds');
+
+	if (typeof $(hoursField).val() === "undefined") {
+		console.error("$('#encounterDate').find('.hfe-hours') field not found. Time may not be set correctly");
 	}
-	$(".hfe-hours").val(visitEndDate.getHours());
-	$(".hfe-minutes").val(visitEndDate.getMinutes());
-	$(".hfe-seconds").val(0);
+	$(hoursField).val(visitEndDate.getHours());
+	$(minutesField).val(visitEndDate.getMinutes());
+	$(secondsField).val(0);
 }
