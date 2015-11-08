@@ -1,3 +1,4 @@
+// only supports select fields with option values and labels
 function mapBloodType (element , bloodType) {
 	//console.log(bloodType);
 	if (!(bloodType == "")) {
