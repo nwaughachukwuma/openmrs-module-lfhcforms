@@ -1,4 +1,11 @@
-<htmlform formUuid="2f86d386-5cd4-464a-bde6-9da718c30d0a" formName="Doctor Blood Transfusion" formEncounterType="02956dc7-c5fb-4405-b237-2b5bf119a4b4" formVersion="0.1">
+<htmlform formUuid="2f86d386-5cd4-464a-bde6-9da718c30d0a" formName="Doctor Blood Transfusion" formEncounterType="bcab785b-7721-4690-9623-4100df0329f0" formVersion="0.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="1"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
@@ -62,20 +69,28 @@
 </div>
 
 <section id="blood-trans" sectionTag="section" headerStyle="title" headerCode="Blood Transfusion">
-	<legend>Blood Transfusion</legend>
-	<h3>Blood transfusion</h3>
-	<p>
-		<span class="questionLabel">Volume of blood to be administered:</span>
-		<obs conceptId="LFHC:1211" showUnits="true" />
-	</p>
-	<p>
-		<span class="questionLabel">Type of transfusion fluid: </span>
-		<obs conceptId="CIEL:161927" />
-	</p>
-	<p>
-		<span class="questionLabel">Duration of transfusion:</span>
-		<obs conceptId="LFHC:1212" showUnits="true" />
-	</p>
+	<fieldset>
+		<legend>Volume</legend>
+		<h3>Volume of blood to be administered</h3>
+		<p>
+			<obs conceptId="LFHC:1211" showUnits="true" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Type</legend>
+		<h3>Type of transfusion fluid</h3>
+		<p>
+			<obs conceptId="CIEL:161927" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Duration</legend>
+		<h3>Duration of transfusion</h3>
+		<p>
+			<span class="questionLabel"></span>
+			<obs conceptId="LFHC:1212" showUnits="true" />
+		</p>
+	</fieldset>
 </section>
 
 <submit/>

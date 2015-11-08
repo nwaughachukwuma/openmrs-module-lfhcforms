@@ -1,52 +1,65 @@
-<htmlform formUuid="3a6776bd-43ed-4844-a815-155068e65aca" formName="Doctor Blood Transfusion" formEncounterType="10c20ebf-1af2-4ddf-bdaa-219fe8ff930b" formVersion="0.1">
+<htmlform formUuid="3a6776bd-43ed-4844-a815-155068e65aca" formName="Nurse Blood Transfusion" formEncounterType="10c20ebf-1af2-4ddf-bdaa-219fe8ff930b" formVersion="0.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="1"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW" include="false">
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+	<uiInclude provider="lfhcforms" javascript="labelFromExistingField.js"/>
+	<!-- retrive the blood type previously entered in Lab Test Order encounter, if any -->
+	<lookup complexExpression="
+	#set ($latestLabEncounter = $fn.latestEncounter('39deb891-8dc6-451b-9361-dbf564f27250'))
+	#set ($bt = $fn.getObs($latestLabEncounter, 'CIEL:300'))
+	#set ($bId = $bt.valueCoded)
+	#set ($btDate = $bt.obsDatetime)
 
-	<script type="text/javascript">
-		jQuery(document).ready(function(){
-			toggleContainers();
-		});
-	</script>
+	&lt;script type=&quot;text/javascript&quot;>
+
+	jQuery(document).ready(function(){	
+	var bloodType = mapBloodType('blood-type.value','${bId}');
+	var bloodTypeDate = new Date('${btDate}');
+	if (!(typeof bloodType === 'undefined')) {
+	$('#blood-type-latest-title').show();
+	$('#blood-type-latest').show();
+	$('#blood-type-latest').text($('#blood-type-latest').text() + bloodType);
+	$('#blood-type-latest-date').show();
+	$('#blood-type-latest-date').text($('#blood-type-latest-date').text() + ' - ' + bloodTypeDate);
+	$('#blood-type-no-latest').hide();
+}
+});
+&lt;/script>
+"/>
+
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		toggleContainers();
+
+		/* hide the 'seconds' time field */
+		$(".hfe-seconds").hide();
+	});
+</script>
 </ifMode>
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="properViewMode">
-
-		// JavaScript for VIEW mode
+		// improve display of VIEW mode
 		jQuery(document).ready(function(){
 			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
 		});
 	</script>
 </ifMode>
+<style type="text/css">
 
-
-<ifMode mode="VIEW" include="false">
-	<script type="text/javascript" id="properViewMode">
-
-
-		jQuery(document).ready(function(){
-
-			/* hide the 'seconds' time field */
-			$(".hfe-seconds").hide();
-
-		});
-
-		function showBloodType (bloodType) {
-			console.log(bloodTypel);
-			if (!(bloodType == "")) {
-				$("blood-type").text(bloodType)
-				$("blood-type").show();
-				$("no-blood-type").hide();
-			} else {
-				$("blood-type").hide();
-				$("no-blood-type").show();
-			}
-		}
-	</script>
-</ifMode>
-
-
+	/* TODO: To Remove;	*/
+	/* style for disabled input */
+	.input-disabled {
+		background-color:#EBEBE4;
+	}
+</style>
 <div class="hidden" id="who-when-where">
 	<p id="who">
 		<label>
@@ -75,51 +88,80 @@
 </div>
 
 <section id="blood-trans" sectionTag="section" headerStyle="title" headerCode="Blood Transfusion">
-	<legend>Blood Transfusion</legend>
-	<h3>Blood transfusion</h3>
-	<p>
-		<span class="questionLabel">Blood Unit Number:</span>
-		<obs conceptId="LFHC:1139" />
-	</p>
-	<p>
-		<span class="questionLabel">Patient Blood Group</span>
-		<lookup complexExpression="
-		#set ($bt = $fn.latestObs('CIEL:300'))
+	<fieldset>
+		<legend>Unit numder</legend>
+		<h3>Blood unit number</h3>
+		<p>
+			<obs conceptId="LFHC:1139" size="15" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Patient blood group</legend>
+		<h3>Patient blood group</h3>
+		<p>
+			<obs id="blood-type" conceptId="CIEL:300" />
+		</p>
+		<ifMode mode="view" include="false">
+			<p style="margin-top:15px;">
+				<div class="status-container" id="blood-type-latest-wrapper">
+					<span id="blood-type-latest-title" style="display:none;"><i class="icon-">&#xf05a; </i>Latest blood typing test: </span>
+					<strong>
+						<span id="blood-type-latest" style="display:none;"></span>
+					</strong>
+					<small>
+						<p id="blood-type-latest-date" style="display:none;">(From Lab Test Order encounter)</p>
+					</small>
 
-		&lt;script type=&quot;text/javascript&quot;>
-
-		jQuery(document).ready(function(){
-		showBloodType('${bt}');
-
-	});
-	&lt;/script>" />
-	"/>
-	<obs conceptId="CIEL:300" />
-</p>
-<p>
-	<span class="questionLabel">Donor Blood Group ### CONCEPT TO PROVIDE ###</span>
-	<obs conceptId="CIEL:300" />
-</p>
-<p>
-	<span class="questionLabel">Calculated Rate</span>
-	<obs conceptId="LFHC:1213" showUnits="true" />
-</p>
-<p>
-	<span class="questionLabel">Transfusion start time:</span>
-	<obs conceptId="LFHC:1214" />
-</p>
-<p>
-	<span class="questionLabel">Anticipated end time:</span>
-	<obs conceptId="LFHC:1215" />
-</p>
-<p>
-	<span class="questionLabel">Time transfusion stopped:</span>
-	<obs conceptId="LFHC:1216" />
-</p>
-<p>
-	<span class="questionLabel">Volume of blood transfused:</span>
-	<obs conceptId="LFHC:1217" showUnits="true" />
-</p>
+					<span id="blood-type-no-latest" >
+						<i class="icon-">&#xf071; </i>No blood typing found
+					</span>
+				</div>
+			</p>
+		</ifMode>
+	</fieldset>
+	<fieldset>
+		<legend>Donor group</legend>
+		<h3>Donor blood group</h3>
+		<p>
+			### CONCEPT TO PROVIDE ###
+			<obs conceptId="CIEL:300" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Rate</legend>
+		<h3>Calculated Rate</h3>
+		<p>
+			<obs conceptId="LFHC:1213" showUnits="true" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Start time</legend>
+		<h3>Transfusion start time:</h3>
+		<p>
+			<obs conceptId="LFHC:1214" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Anticipated end time</legend>
+		<h3>Anticipated end time:</h3>
+		<p>
+			<obs conceptId="LFHC:1215" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>End time</legend>
+		<h3>Time transfusion stopped:</h3>
+		<p>
+			<obs conceptId="LFHC:1216" />
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Volume</legend>
+		<h3>Volume of blood transfused:</h3>
+		<p>
+			<obs conceptId="LFHC:1217" showUnits="true" />
+		</p>
+	</fieldset>
 </section>
 
 <submit/>
