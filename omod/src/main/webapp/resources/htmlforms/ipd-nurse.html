@@ -1,4 +1,4 @@
-<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.6.1"
+<htmlform formUuid="348c2a9e-17c8-4c15-8cef-e8f332a69853" formName="IPD Nurse" formEncounterType="c88f3763-77a4-4e57-a42f-eef996b03b98" formVersion="0.6.2"
 
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
@@ -124,6 +124,7 @@ formDisplayStyle="Simple"
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>Financial assessment</legend>
+		
 		<h3>Initial financial assessment completed</h3>
 		<p>
 			<obs id="fin-ass" conceptId="LFHC:1219">
@@ -132,12 +133,23 @@ formDisplayStyle="Simple"
 				</controls>
 			</obs>
 		</p>
-		<p id="fin-ass-yes">
-			<span class="questionLabel"><lookup expression="fn.getConcept('LFHC:1227').name" /></span>
-			<obs conceptId="LFHC:1227" style="checkbox"/>
-		</p>
-
+		<ifMode mode="view" include="false">
+			<p id="fin-ass-yes">
+				<span class="questionLabel"><lookup expression="fn.getConcept('LFHC:1227').name" /></span>
+				<obs conceptId="LFHC:1227" style="checkbox"/>
+			</p>
+		</ifMode>
 	</fieldset>
+	<!-- Display the food support provided as a separate fieldset in VIEW mode to diaply it in 2 lines following client requirement -->
+	<ifMode mode="view">
+		<fieldset>
+			<legend>Food support provided</legend>
+			<h3>Food support provided</h3>
+			<p>
+				<obs conceptId="LFHC:1227" style="checkbox"/>
+			</p>
+		</fieldset>
+	</ifMode>
 </section>
 
 <section id="nursing-assessment" sectionTag="section" headerStyle="title" headerCode="Nursing Assessment">

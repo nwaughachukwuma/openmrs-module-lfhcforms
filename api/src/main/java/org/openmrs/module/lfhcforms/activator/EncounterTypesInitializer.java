@@ -222,9 +222,20 @@ public class EncounterTypesInitializer implements Initializer {
 			}
 		}
 		{
-			String name = "Blood Transfusion";
+			String name = "Nurse Blood Transfusion";
 			String desc = "";
 			String uuid = "10c20ebf-1af2-4ddf-bdaa-219fe8ff930b"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
+		{
+			String name = "Doctor Blood Transfusion";
+			String desc = "";
+			String uuid = "89886052-4a6b-4b74-a71b-4b87094b02cb"; 
 			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
 			if(encounterType == null) {
 				encounterType = new EncounterType(name, desc);

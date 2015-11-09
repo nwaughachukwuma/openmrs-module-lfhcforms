@@ -1,4 +1,4 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.4"
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.5"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="7"
@@ -37,25 +37,22 @@ formDisplayStyle="Simple"
 
 			$(".bolus").each(function (index, currentBolus) {
 				$(currentBolus).trigger("change");
-				})
+			})
 			$(".bolus-amount").hide();
 			$(".bolus-default").show();
 			$(".bolus").change(function () {
 				// retrieve the numeric prefix in order to toggle the correct section
 				var prefix = parseFloat($(this).attr("id"));
 				if ($(this).is(':checked')) {
-					var bolusAmount = getValue(prefix+"-bolus-no-amount.value");
-					setValue(prefix+"-bolus-no-amount.value", "");
-					setValue(prefix+"-bolus-yes-amount.value", bolusAmount);
-					$("#"+prefix+"-bolus-no").hide();
+					//var bolusAmount = getValue(prefix+"-bolus-no-amount.value");
+					//setValue(prefix+"-bolus-no-amount.value", "");
+					//setValue(prefix+"-bolus-yes-amount.value", bolusAmount);
 					$("#"+prefix+"-bolus-yes").show();
 				}
 				else {
 					var noBolusAmount = getValue(prefix+"-bolus-yes-amount.value");
-					setValue(prefix+"-bolus-yes-amount.value", "");
-					setValue(prefix+"-bolus-no-amount.value", noBolusAmount);
-
-					$("#"+prefix+"-bolus-no").show();
+					//setValue(prefix+"-bolus-yes-amount.value", "");
+					//setValue(prefix+"-bolus-no-amount.value", noBolusAmount);
 					setValue(prefix+"-bolus-yes-amount.value", "");
 					$("#"+prefix+"-bolus-yes").hide();
 				}
@@ -81,7 +78,21 @@ formDisplayStyle="Simple"
 }
 });
 &lt;/script>" />
+</ifMode
+>
+
+<ifMode mode="VIEW" include="false">
+	<script type="text/javascript" id="properViewMode">
+
+
+		jQuery(document).ready(function(){
+
+			/* hide the 'seconds' time field */
+			$(".hfe-seconds").hide();
+		});
+	</script>
 </ifMode>
+
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -284,16 +295,17 @@ formDisplayStyle="Simple"
 								<span class="questionLabel">Rate of IV fluid: </span>
 								<obs id="{n}-bolus-no-amount" conceptId="CIEL:162745" showUnits="true"/>
 							</p>
-							<p class="bolus-amount" id="{n}-bolus-yes">
-								<span class="questionLabel">Amount of IV fluid: </span>
-								<obs id="{n}-bolus-yes-amount" conceptId="LFHC:1273" showUnits="true"/>
-							</p>
 							<ifMode mode="view" include="false">
 								<p>
 									<input type="checkbox" class="bolus" id="{n}-bolus" name="bolus" value="true"/>
 									Bolus
 								</p>
 							</ifMode>
+							<p class="bolus-amount" id="{n}-bolus-yes">
+								<span class="questionLabel">Amount of IV fluid: </span>
+								<obs id="{n}-bolus-yes-amount" conceptId="LFHC:1273" showUnits="true"/>
+							</p>
+							
 						</obsgroup>
 					</div>
 					<p>
@@ -313,7 +325,25 @@ formDisplayStyle="Simple"
 			<render n="509"/>
 		</repeat>
 	</fieldset>
-
+	<fieldset field-separator=", ">
+		<legend>Blood Transfusion</legend>
+		<h3>Blood transfusion</h3>
+		<p>
+			<span class="questionLabel">Order blood transfusion</span>
+			<obs id="btrans" conceptId="LFHC:1275" >
+				<controls>
+					<when value="CIEL:1065" thenDisplay="#btrans-yes"></when>
+				</controls>
+			</obs>
+		</p>
+		<ifMode mode="VIEW" include="false">
+			<p id="btrans-yes">
+				<strong>
+					Please fill in the Doctor/Nurse Blood Transfusion forms to order blood transfusion
+				</strong>
+			</p>
+		</ifMode>
+	</fieldset>
 	<fieldset field-separator=", ">
 
 		<legend>Diet</legend>

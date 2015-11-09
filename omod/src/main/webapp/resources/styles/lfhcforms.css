@@ -13,9 +13,14 @@
 	color: green;
 }
 
-/* Style to display a space between an "h3" an a "p" */
+/* Style to display a space between an "h3" and a "p" */
 .collapse htmlform h3 {
 	display:inline;
+}
+
+/* Style to improve display of select fields (ex: date and time fields)*/
+.simple-form-ui select, .simple-form-ui form select {
+    min-width: 0;
 }
 
 /* customize style for Units */
@@ -48,3 +53,4 @@
 .input-disabled {
             background-color:#EBEBE4;
         }
+
