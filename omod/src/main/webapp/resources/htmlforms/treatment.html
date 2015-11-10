@@ -59,6 +59,8 @@ formDisplayStyle="Simple"
 			});
 		})
 	</script>
+
+
 </ifMode>
 
 <ifMode mode="enter">
@@ -291,12 +293,8 @@ formDisplayStyle="Simple"
 							<p>
 								<obs id="{n}" conceptId="LFHC:1054" answerConceptIds="LFHC:1205,CIEL:80804,LFHC:1206,CIEL:78617,LFHC:1207,CIEL:161922"/>
 							</p>
-							<p class="bolus-default bolus-amount" id="{n}-bolus-no">
-								<span class="questionLabel">Rate of IV fluid: </span>
-								<obs id="{n}-bolus-no-amount" conceptId="CIEL:162745" showUnits="true"/>
-							</p>
 							<ifMode mode="view" include="false">
-								<p>
+								<p style="padding-top: 15px">
 									<input type="checkbox" class="bolus" id="{n}-bolus" name="bolus" value="true"/>
 									Bolus
 								</p>
@@ -305,6 +303,11 @@ formDisplayStyle="Simple"
 								<span class="questionLabel">Amount of IV fluid: </span>
 								<obs id="{n}-bolus-yes-amount" conceptId="LFHC:1273" showUnits="true"/>
 							</p>
+							<p class="bolus-default bolus-amount" id="{n}-bolus-no">
+								<span class="questionLabel">Rate of IV fluid: </span>
+								<obs id="{n}-bolus-no-amount" conceptId="CIEL:162745" showUnits="true"/>
+							</p>
+
 							
 						</obsgroup>
 					</div>
