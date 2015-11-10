@@ -1,6 +1,8 @@
 SELECT
 	DATE_FORMAT(myregistration.date,'%d-%m-%Y') AS 'Registration date',
 	CONVERT(myidentifier.identifier, char) AS 'Identifier',
+    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date',
+    IFNULL(illness_days.number,"") AS 'Days sick',
 	myperson.full_name AS 'Full name',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
@@ -15,7 +17,7 @@ SELECT
     myperson.ethnicity AS 'Ethnicity',
     complaints_diagnoses.complaints AS 'Presenting complaints',
 	complaints_diagnoses.diagnoses AS 'Diagnoses',
-	"" AS 'Days sick',
+	IFNULL(illness_days.number,"") AS 'Days sick',
     DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
 FROM
 (
@@ -484,6 +486,43 @@ AS complaints_diagnoses
         AS myregistration
 	ON
 		complaints_diagnoses.patient_id = myregistration.patient_id
+	LEFT JOIN
+		(
+			SELECT
+				obs.value_numeric AS number,
+				encounter.patient_id,
+				encounter.visit_id
+			FROM
+				obs
+			LEFT JOIN
+				(encounter, encounter_type, concept)
+			ON
+				encounter.encounter_id = obs.encounter_id AND
+				encounter.encounter_type = encounter_type.encounter_type_id AND
+				obs.concept_id = concept.concept_id
+			WHERE
+				concept.uuid = '1553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- CIEL:1553, Duration of illness
+				AND
+				obs.obs_datetime = (
+										SELECT
+											MAX(ob2.obs_datetime)
+										FROM
+											obs ob2
+											LEFT JOIN
+												encounter en2
+											ON
+												en2.encounter_id = ob2.encounter_id
+										WHERE
+											ob2.concept_id = concept.concept_id
+											AND en2.patient_id = encounter.patient_id
+											-- AND en2.visit_id = encounter.visit_id
+									)
+				 AND DATE_FORMAT(obs.obs_datetime,'%H:%i:%s') != '00:00:00' -- We need to check why some obs are time stamped this way
+        )
+        AS illness_days
+	ON
+		complaints_diagnoses.patient_id = illness_days.patient_id AND
+        complaints_diagnoses.visit_id = illness_days.visit_id
 WHERE
     visit.date_started >= :startDate AND
     visit.date_started <= :endDate
