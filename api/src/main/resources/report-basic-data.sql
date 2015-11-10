@@ -1,4 +1,5 @@
 SELECT
+	DATE_FORMAT(myregistration.date,'%d-%m-%Y') AS 'Registration date',
 	CONVERT(myidentifier.identifier, char) AS 'Identifier',
 	myperson.full_name AS 'Full name',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
@@ -11,71 +12,261 @@ SELECT
 	IFNULL(myperson.city_village,"") AS 'Village',
 	IFNULL(myperson.county_district,"") AS 'District',
 	IFNULL(myperson.state_province,"") AS 'Province',
-	diagnoses.diagnoses AS 'Diagnoses',
-	"" AS 'Onset date',
+    myperson.ethnicity AS 'Ethnicity',
+    complaints_diagnoses.complaints AS 'Presenting complaints',
+	complaints_diagnoses.diagnoses AS 'Diagnoses',
+	"" AS 'Days sick',
     DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
 FROM
 (
 	SELECT
-		visit.visit_id AS visit_id,
-		visit.patient_id AS patient_id,
-		GROUP_CONCAT(DISTINCT visit.diagnosis SEPARATOR ', ') AS diagnoses
+		IFNULL(complaints.visit_id, diagnoses.visit_id) AS visit_id,
+		IFNULL(complaints.patient_id, diagnoses.patient_id) AS patient_id,
+		IFNULL(complaints.complaints, "") AS complaints,
+		IFNULL(diagnoses.diagnoses, "") AS diagnoses
 	FROM
-	(
-		SELECT
-			myencounter.visit_id AS visit_id,
-			myencounter.patient_id AS patient_id,
-			myconcept.concept_name AS diagnosis
-		FROM
-			obs
-			LEFT JOIN
-				(
-					SELECT
-						encounter.encounter_id AS encounter_id,
-						encounter_type.encounter_type_id AS encounter_type_id,
-						encounter_type.uuid AS encounter_type_uuid,
-						encounter.visit_id AS visit_id,
-						encounter.patient_id AS patient_id
-					FROM encounter
-						LEFT JOIN encounter_type
-						ON
-							encounter.encounter_type = encounter_type.encounter_type_id
-				)
-				AS myencounter
-			ON
-				obs.encounter_id = myencounter.encounter_id
-			LEFT JOIN
-				(
-					SELECT
-						concept.concept_id AS concept_id,
-						concept_name.name AS concept_name
-					FROM concept
-						LEFT JOIN concept_name
-						ON
-							concept_name.concept_id = concept.concept_id AND
-							concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
-							concept_name.locale = 'en'
-				)
-				AS myconcept
-			ON
-				obs.value_coded = myconcept.concept_id
-		WHERE obs.value_coded IN
 			(
-				SELECT concept.concept_id
-				FROM concept
-					LEFT JOIN concept_class
-					ON
-						concept.class_id = concept_class.concept_class_id
-				WHERE 
-					concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f'
-			)
-			AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474'
-	)
-	AS visit
-	GROUP BY visit.visit_id
-	ORDER BY visit.visit_id DESC
+				SELECT
+					visit.visit_id AS visit_id,
+					visit.patient_id AS patient_id,
+					GROUP_CONCAT(DISTINCT visit.complaint SEPARATOR ', ') AS complaints
+				FROM
+				(
+					SELECT
+						myencounter.visit_id AS visit_id,
+						myencounter.patient_id AS patient_id,
+						myconcept.concept_name AS complaint
+					FROM
+						obs
+						LEFT JOIN
+							(
+								SELECT
+									encounter.encounter_id,
+									encounter.visit_id,
+									encounter.patient_id
+								FROM encounter
+							)
+							AS myencounter
+						ON
+							obs.encounter_id = myencounter.encounter_id
+						LEFT JOIN
+							(
+								SELECT
+									concept.concept_id,
+									concept_name.name AS concept_name
+								FROM concept
+									LEFT JOIN concept_name
+									ON
+										concept_name.concept_id = concept.concept_id AND
+										concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
+										concept_name.locale = 'en'
+							)
+							AS myconcept
+						ON
+							obs.value_coded = myconcept.concept_id
+					WHERE obs.concept_id =
+						(
+							SELECT concept.concept_id
+							FROM concept
+							WHERE 
+								concept.uuid = '5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- Chief complaint, CIEL:5219
+						)
+				)
+				AS visit
+				GROUP BY visit.visit_id, visit.patient_id
+			) AS complaints
+			LEFT OUTER JOIN
+				(
+					SELECT
+						visit.visit_id AS visit_id,
+						visit.patient_id AS patient_id,
+						GROUP_CONCAT(DISTINCT visit.diagnosis SEPARATOR ', ') AS diagnoses
+					FROM
+					(
+						SELECT
+							myencounter.visit_id,
+							myencounter.patient_id,
+							myconcept.concept_name AS diagnosis
+						FROM
+							obs
+							LEFT JOIN
+								(
+									SELECT
+										encounter.encounter_id AS encounter_id,
+										encounter_type.encounter_type_id AS encounter_type_id,
+										encounter_type.uuid AS encounter_type_uuid,
+										encounter.visit_id AS visit_id,
+										encounter.patient_id AS patient_id
+									FROM encounter
+										LEFT JOIN encounter_type
+										ON
+											encounter.encounter_type = encounter_type.encounter_type_id
+								)
+								AS myencounter
+							ON
+								obs.encounter_id = myencounter.encounter_id
+							LEFT JOIN
+								(
+									SELECT
+										concept.concept_id AS concept_id,
+										concept_name.name AS concept_name
+									FROM concept
+										LEFT JOIN concept_name
+										ON
+											concept_name.concept_id = concept.concept_id AND
+											concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
+											concept_name.locale = 'en'
+								)
+								AS myconcept
+							ON
+								obs.value_coded = myconcept.concept_id
+						WHERE obs.value_coded IN
+							(
+								SELECT concept.concept_id
+								FROM concept
+									LEFT JOIN concept_class
+									ON
+										concept.class_id = concept_class.concept_class_id
+								WHERE 
+									concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f'
+							)
+							AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474'
+					)
+					AS visit
+					GROUP BY visit.visit_id
+				)
+				AS diagnoses
+			ON
+				complaints.visit_id = diagnoses.visit_id AND
+				complaints.patient_id = diagnoses.patient_id
+				
+			UNION
+
+			SELECT
+				IFNULL(complaints.visit_id, diagnoses.visit_id) AS visit_id,
+				IFNULL(complaints.patient_id, diagnoses.patient_id) AS patient_id,
+				IFNULL(complaints.complaints, "") AS complaints,
+				IFNULL(diagnoses.diagnoses, "") AS diagnoses
+			FROM
+			(
+				SELECT
+					visit.visit_id AS visit_id,
+					visit.patient_id AS patient_id,
+					GROUP_CONCAT(DISTINCT visit.complaint SEPARATOR ', ') AS complaints
+				FROM
+				(
+					SELECT
+						myencounter.visit_id AS visit_id,
+						myencounter.patient_id AS patient_id,
+						myconcept.concept_name AS complaint
+					FROM
+						obs
+						LEFT JOIN
+							(
+								SELECT
+									encounter.encounter_id,
+									encounter.visit_id,
+									encounter.patient_id
+								FROM encounter
+							)
+							AS myencounter
+						ON
+							obs.encounter_id = myencounter.encounter_id
+						LEFT JOIN
+							(
+								SELECT
+									concept.concept_id,
+									concept_name.name AS concept_name
+								FROM concept
+									LEFT JOIN concept_name
+									ON
+										concept_name.concept_id = concept.concept_id AND
+										concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
+										concept_name.locale = 'en'
+							)
+							AS myconcept
+						ON
+							obs.value_coded = myconcept.concept_id
+					WHERE obs.concept_id =
+						(
+							SELECT concept.concept_id
+							FROM concept
+							WHERE 
+								concept.uuid = '5219AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- Chief complaint, CIEL:5219
+						)
+				)
+				AS visit
+				GROUP BY visit.visit_id, visit.patient_id
+			) AS complaints
+			RIGHT OUTER JOIN
+				(
+					SELECT
+						visit.visit_id AS visit_id,
+						visit.patient_id AS patient_id,
+						GROUP_CONCAT(DISTINCT visit.diagnosis SEPARATOR ', ') AS diagnoses
+					FROM
+					(
+						SELECT
+							myencounter.visit_id,
+							myencounter.patient_id,
+							myconcept.concept_name AS diagnosis
+						FROM
+							obs
+							LEFT JOIN
+								(
+									SELECT
+										encounter.encounter_id AS encounter_id,
+										encounter_type.encounter_type_id AS encounter_type_id,
+										encounter_type.uuid AS encounter_type_uuid,
+										encounter.visit_id AS visit_id,
+										encounter.patient_id AS patient_id
+									FROM encounter
+										LEFT JOIN encounter_type
+										ON
+											encounter.encounter_type = encounter_type.encounter_type_id
+								)
+								AS myencounter
+							ON
+								obs.encounter_id = myencounter.encounter_id
+							LEFT JOIN
+								(
+									SELECT
+										concept.concept_id AS concept_id,
+										concept_name.name AS concept_name
+									FROM concept
+										LEFT JOIN concept_name
+										ON
+											concept_name.concept_id = concept.concept_id AND
+											concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
+											concept_name.locale = 'en'
+								)
+								AS myconcept
+							ON
+								obs.value_coded = myconcept.concept_id
+						WHERE obs.value_coded IN
+							(
+								SELECT concept.concept_id
+								FROM concept
+									LEFT JOIN concept_class
+									ON
+										concept.class_id = concept_class.concept_class_id
+								WHERE 
+									concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f'
+							)
+							AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474'
+					)
+					AS visit
+					GROUP BY visit.visit_id
+				)
+				AS diagnoses
+			ON
+				complaints.visit_id = diagnoses.visit_id AND
+				complaints.patient_id = diagnoses.patient_id
+			WHERE
+				complaints.visit_id IS NULL
+	ORDER BY patient_id ASC, visit_id ASC
 )
-AS diagnoses
+AS complaints_diagnoses
 	LEFT JOIN
 		(
 			SELECT
@@ -88,7 +279,8 @@ AS diagnoses
                 mother_name.value AS mother_name,
 				myaddress.city_village,
 				myaddress.county_district,
-				myaddress.state_province
+				myaddress.state_province,
+                myethnicity.name AS ethnicity
 			FROM
 				person
 				LEFT JOIN
@@ -198,10 +390,53 @@ AS diagnoses
 				AS myaddress
 				ON
 					person.person_id = myaddress.person_id
+				LEFT JOIN
+				(
+					SELECT
+						obs.person_id,
+						concept_name.name			
+					FROM
+						obs
+					LEFT JOIN
+						concept_name
+                    ON
+						obs.value_coded = concept_name.concept_id
+					WHERE
+						concept_name.concept_name_type = 'FULLY_SPECIFIED' AND
+						concept_name.locale = 'en' AND
+                        obs.obs_datetime =  (	SELECT
+													MAX(ob2.obs_datetime)
+												FROM
+													obs ob2
+												WHERE
+													ob2.person_id = obs.person_id AND
+                                                    ob2.concept_id = obs.concept_id	)
+                        AND
+                        obs.concept_id = (
+											SELECT DISTINCT
+												concept_reference_map.concept_id
+											FROM
+												concept_reference_map
+											LEFT JOIN
+												(concept, concept_name, concept_reference_term, concept_map_type, concept_reference_source)
+											ON
+												concept_reference_map.concept_id = concept.concept_id AND
+												concept_reference_map.concept_id = concept_name.concept_id AND
+												concept_reference_map.concept_map_type_id = concept_map_type.concept_map_type_id AND
+												concept_reference_map.concept_reference_term_id = concept_reference_term.concept_reference_term_id AND
+												concept_reference_term.concept_source_id = concept_reference_source.concept_source_id
+											WHERE
+												concept_reference_source.name = "LFHC" AND concept_reference_term.code = 912
+										)
+				)
+				AS myethnicity
+				ON
+					person.person_id = myethnicity.person_id
+				
 		)
 		AS myperson
 	ON
-		diagnoses.patient_id = myperson.person_id
+		complaints_diagnoses.patient_id = myperson.person_id
 	LEFT JOIN
 		(
 			SELECT
@@ -220,13 +455,37 @@ AS diagnoses
         )
         AS myidentifier
 	ON
-		diagnoses.patient_id = myidentifier.patient_id
+		complaints_diagnoses.patient_id = myidentifier.patient_id
 	LEFT JOIN
 		visit
 	ON
-		diagnoses.visit_id = visit.visit_id
+		complaints_diagnoses.visit_id = visit.visit_id
+	LEFT JOIN
+		(
+			SELECT
+				encounter.patient_id AS patient_id,
+                encounter.encounter_datetime AS date
+		
+			FROM
+				encounter
+			LEFT JOIN
+				encounter_type
+			ON
+				encounter.encounter_type = encounter_type.encounter_type_id
+			WHERE
+                encounter_type.uuid = '3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c' AND -- registration encounter type's UUID
+                encounter.date_created = (	SELECT
+												MIN(en2.date_created) -- We retain the oldest registration encounter in case of merged patients.
+											FROM
+												encounter en2
+											WHERE
+												en2.patient_id = encounter.patient_id 	)
+        )
+        AS myregistration
+	ON
+		complaints_diagnoses.patient_id = myregistration.patient_id
 WHERE
     visit.date_started >= :startDate AND
     visit.date_started <= :endDate
-ORDER BY visit.date_started DESC
+ORDER BY visit.date_started DESC, myidentifier.identifier ASC
 ;
