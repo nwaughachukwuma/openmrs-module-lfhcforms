@@ -1,7 +1,7 @@
 <htmlform formUuid="3a6776bd-43ed-4844-a815-155068e65aca" formName="Nurse Blood Transfusion" formEncounterType="10c20ebf-1af2-4ddf-bdaa-219fe8ff930b" formVersion="0.1"
 formAddMetadata="no"
 formUILocation="patientDashboard.visitActions"
-formOrder="1"
+formOrder="135"
 formIcon="icon-medkit"
 formShowIf=""
 formDisplayStyle="Simple"
@@ -29,6 +29,8 @@ formDisplayStyle="Simple"
 	$('#blood-type-latest-date').show();
 	$('#blood-type-latest-date').text($('#blood-type-latest-date').text() + ' - ' + bloodTypeDate);
 	$('#blood-type-no-latest').hide();
+
+	setValue('blood-type.value','${bId}');
 }
 });
 &lt;/script>
