@@ -489,35 +489,30 @@ AS complaints_diagnoses
 	LEFT JOIN
 		(
 			SELECT
-				obs.value_numeric AS number,
-				encounter.patient_id,
-				encounter.visit_id
+				dat.visit_id,
+				dat.patient_id,
+				SUBSTRING_INDEX(GROUP_CONCAT(days SEPARATOR '|'), '|', 1) AS number
 			FROM
-				obs
-			LEFT JOIN
-				(encounter, encounter_type, concept)
-			ON
-				encounter.encounter_id = obs.encounter_id AND
-				encounter.encounter_type = encounter_type.encounter_type_id AND
-				obs.concept_id = concept.concept_id
-			WHERE
-				concept.uuid = '1553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- CIEL:1553, Duration of illness
-				AND
-				obs.obs_datetime = (
-										SELECT
-											MAX(ob2.obs_datetime)
-										FROM
-											obs ob2
-											LEFT JOIN
-												encounter en2
-											ON
-												en2.encounter_id = ob2.encounter_id
-										WHERE
-											ob2.concept_id = concept.concept_id
-											AND en2.patient_id = encounter.patient_id
-											-- AND en2.visit_id = encounter.visit_id
-									)
-				 AND DATE_FORMAT(obs.obs_datetime,'%H:%i:%s') != '00:00:00' -- We need to check why some obs are time stamped this way
+			(
+				SELECT
+					encounter.visit_id,
+					encounter.patient_id,
+					obs.value_numeric days
+				FROM
+					obs
+				LEFT JOIN
+					(encounter, encounter_type, concept)
+				ON
+					encounter.encounter_id = obs.encounter_id
+					AND obs.concept_id = concept.concept_id
+					AND encounter_type.encounter_type_id = encounter.encounter_type
+				WHERE
+					concept.uuid = '1553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- CIEL:1553 "Duration of illness"
+				ORDER BY encounter.visit_id ASC, encounter.patient_id ASC, encounter_type.uuid ASC, obs.obs_datetime DESC, obs.date_created DESC
+				-- Doctor History's UUID = a9702711, OPD Nurse's UUID = c7700650
+			)
+			AS dat
+			GROUP BY dat.visit_id, dat.patient_id
         )
         AS illness_days
 	ON
