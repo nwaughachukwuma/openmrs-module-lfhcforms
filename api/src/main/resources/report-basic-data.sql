@@ -1,8 +1,6 @@
 SELECT
 	DATE_FORMAT(myregistration.date,'%d-%m-%Y') AS 'Registration date',
 	CONVERT(myidentifier.identifier, char) AS 'Identifier',
-    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date',
-    IFNULL(illness_days.number,"") AS 'Days sick',
 	myperson.full_name AS 'Full name',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
