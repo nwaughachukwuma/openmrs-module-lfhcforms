@@ -1,6 +1,8 @@
 SELECT
 	DATE_FORMAT(myregistration.date,'%d-%m-%Y') AS 'Registration date',
 	CONVERT(myidentifier.identifier, char) AS 'Identifier',
+    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date',
+    IFNULL(illness_days.number,"") AS 'Days sick',
 	myperson.full_name AS 'Full name',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
@@ -15,7 +17,7 @@ SELECT
     myperson.ethnicity AS 'Ethnicity',
     complaints_diagnoses.complaints AS 'Presenting complaints',
 	complaints_diagnoses.diagnoses AS 'Diagnoses',
-	"" AS 'Days sick',
+	IFNULL(illness_days.number,"") AS 'Days sick',
     DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
 FROM
 (
@@ -484,6 +486,38 @@ AS complaints_diagnoses
         AS myregistration
 	ON
 		complaints_diagnoses.patient_id = myregistration.patient_id
+	LEFT JOIN
+		(
+			SELECT
+				dat.visit_id,
+				dat.patient_id,
+				SUBSTRING_INDEX(GROUP_CONCAT(days SEPARATOR '|'), '|', 1) AS number
+			FROM
+			(
+				SELECT
+					encounter.visit_id,
+					encounter.patient_id,
+					obs.value_numeric days
+				FROM
+					obs
+				LEFT JOIN
+					(encounter, encounter_type, concept)
+				ON
+					encounter.encounter_id = obs.encounter_id
+					AND obs.concept_id = concept.concept_id
+					AND encounter_type.encounter_type_id = encounter.encounter_type
+				WHERE
+					concept.uuid = '1553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' -- CIEL:1553 "Duration of illness"
+				ORDER BY encounter.visit_id ASC, encounter.patient_id ASC, encounter_type.uuid ASC, obs.obs_datetime DESC, obs.date_created DESC
+				-- Doctor History's UUID = a9702711, OPD Nurse's UUID = c7700650
+			)
+			AS dat
+			GROUP BY dat.visit_id, dat.patient_id
+        )
+        AS illness_days
+	ON
+		complaints_diagnoses.patient_id = illness_days.patient_id AND
+        complaints_diagnoses.visit_id = illness_days.visit_id
 WHERE
     visit.date_started >= :startDate AND
     visit.date_started <= :endDate
