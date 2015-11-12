@@ -51,6 +51,14 @@
 
 /* style for disabled input */
 .input-disabled {
-            background-color:#EBEBE4;
-        }
+    background-color:#EBEBE4;
+}
 
+
+/* style to display fields as blocks */
+
+div.order > span { 
+    display:block;
+}
+
+    

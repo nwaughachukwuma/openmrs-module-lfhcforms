@@ -119,46 +119,51 @@ var handleViewMode = function (formUuid) {
 							/* Create a new "p" */
 							var newP = $("<p>");
 							$(newP).append("<span class=\"obs-field\">"+$('<div>').append(obsSpan.clone()).html()+$('<div>').append(unitsSpan.clone()).html()+"</span>");
-							/*var newSpan = $("<span>"); */
-							/*$(newSpan).append("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html()); */
-
-							/* replace the current "p" by its new version */
-							$(element).closest("p").replaceWith("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html());
+							
+							if ($(labelSpan).closest("div").attr("class") == "order") {
+								var newSpan = $("<span>");
+								$(newSpan).append("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html());
+								/* replace the current "p" by its new version */
+								$(element).closest("p").replaceWith($('<div>').append($(newSpan).clone()).html());
+							} else {
+								/* replace the current "p" by its new version */
+								$(element).closest("p").replaceWith("<h3>"+obsTitle+" </h3>"+$('<div>').append($(newP).clone()).html());
+							}
 						});
 
-					});
+});
 
-/* hide the parent "p" section when Obs have emptyValue */
-$(currentFieldset).find(".emptyValue").closest("p").hide();
+	/* hide the parent "p" section when Obs have emptyValue */
+	$(currentFieldset).find(".emptyValue").closest("p").hide();
 
-if (hideFieldset) {
-	$(currentFieldset).hide()
-}
+	if (hideFieldset) {
+		$(currentFieldset).hide()
+	}
 
-/* handle the "when" markup */
-$(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
-	if ($(thenDisplay).text() == "") {
-		$(thenDisplay).closest("p").hide();
+	/* handle the "when" markup */
+	$(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
+		if ($(thenDisplay).text() == "") {
+			$(thenDisplay).closest("p").hide();
+		}
+	});
+	i = i+1;
+
+	/* if all fieldsets of the current section are hidden, define an empty fieldset */
+	if ($(currentFieldset).css("display") == "none"){
+		emptyFieldset = emptyFieldset+1;
+	}
+
+	/*1 if all fieldsets are empty, define the hideSection */
+	if(emptyFieldset == indexF) {
+		hideSection = true;
+	} else {
+		hideSection = false;
 	}
 });
-i = i+1;
 
-/* if all fieldsets of the current section are hidden, define an empty fieldset */
-if ($(currentFieldset).css("display") == "none"){
-	emptyFieldset = emptyFieldset+1;
-}
-
-/*1 if all fieldsets are empty, define the hideSection */
-if(emptyFieldset == indexF) {
-	hideSection = true;
-} else {
-	hideSection = false;
-}
-});
-
-if (hideSection) {
-	$(currentSection).hide()
-}
+	if (hideSection) {
+		$(currentSection).hide()
+	}
 
 
 });

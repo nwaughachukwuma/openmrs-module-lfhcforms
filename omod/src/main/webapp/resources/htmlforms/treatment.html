@@ -1,4 +1,4 @@
-<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.6.6"
+<htmlform formUuid="3faa978f-8c89-4f8e-b29f-17fd11099ecf" formName="Treatment Plan/Order" formEncounterType="feacdb57-4388-4b39-8840-2ff063bfab34" formVersion="0.7"
 formAddMetadata="yes"
 formUILocation="patientDashboard.visitActions"
 formOrder="70"
@@ -329,29 +329,59 @@ formDisplayStyle="Simple"
 		</repeat>
 	</fieldset>
 
-	<!-- Commenting Blood transfusion section -->
-	<!-- To be deployed on next version -->
-	<!--
+
 	<fieldset field-separator=", ">
 		<legend>Blood Transfusion</legend>
 		<h3>Blood transfusion</h3>
 		<p>
-			<span class="questionLabel">Order blood transfusion</span>
 			<obs id="btrans" conceptId="LFHC:1275" >
 				<controls>
 					<when value="CIEL:1065" thenDisplay="#btrans-yes"></when>
 				</controls>
 			</obs>
 		</p>
-		<ifMode mode="VIEW" include="false">
-			<p id="btrans-yes">
-				<strong>
-					Please fill in the Doctor/Nurse Blood Transfusion forms to order blood transfusion
-				</strong>
-			</p>
-		</ifMode>
+		<div id="btrans-yes" class="order">
+			<span class="block">
+				<p>
+					<span class="questionLabel">Volume of blood to be administered</span>
+					<obs conceptId="LFHC:1211" showUnits="true" />
+				</p>
+			</span>
+			<span class="block">
+				<p>
+					<span class="questionLabel">Type of transfusion fluid</span>
+					<obs conceptId="CIEL:161927" />
+				</p>
+			</span>
+			<span class="block">
+				<p>
+					<span class="questionLabel">Duration of transfusion</span>
+					<obs conceptId="LFHC:1212" showUnits="true" />
+				</p>
+			</span>
+		</div>
 	</fieldset>
-	-->
+
+	<ifMode mode="view">
+		<fieldset>
+			<h3>Volume of blood to be administered</h3>
+			<p>
+				<obs conceptId="LFHC:1211" showUnits="true" />
+			</p>
+		</fieldset>
+		<fieldset>
+			<h3>Type of transfusion fluid</h3>
+			<p>
+				<obs conceptId="CIEL:161927" />
+			</p>
+		</fieldset>
+		<fieldset>
+			<h3>Duration of transfusion</h3>
+			<p>
+				<obs conceptId="LFHC:1212" showUnits="true" />
+			</p>
+		</fieldset>
+	</ifMode>
 
 	<fieldset field-separator=", ">
 
