@@ -55,8 +55,7 @@
 }
 
 
-/* style to display fields as blocks */
-
+/* style to display "span"s that are immediatly child "div.order" (div with "order" class) as blocks */
 div.order > span { 
     display:block;
 }
