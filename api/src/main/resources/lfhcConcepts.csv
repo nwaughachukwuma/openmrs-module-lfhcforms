@@ -49,9 +49,9 @@ LFHC:1029		drug route			"what drug route should be used?
 "	Question	No	Coded	160242, 160240, 160243, 161253, 160245,160241, 162798, 162448,5622, 162385, 162386, 162387, 162388, 162389, 162390, 162392, 162393, 162824								
 LFHC:1030		 wound type			what type of wound	Diagnosis	No	Coded	161917, 161918, 161919, 116543, 161920, 161921, 124193,132869								
 LFHC:1031		factors affecting wound healing			what factors are affecting the healing of this wound?	Question	No	Coded	115122, 112483, 125688, 113948, 145439, 159598, 819, 5622								
-LFHC:1032		measurement across wound in cm	wound width		Measurements Greatest width across wound in cm	Finding	No	Numeric		cm							
-LFHC:1033		measurement length wound in cm	wound length		Measurements Greatest length of wound in cm	Finding	No	Numeric		cm							
-LFHC:1034		measurement depth wound in cm	wound depth		Measurements Greatest depth of wound in cm	Finding	No	Numeric		cm							
+LFHC:1032		measurement across wound in cm	wound width		Measurements Greatest width across wound in cm	Finding	No	Numeric		cm							Yes
+LFHC:1033		measurement length wound in cm	wound length		Measurements Greatest length of wound in cm	Finding	No	Numeric		cm							Yes
+LFHC:1034		measurement depth wound in cm	wound depth		Measurements Greatest depth of wound in cm	Finding	No	Numeric		cm							Yes
 LFHC:1035		exudate present on wound			is there exudate on the wound?	Question	No	Coded	1065, 1066, 1067								
 LFHC:1036		serous			the colour of serum - descriptor	Misc	No	N/A									
 LFHC:1037		type of exudate			what type of exudate is present?	Finding	No	Coded	LFHC:1036, LFHC:1038, 1077, 1076								
@@ -358,3 +358,7 @@ LFHC:1280		Cerebrospinal Fluid culture			CSF culture	Test	No	Coded	664, 706
 LFHC:1281		Joint Fluid culture			joint fluid culture	Test	No	Coded	664, 707								
 LFHC:1282		Other site culture			other site fluid or tissue culture	Test	No	Coded	664, 708								
 LFHC:1283		Relationship to Patient			What is the relationship of the interviewee to the patient?	Question	No	Coded	1527, 972, 973, 5617, 1528, 5620, 1067, 161908,1107								
+LFHC:1284		Donor blood group		Donor blood type	Donor blood group	Test	No	Coded	690, 692, 694, 696, 699, 701, 1230, 1231								
+LFHC:1285		Does patient need ultrasounds ?			Specify if utlrasound order is needed for the patient	Question	No	Coded	1065, 1066, 1067								
+LFHC:1286		Does patient need X-rays ?			Specify if x-ray order is needed for the patient	Question	No	Coded	1065, 1066, 1067								
+LFHC:1287		Does patient need lab tests ?			Specify if lab test order is needed for the patient	Question	No	Coded	1065, 1066, 1067								
