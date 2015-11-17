@@ -261,7 +261,7 @@ public class LFHCConceptsInitializer implements Initializer {
 	        		continue;
 	        	}
 	        	
-	        	// We obtain a map of the concep's properties.
+	        	// We obtain a map of the concept's properties.
 	        	Map<String, String> map = new HashMap<String, String>();
                 for (int i = 0; i < header.length; i++) {
 	                String string = header[i];

@@ -867,6 +867,15 @@
 			<artifactId>openmrs-test</artifactId>
 			<type>pom</type>
 		</dependency>
+		
+		<!-- The below dep. are needed for Activator's bulk import -->
+		<dependency>
+	        <groupId>org.openmrs.module</groupId>
+	        <artifactId>emrapi-api-1.11</artifactId>
+	        <version>1.11</version>
+			<scope>provided</scope>
+     	</dependency>
+  
 	</dependencies>
 
 	<build>
