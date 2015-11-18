@@ -37,8 +37,8 @@ formDisplayStyle="Standard"
 	&lt;/script>
 	#end
 	"/>
-</ifMode>
 
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -74,7 +74,7 @@ formDisplayStyle="Standard"
 	</div>
 </ifMode>
 
-<div id="demographics" headerCode="lfhcforms.registrationinfo.demographics">
+<div id="demographics" style="margin-left:25px; margin-right:25px">
 		<h4>
 			<uimessage code="lfhcforms.app.registerPatient.ethnicity"/>
 		</h4>
@@ -88,8 +88,13 @@ formDisplayStyle="Standard"
 			<obs conceptId="LFHC:920"/>
 		</p>
 
-	<uiInclude provider="lfhcforms" fragment="registrationInfo"/>
-
+		<uiInclude provider="lfhcforms" fragment="registrationInfo"/>
+	
+	<hr style="border:1px; border-bottom:solid 1px #323060; margin-top: 25px; margin-bottom: 25px"/>
+	<button class="cancel"><uimessage code="coreapps.cancel" /></button>
+	<button class="confirm right"><uimessage code="coreapps.confirm" /><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
 </div>
-<submit/>
+
+
+
 </htmlform>

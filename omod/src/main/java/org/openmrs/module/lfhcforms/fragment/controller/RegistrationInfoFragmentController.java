@@ -2,12 +2,19 @@ package org.openmrs.module.lfhcforms.fragment.controller;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
+import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.VisitService;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
+import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
