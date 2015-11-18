@@ -48,12 +48,12 @@
                       ]
                   },
                   {
-                      "legend": "Phone",
+                      "legend": "registrationapp.patient.phone.label",
                       "id": "phoneNumberLabel",
                       "fields": [
                           {
                               "type": "personAttribute",
-                              "label": "Patient Phone Number",
+                              "label": "registrationapp.patient.phone.question",
                               "formFieldName": "phoneNumber",
                               "uuid": "14d4f066-15f5-102d-96e4-000c29c2a5d7",
                               "widget": {
@@ -71,11 +71,11 @@
                "label": "Next of Kin",
                "questions":[
                   {
-                      "legend": "Father",
+                      "legend": "${project.parent.artifactId}.app.registerPatient.father.legend",
                       "fields": [
                           {
                               "type": "personAttribute",
-                              "label": "Father's name",
+                              "label": "${project.parent.artifactId}.app.registerPatient.father.name",
                               "formFieldName": "fatherName",
                               "uuid": "51c5e4f4-7e13-11e5-8bcf-feff819cdc9f",
                               "widget": {
@@ -85,7 +85,7 @@
                           },
                           {
                               "type": "personAttribute",
-                              "label": "Father's occupation",
+                              "label": "${project.parent.artifactId}.app.registerPatient.father.occupation",
                               "formFieldName": "fatherOccupation",
                               "uuid": "51c5e88c-7e13-11e5-8bcf-feff819cdc9f",
                               "widget": {
@@ -99,11 +99,11 @@
                       ]
                   },
                   {
-                      "legend": "Mother",
+                      "legend": "${project.parent.artifactId}.app.registerPatient.mother.legend",
                       "fields": [
                           {
                               "type": "personAttribute",
-                              "label": "Mother's name",
+                              "label": "${project.parent.artifactId}.app.registerPatient.mother.name",
                               "formFieldName": "motherName",
                               "uuid": "8d871d18-c2cc-11de-8d13-0010c6dffd0f",
                               "widget": {
@@ -120,11 +120,11 @@
                "label":"Insurance",
                "questions":[
                   {
-                     "legend":"Insurance",
+                     "legend":"${project.parent.artifactId}.app.registerPatient.insurance.legend",
                      "fields":[
                         {
                             "type": "personAttribute",
-                            "label": "Insurance details",
+                            "label": "${project.parent.artifactId}.app.registerPatient.insurance.details",
                             "formFieldName": "insuranceDetails",
                             "uuid": "5c6ee7c2-7e1b-11e5-8bcf-feff819cdc9f",
                             "widget": {
@@ -142,12 +142,12 @@
                "label":"Ethnicity",
                "questions":[
                   {
-                     "legend":"lfhcforms.app.registerPatient.section.ethnicity",
+                     "legend":"${project.parent.artifactId}.app.registerPatient.section.ethnicity",
                      "fields":[
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:912",
-                           "label":"lfhcforms.app.registerPatient.ethnicity",
+                           "label":"${project.parent.artifactId}.app.registerPatient.ethnicity",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/ethnicity"
@@ -156,7 +156,7 @@
                         {
                            "type":"obs",
                            "formFieldName":"obs.LFHC:920",
-                           "label":"lfhcforms.app.registerPatient.language",
+                           "label":"${project.parent.artifactId}.app.registerPatient.language",
                            "widget":{
                               "providerName":"lfhcforms",
                               "fragmentId":"field/language"
