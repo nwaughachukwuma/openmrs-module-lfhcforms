@@ -60,4 +60,9 @@ div.order > span {
     display:block;
 }
 
-    
+
+/* style for option elements */
+option.dialog-drop-down {
+    font-size:1em!important;
+}
+
