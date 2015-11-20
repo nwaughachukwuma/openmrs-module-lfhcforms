@@ -277,14 +277,11 @@ formDisplayStyle="Simple"
 		<p>
 			<obs conceptId="LFHC:1176" rows="4" cols="50"/>
 		</p>
-
 	</fieldset>
 
 	<fieldset>
-
 		<legend>IV fluids order</legend>
 		<h3>Intravenous fluids order</h3>
-
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" templateBlockId="ivs" class="toggleContainer" style="display:none;" >
@@ -307,8 +304,6 @@ formDisplayStyle="Simple"
 								<span class="questionLabel">Rate of IV fluid: </span>
 								<obs id="{n}-bolus-no-amount" conceptId="CIEL:162745" showUnits="true"/>
 							</p>
-
-							
 						</obsgroup>
 					</div>
 					<p>
@@ -341,24 +336,18 @@ formDisplayStyle="Simple"
 			</obs>
 		</p>
 		<div id="btrans-yes" class="order">
-			<span class="block">
 				<p>
 					<span class="questionLabel">Volume of blood to be administered</span>
 					<obs conceptId="LFHC:1211" showUnits="true" />
 				</p>
-			</span>
-			<span class="block">
 				<p>
 					<span class="questionLabel">Type of transfusion fluid</span>
 					<obs conceptId="CIEL:161927" />
 				</p>
-			</span>
-			<span class="block">
 				<p>
 					<span class="questionLabel">Duration of transfusion</span>
 					<obs conceptId="LFHC:1212" showUnits="true" />
 				</p>
-			</span>
 		</div>
 	</fieldset>
 

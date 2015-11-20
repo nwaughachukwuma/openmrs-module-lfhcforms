@@ -1,10 +1,10 @@
-<htmlform formUuid="49772477-83f7-4b08-a357-4102f42f2e14" formName="Edit Ethnicity" formEncounterType="3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c" formVersion="0.4"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.overallActions"
-	formOrder="10"
-	formIcon="icon-user"
-	formShowIf=""
-	formDisplayStyle="Simple"
+<htmlform formUuid="49772477-83f7-4b08-a357-4102f42f2e14" formName="Edit Registration Info" formEncounterType="3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c" formVersion="0.5"
+formAddMetadata="yes"
+formUILocation="patientDashboard.overallActions"
+formOrder="10"
+formIcon="icon-user"
+formShowIf=""
+formDisplayStyle="Standard"
 >
 
 <ifMode mode="ENTER">
@@ -15,7 +15,7 @@
 				newPath = currentPath.replace("enterHtml","editHtml")
 				var urlParts = newPath.split('?');
 				newPath = urlParts[0];
-				var form = "definitionUiResource=lfhcforms:htmlforms/ethnicity.html"
+				var form = "definitionUiResource=lfhcforms:htmlforms/registration.html"
 				newArgs = ("?patientId="+patientId+"&amp;encounterId="+encounterId+"&amp;"+form);
 				window.location.href = (newPath+"?patientId="+patientId+"&amp;encounterId="+encounterId+"&amp;"+form);
 
@@ -37,8 +37,8 @@
 	&lt;/script>
 	#end
 	"/>
-</ifMode>
 
+</ifMode>
 
 <div class="hidden" id="who-when-where">
 	<p id="who">
@@ -70,34 +70,31 @@
 
 <ifMode mode="ENTER">
 	<div id="redirect" style="display:none;">
-		<uimessage code="lfhcforms.ethnicity.redirect"/>
+		<uimessage code="lfhcforms.editregistration.redirect"/>
 	</div>
 </ifMode>
 
-<section id="demographics" sectionTag="section" headerStyle="title" headerCode="lfhcforms.app.registerPatient.section.ethnicity">
-	<fieldset>
-		<legend>
+<div id="demographics" style="margin-left:25px; margin-right:25px">
+		<h4>
 			<uimessage code="lfhcforms.app.registerPatient.ethnicity"/>
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.app.registerPatient.ethnicity"/>
-		</h3>
+		</h4>
 		<p>
 			<obs conceptId="LFHC:912"/>
 		</p>
-	</fieldset>
-	<fieldset>
-		<legend>
+		<h4>
 			<uimessage code="lfhcforms.app.registerPatient.language"/>
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.app.registerPatient.language"/>
-		</h3>
+		</h4>
 		<p>
 			<obs conceptId="LFHC:920"/>
 		</p>
-	</fieldset>
-</section>
 
-<submit/>
+		<uiInclude provider="lfhcforms" fragment="registrationInfo"/>
+	
+	<hr style="border:1px; border-bottom:solid 1px #323060; margin-top: 25px; margin-bottom: 25px"/>
+	<button class="cancel"><uimessage code="coreapps.cancel" /></button>
+	<button class="confirm right"><uimessage code="coreapps.confirm" /><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+</div>
+
+
+
 </htmlform>

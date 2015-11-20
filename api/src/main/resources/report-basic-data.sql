@@ -528,6 +528,6 @@ AS complaints_diagnoses
         complaints_diagnoses.visit_id = illness_days.visit_id
 WHERE
     visit.date_started >= :startDate AND
-    visit.date_started <= :endDate
-ORDER BY visit.date_started DESC, omrs_identifier.identifier ASC
+    DATE_SUB(visit.date_started, INTERVAL 1 DAY) <= :endDate -- Because :endDate is set at 00:00
+ORDER BY visit.date_started DESC, myidentifier.identifier ASC
 ;
