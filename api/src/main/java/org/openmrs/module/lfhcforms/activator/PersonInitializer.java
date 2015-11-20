@@ -25,6 +25,8 @@ import org.openmrs.module.lfhcforms.LFHCFormsActivator;
  * @author Dimitri Renault
  */
 public class PersonInitializer implements Initializer {
+	
+	final public static String FATHER_NAME_ATTR_TYPE_UUID = "51c5e4f4-7e13-11e5-8bcf-feff819cdc9f";
 
 	protected static final Log log = LogFactory.getLog(PersonInitializer.class);
 
@@ -48,7 +50,7 @@ public class PersonInitializer implements Initializer {
 			Context.getPersonService().savePersonAttributeType(type);
 		}
 		{
-			String uuid = "51c5e4f4-7e13-11e5-8bcf-feff819cdc9f";
+			String uuid = FATHER_NAME_ATTR_TYPE_UUID;
 			PersonAttributeType type = Context.getPersonService().getPersonAttributeTypeByUuid(uuid);
 			if(type == null) {
 				type = new PersonAttributeType();
@@ -71,7 +73,6 @@ public class PersonInitializer implements Initializer {
 			type.setFormat("java.lang.String");
 			Context.getPersonService().savePersonAttributeType(type);
 		}
-		
 	}
 
 	/**

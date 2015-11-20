@@ -6,9 +6,7 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
 import org.openmrs.module.lfhcforms.reporting.reports.BasicDataReport;
-import org.openmrs.module.reporting.common.ObjectUtil;
 import org.openmrs.module.reporting.report.manager.ReportManagerUtil;
-import org.openmrs.module.reporting.report.util.ReportUtil;
 
 /**
  * Sets up the Encounter Types required by the HFE forms.

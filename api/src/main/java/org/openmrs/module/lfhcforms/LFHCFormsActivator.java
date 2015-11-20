@@ -26,7 +26,7 @@ import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
 import org.openmrs.module.lfhcforms.activator.HtmlFormsInitializer;
 import org.openmrs.module.lfhcforms.activator.Initializer;
 import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
-import org.openmrs.module.lfhcforms.activator.LFHCLegacyPatientsInitializer;
+import org.openmrs.module.lfhcforms.activator.LFHCLegacyDataInitializer;
 import org.openmrs.module.lfhcforms.activator.PersonInitializer;
 import org.openmrs.module.lfhcforms.activator.ReportsInitializer;
 
@@ -55,7 +55,7 @@ public class LFHCFormsActivator implements ModuleActivator {
 		l.add(new HtmlFormsInitializer());
 		l.add(new ReportsInitializer());
 		l.add(new PersonInitializer());
-		l.add(new LFHCLegacyPatientsInitializer());
+		l.add(new LFHCLegacyDataInitializer());
 		return l;
 	}
 	

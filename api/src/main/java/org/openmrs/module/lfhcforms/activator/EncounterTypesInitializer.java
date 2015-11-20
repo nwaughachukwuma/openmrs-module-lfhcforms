@@ -14,6 +14,8 @@ public class EncounterTypesInitializer implements Initializer {
 
 	protected static final Log log = LogFactory.getLog(EncounterTypesInitializer.class);
 
+	final public static String LEGACY_ENCOUNTER_TYPE_UUID = "02576f74-f602-468d-8b25-a90d405dc2c3";
+	
 	/**
 	 * @see Initializer#started()
 	 */
@@ -23,6 +25,17 @@ public class EncounterTypesInitializer implements Initializer {
 		
 		EncounterService es = Context.getEncounterService();
 
+		{
+			String name = "Legacy Encounter";
+			String desc = "Custom registration encounter type, recording ethnicity and language spoken.";
+			String uuid = LEGACY_ENCOUNTER_TYPE_UUID;
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
 		{
 			String name = "Registration Encounter";
 			String desc = "Custom registration encounter type, recording ethnicity and language spoken.";
