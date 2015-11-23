@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.lfhcforms.fragment.controller;
+package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,6 +43,16 @@ public class VisitWithLocationFragmentController {
 
 	protected static final Log log = LogFactory.getLog(VisitWithLocationFragmentController.class);
 
+	/**
+	 * 
+	 * Controller to let user start a visit in a specific visit location
+	 * 
+	 * @param model
+	 * @param patient
+	 * @param ui
+	 * @param adtService
+	 * @param sessionContext
+	 */
 	public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, UiUtils ui,
 			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
 		model.addAttribute("locationList", null);
@@ -62,6 +72,17 @@ public class VisitWithLocationFragmentController {
 		model.addAttribute("locationList", visitLocations);
 	}
 
+	/**
+	 * 
+	 * Saves visit with a location provided by the view
+	 * 
+	 * @param adtService
+	 * @param patient
+	 * @param selectedLocation
+	 * @param uiUtils
+	 * @param request
+	 * @return
+	 */
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
 			@RequestParam("patientId") Patient patient, @RequestParam("selectedLocation") Location selectedLocation,
 			UiUtils uiUtils, HttpServletRequest request) {
@@ -101,7 +122,6 @@ public class VisitWithLocationFragmentController {
 			}
 			;
 		}
-
 		return activeVisits;
 
 	}

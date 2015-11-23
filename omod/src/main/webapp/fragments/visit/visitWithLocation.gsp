@@ -1,5 +1,5 @@
 <% 
-ui.includeJavascript("lfhcforms", "visitWithLocation.js")
+ui.includeJavascript("lfhcforms", "visit/visitWithLocation.js")
 %>
 
 <div id="start-visit-with-location-dialog" class="dialog" style="display: none;">
