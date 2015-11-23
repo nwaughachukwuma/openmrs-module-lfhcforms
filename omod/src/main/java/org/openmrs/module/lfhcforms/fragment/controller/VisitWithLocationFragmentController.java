@@ -13,6 +13,8 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
@@ -21,7 +23,6 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.fragment.action.FailureResult;
@@ -33,46 +34,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 
 @Transactional
-public class StartVisitWithLocationFragmentController {
+public class VisitWithLocationFragmentController {
 
-	public void controller(	FragmentModel model, @RequestParam("patientId") Patient patient
-			, UiUtils ui
-			,	@SpringBean("adtService") AdtService adtService
-			)
-	{
+	protected static final Log log = LogFactory.getLog(VisitWithLocationFragmentController.class);
+
+	public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, UiUtils ui,
+			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
 		model.addAttribute("locationList", null);
 		model.addAttribute("activeVisitList", null);
+		model.addAttribute("userVisitLocation", null);
 
 		List<Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
-		
+
 		// send active visits to the view, if any.
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
 
+		// get the user's visit location
+		Location userVisitLocation = adtService.getLocationThatSupportsVisits(sessionContext.getSessionLocation());
+		model.addAttribute("userVisitLocation", userVisitLocation);
+
 		model.addAttribute("activeVisitList", activeVisits);
-		model.addAttribute("locationList" , visitLocations);
+		model.addAttribute("locationList", visitLocations);
 	}
 
-
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
-			@RequestParam("patientId") Patient patient,
-			@RequestParam("selectedLocation") Location location, UiUtils uiUtils,
-			UiSessionContext emrContext,
-			HttpServletRequest request) {
-		
+			@RequestParam("patientId") Patient patient, @RequestParam("selectedLocation") Location selectedLocation,
+			UiUtils uiUtils, HttpServletRequest request) {
+
 		// Do not save if patient already has active visit, in any location
-		if (getActiveVisits(patient, adtService).size() != 0) {
+		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
+		if (activeVisits.size() != 0) {
+			log.warn("Patient already has active visits. " + activeVisits.toString());
 			return new FailureResult(uiUtils.message("coreapps.activeVisits.alreadyExists"));
 		}
-
-		adtService.ensureVisit(patient, new Date(), location);
+		adtService.ensureVisit(patient, new Date(), selectedLocation);
 
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
@@ -89,16 +89,17 @@ public class StartVisitWithLocationFragmentController {
 	 * @param adtService
 	 * @return boolean
 	 */
-	private ArrayList <Visit> getActiveVisits (Patient patient, AdtService adtService) {
+	private ArrayList<Visit> getActiveVisits(Patient patient, AdtService adtService) {
 
-		ArrayList <Visit> activeVisits = new ArrayList<Visit>();
-		List <Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
-		for(Iterator<Location> it = visitLocations.iterator(); it.hasNext();) {
+		ArrayList<Visit> activeVisits = new ArrayList<Visit>();
+		List<Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
+		for (Iterator<Location> it = visitLocations.iterator(); it.hasNext();) {
 			Location loc = it.next();
 			VisitDomainWrapper activeVisit = adtService.getActiveVisit(patient, loc);
-			if ( activeVisit != null) {
+			if (activeVisit != null) {
 				activeVisits.add(activeVisit.getVisit());
-			};
+			}
+			;
 		}
 
 		return activeVisits;

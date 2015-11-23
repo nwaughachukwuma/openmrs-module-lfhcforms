@@ -8,22 +8,19 @@ visit.reloadPageWithoutVisitId = function() {
 visit.startVisitWithLocationDialog = null;
 
 visit.createStartVisitWithLocationDialog = function(patientId) {
-	console.log("clicked");
 	visit.startVisitWithLocationDialog = emr.setupConfirmationDialog({
 		selector: '#start-visit-with-location-dialog',
 		actions: {
 			confirm: function() {
-				emr.getFragmentActionWithCallback('lfhcforms', 'startVisitWithLocation', 'create',
+				emr.getFragmentActionWithCallback('lfhcforms', 'visitWithLocation', 'create',
 					{ patientId: visit.patientId,
 						selectedLocation: jq('#visit-location-drop-down').find(":selected").val() },
 					function(data) {
 						jq('#start-visit-with-location-dialog' + ' .icon-spin').css('display', 'inline-block').parent().addClass('disabled')
-						console.log("success");
-						//debugger;
+						// debugger;
 						visit.reloadPageWithoutVisitId();
 					},function(err){
-						console.log("fail");
-						//debugger;
+						// debugger;
 						visit.reloadPageWithoutVisitId();
 					});
 			},
@@ -38,7 +35,7 @@ visit.createStartVisitWithLocationDialog = function(patientId) {
 
 visit.showStartVisitWithLocationDialog = function(patientId) {
 	visit.patientId = patientId;
-	console.log(patientId);
+	//console.log(patientId);
 	if (visit.startVisitWithLocationDialog == null) {
 		visit.createStartVisitWithLocationDialog();
 	}

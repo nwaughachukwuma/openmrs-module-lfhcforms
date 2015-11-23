@@ -1,5 +1,5 @@
 <% 
-ui.includeJavascript("lfhcforms", "startVisitWithLocation.js")
+ui.includeJavascript("lfhcforms", "visitWithLocation.js")
 %>
 
 <div id="start-visit-with-location-dialog" class="dialog" style="display: none;">
@@ -8,13 +8,13 @@ ui.includeJavascript("lfhcforms", "startVisitWithLocation.js")
       ${ ui.message("coreapps.visit.createQuickVisit.title") }
     </h3>
   </div>
-  <% if (activeVisitList) { %>
+  <% if (false) { %>
   <script type="text/javascript">
    jq("#start-visit-with-location-confirm").addClass("disabled");
  </script>
  <div class="dialog-content">
    <p class="dialog-instructions">
-     <i class="icon-sign-warning">&#xf071;</i> There is already active visit(s) for  ${ui.format(patient.patient)}
+     <i class="icon-sign-warning">&#xf071;</i> There is already active visit(s) for ${ui.format(patient.patient)}
    </p>
    <ul class="list" style="margin-bottom:0px">
     <% activeVisitList.each { activeVisit -> %> 
@@ -38,7 +38,12 @@ ui.includeJavascript("lfhcforms", "startVisitWithLocation.js")
   </p>
   <select id="visit-location-drop-down"> 
     <% locationList.each { loc -> %>
-    <option class="dialog-drop-down" value ="${loc.id}">${ ui.format(loc) }</option>
+    <% if (userVisitLocation == loc) { %>
+    <script type="text/javascript">
+   jq("#visit-location-drop-down").val(${loc.id});
+ </script>
+    <% } %>
+        <option class="dialog-drop-down" value ="${loc.id}">${ ui.format(loc) }</option>
     <% } %> 
   </select>
 

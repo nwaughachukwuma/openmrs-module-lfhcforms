@@ -6,7 +6,7 @@
         "label": "coreapps.task.startVisit.label",
         "script": "visit.showStartVisitWithLocationDialog({{patient.patientId}})",
         "icon": "icon-check-in",
-        "order": -1,
+        "order": -20,
         "require": "!visit && !patient.person.dead",
         "requiredPrivilege": "Task: coreapps.createVisit"
     }

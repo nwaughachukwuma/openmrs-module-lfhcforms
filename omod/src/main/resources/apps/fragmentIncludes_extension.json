@@ -16,11 +16,11 @@
         }
     },
     {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.startVisitWithLocation",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithLocation",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
-            "fragment": "startVisitWithLocation"
+            "fragment": "visitWithLocation"
         }
     }
 ]
