@@ -14,169 +14,67 @@
 package org.openmrs.module.lfhcforms.fragment.controller;
 
 import java.util.List;
-import org.jfree.util.Log;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Concept;
+import org.openmrs.ConceptNumeric;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
-import org.openmrs.ui.framework.annotation.FragmentParam;
-import org.openmrs.ui.framework.annotation.InjectBeans;
+import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentConfiguration;
 import org.springframework.web.bind.annotation.RequestParam;
-/**
- * Ideally you pass in a PatientDomainWrapper as the "patient" config parameter. But if you pass in
- * a Patient, then this controller will wrap that for you.
- */
+
 public class LatestWeightFragmentController {
 	
-	public void controller(FragmentConfiguration config, 
-	                       @SpringBean("conceptService") ConceptService conceptService,
-	                       @SpringBean("obsService")	  ObsService obsService,
-	                       @RequestParam("patientId") Patient patient
-	                       ) {
+	protected static final Log log = LogFactory.getLog(LatestWeightFragmentController.class);
+	
+	public void controller(	UiUtils ui,	FragmentConfiguration config, 
+							@SpringBean("conceptService")	ConceptService conceptService,
+							@SpringBean("obsService")		ObsService obsService,
+							@RequestParam("patientId")		Patient patient
+	                      )
+	{
+		String weightString = getLatestWeight(conceptService, obsService, patient);
 		
-		Concept conceptWeight = conceptService.getConceptByMapping("5089", "CIEL");
-		/*
-		Concept conceptHeight = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptTemperature = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptBMI = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptBloodOxygen = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptPulse = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptBloodPressure = conceptService.getConceptByMapping("xxxx", "CIEL");
-		Concept conceptRespiratoryRate = conceptService.getConceptByMapping("xxxx", "CIEL");
-		*/
-
-		if(patient==null)
-			Log.warn("PATIENT Object is NULL");
-		/*if(conceptWeight==null)
-			Log.warn("Weight Concept is NULL");
-		if(conceptHeight==null)
-			Log.warn("Height Concept is NULL");
-		if(conceptTemperature==null)
-			Log.warn("Temperature Concept is NULL");
-		if(conceptBMI==null)
-			Log.warn("BMI Concept is NULL");
-		if(conceptBloodOxygen==null)
-			Log.warn("Blood Oxygen Concept is NULL");
-		if(conceptPulse==null)
-			Log.warn("Pulse Concept is NULL");
-		if(conceptBloodPressure==null)
-			Log.warn("Blood Pressure Concept is NULL");*/
+        config.addAttribute("patientWeight", weightString);
+        config.addAttribute("patientWeightLabel", ui.message("lfhcforms.latestweight.patientWeightLabel"));
+	}
+	
+	protected String getLatestWeight(ConceptService conceptService, ObsService obsService, Patient patient) {
+		
+		final String source = "CIEL";
+		final String code = "5089";
+		Concept conceptWeight = conceptService.getConceptByMapping(code, source);
+		if(conceptWeight == null) {
+			log.error("The concept " + source + ":" + code + " could not be fetched. No concept could be used to obtain the latest weight.");
+			return "";
+		}
+		ConceptNumeric conceptWeightNumeric = conceptService.getConceptNumeric(conceptWeight.getId());
+		String units = "";
+		if(conceptWeightNumeric == null) {
+			log.error("The concept " + source + ":" + code + " is not of the 'numeric' class, its units won't be retrieved.");
+		}
+		else {
+			units = conceptWeightNumeric.getUnits();
+		}
+		
+		String weightString = "";
+		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient, conceptWeight);
+		if(obsList.isEmpty() == false) {
+			Obs obs = obsList.get(0);
+			Double weight = obs.getValueNumeric();
+			if(weight == null) {
+				log.error("The lates obs for concept " + source + ":" + code + " is not of the 'numeric' type, no weight was obtained.");
+			}
+			else {
+				weightString = String.valueOf(weight) + units;
+			}
+		}
 			
-        config.addAttribute("patientWeight", getWeight(obsService,patient,conceptWeight));
-        
-        /*
-         
-        config.addAttribute("patientTemperature", getTemperature(obsService,wrapper.getPatient(),conceptTemperature));
-        config.addAttribute("patientBMI", getBMI(obsService,wrapper.getPatient(),conceptBMI));
-        config.addAttribute("patientBloodOxygen", getBloodOxygenSaturation(obsService,wrapper.getPatient(),conceptBloodOxygen));
-        config.addAttribute("patientPulse", getPulse(obsService,wrapper.getPatient(),conceptPulse));
-        config.addAttribute("patientBloodPressure", getBloodPressure(obsService,wrapper.getPatient(),conceptBloodPressure));
-        config.addAttribute("patientRespiratoryRate", getRespiratoryRate(obsService,wrapper.getPatient(),conceptRespiratoryRate));
-        */
-        
-        config.addAttribute("weightText", "Latest weight");
-        /*
-        config.addAttribute("HeightText", "Latest Height");
-        config.addAttribute("TemperatureText", "Temperature");
-        config.addAttribute("BMIText", "BMI");
-        config.addAttribute("BloodOxygenText", "Blood Oxygen Level");
-        config.addAttribute("PulseText", "Pulse");
-        config.addAttribute("BloodPressureText", "Blood Pressure");
-        config.addAttribute("RespiratoryRateText", "Respiratory Rate");
-        */
+		return weightString;
 	}
-	private String getWeight(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double weightField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		weightField=obs.getValueNumeric();
-		return String.valueOf(weightField);
-	}
-	/*
-	private String getHeight(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double heightField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		heightField=obs.getValueNumeric();
-		return String.valueOf(heightField);
-	}
-	private String getTemperature(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double temperatureField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		temperatureField=obs.getValueNumeric();
-		return String.valueOf(temperatureField);
-	}
-	private String getBMI(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double BMIField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		BMIField=obs.getValueNumeric();
-		return String.valueOf(BMIField);
-	}
-	private String getPulse(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double pulseField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		pulseField=obs.getValueNumeric();
-		return String.valueOf(pulseField);
-	}
-	private String getRespiratoryRate(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double resporatoryRateField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		resporatoryRateField=obs.getValueNumeric();
-		return String.valueOf(resporatoryRateField);
-	}
-	private String getBloodPressure(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double bloodPressureField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		bloodPressureField=obs.getValueNumeric();
-		return String.valueOf(bloodPressureField);
-	}
-	private String getBloodOxygenSaturation(ObsService obsService, Patient patient, Concept concept) {
-		
-		Double bloodOxygenField=0.0;			
-		Obs obs = null;
-		List<Obs> obsList = obsService.getObservationsByPersonAndConcept(patient,concept);
-		if(!obsList.isEmpty())
-			obs = obsList.get(0);
-		else return "";
-		bloodOxygenField=obs.getValueNumeric();
-		return String.valueOf(bloodOxygenField);
-	}
-	*/
-		
 }

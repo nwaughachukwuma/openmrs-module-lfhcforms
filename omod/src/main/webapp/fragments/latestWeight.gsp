@@ -1,8 +1,8 @@
-<% if(config.patientWeight!="") { %>
+<% if(config.patientWeight != "") { %>
 	<div class="contact-info-inline">
 		<span>
-		<span>${config.patientWeight}</span><span>${ui.message("coreapps.units.kilograms")}&nbsp;</span>
-		<em>${config.weightText}</em>
+			<span>${config.patientWeight}&nbsp;</span>
+			<em>${config.patientWeightLabel}</em>
 		</span>
 	</div>
 <% } %>
