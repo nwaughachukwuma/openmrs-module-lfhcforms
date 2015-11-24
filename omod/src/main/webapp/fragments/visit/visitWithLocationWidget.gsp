@@ -1,7 +1,10 @@
 <%
 def patient = config.patient
+    ui.includeJavascript("lfhcforms", "visit/disableVisitsSectionWidget.js")
     %>
-    <div class="info-section">
+
+    <div class="info-section override-previous">
+    <!-- class 'override-previous' will enable jq code to hide the previous widget -->
         <div class="info-header">
             <i class="icon-calendar"></i>
             <h3>VISITS</h3>
@@ -40,11 +43,11 @@ def patient = config.patient
                     <% } %>
                     <span id="active-tag-${it.visit.id}" class="tag active">
                         <% if (it.stopDatetime == null || new Date().before(it.stopDatetime)) { %> ${ ui.message("coreapps.clinicianfacing.active") } <% } else { %>
-                            <script type="text/javascript">
-                                jq(document).ready(function () {
-                                        jq("#active-tag-${it.visit.id}.tag").css("display","none");
-                                })
-                            </script>
+                        <script type="text/javascript">
+                            jq(document).ready(function () {
+                                jq("#active-tag-${it.visit.id}.tag").css("display","none");
+                            })
+                        </script>
                         <%  } %>
 
                     </span>

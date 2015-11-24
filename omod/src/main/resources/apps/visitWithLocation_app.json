@@ -3,7 +3,7 @@
     "id": "lfhcforms.visits",
     "label": "lfhcforms.clinicianfacing.visits",
     "icon": "icon-calendar",
-    "order": 1,
+    "order": -1,
     "extensions": [
       {
         "appId": "lfhcforms.visits",
