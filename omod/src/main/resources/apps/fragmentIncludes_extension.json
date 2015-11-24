@@ -14,21 +14,5 @@
             "provider": "${project.parent.artifactId}",
             "fragment": "pewsScore"
         }
-    },
-    {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithLocation",
-        "extensionPointId": "patientDashboard.includeFragments",
-        "extensionParams": {
-            "provider": "${project.parent.artifactId}",
-            "fragment": "visit/visitWithLocation"
-        }
-    },
-    {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithLocationWidget",
-        "extensionPointId": "patientDashboard.secondColumnFragments",
-        "extensionParams": {
-            "provider": "${project.parent.artifactId}",
-            "fragment": "visit/visitWithLocationWidget"
-        }
     }
 ]

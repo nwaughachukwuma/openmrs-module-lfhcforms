@@ -1,0 +1,28 @@
+[
+  {
+    "id": "lfhcforms.visits",
+    "label": "lfhcforms.clinicianfacing.visits",
+    "icon": "icon-calendar",
+    "order": 1,
+    "extensions": [
+      {
+        "appId": "lfhcforms.visits",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithLocationWidget",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+            "provider": "${project.parent.artifactId}",
+            "fragment": "visit/visitWithLocationWidget"
+        }
+      },
+      {
+      	"appId": "lfhcforms.visits",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithLocation",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+            "provider": "${project.parent.artifactId}",
+            "fragment": "visit/visitWithLocation"
+        }
+    }
+    ]
+  }
+]
