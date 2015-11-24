@@ -71,3 +71,6 @@ option.dialog-drop-down {
     margin-left:5px;
     min-width:25px!important
 }
+.clear {
+    padding-bottom: 5px;
+}

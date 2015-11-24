@@ -38,8 +38,15 @@ def patient = config.patient
                     </span>
                     <% } %>
                     <% } %>
-                    <span id="active-tag" class="tag">
-                        <% if (it.stopDatetime == null || new Date().before(it.stopDatetime)) { %> ${ ui.message("coreapps.clinicianfacing.active") } <% } %>
+                    <span id="active-tag-${it.visit.id}" class="tag active">
+                        <% if (it.stopDatetime == null || new Date().before(it.stopDatetime)) { %> ${ ui.message("coreapps.clinicianfacing.active") } <% } else { %>
+                            <script type="text/javascript">
+                                jq(document).ready(function () {
+                                        jq("#active-tag-${it.visit.id}.tag").css("display","none");
+                                })
+                            </script>
+                        <%  } %>
+
                     </span>
                 </li>
                 <% } %>
