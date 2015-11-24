@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public class LatestWeightFragmentController {
 	
-	protected static final Log log = LogFactory.getLog(LatestWeightFragmentController.class);
+	private static Log log = LogFactory.getLog(LatestWeightFragmentController.class);
 	
 	public void controller(	UiUtils ui,	FragmentConfiguration config, 
 							@SpringBean("conceptService")	ConceptService conceptService,
@@ -44,19 +44,30 @@ public class LatestWeightFragmentController {
         config.addAttribute("patientWeightLabel", ui.message("lfhcforms.latestweight.patientWeightLabel"));
 	}
 	
+	protected void setLogger(Log log) {
+		this.log = log;
+	}
+	
+	protected String getWeightConceptCode() {
+		return "5089";
+	}
+
+	protected String getWeightConceptSource() {
+		return "CIEL";
+	}
+	
 	protected String getLatestWeight(ConceptService conceptService, ObsService obsService, Patient patient) {
 		
-		final String source = "CIEL";
-		final String code = "5089";
-		Concept conceptWeight = conceptService.getConceptByMapping(code, source);
+		final String conceptMapping = getWeightConceptSource() + ":" + getWeightConceptCode();
+		Concept conceptWeight = conceptService.getConceptByMapping(getWeightConceptCode(), getWeightConceptSource());
 		if(conceptWeight == null) {
-			log.error("The concept " + source + ":" + code + " could not be fetched. No concept could be used to obtain the latest weight.");
+			log.error("The concept " + conceptMapping + " could not be fetched. No concept could be used to obtain the latest weight.");
 			return "";
 		}
 		ConceptNumeric conceptWeightNumeric = conceptService.getConceptNumeric(conceptWeight.getId());
 		String units = "";
 		if(conceptWeightNumeric == null) {
-			log.error("The concept " + source + ":" + code + " is not of the 'numeric' class, its units won't be retrieved.");
+			log.error("The concept " + conceptMapping + " is not of the 'numeric' class, its units won't be retrieved.");
 		}
 		else {
 			units = conceptWeightNumeric.getUnits();
@@ -68,7 +79,7 @@ public class LatestWeightFragmentController {
 			Obs obs = obsList.get(0);
 			Double weight = obs.getValueNumeric();
 			if(weight == null) {
-				log.error("The lates obs for concept " + source + ":" + code + " is not of the 'numeric' type, no weight was obtained.");
+				log.error("The latest obs for concept " + conceptMapping + " is not of the 'numeric' type, no weight was obtained.");
 			}
 			else {
 				weightString = String.valueOf(weight) + units;

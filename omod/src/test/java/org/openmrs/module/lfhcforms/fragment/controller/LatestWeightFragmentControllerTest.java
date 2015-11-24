@@ -2,13 +2,13 @@ package org.openmrs.module.lfhcforms.fragment.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.Concept;
@@ -20,30 +20,34 @@ import org.openmrs.api.ObsService;
 
 public class LatestWeightFragmentControllerTest {
 	
-	private LatestWeightFragmentController controller = new LatestWeightFragmentController();
+	private LatestWeightFragmentController ctrl = new LatestWeightFragmentController();
 	
 	private ConceptService conceptService;
 	private ObsService obsService;
 	private Patient patient;
+	private Log log;
 	
 	@Before
     public void setUp() {
 		conceptService = mock(ConceptService.class);
 		obsService = mock(ObsService.class);
 		patient = mock(Patient.class);
+		log = spy(LogFactory.getLog(LatestWeightFragmentController.class));
+		ctrl.setLogger(log);
 	}
 	
 	@Test
 	public void getLatestWeight_CheckNullConcept() {
 	
 		// Setup
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(null);
+		when(conceptService.getConceptByMapping(eq(ctrl.getWeightConceptCode()), eq(ctrl.getWeightConceptSource()))).thenReturn(null);
 		
 		// Replay
-		String weightString = controller.getLatestWeight(conceptService, obsService, patient);
+		String weightString = ctrl.getLatestWeight(conceptService, obsService, patient);
 		
 		// Verif
-		assertEquals(weightString, "");		
+		assertEquals(weightString, "");
+		verify(log, times(1)).error(anyString());
 	}
 	
 	@Test
@@ -51,52 +55,52 @@ public class LatestWeightFragmentControllerTest {
 
 		// Setup
 		Double weight = 15.0;
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(null);		
 		Concept conceptWeight = mock(Concept.class);
 		final Obs obs = mock(Obs.class);
 		when(obs.getValueNumeric()).thenReturn(weight);
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(conceptWeight);
+		when(conceptService.getConceptByMapping(eq(ctrl.getWeightConceptCode()), eq(ctrl.getWeightConceptSource()))).thenReturn(conceptWeight);
 		when(obsService.getObservationsByPersonAndConcept(patient, conceptWeight)).thenReturn(new ArrayList<Obs>() {{ add(obs); }});
 		
 		// Replay
-		String weightString = controller.getLatestWeight(conceptService, obsService, patient);
+		String weightString = ctrl.getLatestWeight(conceptService, obsService, patient);
 		
 		// Verif
 		assertEquals(weightString, Double.toString(weight));
+		verify(log, times(1)).error(anyString());
 	}
 	
 	@Test
 	public void getLatestWeight_CheckObsNotNumeric() {
 
 		// Setup
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(null);		
 		Concept conceptWeight = mock(Concept.class);
 		final Obs obs = mock(Obs.class);
 		when(obs.getValueNumeric()).thenReturn(null);
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(conceptWeight);
+		when(conceptService.getConceptByMapping(eq(ctrl.getWeightConceptCode()), eq(ctrl.getWeightConceptSource()))).thenReturn(conceptWeight);
 		when(obsService.getObservationsByPersonAndConcept(patient, conceptWeight)).thenReturn(new ArrayList<Obs>() {{ add(obs); }});
 		
 		// Replay
-		String weightString = controller.getLatestWeight(conceptService, obsService, patient);
+		String weightString = ctrl.getLatestWeight(conceptService, obsService, patient);
 		
 		// Verif
 		assertEquals(weightString, "");
+		verify(log, times(2)).error(anyString());
 	}
 	
 	@Test
 	public void getLatestWeight_CheckNoObs() {
 
 		// Setup
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(null);		
 		Concept conceptWeight = mock(Concept.class);
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(conceptWeight);
+		when(conceptService.getConceptByMapping(eq(ctrl.getWeightConceptCode()), eq(ctrl.getWeightConceptSource()))).thenReturn(conceptWeight);
 		when(obsService.getObservationsByPersonAndConcept(patient, conceptWeight)).thenReturn(new ArrayList<Obs>());
 		
 		// Replay
-		String weightString = controller.getLatestWeight(conceptService, obsService, patient);
+		String weightString = ctrl.getLatestWeight(conceptService, obsService, patient);
 		
 		// Verif
 		assertEquals(weightString, "");
+		verify(log, times(1)).error(anyString());
 	}
 	
 	@Test
@@ -113,14 +117,14 @@ public class LatestWeightFragmentControllerTest {
 		final Obs obs = mock(Obs.class);
 		when(obs.getValueNumeric()).thenReturn(weight);
 		when(conceptService.getConceptNumeric(eq(id))).thenReturn(conceptWeightNumeric);
-		when(conceptService.getConceptByMapping(anyString(), anyString())).thenReturn(conceptWeight);
+		when(conceptService.getConceptByMapping(eq(ctrl.getWeightConceptCode()), eq(ctrl.getWeightConceptSource()))).thenReturn(conceptWeight);
 		when(obsService.getObservationsByPersonAndConcept(patient, conceptWeight)).thenReturn(new ArrayList<Obs>() {{ add(obs); }});
 		
-		
 		// Replay
-		String weightString = controller.getLatestWeight(conceptService, obsService, patient);
+		String weightString = ctrl.getLatestWeight(conceptService, obsService, patient);
 		
 		// Verif
 		assertEquals(weightString, Double.toString(weight) + units);
-	}	
+		verify(log, never()).error(anyString());
+	}
 }
