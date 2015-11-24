@@ -7,7 +7,7 @@ def patient = config.patient
     <!-- class 'override-previous' will enable jq code to hide the previous widget -->
         <div class="info-header">
             <i class="icon-calendar"></i>
-            <h3>VISITS</h3>
+            <h3>${ui.message("lfhcforms.app.visit.recentvisits").toUpperCase()}</h3>
             <% if (context.hasPrivilege("App: coreapps.patientVisits")) { %>
             <a href="${visitsUrl}" class="right">
                 <i class="icon-share-alt edit-action" title="${ ui.message("coreapps.edit") }"></i>
