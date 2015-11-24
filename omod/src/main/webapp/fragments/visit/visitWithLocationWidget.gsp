@@ -3,7 +3,7 @@ def patient = config.patient
     ui.includeJavascript("lfhcforms", "visit/disableVisitsSectionWidget.js")
     %>
 
-    <div class="info-section override-previous">
+    <div id="visits-with-location" class="info-section override-previous">
     <!-- class 'override-previous' will enable jq code to hide the previous widget -->
         <div class="info-header">
             <i class="icon-calendar"></i>
