@@ -90,7 +90,7 @@ public class VisitWithLocationWidgetFragmentController {
 		Map<Integer, Map<String, Object>> recentVisitsWithAttr = new LinkedHashMap<Integer, Map<String, Object>>();
 		Map<VisitDomainWrapper, String> recentVisitsWithLinks = new LinkedHashMap<VisitDomainWrapper, String>();
 		for (VisitDomainWrapper recentVisit : recentVisits) {
-			contextModel.put("visit", new VisitContextModel(recentVisit));
+			contextModel.put("visit", recentVisit);
 
 			// Retrieve attributes of visit location
 			LocationAttributeType colorAttrType = Context.getLocationService()
