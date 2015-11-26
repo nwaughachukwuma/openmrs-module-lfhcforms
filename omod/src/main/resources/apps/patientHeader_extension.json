@@ -1,7 +1,7 @@
 [
     {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.includeHeader",
-        "extensionPointId": "patientDashboard.includeHeader",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.firstLineFragments.latestWeight",
+        "extensionPointId": "coreapps.patientHeader.firstLineFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
             "fragment": "latestWeight"
