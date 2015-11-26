@@ -13,6 +13,16 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
@@ -22,7 +32,6 @@ import org.openmrs.module.appframework.context.AppContextModel;
 import org.openmrs.module.appframework.domain.AppDescriptor;
 import org.openmrs.module.appframework.template.TemplateFactory;
 import org.openmrs.module.appui.UiSessionContext;
-import org.openmrs.module.coreapps.contextmodel.VisitContextModel;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.ui.framework.UiUtils;
@@ -33,19 +42,13 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-
 /**
  * Supports the containing PageModel having an "app" property whose config
  * defines a "visitUrl" property
  */
 public class VisitWithLocationWidgetFragmentController {
+
+	protected static final Log log = LogFactory.getLog(VisitWithLocationWidgetFragmentController.class);
 
 	private String colorUuid = "5a35eb84-dbc4-4cd0-8a3c-58dc6a7a10ae";
 	private String shortNameUuid = "f31de69c-ca4f-4613-aec6-2a3f28cdc973";
@@ -99,8 +102,26 @@ public class VisitWithLocationWidgetFragmentController {
 					.getLocationAttributeTypeByUuid(shortNameUuid);
 
 			LocationAttribute colorAttr = getMostRecentAttribute(recentVisit.getVisit().getLocation(), colorAttrType);
+			if (colorAttr == null) {
+				// default value of this attribute if no attribute has been set yet
+				colorAttr = new LocationAttribute();
+				colorAttr.setAttributeType(colorAttrType);
+				colorAttr.setValue("grey");
+			}
+			log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
+					+ colorAttr.getValue() + "\" as default value");
+
 			LocationAttribute shortNameAttr = getMostRecentAttribute(recentVisit.getVisit().getLocation(),
 					shortNameAttrType);
+			if (shortNameAttr == null) {
+				// default value of this attribute if no attribute has been set yet
+				shortNameAttr = new LocationAttribute();
+				shortNameAttr.setAttributeType(shortNameAttrType);
+				shortNameAttr.setValue(recentVisit.getVisit().getLocation().getName());
+			}
+			log.warn("There is no Attribute for Location Attribute Type \"" + shortNameAttrType.getName()
+					+ "\". Using \"" + shortNameAttr.getValue() + "\" as default value");
+
 			Map<String, Object> visitLocAttr = new HashMap<String, Object>();
 
 			visitLocAttr.put("color", colorAttr.getValue());
@@ -126,9 +147,14 @@ public class VisitWithLocationWidgetFragmentController {
 
 		List<LocationAttribute> allAttr = location.getActiveAttributes(attrType);
 		NavigableMap<Date, LocationAttribute> attrMap = new TreeMap<Date, LocationAttribute>();
-		for (LocationAttribute attr : allAttr) {
-			attrMap.put(attr.getDateCreated(), attr);
+		if (allAttr.size() != 0) {
+			for (LocationAttribute attr : allAttr) {
+				attrMap.put(attr.getDateCreated(), attr);
+			}
+			return attrMap.lastEntry().getValue();
+		} else {
+			return null;
 		}
-		return attrMap.lastEntry().getValue();
+
 	}
 }
