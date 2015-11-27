@@ -13,17 +13,12 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.TreeMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.Patient;
@@ -34,6 +29,7 @@ import org.openmrs.module.appframework.template.TemplateFactory;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -100,8 +96,11 @@ public class VisitWithLocationWidgetFragmentController {
 					.getLocationAttributeTypeByUuid(colorUuid);
 			LocationAttributeType shortNameAttrType = Context.getLocationService()
 					.getLocationAttributeTypeByUuid(shortNameUuid);
-
-			LocationAttribute colorAttr = getMostRecentAttribute(recentVisit.getVisit().getLocation(), colorAttrType);
+			
+			
+			
+			LocationAttribute colorAttr = Utils.getMostRecentAttribute(recentVisit.getVisit().getLocation(), 
+					colorAttrType);
 			if (colorAttr == null) {
 				// default value of this attribute if no attribute has been set yet
 				colorAttr = new LocationAttribute();
@@ -111,7 +110,7 @@ public class VisitWithLocationWidgetFragmentController {
 			log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
 					+ colorAttr.getValue() + "\" as default value");
 
-			LocationAttribute shortNameAttr = getMostRecentAttribute(recentVisit.getVisit().getLocation(),
+			LocationAttribute shortNameAttr = Utils.getMostRecentAttribute(recentVisit.getVisit().getLocation(),
 					shortNameAttrType);
 			if (shortNameAttr == null) {
 				// default value of this attribute if no attribute has been set yet
@@ -132,29 +131,5 @@ public class VisitWithLocationWidgetFragmentController {
 		}
 		model.addAttribute("recentVisitsWithAttr", recentVisitsWithAttr);
 		model.addAttribute("recentVisitsWithLinks", recentVisitsWithLinks);
-	}
-
-	/**
-	 * 
-	 * Returns the most recent location attribute for a given location and
-	 * location attribute type
-	 * 
-	 * @param location
-	 * @param attrType
-	 * @return attributeMap
-	 */
-	private LocationAttribute getMostRecentAttribute(Location location, LocationAttributeType attrType) {
-
-		List<LocationAttribute> allAttr = location.getActiveAttributes(attrType);
-		NavigableMap<Date, LocationAttribute> attrMap = new TreeMap<Date, LocationAttribute>();
-		if (allAttr.size() != 0) {
-			for (LocationAttribute attr : allAttr) {
-				attrMap.put(attr.getDateCreated(), attr);
-			}
-			return attrMap.lastEntry().getValue();
-		} else {
-			return null;
-		}
-
 	}
 }
