@@ -6,13 +6,5 @@
             "provider": "${project.parent.artifactId}",
             "fragment": "latestWeight"
         }
-    },
-    {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatusWithLocation",
-        "extensionPointId": "coreapps.patientHeader.secondLineFragments",
-        "extensionParams": {
-            "provider": "${project.parent.artifactId}",
-            "fragment": "visit/activeVisitStatusWithLocation"
-        }
     }
 ]

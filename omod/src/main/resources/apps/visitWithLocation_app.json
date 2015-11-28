@@ -1,12 +1,13 @@
 [
   {
-    "id": "lfhcforms.visits",
-    "label": "lfhcforms.clinicianfacing.visits",
+    "id": "lfhcforms.visitWithLocation",
+    "label": "Visit With Location",
+    "description": "App to extend support of visit in specific locations",
     "icon": "icon-calendar",
     "order": -1,
     "extensions": [
       {
-        "appId": "lfhcforms.visits",
+        "appId": "lfhcforms.visitWithLocation",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithLocationWidget",
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
@@ -15,12 +16,21 @@
         }
       },
       {
-      	"appId": "lfhcforms.visits",
+        "appId": "lfhcforms.visitWithLocation",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithLocation",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
             "fragment": "visit/visitWithLocation"
+        }
+    },
+    {
+        "appId": "lfhcforms.visitWithLocation",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatusWithLocation",
+        "extensionPointId": "patientHeader.secondLineFragments",
+        "extensionParams": {
+            "provider": "${project.parent.artifactId}",
+            "fragment": "visit/activeVisitStatusWithLocation"
         }
     }
     ]
