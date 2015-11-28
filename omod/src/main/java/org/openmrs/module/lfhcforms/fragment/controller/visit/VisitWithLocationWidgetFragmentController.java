@@ -107,10 +107,10 @@ public class VisitWithLocationWidgetFragmentController {
 				colorAttr = new LocationAttribute();
 				colorAttr.setAttributeType(colorAttrType);
 				colorAttr.setValue("grey");
+				log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
+						+ colorAttr.getValue() + "\" as default value");
 			}
-			log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
-					+ colorAttr.getValue() + "\" as default value");
-
+			
 			LocationAttribute shortNameAttr = Utils.getMostRecentAttribute(recentVisit.getVisit().getLocation(),
 					shortNameAttrType);
 			if (shortNameAttr == null) {
@@ -118,9 +118,10 @@ public class VisitWithLocationWidgetFragmentController {
 				shortNameAttr = new LocationAttribute();
 				shortNameAttr.setAttributeType(shortNameAttrType);
 				shortNameAttr.setValue(recentVisit.getVisit().getLocation().getName());
+				log.warn("There is no Attribute for Location Attribute Type \"" + shortNameAttrType.getName()
+				+ "\". Using \"" + shortNameAttr.getValue() + "\" as default value");
+
 			}
-			log.warn("There is no Attribute for Location Attribute Type \"" + shortNameAttrType.getName()
-					+ "\". Using \"" + shortNameAttr.getValue() + "\" as default value");
 
 			Map<String, Object> visitLocAttr = new HashMap<String, Object>();
 
