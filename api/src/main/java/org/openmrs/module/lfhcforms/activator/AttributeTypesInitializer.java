@@ -9,6 +9,7 @@ import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.customdatatype.datatype.FreeTextDatatype;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Sets up the Encounter Types required by the HFE forms.
@@ -29,7 +30,7 @@ public class AttributeTypesInitializer implements Initializer {
 		{
 			String name = "Color";
 			String desc = "Attribute type that records the color of the location";
-			String uuid = "5a35eb84-dbc4-4cd0-8a3c-58dc6a7a10ae";
+			String uuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
 			String dataType = FreeTextDatatype.class.getName();
 			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
 			if(locationAttrType == null) {
@@ -46,7 +47,7 @@ public class AttributeTypesInitializer implements Initializer {
 		{
 			String name = "Short Name";
 			String desc = "Attribute type that records the short name of the location";
-			String uuid = "f31de69c-ca4f-4613-aec6-2a3f28cdc973";
+			String uuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
 			String dataType = FreeTextDatatype.class.getName();
 			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
 			if(locationAttrType == null) {

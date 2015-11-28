@@ -32,6 +32,7 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Populates the patient's page PEwS score widget's view.
@@ -322,7 +323,7 @@ public class PewsScoreFragmentController {
 	}
 	
 	private long getExpiryInMin(AdministrationService adminService) {
-		final String propertyName = AdminConfigInitializer.PEWS_EXPIRY_PROPERTY;
+		final String propertyName = LFHCFormsConstants.PEWS_EXPIRY_PROPERTY;
 		
 		String expiryString = adminService.getGlobalProperty(propertyName);
 		long expiryInMin = 0;
@@ -339,10 +340,10 @@ public class PewsScoreFragmentController {
 	}
 
 	private long getTimeWindowInMin(AdministrationService adminService) {
-		final String propertyName = AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY;
+		final String propertyName = LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY;
 		
 		String timeWindowString = adminService.getGlobalProperty(propertyName);
-		long timeWindowInMin = AdminConfigInitializer.PEWS_FALLBACK_TIMEWINDOW;
+		long timeWindowInMin = LFHCFormsConstants.PEWS_FALLBACK_TIMEWINDOW;
 		if(timeWindowString != null) {
 			try {
 				timeWindowInMin = Integer.parseInt(timeWindowString);

@@ -33,6 +33,7 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
@@ -50,8 +51,8 @@ public class ActiveVisitStatusWithLocationFragmentController {
 
 	protected static final Log log = LogFactory.getLog(ActiveVisitStatusWithLocationFragmentController.class);
 
-	private String colorUuid = "5a35eb84-dbc4-4cd0-8a3c-58dc6a7a10ae";
-	private String shortNameUuid = "f31de69c-ca4f-4613-aec6-2a3f28cdc973";
+	private String colorUuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
+	private String shortNameUuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
 
 	public void controller(FragmentConfiguration config, @RequestParam("patientId") Patient patient,
 			FragmentModel model, UiUtils ui, UiSessionContext sessionContext,
