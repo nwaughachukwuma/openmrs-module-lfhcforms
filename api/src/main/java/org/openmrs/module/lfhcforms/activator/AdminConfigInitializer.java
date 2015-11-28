@@ -75,5 +75,7 @@ public class AdminConfigInitializer implements Initializer {
 		service.enableApp("referenceapplication.vitals");
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
+		service.enableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		
 	}
 }
