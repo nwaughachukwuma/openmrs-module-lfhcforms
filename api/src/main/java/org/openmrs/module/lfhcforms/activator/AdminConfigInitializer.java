@@ -46,6 +46,9 @@ public class AdminConfigInitializer implements Initializer {
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
 		
+		// Disabling the activeVisitStatus fragment
+		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
 		if(pewsTime == null) {
