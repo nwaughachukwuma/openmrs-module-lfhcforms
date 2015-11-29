@@ -66,3 +66,11 @@ option.dialog-drop-down {
     font-size:1em!important;
 }
 
+/* style for tags on dashboard, visit widget */
+.shortname{
+    margin-left:5px;
+    min-width:25px!important;
+}
+.clear {
+    padding-bottom: 5px;
+}

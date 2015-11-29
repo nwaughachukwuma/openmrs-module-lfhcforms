@@ -17,7 +17,6 @@ import org.codehaus.jackson.map.type.TypeFactory;
 import org.jfree.util.Log;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.ocpsoft.prettytime.PrettyTime;
 import org.openmrs.Concept;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
@@ -26,7 +25,6 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
 import org.openmrs.api.PatientService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.activator.AdminConfigInitializer;
 import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
@@ -34,6 +32,7 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Populates the patient's page PEwS score widget's view.
@@ -324,7 +323,7 @@ public class PewsScoreFragmentController {
 	}
 	
 	private long getExpiryInMin(AdministrationService adminService) {
-		final String propertyName = AdminConfigInitializer.PEWS_EXPIRY_PROPERTY;
+		final String propertyName = LFHCFormsConstants.PEWS_EXPIRY_PROPERTY;
 		
 		String expiryString = adminService.getGlobalProperty(propertyName);
 		long expiryInMin = 0;
@@ -341,10 +340,10 @@ public class PewsScoreFragmentController {
 	}
 
 	private long getTimeWindowInMin(AdministrationService adminService) {
-		final String propertyName = AdminConfigInitializer.PEWS_TIME_WINDOW_PROPERTY;
+		final String propertyName = LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY;
 		
 		String timeWindowString = adminService.getGlobalProperty(propertyName);
-		long timeWindowInMin = AdminConfigInitializer.PEWS_FALLBACK_TIMEWINDOW;
+		long timeWindowInMin = LFHCFormsConstants.PEWS_FALLBACK_TIMEWINDOW;
 		if(timeWindowString != null) {
 			try {
 				timeWindowInMin = Integer.parseInt(timeWindowString);
