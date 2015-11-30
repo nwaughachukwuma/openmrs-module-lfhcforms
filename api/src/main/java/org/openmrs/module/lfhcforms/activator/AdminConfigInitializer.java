@@ -46,6 +46,9 @@ public class AdminConfigInitializer implements Initializer {
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
 		
+		// Disabling the Coreapps Start Visit link extension
+		service.disableExtension("org.openmrs.module.coreapps.createVisit");
+		
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
 		if(pewsTime == null) {
@@ -72,5 +75,8 @@ public class AdminConfigInitializer implements Initializer {
 		service.enableApp("referenceapplication.vitals");
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
+		
+		service.enableApp("coreapps.visits");
+		
 	}
 }
