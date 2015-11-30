@@ -22,5 +22,7 @@ public class LFHCFormsConstants {
 	public final static String LFHC_CONCEPT_SOURCE = "LFHC";
 	public final static String CIEL_CONCEPT_SOURCE = "CIEL";
 	
+	// Admission encounter type
+	public final static String ADMISSION_ENCOUNTER_TYPE_UUID = "e22e39fd-7db2-45e7-80f1-60fa0d5a4378";
 
 }

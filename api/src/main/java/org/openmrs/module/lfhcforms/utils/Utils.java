@@ -5,9 +5,15 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.Visit;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.context.Context;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Provides a set of useful methods. 
@@ -28,7 +34,7 @@ public class Utils {
 	 * @return attributeMap
 	 */
 	public static LocationAttribute getMostRecentAttribute(Location location, LocationAttributeType attrType) {
-		
+
 		List<LocationAttribute> allAttr = location.getActiveAttributes(attrType);
 		NavigableMap<Date, LocationAttribute> attrMap = new TreeMap<Date, LocationAttribute>();
 		if (allAttr.size() != 0) {
@@ -40,7 +46,28 @@ public class Utils {
 		} else {
 			return null;
 		}
+	}
 
+	/**
+	 * 
+	 * Sets the admission status of a visit based on its location (if location is of 'admission location' type)
+	 * 
+	 * 
+	 * @param location
+	 * @param attrType
+	 * @return 
+	 * @return attributeMap
+	 */
+	public static void setAdmissionBasedOnLocation (Visit visit) {
+		
+		Encounter en = new Encounter();
+		EncounterService es = Context.getEncounterService();
+		en.setEncounterType(es.getEncounterTypeByUuid(LFHCFormsConstants.ADMISSION_ENCOUNTER_TYPE_UUID));
+		
+		es.saveEncounter(en);
+		
+		visit.addEncounter(en);
+		Context.getVisitService().saveVisit(visit);
 	}
 
 
