@@ -10,19 +10,38 @@
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithLocationWidget",
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
-            "provider": "${project.parent.artifactId}",
-            "fragment": "visit/visitWithLocationWidget"
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitWithLocationWidget"
         }
       },
       {
-      	"appId": "lfhcforms.visits",
+        "appId": "lfhcforms.visits",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithLocation",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
-            "provider": "${project.parent.artifactId}",
-            "fragment": "visit/visitWithLocation"
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitWithLocation"
         }
-    }
+      },
+       {
+        "appId": "lfhcforms.visits",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitLocationChange",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitLocationChange"
+        }
+      },
+      {
+        "appId": "lfhcforms.visits",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.visitActions.visitLocationChange",
+        "extensionPointId": "patientDashboard.visitActions",
+        "type": "script",
+        "label": "lfhcforms.app.visit.changelocation.label",
+        "script": "visit.showChangeVisitLocationDialog({{visit.id}})",
+        "icon": "icon-signin",
+        "order": 250
+      }
     ]
   }
 ]
