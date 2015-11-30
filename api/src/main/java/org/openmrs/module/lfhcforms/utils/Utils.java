@@ -59,7 +59,7 @@ public class Utils {
 	 * @return attributeMap
 	 */
 	public static void setAdmissionBasedOnLocation (Visit visit) {
-		
+		//TODO: In progress
 		Encounter en = new Encounter();
 		EncounterService es = Context.getEncounterService();
 		en.setEncounterType(es.getEncounterTypeByUuid(LFHCFormsConstants.ADMISSION_ENCOUNTER_TYPE_UUID));
