@@ -68,6 +68,5 @@ public class AttributeTypesInitializer implements Initializer {
 	 */
 	@Override
 	public void stopped() {
-		//TODO: Perhaps disable the encounter types?
 	}
 }
