@@ -48,6 +48,8 @@ public class AdminConfigInitializer implements Initializer {
 		
 		// Disabling the activeVisitStatus fragment
 		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		// Disabling the Coreapps Start Visit link extension (in the Overall Actions panel)
+		service.disableExtension("org.openmrs.module.coreapps.createVisit");
 		
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
@@ -76,6 +78,7 @@ public class AdminConfigInitializer implements Initializer {
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
 		service.enableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		service.enableExtension("org.openmrs.module.coreapps.createVisit");
 		
 	}
 }
