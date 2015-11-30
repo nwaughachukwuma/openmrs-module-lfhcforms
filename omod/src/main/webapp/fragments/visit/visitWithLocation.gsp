@@ -8,7 +8,7 @@ ui.includeJavascript("lfhcforms", "visit/visitWithLocation.js")
       ${ ui.message("coreapps.visit.createQuickVisit.title") }
     </h3>
   </div>
-  <% if (false) { %>
+  <% if (activeVisitsList) { %>
   <script type="text/javascript">
    jq("#start-visit-with-location-confirm").addClass("disabled");
  </script>
@@ -17,7 +17,7 @@ ui.includeJavascript("lfhcforms", "visit/visitWithLocation.js")
      <i class="icon-sign-warning">&#xf071;</i> There is already active visit(s) for ${ui.format(patient.patient)}
    </p>
    <ul class="list" style="margin-bottom:0px">
-    <% activeVisitList.each { activeVisit -> %> 
+    <% activeVisitsList.each { activeVisit -> %> 
     <li>
       ${ui.format(activeVisit)}
     </li>

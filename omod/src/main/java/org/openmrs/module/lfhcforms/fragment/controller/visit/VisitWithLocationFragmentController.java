@@ -68,7 +68,7 @@ public class VisitWithLocationFragmentController {
 		Location userVisitLocation = adtService.getLocationThatSupportsVisits(sessionContext.getSessionLocation());
 		model.addAttribute("userVisitLocation", userVisitLocation);
 
-		model.addAttribute("activeVisitList", activeVisits);
+		model.addAttribute("activeVisitsList", activeVisits);
 		model.addAttribute("locationList", visitLocations);
 	}
 
