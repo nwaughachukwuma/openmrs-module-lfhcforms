@@ -36,6 +36,9 @@
 		<require_module version="${reportinguiVersion}">
 			org.openmrs.module.reportingui
 		</require_module>
+		<require_module version="${coreappsVersion}">
+			org.openmrs.module.coreapps
+		</require_module>
 	</require_modules>
 
 
