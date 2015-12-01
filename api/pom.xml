@@ -74,6 +74,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>htmlformentry-api</artifactId>
 			<scope>provided</scope>
 		</dependency>

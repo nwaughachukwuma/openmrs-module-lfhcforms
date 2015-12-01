@@ -15,13 +15,30 @@ package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Encounter;
+import org.openmrs.EncounterType;
 import org.openmrs.Location;
+import org.openmrs.LocationTag;
 import org.openmrs.Patient;
+import org.openmrs.Person;
+import org.openmrs.Provider;
+import org.openmrs.ProviderAttribute;
+import org.openmrs.User;
 import org.openmrs.Visit;
+import org.openmrs.api.EncounterService;
+import org.openmrs.api.LocationService;
+import org.openmrs.api.ProviderService;
 import org.openmrs.api.VisitService;
+import org.openmrs.api.context.Context;
+import org.openmrs.api.context.UserContext;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
+import org.openmrs.module.emrapi.EmrApiProperties;
 import org.openmrs.module.emrapi.adt.AdtService;
+import org.openmrs.module.emrapi.encounter.EncounterDomainWrapper;
+import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
+import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -33,6 +50,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -65,7 +84,7 @@ public class VisitLocationChangeFragmentController {
 		// model.addAttribute("visitLocation", visitLocation);
 		model.addAttribute("locationList", visitLocations);
 	}
-	
+
 	/**
 	 *  Set the visit with a location provided by the view
 	 *  
@@ -85,8 +104,11 @@ public class VisitLocationChangeFragmentController {
 			@RequestParam("visitId") Visit visit,
 			UiUtils uiUtils, HttpServletRequest request) {
 
+		Location previousLocation = visit.getLocation();
 		visit.setLocation(selectedLocation);
 		visitService.saveVisit(visit);
+
+		Utils.setAdmissionBasedOnLocation(visit, previousLocation);
 
 		if (!(visit.getLocation().equals(selectedLocation))) {
 			log.error("The location \""+selectedLocation+"\" could not be set for visit "+visit);

@@ -24,5 +24,9 @@ public class LFHCFormsConstants {
 	
 	// Admission encounter type
 	public final static String ADMISSION_ENCOUNTER_TYPE_UUID = "e22e39fd-7db2-45e7-80f1-60fa0d5a4378";
-
+	public final static String DISCHARGE_ENCOUNTER_TYPE_UUID = "181820aa-88c9-479b-9077-af92f5364329";
+	public final static String TRANSFER_ENCOUNTER_TYPE_UUID = "7b68d557-85ef-4fc8-b767-4fa4f5eb5c23";
+	// Location tag
+	public final static String ADMISSION_LOCATION_TAG_UUID = "1c783dca-fd54-4ea8-a0fc-2875374e9cb6";
+	
 }

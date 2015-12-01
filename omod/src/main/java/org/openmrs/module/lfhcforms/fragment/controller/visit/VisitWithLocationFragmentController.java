@@ -18,10 +18,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -95,6 +97,8 @@ public class VisitWithLocationFragmentController {
 		}
 		adtService.ensureVisit(patient, new Date(), selectedLocation);
 
+		Utils.setAdmissionBasedOnLocation(adtService.getActiveVisit(patient, selectedLocation).getVisit(), null);
+		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_TOAST_MESSAGE, "true");
