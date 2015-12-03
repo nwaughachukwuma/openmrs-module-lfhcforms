@@ -41,10 +41,15 @@ public class AdminConfigInitializer implements Initializer {
 		// Disabling the default Patient Registration app (page).
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
-		service.disableApp("referenceapplication.vitals");
 		service.disableApp("reportingui.reports");
+		
+		// Disable unwanted apps and extensions
+		service.disableApp("referenceapplication.vitals");
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
+		service.disableExtension("referenceapplication.realTime.simpleAdmission");
+		service.disableExtension("referenceapplication.realTime.simpleDischarge");
+		service.disableExtension("referenceapplication.realTime.simpleTransfer");
 		
 		// Disabling the activeVisitStatus fragment
 		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
@@ -74,11 +79,15 @@ public class AdminConfigInitializer implements Initializer {
 
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.enableApp("referenceapplication.registrationapp.registerPatient");
+		service.enableApp("reportingui.reports");
 		service.enableApp("referenceapplication.vitals");
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
 		service.enableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
 		service.enableExtension("org.openmrs.module.coreapps.createVisit");
-		
+		service.enableExtension("referenceapplication.realTime.simpleAdmission");
+		service.enableExtension("referenceapplication.realTime.simpleDischarge");
+		service.enableExtension("referenceapplication.realTime.simpleTransfer");
+
 	}
 }
