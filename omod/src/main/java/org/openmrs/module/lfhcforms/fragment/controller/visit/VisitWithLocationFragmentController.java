@@ -87,7 +87,7 @@ public class VisitWithLocationFragmentController {
 	 */
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
 			@RequestParam("patientId") Patient patient, @RequestParam("selectedLocation") Location selectedLocation,
-			UiUtils uiUtils, HttpServletRequest request) {
+			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 
 		// Do not save if patient already has active visit, in any location
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
@@ -98,6 +98,7 @@ public class VisitWithLocationFragmentController {
 		adtService.ensureVisit(patient, new Date(), selectedLocation);
 
 		Utils.setAdmissionBasedOnLocation(adtService.getActiveVisit(patient, selectedLocation).getVisit(), null);
+		context.setSessionLocation(selectedLocation);
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
@@ -126,6 +127,7 @@ public class VisitWithLocationFragmentController {
 			}
 			;
 		}
+		
 		return activeVisits;
 
 	}

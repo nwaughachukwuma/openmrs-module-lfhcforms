@@ -102,7 +102,7 @@ public class VisitLocationChangeFragmentController {
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedLocation") Location selectedLocation,
 			@RequestParam("visitId") Visit visit,
-			UiUtils uiUtils, HttpServletRequest request) {
+			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 
 		Location previousLocation = visit.getLocation();
 		visit.setLocation(selectedLocation);
@@ -114,7 +114,9 @@ public class VisitLocationChangeFragmentController {
 			log.error("The location \""+selectedLocation+"\" could not be set for visit "+visit);
 			return new FailureResult(uiUtils.message("lfhcforms.app.visit.changelocation.fail"));
 		}
-
+		
+		context.setSessionLocation(selectedLocation);
+		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("lfhcforms.app.visit.changelocation.success", uiUtils.format(patient)));
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_TOAST_MESSAGE, "true");
