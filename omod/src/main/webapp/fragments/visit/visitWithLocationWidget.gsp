@@ -4,7 +4,7 @@ def patient = config.patient
     %>
 
     <div id="visits-with-location" class="info-section override-previous">
-    <!-- class 'override-previous' will enable jq code to hide the previous widget -->
+        <!-- class 'override-previous' will enable jq code to hide the previous widget -->
         <div class="info-header">
             <i class="icon-calendar"></i>
             <h3>${ui.message("lfhcforms.app.visit.recentvisits").toUpperCase()}</h3>
@@ -21,7 +21,17 @@ def patient = config.patient
             <ul>
                 <% recentVisitsWithLinks.each { it, url -> %>
                 <li class="clear">
-                    <a href="${url}" class="visit-link">
+                    <a id="${it.visit.id}" class="visit-link">
+                        <script type="text/javascript">
+                            jq("#${it.visit.id}.visit-link").click(function () {
+                                // create location object
+                                var data = { locationId: "${it.visit.location.id}"};
+                                // call the SessionFragment to set Context location
+                                jq.post(emr.fragmentActionLink("appui", "session", "setLocation", data), function (data) {
+                                window.location.href = "${url}";
+                                });
+                            })
+                        </script>
                         ${ ui.formatDatePretty(it.startDatetime) }
                         <% if(it.stopDatetime && !it.startDatetime.format("yyyy/MM/dd").equals(it.stopDatetime.format("yyyy/MM/dd"))){ %> - ${ ui.formatDatePretty(it.stopDatetime) }<% } %>
                     </a>
