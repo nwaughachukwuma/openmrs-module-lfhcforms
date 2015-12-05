@@ -15,29 +15,13 @@ package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.LocationTag;
 import org.openmrs.Patient;
-import org.openmrs.Person;
-import org.openmrs.Provider;
-import org.openmrs.ProviderAttribute;
-import org.openmrs.User;
 import org.openmrs.Visit;
-import org.openmrs.api.EncounterService;
-import org.openmrs.api.LocationService;
-import org.openmrs.api.ProviderService;
 import org.openmrs.api.VisitService;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.context.UserContext;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
-import org.openmrs.module.emrapi.EmrApiProperties;
 import org.openmrs.module.emrapi.adt.AdtService;
-import org.openmrs.module.emrapi.encounter.EncounterDomainWrapper;
-import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -50,8 +34,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Transactional
