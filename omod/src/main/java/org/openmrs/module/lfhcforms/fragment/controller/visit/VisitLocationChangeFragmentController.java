@@ -104,7 +104,7 @@ public class VisitLocationChangeFragmentController {
 		}
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
-				uiUtils.message("lfhcforms.app.visit.changelocation.success", uiUtils.format(patient)));
+				uiUtils.message("lfhcforms.app.visit.changelocation.success", uiUtils.format(selectedLocation)));
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_TOAST_MESSAGE, "true");
 
 		return new SuccessResult();
