@@ -34,7 +34,7 @@
         }
       },
       {
-        "appId": "lfhcforms.visits",
+        "appId": "lfhcforms.visitWithLocation",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitLocationChange",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
@@ -43,7 +43,7 @@
         }
       },
       {
-        "appId": "lfhcforms.visits",
+        "appId": "lfhcforms.visitWithLocation",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.visitActions.visitLocationChange",
         "extensionPointId": "patientDashboard.visitActions",
         "type": "script",
