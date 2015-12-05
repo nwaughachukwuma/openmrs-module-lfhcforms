@@ -26,7 +26,7 @@ def patient = config.patient
                             jq("#${it.visit.id}.visit-link").click(function () {
                                 // create location object
                                 var data = { locationId: "${it.visit.location.id}"};
-                                // call the SessionFragment to set Context location
+                                // call the SessionFragment to set Context location in order to redirect user to the new location
                                 jq.post(emr.fragmentActionLink("appui", "session", "setLocation", data), function (data) {
                                 window.location.href = "${url}";
                                 });
