@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
@@ -25,6 +26,7 @@ import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
+import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.fragment.action.FailureResult;
@@ -86,9 +88,11 @@ public class VisitWithLocationFragmentController {
 	 * @return
 	 */
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
-			@RequestParam("patientId") Patient patient, @RequestParam("selectedLocation") Location selectedLocation,
+			@RequestParam("patientId") Patient patient,
+			@RequestParam("selectedLocation") Location selectedLocation,
+			@SpringBean("patientService") PatientService ps, 
 			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
-
+		
 		// Do not save if patient already has active visit, in any location
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
 		if (activeVisits.size() != 0) {
@@ -98,7 +102,12 @@ public class VisitWithLocationFragmentController {
 		adtService.ensureVisit(patient, new Date(), selectedLocation);
 
 		Utils.setAdmissionBasedOnLocation(adtService.getActiveVisit(patient, selectedLocation).getVisit(), null);
-		context.setSessionLocation(selectedLocation);
+		
+		// will redirect user to the new location
+		Integer currentLocation = context.getSessionLocationId();		
+		if (selectedLocation.getLocationId() != currentLocation ) {
+			context.setSessionLocation(selectedLocation);
+		}
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
