@@ -42,6 +42,7 @@ public class LocationsInitializer implements Initializer {
 				Set<LocationTag> tags = new HashSet<LocationTag>();
 				tags.add(ls.getLocationTagByUuid(LFHCFormsConstants.VISIT_LOCATION_TAG_UUID));
 				tags.add(ls.getLocationTagByUuid(LFHCFormsConstants.LOGIN_LOCATION_TAG_UUID));
+				tags.add(ls.getLocationTagByUuid(LFHCFormsConstants.TRANSFER_LOCATION_TAG_UUID));
 
 				loc.setTags(tags);
 				ls.saveLocation(loc);
