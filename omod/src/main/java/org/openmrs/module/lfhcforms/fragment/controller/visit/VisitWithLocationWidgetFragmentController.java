@@ -60,11 +60,10 @@ public class VisitWithLocationWidgetFragmentController {
 
 		// Patient ID is passed through config when the fragment is included
 		patientWrapper.setPatient((Context.getPatientService().getPatient((Integer) config.get("patientId") )));
-		config.addAttribute("patient", patientWrapper);
 
 		AppContextModel contextModel = sessionContext.generateAppContextModel();
 		contextModel.put("patient", new PatientContextModel(patientWrapper.getPatient()));
-
+		
 		AppDescriptor app = (AppDescriptor) pageModel.get("app");
 		String visitUrl = null;
 		String visitsUrl = null;
@@ -77,11 +76,11 @@ public class VisitWithLocationWidgetFragmentController {
 			} catch (Exception ex) { }
 		}
 		if (visitUrl == null) {
-			visitUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.uuid}}&visitId={{visit.id}}#visits";
+			visitUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}&visitId={{visit.id}}#visits";
 		}
 		visitUrl = "/" + ui.contextPath() + "/" + visitUrl;
 		if (visitsUrl == null) {
-			visitsUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.uuid}}#visits";
+			visitsUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}#visits";
 		}
 		visitsUrl = "/" + ui.contextPath() + "/" + visitsUrl;
 		model.addAttribute("visitsUrl", templateFactory.handlebars(visitsUrl, contextModel));
