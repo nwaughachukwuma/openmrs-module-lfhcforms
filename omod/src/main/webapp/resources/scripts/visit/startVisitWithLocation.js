@@ -7,7 +7,7 @@ visit.createStartVisitWithLocationDialog = function() {
 		selector: '#start-visit-with-location-dialog',
 		actions: {
 			confirm: function() {	
-				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitWithLocation', 'create',
+				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitWithLocationStart', 'create',
 					{ patientId: visit.patientId,
 						selectedLocation: jq('#visit-location-drop-down').find(":selected").val() },
 						function(data) {

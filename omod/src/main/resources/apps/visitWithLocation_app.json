@@ -21,7 +21,7 @@
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
           "provider": "${project.parent.artifactId}",
-          "fragment": "visit/visitWithLocation"
+          "fragment": "visit/visitWithLocationStart"
         }
       },
       {

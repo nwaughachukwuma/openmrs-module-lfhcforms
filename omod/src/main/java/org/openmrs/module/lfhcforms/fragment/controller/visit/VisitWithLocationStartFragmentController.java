@@ -19,14 +19,12 @@ import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.api.PatientService;
-import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.ui.framework.fragment.action.FailureResult;
@@ -43,9 +41,9 @@ import java.util.Iterator;
 import java.util.List;
 
 @Transactional
-public class VisitWithLocationFragmentController {
+public class VisitWithLocationStartFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitWithLocationFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitWithLocationStartFragmentController.class);
 
 	/**
 	 * 
