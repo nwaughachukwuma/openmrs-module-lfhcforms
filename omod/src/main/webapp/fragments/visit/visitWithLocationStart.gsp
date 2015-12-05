@@ -15,7 +15,7 @@ ui.includeJavascript("lfhcforms", "visit/startVisitWithLocation.js")
       </script>
       
         <p class="dialog-instructions">
-          <i class="icon-sign-warning">&#xf071;</i> ${ui.message("lfhcforms.app.visit.locationstart.activevisits", ui.format(patient.patient))}
+          <i class="icon-sign-warning">&#xf071;</i> ${ui.message("lfhcforms.app.visit.locationstart.warning", ui.format(patient.patient))}
         </p>
         <ul class="list" style="margin-bottom:0px">
           <% activeVisitsList.each { activeVisit -> %> 
