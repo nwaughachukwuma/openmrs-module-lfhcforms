@@ -1,0 +1,57 @@
+[
+  {
+    "id": "lfhcforms.visitWithVisitType",
+    "label": "Visit With Visit Type",
+    "description": "App to extend support of visit with specific visit type",
+    "icon": "icon-calendar",
+    "order": -1,
+    "extensions": [
+      {
+        "appId": "lfhcforms.visitWithVisitType",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithVisitTypeWidget",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitWithVisitTypeWidget"
+        }
+      },
+      {
+        "appId": "lfhcforms.visitWithVisitType",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithVisitType",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitWithVisitTypeStart"
+        }
+      },
+      {
+        "appId": "lfhcforms.visitWithVisitType",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatusWithVisitType",
+        "extensionPointId": "patientHeader.secondLineFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/activeVisitStatusWithVisitType"
+        }
+      },
+      {
+        "appId": "lfhcforms.visitWithVisitType",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitTypeChange",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitTypeChange"
+        }
+      },
+      {
+        "appId": "lfhcforms.visitWithVisitType",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.visitActions.visitTypeChange",
+        "extensionPointId": "patientDashboard.visitActions",
+        "type": "script",
+        "label": "lfhcforms.app.visit.visittype.change.label",
+        "script": "visit.showChangeVisitTypeDialog({{visit.id}})",
+        "icon": "icon-signin",
+        "order": 250
+      }
+    ]
+  }
+]

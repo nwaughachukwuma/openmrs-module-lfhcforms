@@ -37,9 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Transactional
-public class VisitLocationChangeFragmentController {
+public class VisitTypeChangeFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitLocationChangeFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitTypeChangeFragmentController.class);
 
 	/**
 	 * 

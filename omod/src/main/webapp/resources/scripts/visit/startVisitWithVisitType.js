@@ -1,44 +1,44 @@
 var visit = visit || {};
 
-visit.startVisitWithLocationDialog = null;
+visit.startVisitWithVisitTypeDialog = null;
 
-visit.createStartVisitWithLocationDialog = function() {
-	visit.startVisitWithLocationDialog = emr.setupConfirmationDialog({
-		selector: '#start-visit-with-location-dialog',
+visit.createStartVisitWithVisitTypeDialog = function() {
+	visit.startVisitWithVisitTypeDialog = emr.setupConfirmationDialog({
+		selector: '#start-visit-with-visittype-dialog',
 		actions: {
 			confirm: function() {	
-				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitWithLocationStart', 'create',
+				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitWithVisitTypeStart', 'create',
 					{ patientId: visit.patientId,
-						selectedLocation: jq('#visit-location-drop-down').find(":selected").val() },
+						selectedType: jq('#visit-visittype-drop-down').find(":selected").val() },
 						function(data) {
-							jq('#start-visit-with-location-dialog' + ' .icon-spin').css('display', 'inline-block').parent().addClass('disabled');
+							jq('#start-visit-with-visittype-dialog' + ' .icon-spin').css('display', 'inline-block').parent().addClass('disabled');
 						visit.reloadPageWithoutVisitId();
 					},function(err){
 						visit.reloadPageWithoutVisitId();
 					});
 			},
 			cancel: function() {
-				visit.startVisitWithLocationDialog.close();
+				visit.startVisitWithVisitTypeDialog.close();
 			}
 		}
 	});
 
-	visit.startVisitWithLocationDialog.close();
+	visit.startVisitWithVisitTypeDialog.close();
 }
 
-visit.showStartVisitWithLocationDialog = function(patientId) {
+visit.showStartVisitWithVisitTypeDialog = function(patientId) {
 	visit.patientId = patientId;
 	//console.log(patientId);
-	if (visit.startVisitWithLocationDialog == null) {
-		visit.createStartVisitWithLocationDialog();
+	if (visit.startVisitWithVisitTypeDialog == null) {
+		visit.createStartVisitWithVisitTypeDialog();
 	};
-	visit.startVisitWithLocationDialog.show();
+	visit.startVisitWithVisitTypeDialog.show();
 };
 
 
 $(document).ready(
 	// override the existing 'Start Visit' button to trigger the new 'StartVisitWithLocation' dialog instead of extisting action.
-	// this function is not called by an extension point (different from showStartVisitWithLocationDialog() ).
+	// this function is not called by an extension point (different from showStartVisitWithVisitTypeDialog() ).
 	// Therefore, we need to retrieve the Patient ID from the URL parameters.
 	function replaceStartVisitButton() {
 	if (document.getElementById("noVisitShowVisitCreationDialog") != null) {
@@ -48,7 +48,7 @@ $(document).ready(
 		$("#noVisitShowVisitCreationDialog").replaceWith('<span id="noVisitShowVisitCreationDialog" class="' + classString + '">' + label + '</span>' );
 		$("#noVisitShowVisitCreationDialog").click(function () {
 			var patientId = getParameterByName("patientId");
-			visit.showStartVisitWithLocationDialog(patientId);
+			visit.showStartVisitWithVisitTypeDialog(patientId);
 		});
 	}
 })

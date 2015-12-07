@@ -41,9 +41,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Controller to return the active visit with its location attributes
  * 
  */
-public class ActiveVisitStatusWithLocationFragmentController {
+public class ActiveVisitStatusWithVisitTypeFragmentController {
 
-	protected static final Log log = LogFactory.getLog(ActiveVisitStatusWithLocationFragmentController.class);
+	protected static final Log log = LogFactory.getLog(ActiveVisitStatusWithVisitTypeFragmentController.class);
 
 	private String colorUuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
 	private String shortNameUuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;

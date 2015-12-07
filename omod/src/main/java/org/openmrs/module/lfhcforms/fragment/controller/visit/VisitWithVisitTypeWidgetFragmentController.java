@@ -43,9 +43,9 @@ import org.openmrs.ui.framework.page.PageModel;
  * Supports the containing PageModel having an "app" property whose config
  * defines a "visitUrl" property
  */
-public class VisitWithLocationWidgetFragmentController {
+public class VisitWithVisitTypeWidgetFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitWithLocationWidgetFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitWithVisitTypeWidgetFragmentController.class);
 
 	private String colorUuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
 	private String shortNameUuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;

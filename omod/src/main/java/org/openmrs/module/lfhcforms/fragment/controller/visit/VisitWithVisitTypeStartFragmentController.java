@@ -18,12 +18,13 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
-import org.openmrs.api.PatientService;
+import org.openmrs.VisitType;
+import org.openmrs.api.VisitService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -41,55 +42,48 @@ import java.util.Iterator;
 import java.util.List;
 
 @Transactional
-public class VisitWithLocationStartFragmentController {
+public class VisitWithVisitTypeStartFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitWithLocationStartFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitWithVisitTypeStartFragmentController.class);
 
 	/**
 	 * 
-	 * Controller to let user start a visit in a specific visit location
+	 * Controller to let user start a visit with a specific visit type 
 	 * 
-	 * @param model
-	 * @param patient
-	 * @param ui
-	 * @param adtService
-	 * @param sessionContext
 	 */
 	public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, UiUtils ui,
 			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
-		model.addAttribute("locationList", null);
-		model.addAttribute("activeVisitList", null);
-		model.addAttribute("userVisitLocation", null);
+		
+		model.addAttribute("visitTypes", null);
+		model.addAttribute("activeVisits", null);
+		model.addAttribute("currentVisitType", null);
 
-		List<Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
+		VisitService vs = Context.getVisitService();
+		List<VisitType> visitTypes = vs.getAllVisitTypes(false);
 
 		// send active visits to the view, if any.
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
 
-		// get the user's visit location
-		Location userVisitLocation = adtService.getLocationThatSupportsVisits(sessionContext.getSessionLocation());
-		model.addAttribute("userVisitLocation", userVisitLocation);
-
-		model.addAttribute("activeVisitsList", activeVisits);
-		model.addAttribute("locationList", visitLocations);
+		// get the current visit's visit type, if any active visit, IN the current location
+		VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
+		if (activeVisitWrapper != null) {
+			VisitType currentVisitType = activeVisitWrapper.getVisit().getVisitType();
+			model.addAttribute("currentVisitType", currentVisitType);
+		}
+		
+		model.addAttribute("activeVisits", activeVisits);
+		model.addAttribute("visitTypes", visitTypes);
 	}
 
 	/**
 	 * 
-	 * Saves visit with a location provided by the view
+	 * Saves visit with a visit type provided by the view
 	 * 
-	 * @param adtService
-	 * @param patient
-	 * @param selectedLocation
-	 * @param uiUtils
-	 * @param request
-	 * @return
 	 */
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
 			@RequestParam("patientId") Patient patient,
-			@RequestParam("selectedLocation") Location selectedLocation,
-			@SpringBean("patientService") PatientService ps, 
-			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
+			@RequestParam("selectedType") VisitType selectedType, 
+			UiUtils uiUtils, UiSessionContext uiContext, HttpServletRequest request) {
 		
 		// Do not save if patient already has active visit, in any location
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
@@ -97,15 +91,12 @@ public class VisitWithLocationStartFragmentController {
 			log.warn("Patient already has active visits. " + activeVisits.toString());
 			return new FailureResult(uiUtils.message("coreapps.activeVisits.alreadyExists"));
 		}
-		adtService.ensureVisit(patient, new Date(), selectedLocation);
-
-		Utils.setAdmissionBasedOnLocation(adtService.getActiveVisit(patient, selectedLocation).getVisit(), null);
 		
-		// will redirect user to the new location
-		Integer currentLocation = context.getSessionLocationId();		
-		if (selectedLocation.getLocationId() != currentLocation ) {
-			context.setSessionLocation(selectedLocation);
-		}
+		// create the visit
+		Visit visit = adtService.ensureVisit(patient, new Date(), uiContext.getSessionLocation());
+		// set the visit type
+		visit.setVisitType(selectedType);
+		Context.getVisitService().saveVisit(visit);
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
@@ -134,8 +125,6 @@ public class VisitWithLocationStartFragmentController {
 			}
 			;
 		}
-		
 		return activeVisits;
-
 	}
 }
