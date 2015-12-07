@@ -66,10 +66,10 @@ public class ActiveVisitStatusWithVisitTypeFragmentController {
 			model.addAttribute("activeVisitStartDatetime",
 					DateFormatUtils.format(activeVisit.getStartDatetime(), "dd MMM yyyy hh:mm a", Context.getLocale()));
 
-			// Retrieve attributes of visit location
-			Map<String, Object> visitLocAttr = Utils.getVisitColorAndShortName(activeVisit);
+			// Retrieve color and short name of visit type
+			Map<String, Object> activeVisitAttr = Utils.getVisitColorAndShortName(activeVisit);
 
-			model.addAttribute("activeVisitAttr", visitLocAttr);
+			model.addAttribute("activeVisitAttr", activeVisitAttr);
 		}
 	}
 }
