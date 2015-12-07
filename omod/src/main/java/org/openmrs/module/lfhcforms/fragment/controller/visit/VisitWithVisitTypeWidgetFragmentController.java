@@ -93,10 +93,6 @@ public class VisitWithVisitTypeWidgetFragmentController {
 		for (VisitDomainWrapper recentVisit : recentVisits) {
 			contextModel.put("visit", new VisitContextModel(recentVisit));
 			recentVisitsWithLinks.put(recentVisit, templateFactory.handlebars(visitUrl, contextModel));
-			VisitType type = recentVisit.getVisit().getVisitType();
-			type.getName();
-			type.getId();
-			System.out.println("test");
 		}
 
 		Map<Integer, Map<String, Object>> recentVisitsWithAttr = Utils.getVisitColorAndShortName(recentVisits);

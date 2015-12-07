@@ -206,28 +206,33 @@ public class Utils {
 
 		VisitType type = visit.getVisit().getVisitType();
 	
-		// TODO: refer to UUIDs instead of names
-		// TODO: bring visit types via the module activator
-		// TODO: investigate use of VisitType attributes
-		if (type.getName().equals("Outpatient")) {
+		if (type.getUuid().equals(LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OUTPATIENT_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTPATIENT_SHORTNAME);
 		}
-		if (type.getName().equals("Inpatient")) {
+		if (type.getName().equals(LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.INPATIENT_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.INPATIENT_SHORTNAME);
 		}
-		if (type.getName().equals("Emergency")) {
+		if (type.getName().equals(LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.EMERGENCY_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.EMERGENCY_SHORTNAME);
 		}
-		if (type.getName().equals("Operating Theater")) {
+		if (type.getName().equals(LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
 		}
-		if (type.getName().equals("Outreach")) {
+		if (type.getName().equals(LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OUTREACH_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTREACH_SHORTNAME);
+		}
+
+		// set default values
+		if (visitColorAndShortName.get("color") == null ) {
+			visitColorAndShortName.put("color", "grey");
+		}
+		if (visitColorAndShortName.get("shortName") == null) {
+			visitColorAndShortName.put("shortName", "N/A");	
 		}
 		
 		return visitColorAndShortName;
