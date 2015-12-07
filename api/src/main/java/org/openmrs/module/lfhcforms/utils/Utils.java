@@ -48,7 +48,6 @@ public class Utils {
 	 */
 
 	protected static final Log log = LogFactory.getLog(Utils.class);
-	private static AdministrationService adtService;
 
 	public static LocationAttribute getMostRecentAttribute(Location location, LocationAttributeType attrType) {
 
@@ -225,6 +224,10 @@ public class Utils {
 		if (type.getName().equals("Operating Theater")) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
+		}
+		if (type.getName().equals("Outreach")) {
+			visitColorAndShortName.put("color", LFHCFormsConstants.OUTREACH_COLOR);
+			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTREACH_SHORTNAME);
 		}
 		
 		return visitColorAndShortName;

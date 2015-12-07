@@ -1,4 +1,4 @@
-package org.openmrs.module.lfhcforms.activator;
+	package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
