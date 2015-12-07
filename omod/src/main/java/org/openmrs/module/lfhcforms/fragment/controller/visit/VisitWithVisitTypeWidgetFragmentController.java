@@ -21,6 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
+import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.context.AppContextModel;
 import org.openmrs.module.appframework.domain.AppDescriptor;
@@ -46,9 +47,6 @@ import org.openmrs.ui.framework.page.PageModel;
 public class VisitWithVisitTypeWidgetFragmentController {
 
 	protected static final Log log = LogFactory.getLog(VisitWithVisitTypeWidgetFragmentController.class);
-
-	private String colorUuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
-	private String shortNameUuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
 
 	public void controller(FragmentConfiguration config,
 			PageModel pageModel,
@@ -95,62 +93,17 @@ public class VisitWithVisitTypeWidgetFragmentController {
 		for (VisitDomainWrapper recentVisit : recentVisits) {
 			contextModel.put("visit", new VisitContextModel(recentVisit));
 			recentVisitsWithLinks.put(recentVisit, templateFactory.handlebars(visitUrl, contextModel));
+			VisitType type = recentVisit.getVisit().getVisitType();
+			type.getName();
+			type.getId();
+			System.out.println("test");
 		}
 
-		Map<Integer, Map<String, Object>> recentVisitsWithAttr = getVisitColorAndShortName(recentVisits);
+		Map<Integer, Map<String, Object>> recentVisitsWithAttr = Utils.getVisitColorAndShortName(recentVisits);
 
 		model.addAttribute("recentVisitsWithAttr", recentVisitsWithAttr);
 		model.addAttribute("recentVisitsWithLinks", recentVisitsWithLinks);
 	}
 
-	/**
-	 * 
-	 * Returns the color and short name attributes of Visit
-	 * 
-	 * @param recentVisits
-	 * @return
-	 */
-	private Map<Integer, Map<String, Object>> getVisitColorAndShortName(List<VisitDomainWrapper> recentVisits) {
-
-		Map<Integer, Map<String, Object>> recentVisitsWithAttr = new LinkedHashMap<Integer, Map<String, Object>>();
-
-		for (VisitDomainWrapper recentVisit : recentVisits) {
-			// Retrieve attributes of visit location
-			LocationAttributeType colorAttrType = Context.getLocationService()
-					.getLocationAttributeTypeByUuid(colorUuid);
-			LocationAttributeType shortNameAttrType = Context.getLocationService()
-					.getLocationAttributeTypeByUuid(shortNameUuid);
-
-			LocationAttribute colorAttr = Utils.getMostRecentAttribute(recentVisit.getVisit().getLocation(),
-					colorAttrType);
-			if (colorAttr == null) {
-				// default value of this attribute if no attribute has been set
-				// yet
-				colorAttr = new LocationAttribute();
-				colorAttr.setAttributeType(colorAttrType);
-				colorAttr.setValue("grey");
-				log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
-						+ colorAttr.getValue() + " - visit: "+ recentVisit.getVisitId() + "\" as default value");
-			}
-
-			LocationAttribute shortNameAttr = Utils.getMostRecentAttribute(recentVisit.getVisit().getLocation(),
-					shortNameAttrType);
-			if (shortNameAttr == null) {
-				// default value of this attribute if no attribute has been set
-				// yet
-				shortNameAttr = new LocationAttribute();
-				shortNameAttr.setAttributeType(shortNameAttrType);
-				shortNameAttr.setValue(recentVisit.getVisit().getLocation().getName());
-				log.warn("There is no Attribute for Location Attribute Type \"" + shortNameAttrType.getName()
-				+ " - visitId: "+ recentVisit.getVisitId() + "\". Using \"" + shortNameAttr.getValue() + "\" as default value");
-			}
-				Map<String, Object> visitLocAttr = new HashMap<String, Object>();
-
-				visitLocAttr.put("color", colorAttr.getValue());
-				visitLocAttr.put("shortName", shortNameAttr.getValue());
-				recentVisitsWithAttr.put(recentVisit.getVisitId(), visitLocAttr);
-			
-		}
-		return recentVisitsWithAttr;
-	}
+	
 }

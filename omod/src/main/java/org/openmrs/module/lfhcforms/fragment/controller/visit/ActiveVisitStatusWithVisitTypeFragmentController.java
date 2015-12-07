@@ -13,22 +13,18 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
-import org.openmrs.LocationAttribute;
-import org.openmrs.LocationAttributeType;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
@@ -44,9 +40,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ActiveVisitStatusWithVisitTypeFragmentController {
 
 	protected static final Log log = LogFactory.getLog(ActiveVisitStatusWithVisitTypeFragmentController.class);
-
-	private String colorUuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
-	private String shortNameUuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
 
 	public void controller(FragmentConfiguration config, @RequestParam("patientId") Patient patient,
 			FragmentModel model, UiUtils ui, UiSessionContext sessionContext,
@@ -66,7 +59,7 @@ public class ActiveVisitStatusWithVisitTypeFragmentController {
 		}
 
 		model.addAttribute("activeVisitStartDatetime", null);
-		model.addAttribute("activeLocationAttr", null);
+		model.addAttribute("activeVisitAttr", null);
 
 		if (activeVisit != null) {
 			model.addAttribute("activeVisit", activeVisit);
@@ -74,39 +67,9 @@ public class ActiveVisitStatusWithVisitTypeFragmentController {
 					DateFormatUtils.format(activeVisit.getStartDatetime(), "dd MMM yyyy hh:mm a", Context.getLocale()));
 
 			// Retrieve attributes of visit location
-			LocationAttributeType colorAttrType = Context.getLocationService()
-					.getLocationAttributeTypeByUuid(colorUuid);
-			LocationAttributeType shortNameAttrType = Context.getLocationService()
-					.getLocationAttributeTypeByUuid(shortNameUuid);
+			Map<String, Object> visitLocAttr = Utils.getVisitColorAndShortName(activeVisit);
 
-			LocationAttribute colorAttr = Utils.getMostRecentAttribute(activeVisit.getVisit().getLocation(),
-					colorAttrType);
-			if (colorAttr == null) {
-				// default the value of this attribute if no attribute has been set yet
-				colorAttr = new LocationAttribute();
-				colorAttr.setAttributeType(colorAttrType);
-				colorAttr.setValue("grey");
-				log.warn("There is no Attribute for Location Attribute Type \"" + colorAttrType.getName() + "\". Using \""
-						+ colorAttr.getValue() + "\" as default value");
-			}
-			
-			LocationAttribute shortNameAttr = Utils.getMostRecentAttribute(activeVisit.getVisit().getLocation(),
-					shortNameAttrType);
-			if (shortNameAttr == null) {
-				// default the value of this attribute if no attribute has been set yet
-				shortNameAttr = new LocationAttribute();
-				shortNameAttr.setAttributeType(shortNameAttrType);
-				shortNameAttr.setValue(activeVisit.getVisit().getLocation().getName());
-				log.warn("There is no Attribute for Location Attribute Type \"" + shortNameAttrType.getName()
-				+ "\". Using \"" + shortNameAttr.getValue() + "\" as default value");
-			}
-
-			Map<String, Object> visitLocAttr = new HashMap<String, Object>();
-
-			visitLocAttr.put("color", colorAttr.getValue());
-			visitLocAttr.put("shortName", shortNameAttr.getValue());
-
-			model.addAttribute("visitLocAttr", visitLocAttr);
+			model.addAttribute("activeVisitAttr", visitLocAttr);
 		}
 	}
 }

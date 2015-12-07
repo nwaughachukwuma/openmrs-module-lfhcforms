@@ -25,42 +25,42 @@ public class AttributeTypesInitializer implements Initializer {
 	public synchronized void started() {
 		log.info("Setting new Location Attributes Types for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
 
-		LocationService ls = Context.getLocationService();
-
-		{
-			String name = "Color";
-			String desc = "Attribute type that records the color of the location";
-			String uuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
-			String dataType = FreeTextDatatype.class.getName();
-			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
-			if(locationAttrType == null) {
-				locationAttrType = new LocationAttributeType();
-				locationAttrType.setName(name);
-				locationAttrType.setDescription(desc);
-				locationAttrType.setUuid(uuid);
-				locationAttrType.setDatatypeClassname(dataType);
-				ls.saveLocationAttributeType(locationAttrType);
-			}else {
-				log.info("UUID of Location Attribute Type \"" + name + "\" already exists. Not saving the Location Attribute Type");
-			}
-		}		
-		{
-			String name = "Short Name";
-			String desc = "Attribute type that records the short name of the location";
-			String uuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
-			String dataType = FreeTextDatatype.class.getName();
-			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
-			if(locationAttrType == null) {
-				locationAttrType = new LocationAttributeType();
-				locationAttrType.setName(name);
-				locationAttrType.setDescription(desc);
-				locationAttrType.setUuid(uuid);
-				locationAttrType.setDatatypeClassname(dataType);
-				ls.saveLocationAttributeType(locationAttrType);
-			}else {
-				log.info("UUID of Location Attribute Type \"" + name + "\" already exists. Not saving the Location Attribute Type");
-			}
-		}
+//		LocationService ls = Context.getLocationService();
+//
+//		{
+//			String name = "Color";
+//			String desc = "Attribute type that records the color of the location";
+//			String uuid = LFHCFormsConstants.COLOR_LOCATION_ATTRIBUTE_TYPE_UUID;
+//			String dataType = FreeTextDatatype.class.getName();
+//			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
+//			if(locationAttrType == null) {
+//				locationAttrType = new LocationAttributeType();
+//				locationAttrType.setName(name);
+//				locationAttrType.setDescription(desc);
+//				locationAttrType.setUuid(uuid);
+//				locationAttrType.setDatatypeClassname(dataType);
+//				ls.saveLocationAttributeType(locationAttrType);
+//			}else {
+//				log.info("UUID of Location Attribute Type \"" + name + "\" already exists. Not saving the Location Attribute Type");
+//			}
+//		}		
+//		{
+//			String name = "Short Name";
+//			String desc = "Attribute type that records the short name of the location";
+//			String uuid = LFHCFormsConstants.SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID;
+//			String dataType = FreeTextDatatype.class.getName();
+//			LocationAttributeType locationAttrType = ls.getLocationAttributeTypeByUuid(uuid);
+//			if(locationAttrType == null) {
+//				locationAttrType = new LocationAttributeType();
+//				locationAttrType.setName(name);
+//				locationAttrType.setDescription(desc);
+//				locationAttrType.setUuid(uuid);
+//				locationAttrType.setDatatypeClassname(dataType);
+//				ls.saveLocationAttributeType(locationAttrType);
+//			}else {
+//				log.info("UUID of Location Attribute Type \"" + name + "\" already exists. Not saving the Location Attribute Type");
+//			}
+//		}
 	}
 
 	/**

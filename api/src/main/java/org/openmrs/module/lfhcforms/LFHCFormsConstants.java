@@ -2,9 +2,19 @@ package org.openmrs.module.lfhcforms;
 
 public class LFHCFormsConstants {
 
-
-	// VisitWithLocation App
-	public static final String COLOR_LOCATION_ATTRIBUTE_TYPE_UUID = "5a35eb84-dbc4-4cd0-8a3c-58dc6a7a10ae";
+	// Visit With Visit Type App
+	public static final String OUTREACH_COLOR = "BurlyWood";
+	public static final String OUTPATIENT_COLOR = "#3399ff";
+	public static final String INPATIENT_COLOR = "Coral";
+	public static final String EMERGENCY_COLOR = "Red";
+	public static final String OPERATING_THEATER_COLOR = "MediumPurple";
+	
+	public static final String OUTREACH_SHORTNAME = "OUTREACH";
+	public static final String OUTPATIENT_SHORTNAME = "OPD";
+	public static final String INPATIENT_SHORTNAME = "IPD";
+	public static final String EMERGENCY_SHORTNAME = "ER";
+	public static final String OPERATING_THEATER_SHORTNAME = "ER";
+	
 	public static final String SHORT_NAME_LOCATION_ATTRIBUTE_TYPE_UUID = "f31de69c-ca4f-4613-aec6-2a3f28cdc973";
 	
 	// Registration App

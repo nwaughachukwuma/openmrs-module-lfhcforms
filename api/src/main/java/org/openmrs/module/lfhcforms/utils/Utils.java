@@ -1,7 +1,10 @@
 package org.openmrs.module.lfhcforms.utils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -16,6 +19,7 @@ import org.openmrs.LocationTag;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
@@ -189,5 +193,60 @@ public class Utils {
 		
 		vs.saveVisit(visit);
 
+	}
+	
+	/**
+	 * Returns the color and short name for a given visit
+	 * 
+	 * @param visit
+	 * @return 
+	 */
+	public static Map<String, Object> getVisitColorAndShortName(VisitDomainWrapper visit) {
+	
+		Map<String, Object> visitColorAndShortName = new HashMap<String, Object>();
+
+		VisitType type = visit.getVisit().getVisitType();
+	
+		// TODO: refer to UUIDs instead of names
+		// TODO: bring visit types via the module activator
+		// TODO: investigate use of VisitType attributes
+		if (type.getName().equals("Outpatient")) {
+			visitColorAndShortName.put("color", LFHCFormsConstants.OUTPATIENT_COLOR);
+			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTPATIENT_SHORTNAME);
+		}
+		if (type.getName().equals("Inpatient")) {
+			visitColorAndShortName.put("color", LFHCFormsConstants.INPATIENT_COLOR);
+			visitColorAndShortName.put("shortName", LFHCFormsConstants.INPATIENT_SHORTNAME);
+		}
+		if (type.getName().equals("Emergency")) {
+			visitColorAndShortName.put("color", LFHCFormsConstants.EMERGENCY_COLOR);
+			visitColorAndShortName.put("shortName", LFHCFormsConstants.EMERGENCY_SHORTNAME);
+		}
+		if (type.getName().equals("Operating Theater")) {
+			visitColorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
+			visitColorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
+		}
+		
+		return visitColorAndShortName;
+	}
+
+	
+	/**
+	 * 
+	 * Returns a map of the color and short name for a given list of visits
+	 * 
+	 * @param recentVisits
+	 * @return
+	 */
+	public static Map<Integer, Map<String, Object>> getVisitColorAndShortName(List<VisitDomainWrapper> visits) {
+
+		Map<Integer, Map<String, Object>> visitsWithAttr = new LinkedHashMap<Integer, Map<String, Object>>();
+
+		for (VisitDomainWrapper visit : visits) {
+			Map<String,Object>visitColorAndShortName = getVisitColorAndShortName(visit);
+	
+			visitsWithAttr.put(visit.getVisitId(), visitColorAndShortName);
+		}
+		return visitsWithAttr;
 	}
 }
