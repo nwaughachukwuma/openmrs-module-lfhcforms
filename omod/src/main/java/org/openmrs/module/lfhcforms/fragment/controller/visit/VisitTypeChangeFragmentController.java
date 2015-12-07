@@ -15,14 +15,14 @@ package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.VisitService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
-import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -43,68 +43,45 @@ public class VisitTypeChangeFragmentController {
 
 	/**
 	 * 
-	 * Controller to let user change the visit location
+	 * Controller to let user change the visit type
 	 * 
-	 * @param model
-	 * @param ui
-	 * @param adtService
-	 * @param sessionContext
 	 */
 	public void controller(FragmentModel model,
 			UiUtils ui,
 			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
 
-		model.addAttribute("locationList", null);
-		model.addAttribute("userVisitLocation", null);
+		model.addAttribute("visitTypes", null);
 
-		List<Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
+		VisitService vs = Context.getVisitService();
+		List<VisitType> visitTypes = vs.getAllVisitTypes(false);
 
-		// get the user's visit location
-		Location userVisitLocation = adtService.getLocationThatSupportsVisits(sessionContext.getSessionLocation());
-		model.addAttribute("userVisitLocation", userVisitLocation);
-
-		// model.addAttribute("visitLocation", visitLocation);
-		model.addAttribute("locationList", visitLocations);
+		model.addAttribute("visitTypes", visitTypes);
 	}
 
 	/**
-	 *  Set the visit with a location provided by the view
+	 *  Set the visit with a visit type provided by the view
 	 *  
-	 * @param adtService
-	 * @param visitService
-	 * @param patient
-	 * @param selectedLocation
-	 * @param visit
-	 * @param uiUtils
-	 * @param request
-	 * @return
 	 */
 	public FragmentActionResult change(@SpringBean("adtService") AdtService adtService,
 			@SpringBean("visitService") VisitService visitService,
 			@RequestParam("patientId") Patient patient,
-			@RequestParam("selectedLocation") Location selectedLocation,
+			@RequestParam("selectedType") VisitType selectedType,
 			@RequestParam("visitId") Visit visit,
 			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 
-		Location previousLocation = visit.getLocation();
-		visit.setLocation(selectedLocation);
+		// VisitType previousType = visit.getVisitType();
+		visit.setVisitType(selectedType);
 		visitService.saveVisit(visit);
 
-		Utils.setAdmissionBasedOnLocation(visit, previousLocation);
+		// Utils.setAdmissionBasedOnLocation(visit, previousType);
 
-		if (!(visit.getLocation().equals(selectedLocation))) {
-			log.error("The location \""+selectedLocation+"\" could not be set for visit "+visit);
-			return new FailureResult(uiUtils.message("lfhcforms.app.visit.changelocation.fail"));
+		if (!(visit.getVisitType().equals(selectedType))) {
+			log.error("The visit type \""+selectedType+"\" could not be set for visit "+visit);
+			return new FailureResult(uiUtils.message("lfhcforms.app.visit.visittype.change.fail"));
 		}
 
-		// will redirect user to the new location
-		Integer currentLocation = context.getSessionLocationId();		
-		if (selectedLocation.getLocationId() != currentLocation ) {
-			context.setSessionLocation(selectedLocation);
-		}
-		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
-				uiUtils.message("lfhcforms.app.visit.changelocation.success", uiUtils.format(selectedLocation)));
+				uiUtils.message("lfhcforms.app.visit.visittype.change.success", uiUtils.format(selectedType)));
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_TOAST_MESSAGE, "true");
 
 		return new SuccessResult();
