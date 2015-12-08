@@ -175,7 +175,7 @@ public class Utils {
 			es.saveEncounter(encounter);
 			visit.addEncounter(encounter);
 		}
-		
+
 		if (isTransferLocation && (previousLocation != visit.getLocation()) 
 				&& previousLocation != null) {
 			// visit is of type 'transfer location' AND visit location is different from previous location.
@@ -189,11 +189,11 @@ public class Utils {
 			es.saveEncounter(transferEncounter);
 			visit.addEncounter(transferEncounter);
 		}
-		
+
 		vs.saveVisit(visit);
 
 	}
-	
+
 	/**
 	 * Returns the color and short name for a given visit
 	 * 
@@ -201,44 +201,53 @@ public class Utils {
 	 * @return 
 	 */
 	public static Map<String, Object> getVisitColorAndShortName(VisitDomainWrapper visit) {
-	
-		Map<String, Object> visitColorAndShortName = new HashMap<String, Object>();
 
 		VisitType type = visit.getVisit().getVisitType();
-	
+		Map<String, Object> visitTypeColorAndShortName = getVisitTypeColorAndShortName(type);
+		return visitTypeColorAndShortName;
+	}
+
+	/**
+	 * Returns the color and short name attributes for a given visit type
+	 * 
+	 */
+	public static Map<String, Object> getVisitTypeColorAndShortName(VisitType type) {
+
+		Map<String, Object> colorAndShortName = new HashMap<String, Object>();
+
 		if (type.getUuid().equals(LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID)) {
-			visitColorAndShortName.put("color", LFHCFormsConstants.OUTPATIENT_COLOR);
-			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTPATIENT_SHORTNAME);
+			colorAndShortName.put("color", LFHCFormsConstants.OUTPATIENT_COLOR);
+			colorAndShortName.put("shortName", LFHCFormsConstants.OUTPATIENT_SHORTNAME);
 		}
 		if (type.getUuid().equals(LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID)) {
-			visitColorAndShortName.put("color", LFHCFormsConstants.INPATIENT_COLOR);
-			visitColorAndShortName.put("shortName", LFHCFormsConstants.INPATIENT_SHORTNAME);
+			colorAndShortName.put("color", LFHCFormsConstants.INPATIENT_COLOR);
+			colorAndShortName.put("shortName", LFHCFormsConstants.INPATIENT_SHORTNAME);
 		}
 		if (type.getUuid().equals(LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID)) {
-			visitColorAndShortName.put("color", LFHCFormsConstants.EMERGENCY_COLOR);
-			visitColorAndShortName.put("shortName", LFHCFormsConstants.EMERGENCY_SHORTNAME);
+			colorAndShortName.put("color", LFHCFormsConstants.EMERGENCY_COLOR);
+			colorAndShortName.put("shortName", LFHCFormsConstants.EMERGENCY_SHORTNAME);
 		}
 		if (type.getUuid().equals(LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID)) {
-			visitColorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
-			visitColorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
+			colorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
+			colorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
 		}
 		if (type.getUuid().equals(LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID)) {
-			visitColorAndShortName.put("color", LFHCFormsConstants.OUTREACH_COLOR);
-			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTREACH_SHORTNAME);
+			colorAndShortName.put("color", LFHCFormsConstants.OUTREACH_COLOR);
+			colorAndShortName.put("shortName", LFHCFormsConstants.OUTREACH_SHORTNAME);
 		}
 
 		// set default values
-		if (visitColorAndShortName.get("color") == null ) {
-			visitColorAndShortName.put("color", "grey");
+		if (colorAndShortName.get("color") == null ) {
+			colorAndShortName.put("color", "grey");
 		}
-		if (visitColorAndShortName.get("shortName") == null) {
-			visitColorAndShortName.put("shortName", "N/A");	
+		if (colorAndShortName.get("shortName") == null) {
+			colorAndShortName.put("shortName", "N/A");	
 		}
-		
-		return visitColorAndShortName;
+
+		return colorAndShortName;
 	}
 
-	
+
 	/**
 	 * 
 	 * Returns a map of the color and short name for a given list of visits
@@ -252,7 +261,6 @@ public class Utils {
 
 		for (VisitDomainWrapper visit : visits) {
 			Map<String,Object>visitColorAndShortName = getVisitColorAndShortName(visit);
-	
 			visitsWithAttr.put(visit.getVisitId(), visitColorAndShortName);
 		}
 		return visitsWithAttr;
