@@ -25,8 +25,7 @@ def patient = config.patient
                             <script type="text/javascript">
                                 jq("#${it.visit.id}.visit-link").click(function () {
                                     window.location.href = "${url}";
-                                    });
-                                })
+                                    })
                             </script>
                             ${ ui.formatDatePretty(it.startDatetime) }
                             <% if(it.stopDatetime && !it.startDatetime.format("yyyy/MM/dd").equals(it.stopDatetime.format("yyyy/MM/dd"))){ %> - ${ ui.formatDatePretty(it.stopDatetime) }<% } %>
