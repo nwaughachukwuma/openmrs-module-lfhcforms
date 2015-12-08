@@ -210,19 +210,19 @@ public class Utils {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OUTPATIENT_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTPATIENT_SHORTNAME);
 		}
-		if (type.getName().equals(LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID)) {
+		if (type.getUuid().equals(LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.INPATIENT_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.INPATIENT_SHORTNAME);
 		}
-		if (type.getName().equals(LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID)) {
+		if (type.getUuid().equals(LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.EMERGENCY_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.EMERGENCY_SHORTNAME);
 		}
-		if (type.getName().equals(LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID)) {
+		if (type.getUuid().equals(LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OPERATING_THEATER_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OPERATING_THEATER_SHORTNAME);
 		}
-		if (type.getName().equals(LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID)) {
+		if (type.getUuid().equals(LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID)) {
 			visitColorAndShortName.put("color", LFHCFormsConstants.OUTREACH_COLOR);
 			visitColorAndShortName.put("shortName", LFHCFormsConstants.OUTREACH_SHORTNAME);
 		}
