@@ -15,6 +15,7 @@ package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
@@ -23,6 +24,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
+import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -69,11 +71,11 @@ public class VisitTypeChangeFragmentController {
 			@RequestParam("visitId") Visit visit,
 			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 
-		// VisitType previousType = visit.getVisitType();
+		VisitType previousType = visit.getVisitType();
 		visit.setVisitType(selectedType);
 		visitService.saveVisit(visit);
-
-		// Utils.setAdmissionBasedOnLocation(visit, previousType);
+		Location loginLocation = context.getSessionLocation();
+		Utils.setAdmissionBasedOnVisitType(visit, loginLocation, previousType);
 
 		if (!(visit.getVisitType().equals(selectedType))) {
 			log.error("The visit type \""+selectedType+"\" could not be set for visit "+visit);

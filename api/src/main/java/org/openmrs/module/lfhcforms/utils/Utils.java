@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+import javax.mail.Session;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Encounter;
@@ -24,6 +26,7 @@ import org.openmrs.api.AdministrationService;
 import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.VisitService;
+import org.openmrs.module.appframework.context.SessionContext;
 import org.openmrs.module.emrapi.EmrApiProperties;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.api.context.Context;
@@ -68,29 +71,36 @@ public class Utils {
 	 * Sets admission status based on visit location
 	 * 
 	 * @param visit
+	 */
+	public static void setAdmissionBasedOnVisitType(Visit visit, Location loginLocation) {
+		setAdmissionBasedOnVisitType(visit, loginLocation, null);
+	}
+
+	
+	
+	/**
+	 * Sets admission status based on visit location
+	 * 
+	 * @param visit
 	 * @param previousLocation
 	 */
-	public static void setAdmissionBasedOnLocation(Visit visit, Location previousLocation) {
+	public static void setAdmissionBasedOnVisitType(Visit visit, Location loginLocation, VisitType previousType) {
 
-		// retrieve admission tag
-		LocationService ls = Context.getLocationService();
-		List<LocationTag> tags = ls.getAllLocationTags(false);
-		LocationTag admissionTag = null;
-		LocationTag transferTag = null;
-		for (LocationTag tag : tags) {
-			String uuid = tag.getUuid();
-			if (uuid.equals(LFHCFormsConstants.ADMISSION_LOCATION_TAG_UUID)) {
-				admissionTag = tag;
-			}
-			if (uuid.equals(LFHCFormsConstants.TRANSFER_LOCATION_TAG_UUID)) {
-				transferTag = tag;
-			}
+		// anytime a visit type is changed (visit type != previousType): create a transfer encounter.
+		// if visit type is Inpatient and previousType is null, then create an Admission encounter, instead of Transfer
+
+		// all types are transfer type
+		boolean isTransferType = true;
+		boolean isAdmissionType = false;
+
+		if (visit.getVisitType() == previousType) {
+			return;
 		}
-		List<Location> admissionLocations = ls.getLocationsByTag(admissionTag);
-		boolean isAdmissionLocation = admissionLocations.contains(visit.getLocation());
 
-		List<Location> transferLocations = ls.getLocationsByTag(transferTag);
-		boolean isTransferLocation = transferLocations.contains(visit.getLocation());
+		if (visit.getVisitType().getUuid().equals(LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID) ) {
+			// isAdmissionType
+			isAdmissionType = true;
+		}
 
 		// retrieve admission status
 		EmrApiProperties emrApiProperties = Context.getRegisteredComponent("emrApiProperties", EmrApiProperties.class);
@@ -101,7 +111,7 @@ public class Utils {
 		VisitService vs = Context.getVisitService();
 		Person person = Context.getUserContext().getAuthenticatedUser().getPerson();
 
-		setAdmission(visit, vs, es, person, previousLocation, isAdmitted, isAdmissionLocation, isTransferLocation);
+		setAdmission(visit, vs, es, person, loginLocation, previousType, isAdmitted, isAdmissionType, isTransferType);
 
 	}
 
@@ -114,22 +124,15 @@ public class Utils {
 	 * @param vs
 	 * @param es
 	 * @param person
-	 * @param previousLocation
-	 *            The location before the visit location has changed, if any
+	 * @param loginLocation
+	 * @param previousType
 	 * @param isAdmitted
-	 * @param isAdmissionLocation
-	 * @param isTransferLocation
-	 * 
-	 * @should add admission encounter when visit location is of type 'admission
-	 *         location' and visit is not admitted yet
-	 * @should add discharge encounter when visit location is NOT of type
-	 *         'admission location' but visit is admitted
-	 * @should handle null previousLocation
-	 * @should not add transfer location when visit is moved to the same location
+	 * @param isAdmissionType
+	 * @param isTransferType
 	 * 
 	 */
-	protected static void setAdmission(Visit visit, VisitService vs, EncounterService es, Person person,
-			Location previousLocation, boolean isAdmitted, boolean isAdmissionLocation, boolean isTransferLocation) {
+	protected static void setAdmission(Visit visit, VisitService vs, EncounterService es, Person person, Location loginLocation,
+			VisitType previousType, boolean isAdmitted, boolean isAdmissionType, boolean isTransferType) {
 
 		EncounterType admissionEncounterType = es
 				.getEncounterTypeByUuid(LFHCFormsConstants.ADMISSION_ENCOUNTER_TYPE_UUID);
@@ -141,53 +144,35 @@ public class Utils {
 		Patient patient = visit.getPatient();
 		Encounter encounter = new Encounter();
 
-		if (isAdmissionLocation && !isAdmitted) {
-			// visit location is of type 'admission location' but NOT admitted
-			// yet
+		if (isAdmissionType && !isAdmitted && previousType == null) {
 			// add Admission encounter
 			encounter.setEncounterType(admissionEncounterType);
 			encounter.setPatient(patient);
 			encounter.setEncounterDatetime(new Date());
 			encounter.setProvider(person);
-			encounter.setLocation(visit.getLocation());
+			encounter.setLocation(loginLocation);
 			es.saveEncounter(encounter);
 			visit.addEncounter(encounter);
-		} else if (isAdmissionLocation && isAdmitted) {
-			// visit location is of type 'admission location' and is already admitted
-			// do nothing
-		} else if (!isAdmissionLocation && !isAdmitted) {
-			// visit location is NOT of type 'admission location' and is NOT admitted
-			// do nothing
-		} else if (!isAdmissionLocation && isAdmitted) {
-			// visit location is NOT of type 'admission location' but is already admitted
+		} else if ( (isAdmissionType && isTransferType && previousType != null)
+				|| (!isAdmissionType && isTransferType && !isAdmitted ) 
+				) {
+			// add Transfer encounter
+			encounter.setEncounterType(transferEncounterType);
+			encounter.setPatient(patient);
+			encounter.setEncounterDatetime(new Date());
+			encounter.setProvider(person);
+			encounter.setLocation(loginLocation);
+			es.saveEncounter(encounter);
+			visit.addEncounter(encounter);
+		} else if (!isAdmissionType && isAdmitted) {
 			// add Discharge encounter
 			encounter.setEncounterType(dischargeEncounterType);
 			encounter.setPatient(patient);
 			encounter.setEncounterDatetime(new Date());
 			encounter.setProvider(person);
-			// for Discharge, the location will be the location before change
-			// (if any)
-			if (previousLocation != null) {
-				encounter.setLocation(previousLocation);
-			} else {
-				encounter.setLocation(visit.getLocation());
-			}
+			encounter.setLocation(loginLocation);
 			es.saveEncounter(encounter);
 			visit.addEncounter(encounter);
-		}
-
-		if (isTransferLocation && (previousLocation != visit.getLocation()) 
-				&& previousLocation != null) {
-			// visit is of type 'transfer location' AND visit location is different from previous location.
-			// add a Transfer encounter
-			Encounter transferEncounter = new Encounter();
-			transferEncounter.setEncounterType(transferEncounterType);
-			transferEncounter.setPatient(patient);
-			transferEncounter.setEncounterDatetime(new Date());
-			transferEncounter.setProvider(person);
-			transferEncounter.setLocation(visit.getLocation());
-			es.saveEncounter(transferEncounter);
-			visit.addEncounter(transferEncounter);
 		}
 
 		vs.saveVisit(visit);

@@ -25,6 +25,7 @@ import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -83,7 +84,7 @@ public class VisitWithVisitTypeStartFragmentController {
 	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedType") VisitType selectedType, 
-			UiUtils uiUtils, UiSessionContext uiContext, HttpServletRequest request) {
+			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 		
 		// Do not save if patient already has active visit, in any location
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
@@ -93,10 +94,13 @@ public class VisitWithVisitTypeStartFragmentController {
 		}
 		
 		// create the visit
-		Visit visit = adtService.ensureVisit(patient, new Date(), uiContext.getSessionLocation());
+		Visit visit = adtService.ensureVisit(patient, new Date(), context.getSessionLocation());
 		// set the visit type
 		visit.setVisitType(selectedType);
 		Context.getVisitService().saveVisit(visit);
+		Location loginLocation = context.getSessionLocation();
+		Utils.setAdmissionBasedOnVisitType(visit, loginLocation);
+
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
