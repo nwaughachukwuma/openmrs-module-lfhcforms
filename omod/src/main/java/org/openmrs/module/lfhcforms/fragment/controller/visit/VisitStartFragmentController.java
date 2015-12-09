@@ -43,9 +43,9 @@ import java.util.Iterator;
 import java.util.List;
 
 @Transactional
-public class VisitWithVisitTypeStartFragmentController {
+public class VisitStartFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitWithVisitTypeStartFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitStartFragmentController.class);
 
 	/**
 	 * 

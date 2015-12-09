@@ -1,5 +1,5 @@
 <% 
-ui.includeJavascript("lfhcforms", "visit/startVisitWithVisitType.js")
+ui.includeJavascript("lfhcforms", "visit/startVisit.js")
 %>
 
 <div id="start-visit-with-visittype-dialog" class="dialog" style="display: none;">

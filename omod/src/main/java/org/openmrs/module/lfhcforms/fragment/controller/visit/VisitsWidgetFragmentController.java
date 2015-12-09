@@ -44,9 +44,9 @@ import org.openmrs.ui.framework.page.PageModel;
  * Supports the containing PageModel having an "app" property whose config
  * defines a "visitUrl" property
  */
-public class VisitWithVisitTypeWidgetFragmentController {
+public class VisitsWidgetFragmentController {
 
-	protected static final Log log = LogFactory.getLog(VisitWithVisitTypeWidgetFragmentController.class);
+	protected static final Log log = LogFactory.getLog(VisitsWidgetFragmentController.class);
 
 	public void controller(FragmentConfiguration config,
 			PageModel pageModel,

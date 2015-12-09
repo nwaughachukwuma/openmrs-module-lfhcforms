@@ -1,40 +1,40 @@
 [
   {
-    "id": "lfhcforms.visitWithVisitType",
+    "id": "lfhcforms.visit",
     "label": "Visit With Visit Type",
-    "description": "App to extend support of visit with specific visit type",
+    "description": "App to extend support of visit with specific visit Type",
     "icon": "icon-calendar",
     "order": -1,
     "extensions": [
       {
-        "appId": "lfhcforms.visitWithVisitType",
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWithVisitTypeWidget",
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWidget",
         "extensionPointId": "patientDashboard.secondColumnFragments",
         "extensionParams": {
           "provider": "${project.parent.artifactId}",
-          "fragment": "visit/visitWithVisitTypeWidget"
+          "fragment": "visit/visitsWidget"
         }
       },
       {
-        "appId": "lfhcforms.visitWithVisitType",
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitWithVisitType",
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visit",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
           "provider": "${project.parent.artifactId}",
-          "fragment": "visit/visitWithVisitTypeStart"
+          "fragment": "visit/visitStart"
         }
       },
       {
-        "appId": "lfhcforms.visitWithVisitType",
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatusWithVisitType",
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatus",
         "extensionPointId": "patientHeader.secondLineFragments",
         "extensionParams": {
           "provider": "${project.parent.artifactId}",
-          "fragment": "visit/activeVisitStatusWithVisitType"
+          "fragment": "visit/activeVisitStatus"
         }
       },
       {
-        "appId": "lfhcforms.visitWithVisitType",
+        "appId": "lfhcforms.visit",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitTypeChange",
         "extensionPointId": "patientDashboard.includeFragments",
         "extensionParams": {
@@ -43,7 +43,7 @@
         }
       },
       {
-        "appId": "lfhcforms.visitWithVisitType",
+        "appId": "lfhcforms.visit",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.visitActions.visitTypeChange",
         "extensionPointId": "patientDashboard.visitActions",
         "type": "script",
@@ -53,7 +53,7 @@
         "order": 250
       },
       {
-      	"appId": "lfhcforms.visitWithVisitType",
+      	"appId": "lfhcforms.visit",
         "id": "${project.parent.groupId}.${project.parent.artifactId}.activeVisitsHomepageLink",
         "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
         "type": "link",

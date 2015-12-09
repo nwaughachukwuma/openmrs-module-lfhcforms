@@ -37,9 +37,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  * Controller to return the active visit with its location attributes
  * 
  */
-public class ActiveVisitStatusWithVisitTypeFragmentController {
+public class ActiveVisitStatusFragmentController {
 
-	protected static final Log log = LogFactory.getLog(ActiveVisitStatusWithVisitTypeFragmentController.class);
+	protected static final Log log = LogFactory.getLog(ActiveVisitStatusFragmentController.class);
 
 	public void controller(FragmentConfiguration config, @RequestParam("patientId") Patient patient,
 			FragmentModel model, UiUtils ui, UiSessionContext sessionContext,

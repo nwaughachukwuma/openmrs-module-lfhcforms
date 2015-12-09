@@ -7,7 +7,7 @@ visit.createStartVisitWithVisitTypeDialog = function() {
 		selector: '#start-visit-with-visittype-dialog',
 		actions: {
 			confirm: function() {	
-				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitWithVisitTypeStart', 'create',
+				emr.getFragmentActionWithCallback('lfhcforms', 'visit/visitStart', 'create',
 					{ patientId: visit.patientId,
 						selectedType: jq('#visit-visittype-drop-down').find(":selected").val() },
 						function(data) {
@@ -37,7 +37,7 @@ visit.showStartVisitWithVisitTypeDialog = function(patientId) {
 
 
 $(document).ready(
-	// override the existing 'Start Visit' button to trigger the new 'StartVisitWithLocation' dialog instead of extisting action.
+	// override the existing 'Start Visit' button (in the Patient Dashboard - Encounter list) to trigger the new 'StartVisitWithVisitType' dialog instead of existing action.
 	// this function is not called by an extension point (different from showStartVisitWithVisitTypeDialog() ).
 	// Therefore, we need to retrieve the Patient ID from the URL parameters.
 	function replaceStartVisitButton() {
