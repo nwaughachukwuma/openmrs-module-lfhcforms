@@ -55,6 +55,7 @@ public class AdminConfigInitializer implements Initializer {
 		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
 		// Disabling the Coreapps Start Visit link extension (in the Overall Actions panel)
 		service.disableExtension("org.openmrs.module.coreapps.createVisit");
+		service.disableApp("coreapps.activeVisits");
 		
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
