@@ -13,6 +13,6 @@
                 }
             })
         </script>
-        ${activeVisitAttr.shortName}
+        ${ui.format(visit.visitType)}
     </div>
 <% } %>

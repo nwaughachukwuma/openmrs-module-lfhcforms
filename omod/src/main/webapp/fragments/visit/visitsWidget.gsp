@@ -42,7 +42,7 @@ def patient = config.patient
                                     })
                                 </script>
                                 <span id="visittype-tag-${visitId}" class="tag shortname" >
-                                    ${attr.shortName}
+                                    ${ ui.format(it.visit.visitType)}
                                 </span>
                             <% } %>
                         <% } %>
