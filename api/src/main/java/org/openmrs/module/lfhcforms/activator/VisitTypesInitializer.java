@@ -25,6 +25,34 @@ public class VisitTypesInitializer implements Initializer {
 		VisitService vs = Context.getVisitService();
 
 		{
+			String name = "Outpatient";
+			String desc = "";
+			
+			// we rename the "Facility visit" type to "Outpatient"
+			// Note that OUTPATIENT_VISIT_TYPE_UUID is equal the default "Facility Visit" UUID
+			String uuid = LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID;
+			VisitType type = vs.getVisitTypeByUuid(uuid);
+			
+			boolean save = false;
+			if (type != null  && type.getName().equals("Facility Visit") ) {
+				save = true;
+				log.info("Renaming Visit Type \"Facility Visit\" to \"" + name + "\"");
+			}
+			if (type == null) {
+				save = true;
+				type = new VisitType();
+				type.setUuid(uuid);
+				log.info("Creating Visit Type \"" + name + "\"");
+			}
+			if (save) {
+				type.setName(name);
+				type.setDescription(desc);
+				vs.saveVisitType(type);
+			}else {
+				log.info("UUID of Location \"" + name + "\" already exists. Not creating new location");
+			}
+		}
+		{
 			String name = "Inpatient";
 			String desc = "";
 			String uuid = LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID;
@@ -41,21 +69,6 @@ public class VisitTypesInitializer implements Initializer {
 			}
 		}	
 		{
-			String name = "Outpatient";
-			String desc = "";
-			String uuid = LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID;
-			VisitType type = vs.getVisitTypeByUuid(uuid); 
-			if (type == null) {
-				type = new VisitType();
-				type.setName(name);
-				type.setDescription(desc);
-				type.setUuid(uuid);
-				vs.saveVisitType(type);
-				log.info("Creating new Visit Type \"" + name + "\"");
-			}else {
-				log.info("UUID of Location \"" + name + "\" already exists. Not creating new location");
-			}
-		}			{
 			String name = "Outreach";
 			String desc = "";
 			String uuid = LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID;

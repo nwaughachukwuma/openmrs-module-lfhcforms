@@ -44,8 +44,8 @@ public class LFHCFormsConstants {
 	public final static String VISIT_LOCATION_TAG_UUID = "37dd4458-dc9e-4ae6-a1f1-789c1162d37b";
 	
 	// Visit types
+	public final static String OUTPATIENT_VISIT_TYPE_UUID = "7b0f5697-27e3-40c4-8bae-f4049abfb4ed";
 	public final static String INPATIENT_VISIT_TYPE_UUID = "033e8ed9-caed-4d91-8777-d9df64128d4c";
-	public final static String OUTPATIENT_VISIT_TYPE_UUID = "df1b1678-6d7e-443d-b180-f20ff1367ee3";
 	public final static String OUTREACH_VISIT_TYPE_UUID = "ae47d76a-9799-4b30-be99-e19130b1a54e";
 	public final static String EMERGENCY_VISIT_TYPE_UUID = "8545d579-520d-4543-8cc9-1b4922338484";
 	public final static String OPERATING_THEATER_VISIT_TYPE_UUID = "b5566741-40e4-427d-8c20-b44a14c55a6d";

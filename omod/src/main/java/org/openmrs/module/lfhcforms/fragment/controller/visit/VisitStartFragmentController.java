@@ -99,7 +99,7 @@ public class VisitStartFragmentController {
 		visit.setVisitType(selectedType);
 		Context.getVisitService().saveVisit(visit);
 		Location loginLocation = context.getSessionLocation();
-		Utils.setAdmissionBasedOnVisitType(visit, loginLocation);
+		Utils.setEncounterBasedOnVisitType(visit, loginLocation);
 
 		
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,

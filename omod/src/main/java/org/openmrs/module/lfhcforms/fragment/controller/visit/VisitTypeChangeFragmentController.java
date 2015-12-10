@@ -75,7 +75,7 @@ public class VisitTypeChangeFragmentController {
 		visit.setVisitType(selectedType);
 		visitService.saveVisit(visit);
 		Location loginLocation = context.getSessionLocation();
-		Utils.setAdmissionBasedOnVisitType(visit, loginLocation, previousType);
+		Utils.setEncounterBasedOnVisitType(visit, loginLocation, previousType);
 
 		if (!(visit.getVisitType().equals(selectedType))) {
 			log.error("The visit type \""+selectedType+"\" could not be set for visit "+visit);
