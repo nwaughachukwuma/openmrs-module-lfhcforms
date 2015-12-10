@@ -1,7 +1,7 @@
 <%
 ui.decorateWith("appui", "standardEmrPage")
 ui.includeJavascript("lfhcforms", "visit/filterTable.js")
-ui.includeCss("lfhcforms", "visit/visitWithVisitType.css")
+ui.includeCss("lfhcforms", "visit/activeVisits.css")
 %>
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.js"></script>
 
@@ -24,7 +24,7 @@ ui.includeCss("lfhcforms", "visit/visitWithVisitType.css")
       }
     })
   </script>
-  <span id="visittype-tag-${type.id}" class="tag shortname ${attr.shortName}" >
+  <span id="visittype-tag-${type.id}" class="tag shortname ${attr.shortName}" style="cursor:pointer;" >
     ${attr.shortName}
   </span>
 </span>
