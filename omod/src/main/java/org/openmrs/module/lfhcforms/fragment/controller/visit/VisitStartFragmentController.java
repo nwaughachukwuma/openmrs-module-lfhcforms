@@ -15,16 +15,22 @@ package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
+import org.openmrs.api.APIException;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -37,10 +43,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Transactional
 public class VisitStartFragmentController {
@@ -54,7 +64,7 @@ public class VisitStartFragmentController {
 	 */
 	public void controller(FragmentModel model, @RequestParam("patientId") Patient patient, UiUtils ui,
 			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
-		
+
 		model.addAttribute("visitTypes", null);
 		model.addAttribute("activeVisits", null);
 		model.addAttribute("currentVisitType", null);
@@ -65,15 +75,18 @@ public class VisitStartFragmentController {
 		// send active visits to the view, if any.
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
 
-		// get the current visit's visit type, if any active visit, IN the current location
+		// get the current visit's visit type, if any active visit at the current visit location
 		VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
 		if (activeVisitWrapper != null) {
 			VisitType currentVisitType = activeVisitWrapper.getVisit().getVisitType();
 			model.addAttribute("currentVisitType", currentVisitType);
 		}
-		
+
+		// get the visit types, ordered
+		List<VisitType> typesOrdered = Utils.getOrderedVisitTypes(visitTypes); 
+
 		model.addAttribute("activeVisits", activeVisits);
-		model.addAttribute("visitTypes", visitTypes);
+		model.addAttribute("visitTypes", typesOrdered);
 	}
 
 	/**
@@ -85,14 +98,14 @@ public class VisitStartFragmentController {
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedType") VisitType selectedType, 
 			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
-		
+
 		// Do not save if patient already has active visit, in any location
 		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
 		if (activeVisits.size() != 0) {
 			log.warn("Patient already has active visits. " + activeVisits.toString());
 			return new FailureResult(uiUtils.message("coreapps.activeVisits.alreadyExists"));
 		}
-		
+
 		// create the visit
 		Visit visit = adtService.ensureVisit(patient, new Date(), context.getSessionLocation());
 		// set the visit type
@@ -101,7 +114,7 @@ public class VisitStartFragmentController {
 		Location loginLocation = context.getSessionLocation();
 		Utils.setEncounterBasedOnVisitType(visit, loginLocation);
 
-		
+
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
 				uiUtils.message("coreapps.visit.createQuickVisit.successMessage", uiUtils.format(patient)));
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_TOAST_MESSAGE, "true");
@@ -127,7 +140,6 @@ public class VisitStartFragmentController {
 			if (activeVisit != null) {
 				activeVisits.add(activeVisit.getVisit());
 			}
-			;
 		}
 		return activeVisits;
 	}

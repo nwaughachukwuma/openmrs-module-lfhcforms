@@ -28,7 +28,7 @@ import org.openmrs.module.lfhcforms.LFHCFormsConstants;
  */
 public class AdminConfigInitializer implements Initializer {
 
-	
+
 	protected static final Log log = LogFactory.getLog(AdminConfigInitializer.class);
 
 	/**
@@ -37,12 +37,12 @@ public class AdminConfigInitializer implements Initializer {
 	@Override
 	public synchronized void started() {
 		log.info("Setting custom admin configuration for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
-		
+
 		// Disabling the default Patient Registration app (page).
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
 		service.disableApp("reportingui.reports");
-		
+
 		// Disable unwanted apps and extensions
 		service.disableApp("referenceapplication.vitals");
 		service.disableExtension("referenceapplication.realTime.vitals");
@@ -50,24 +50,37 @@ public class AdminConfigInitializer implements Initializer {
 		service.disableExtension("referenceapplication.realTime.simpleAdmission");
 		service.disableExtension("referenceapplication.realTime.simpleDischarge");
 		service.disableExtension("referenceapplication.realTime.simpleTransfer");
-		
+
 		// Disabling the activeVisitStatus fragment
 		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
 		// Disabling the Coreapps Start Visit link extension (in the Overall Actions panel)
 		service.disableExtension("org.openmrs.module.coreapps.createVisit");
 		service.disableApp("coreapps.activeVisits");
-		
+
 		AdministrationService adminService = Context.getAdministrationService();
 		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
 		if(pewsTime == null) {
 			adminService.setGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY, (new Integer(LFHCFormsConstants.PEWS_FALLBACK_TIMEWINDOW)).toString());
 		}
-		
+
 		String pewsExpiry = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_EXPIRY_PROPERTY);
 		if(pewsExpiry == null) {
 			// The default is an empty String that won't convert to any integer.
 			// This triggers the default expiry time mechanism.
 			adminService.setGlobalProperty(LFHCFormsConstants.PEWS_EXPIRY_PROPERTY, "");
+		}
+
+		// create visit type order property
+		if(adminService.getGlobalProperty(LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY) == null) {
+			adminService.setGlobalProperty(LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY, 
+					"{ "
+							+ "\"1\":\""+ LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID + "\","
+							+ "\"2\":\""+ LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID+ "\"," 
+							+ "\"3\":\""+ LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID +"\","
+							+ "\"4\":\""+ LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID +"\","
+							+ "\"5\":\""+ LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID +"\""
+							+ "}" 
+					);
 		}
 	}
 

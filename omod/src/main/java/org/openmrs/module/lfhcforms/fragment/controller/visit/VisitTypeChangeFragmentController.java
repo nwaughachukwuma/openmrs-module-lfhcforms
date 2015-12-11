@@ -24,6 +24,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
+import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 import org.openmrs.module.lfhcforms.utils.Utils;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -50,14 +51,26 @@ public class VisitTypeChangeFragmentController {
 	 */
 	public void controller(FragmentModel model,
 			UiUtils ui,
+			@RequestParam ("patientId") Patient patient,
 			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
 
 		model.addAttribute("visitTypes", null);
+		model.addAttribute("currentVisitType", null);
 
 		VisitService vs = Context.getVisitService();
 		List<VisitType> visitTypes = vs.getAllVisitTypes(false);
 
-		model.addAttribute("visitTypes", visitTypes);
+		// get the current visit's visit type, if any active visit, IN the current visit location
+				VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
+				if (activeVisitWrapper != null) {
+					VisitType currentVisitType = activeVisitWrapper.getVisit().getVisitType();
+					model.addAttribute("currentVisitType", currentVisitType);
+				}
+		
+		// get the visit types, ordered
+		List<VisitType> typesOrdered = Utils.getOrderedVisitTypes(visitTypes); 
+
+		model.addAttribute("visitTypes", typesOrdered);
 	}
 
 	/**
