@@ -16,6 +16,7 @@ package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.service.AppFrameworkService;
@@ -71,8 +72,10 @@ public class AdminConfigInitializer implements Initializer {
 		}
 
 		// create visit type order property
-		if(adminService.getGlobalProperty(LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY) == null) {
-			adminService.setGlobalProperty(LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY, 
+		String propertyName = LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY;
+		if(adminService.getGlobalProperty(propertyName) == null) {
+
+			adminService.setGlobalProperty(propertyName,
 					"{ "
 							+ "\"1\":\""+ LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID + "\","
 							+ "\"2\":\""+ LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID+ "\"," 
@@ -81,6 +84,11 @@ public class AdminConfigInitializer implements Initializer {
 							+ "\"5\":\""+ LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID +"\""
 							+ "}" 
 					);
+			GlobalProperty typesOrder = adminService.getGlobalPropertyObject(propertyName);
+			typesOrder.setDescription("Order in which the Visit Types should appear. A JSON-like format with \"order\" as key and \"VisitType UUID\" as value");
+			adminService.saveGlobalProperty(typesOrder);
+
+
 		}
 	}
 
