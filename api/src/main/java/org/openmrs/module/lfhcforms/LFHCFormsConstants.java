@@ -50,6 +50,7 @@ public class LFHCFormsConstants {
 	public final static String EMERGENCY_VISIT_TYPE_UUID = "8545d579-520d-4543-8cc9-1b4922338484";
 	public final static String OPERATING_THEATER_VISIT_TYPE_UUID = "b5566741-40e4-427d-8c20-b44a14c55a6d";
 
-
+	// a JSON like object property to set visit types order
+	public final static String VISIT_TYPES_ORDER_PROPERTY = "lfhcforms.visit.visittype.order";
 	
 }

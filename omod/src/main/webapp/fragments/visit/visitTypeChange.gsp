@@ -17,7 +17,7 @@ ui.includeJavascript("lfhcforms", "visit/changeVisitType.js")
 		</p>
 		<select id="new-visittype-drop-down"> 
 			<% visitTypes.each { type -> %>
-			<option class="dialog-drop-down" value ="${type.id}">${ ui.format(type) }</option>
+				<option class="dialog-drop-down" value ="${type.id}">${ ui.format(type) }</option>
 			<% } %> 
 		</select>
 		<p class="dialog-instructions">${ui.message("lfhcforms.app.visit.visittype.change.instructions")}</p>

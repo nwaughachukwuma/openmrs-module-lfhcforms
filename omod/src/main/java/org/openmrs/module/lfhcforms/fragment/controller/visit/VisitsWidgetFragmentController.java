@@ -74,11 +74,11 @@ public class VisitsWidgetFragmentController {
 			} catch (Exception ex) { }
 		}
 		if (visitUrl == null) {
-			visitUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}&visitId={{visit.id}}#visits";
+			visitUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}&visitId={{visit.id}}";
 		}
 		visitUrl = "/" + ui.contextPath() + "/" + visitUrl;
 		if (visitsUrl == null) {
-			visitsUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}#visits";
+			visitsUrl = "coreapps/patientdashboard/patientDashboard.page?patientId={{patient.patientId}}";
 		}
 		visitsUrl = "/" + ui.contextPath() + "/" + visitsUrl;
 		model.addAttribute("visitsUrl", templateFactory.handlebars(visitsUrl, contextModel));

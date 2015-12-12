@@ -4,59 +4,66 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterType;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
-import org.openmrs.LocationTag;
-import org.openmrs.Visit;
-import org.openmrs.api.EncounterService;
-import org.openmrs.api.LocationService;
+import org.openmrs.VisitType;
 import org.openmrs.api.VisitService;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.emrapi.EmrApiProperties;
-import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.Utils;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-
 
 public class UtilsTest {
 
 	private Location location;
 	private LocationAttributeType attrType;
-	private Visit visit;
-	private EncounterService es;
 	private VisitService vs;
-	private EmrApiProperties emrApiProperties;
-	private VisitDomainWrapper visitWrapper;
-	
+	private List<VisitType> types = new ArrayList<VisitType>();
+	private String property;
+
 	@Before
-    public void setUp() {
+	public void setUp() {
 		location = mock(Location.class);
 		attrType = new LocationAttributeType();
-		visit = mock(Visit.class);
-		es = mock(EncounterService.class);
 		vs = mock(VisitService.class);
-		emrApiProperties = mock(EmrApiProperties.class);
-		// TODO: NoClassDefFoundError with the following instanciation
-		// visitWrapper = new VisitDomainWrapper(visit, emrApiProperties);
-    }
+		
+		property = "{ "
+				+ "\"1\":\""+ "44-44" + "\","
+				+ "\"2\":\""+ "33-33" + "\"," 
+				+ "\"3\":\""+ "11-11" +"\""
+				+ "}" ;
+		
+		{
+			VisitType type = new VisitType("Outpatient","");
+			type.setUuid("11-11");
+			types.add(type);
+		}
+		{
+			VisitType type = new VisitType("Inpatient","");
+			type.setUuid("22-22");
+			types.add(type);
+		}
+		{
+			VisitType type = new VisitType("Outreach","");
+			type.setUuid("33-33");
+			types.add(type);
+		}
+		{
+			VisitType type = new VisitType("Emergency","");
+			type.setUuid("44-44");
+			types.add(type);
+		}
+		
+		when(vs.getVisitTypeByUuid("11-11")).thenReturn(types.get(0));
+		when(vs.getVisitTypeByUuid("22-22")).thenReturn(types.get(1));
+		when(vs.getVisitTypeByUuid("33-33")).thenReturn(types.get(2));
+		when(vs.getVisitTypeByUuid("44-44")).thenReturn(types.get(3));
+		
+
+	}
 
 	@Test
 	public void shouldReturnMostRecentAttribute() {
@@ -92,39 +99,60 @@ public class UtilsTest {
 			Date date = cal.getTime();	
 			attr3.setDateCreated(date);
 			attr3.setLocation(location);
-
 		}
+		
 		ArrayList<LocationAttribute> allAttr = new ArrayList<LocationAttribute>();
 		allAttr.add(attr1);
 		allAttr.add(attr2);
 		allAttr.add(attr3);
-
 		when(location.getActiveAttributes(attrType)).thenReturn(allAttr);
-
 		assertEquals(attr2, Utils.getMostRecentAttribute(location, attrType));
 	}
-	
+
 	@Test
 	public void shouldReturnNullWhenNoAttributeIsFound() {
 		assertNull(Utils.getMostRecentAttribute(location, attrType));
 	}
 	
 	@Test
-	public void shouldNotAdmitAlreadyAdmittedVisit() {
-//		TODO: shouldNotAdmitAlreadyAdmittedVisit
-	}
-	
-	@Test
-	public void shouldAdmitNonAdmittedVisit() {
-//		TODO: shouldAdmitNonAdmittedVisit
-		
-//		Utils.setAdmission(visit, vs, es, true, true);
-//		assertTrue(visitWrapper.isAdmitted());
-	}
-	
-	@Test
-	public void shouldDischargeAdmittedVisit() {
-//		TODO: shouldDischargeAdmittedVisit
+	public void shouldHandleNoPropertyFound() {
+		List<VisitType> result = Utils.getOrderedVisitTypes(types,null,vs);
+		assertTrue(result!=null);
 	}
 
+	@Test
+	public void shouldReturnTypesOrdered() {
+		List<VisitType> result = Utils.getOrderedVisitTypes(types,property,vs);
+		assertTrue(result.get(0).getUuid().equals("44-44"));
+		assertTrue(result.get(1).getUuid().equals("33-33"));
+		assertTrue(result.get(2).getUuid().equals("11-11"));
+	}
+
+	@Test
+	public void shouldFallbackWhenEmptyProperty() {
+		// test empty property
+		List<VisitType> result = Utils.getOrderedVisitTypes(types,new String(),vs);
+		assertTrue(result.equals(types));
+	}
+	
+	@Test
+	public void shouldFallbackWhenNoCommonValue() {
+		// test property with no common values
+		String prop = "{ "
+				+ "\"1\":\""+ "66-66" + "\","
+				+ "\"2\":\""+ "77-77" + "\"," 
+				+ "\"3\":\""+ "88-88" +"\""
+				+ "}" ;
+		List<VisitType> result = Utils.getOrderedVisitTypes(types,prop,vs);
+		assertTrue(result.equals(types));
+	}
+	
+	@Test
+	public void shouldAppendUnOrderedTypesAtTheEnd() {
+		// test when "types" contains Visit Types that are not in the "property value (ie, no order is provided
+		// they should be added at the end of the List
+		List<VisitType> result = Utils.getOrderedVisitTypes(types,property,vs);
+		assertTrue(result.get(3).equals(types.get(1)));
+	}
 }
+
