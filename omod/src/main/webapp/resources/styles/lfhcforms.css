@@ -77,3 +77,14 @@ option.dialog-drop-down {
 .clear {
     padding-bottom: 5px;
 }
+
+/* Overriding coreapp's patient header's registration section titles */
+h2[class^="section-title-"] {
+    display: none;
+}
+
+/* Setting some padding on coreapp's patient header's registration sections */
+#contactInfoContent {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
