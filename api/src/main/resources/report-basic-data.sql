@@ -16,6 +16,7 @@ SELECT
     complaints_diagnoses.complaints AS 'Presenting complaints',
 	complaints_diagnoses.diagnoses AS 'Diagnoses',
 	IFNULL(illness_days.number,"") AS 'Days sick',
+    visit_type.name AS 'Visit type',
     DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
 FROM
 (
@@ -268,6 +269,11 @@ FROM
 )
 AS complaints_diagnoses
 	LEFT JOIN
+		(visit AS visits, visit_type)
+	ON
+		complaints_diagnoses.visit_id = visits.visit_id
+        AND visit_type.visit_type_id = visits.visit_type_id
+	LEFT JOIN
 		(
 			SELECT
 				person.person_id AS person_id,
@@ -518,6 +524,6 @@ AS complaints_diagnoses
         complaints_diagnoses.visit_id = illness_days.visit_id
 WHERE
     visit.date_started >= :startDate AND
-    DATE_SUB(visit.date_started, INTERVAL 1 DAY) <= :endDate -- Because :endDate is set at 00:00
+    visit.date_started < DATE_ADD(:endDate, INTERVAL 1 DAY) -- Because :endDate is set at 00:00
 ORDER BY visit.date_started DESC, myidentifier.identifier ASC
 ;
