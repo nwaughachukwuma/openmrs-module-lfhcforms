@@ -24,8 +24,8 @@ ui.includeCss("lfhcforms", "visit/activeVisits.css")
       }
     })
   </script>
-  <span id="visittype-tag-${type.id}" class="tag shortname ${attr.shortName}" style="cursor:pointer;" >
-    ${attr.shortName}
+  <span id="visittype-tag-${type.id}" class="tag ${attr.shortName}" style="cursor:pointer;" >
+    ${ui.format(type.name)}
   </span>
 </span>
 <% } %> 
@@ -83,8 +83,8 @@ ui.includeCss("lfhcforms", "visit/activeVisits.css")
             <% visitsWithAttr.each { visitId, attr -> %>
               <% if (visitId   == v.visit.id) { %>
                 <span style="display:none">${v.visit.visitType.id}</span>
-                <span id="visittype-tag-${attr.shortName}" style="background: ${attr.color}" class="tag shortname" >
-                  ${attr.shortName}
+                <span id="visittype-tag-${attr.shortName}" style="background: ${attr.color}" class="tag" >
+                  ${ui.format(v.visit.visitType)}
                 </span>            
               <% } %>
             <% } %>

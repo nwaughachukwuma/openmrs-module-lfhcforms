@@ -67,13 +67,18 @@ option.dialog-drop-down {
 }
 
 /* style for tags on dashboard, visit widget */
-.shortname{
-    margin-left:5px;
+.tag {
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    min-width: 66px;
 }
 .tag:hover {
 	cursor:default;
 }
-
+.active {
+	margin-right:5px;
+}
 .clear {
     padding-bottom: 5px;
 }

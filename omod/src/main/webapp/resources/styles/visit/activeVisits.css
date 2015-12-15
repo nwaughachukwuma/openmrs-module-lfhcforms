@@ -7,3 +7,6 @@
 p.filters {
 	float: right;
 }
+.filter {
+	display:inline-block;
+}
