@@ -25,20 +25,24 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.coreapps.CoreAppsConstants;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.utils.Utils;
+import org.openmrs.module.lfhcforms.utils.VisitHelper;
+import org.openmrs.module.lfhcforms.utils.VisitTypeHelper;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public class ActiveVisitsPageController {
-	
-	public String get(UiSessionContext sessionContext, PageModel model, @SpringBean AdtService service,
-	                @SpringBean("locationService") LocationService locationService, @RequestParam("app") AppDescriptor app) {
-		
+
+	public String get(UiSessionContext sessionContext, PageModel model,
+			@SpringBean AdtService service,
+			@SpringBean("locationService") LocationService locationService,
+			@RequestParam("app") AppDescriptor app
+			) {
+
 		Location sessionLocation = sessionContext.getSessionLocation();
-        if (sessionLocation == null) {
-            return "redirect:login.htm";
-        }
+		if (sessionLocation == null) {
+			return "redirect:login.htm";
+		}
 		Location visitLocation = null;
 		if (sessionLocation != null) {
 			visitLocation = service.getLocationThatSupportsVisits(sessionLocation);
@@ -46,28 +50,29 @@ public class ActiveVisitsPageController {
 		if (visitLocation == null) {
 			throw new IllegalStateException("Configuration required: no visit location found based on session location");
 		}
-		
+
 		model.addAttribute("visitSummaries", service.getActiveVisits(visitLocation));
 		String patientPageUrl = app.getConfig().get("patientPageUrl").getTextValue();
 		model.addAttribute("patientPageUrl", patientPageUrl);
 
-        // used to determine whether or not we display a link to the patient in the results list
-        model.addAttribute("canViewVisits", Context.hasPrivilege(CoreAppsConstants.PRIVILEGE_PATIENT_VISITS));
+		// used to determine whether or not we display a link to the patient in the results list
+		model.addAttribute("canViewVisits", Context.hasPrivilege(CoreAppsConstants.PRIVILEGE_PATIENT_VISITS));
 
-        // retrieve color and short names
-        Map<Integer, Map<String, Object>> activeVisitsWithAttr = Utils.getVisitColorAndShortName(service.getActiveVisits(visitLocation));
-        model.addAttribute("visitsWithAttr", activeVisitsWithAttr);
-        
-        // retrieve all different visit types, with their color and short name
-        List<VisitDomainWrapper> activeVisits = service.getActiveVisits(visitLocation);
-        Map <VisitType, Object> visitTypesWithAttr = new HashMap<VisitType, Object>();
-        for (VisitDomainWrapper vdw : activeVisits) {
-        	Map <String, Object> typeAttr = Utils.getVisitTypeColorAndShortName(vdw.getVisit().getVisitType());
-        	visitTypesWithAttr.put(vdw.getVisit().getVisitType(), typeAttr);
-        }
-        model.addAttribute("visitTypesWithAttr", visitTypesWithAttr);
-        
-        return null;
+		// retrieve color and short names
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		Map<Integer, Map<String, Object>> activeVisitsWithAttr = visitTypeHelper.getVisitColorAndShortName(service.getActiveVisits(visitLocation));
+		model.addAttribute("visitsWithAttr", activeVisitsWithAttr);
+
+		// retrieve all different visit types, with their color and short name
+		List<VisitDomainWrapper> activeVisits = service.getActiveVisits(visitLocation);
+		Map <VisitType, Object> visitTypesWithAttr = new HashMap<VisitType, Object>();
+		for (VisitDomainWrapper vdw : activeVisits) {
+			Map <String, Object> typeAttr = visitTypeHelper.getVisitTypeColorAndShortName(vdw.getVisit().getVisitType());
+			visitTypesWithAttr.put(vdw.getVisit().getVisitType(), typeAttr);
+		}
+		model.addAttribute("visitTypesWithAttr", visitTypesWithAttr);
+
+		return null;
 	}
-	
+
 }

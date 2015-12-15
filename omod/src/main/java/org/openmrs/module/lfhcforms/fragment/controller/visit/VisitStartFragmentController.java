@@ -13,25 +13,25 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.openmrs.Location;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
 import org.openmrs.VisitType;
-import org.openmrs.api.APIException;
-import org.openmrs.api.AdministrationService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.LFHCFormsConstants;
-import org.openmrs.module.lfhcforms.utils.Utils;
+import org.openmrs.module.lfhcforms.utils.VisitHelper;
+import org.openmrs.module.lfhcforms.utils.VisitTypeHelper;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -40,17 +40,6 @@ import org.openmrs.ui.framework.fragment.action.FragmentActionResult;
 import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 @Transactional
 public class VisitStartFragmentController {
@@ -72,8 +61,11 @@ public class VisitStartFragmentController {
 		VisitService vs = Context.getVisitService();
 		List<VisitType> visitTypes = vs.getAllVisitTypes(false);
 
+		VisitHelper visitHelper = new VisitHelper(); 
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+
 		// send active visits to the view, if any.
-		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
+		List<Visit> activeVisits = visitHelper.getActiveVisits(patient, adtService);
 
 		// get the current visit's visit type, if any active visit at the current visit location
 		VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
@@ -83,7 +75,7 @@ public class VisitStartFragmentController {
 		}
 
 		// get the visit types, ordered
-		List<VisitType> typesOrdered = Utils.getOrderedVisitTypes(visitTypes); 
+		List<VisitType> typesOrdered = visitTypeHelper.getOrderedVisitTypes(visitTypes); 
 
 		model.addAttribute("activeVisits", activeVisits);
 		model.addAttribute("visitTypes", typesOrdered);
@@ -100,7 +92,8 @@ public class VisitStartFragmentController {
 			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
 
 		// Do not save if patient already has active visit, in any location
-		ArrayList<Visit> activeVisits = getActiveVisits(patient, adtService);
+		VisitHelper visitHelper = new VisitHelper();
+		List<Visit> activeVisits = visitHelper.getActiveVisits(patient, adtService);
 		if (activeVisits.size() != 0) {
 			log.warn("Patient already has active visits. " + activeVisits.toString());
 			return new FailureResult(uiUtils.message("coreapps.activeVisits.alreadyExists"));
@@ -112,7 +105,8 @@ public class VisitStartFragmentController {
 		visit.setVisitType(selectedType);
 		Context.getVisitService().saveVisit(visit);
 		Location loginLocation = context.getSessionLocation();
-		Utils.setEncounterBasedOnVisitType(visit, loginLocation);
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		visitTypeHelper.setEncounterBasedOnVisitType(visit, loginLocation);
 
 
 		request.getSession().setAttribute(AppUiConstants.SESSION_ATTRIBUTE_INFO_MESSAGE,
@@ -122,25 +116,5 @@ public class VisitStartFragmentController {
 		return new SuccessResult();
 	}
 
-	/**
-	 * 
-	 * Checks if the patient has Active Visit in any location
-	 * 
-	 * @param patient
-	 * @param adtService
-	 * @return boolean
-	 */
-	private ArrayList<Visit> getActiveVisits(Patient patient, AdtService adtService) {
-
-		ArrayList<Visit> activeVisits = new ArrayList<Visit>();
-		List<Location> visitLocations = adtService.getAllLocationsThatSupportVisits();
-		for (Iterator<Location> it = visitLocations.iterator(); it.hasNext();) {
-			Location loc = it.next();
-			VisitDomainWrapper activeVisit = adtService.getActiveVisit(patient, loc);
-			if (activeVisit != null) {
-				activeVisits.add(activeVisit.getVisit());
-			}
-		}
-		return activeVisits;
-	}
+	
 }

@@ -13,6 +13,10 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Location;
@@ -25,7 +29,8 @@ import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.utils.Utils;
+import org.openmrs.module.lfhcforms.utils.VisitHelper;
+import org.openmrs.module.lfhcforms.utils.VisitTypeHelper;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
@@ -34,10 +39,6 @@ import org.openmrs.ui.framework.fragment.action.FragmentActionResult;
 import org.openmrs.ui.framework.fragment.action.SuccessResult;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-
-import java.util.List;
 
 @Transactional
 public class VisitTypeChangeFragmentController {
@@ -61,14 +62,15 @@ public class VisitTypeChangeFragmentController {
 		List<VisitType> visitTypes = vs.getAllVisitTypes(false);
 
 		// get the current visit's visit type, if any active visit, IN the current visit location
-				VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
-				if (activeVisitWrapper != null) {
-					VisitType currentVisitType = activeVisitWrapper.getVisit().getVisitType();
-					model.addAttribute("currentVisitType", currentVisitType);
-				}
-		
+		VisitDomainWrapper activeVisitWrapper = adtService.getActiveVisit(patient, sessionContext.getSessionLocation());
+		if (activeVisitWrapper != null) {
+			VisitType currentVisitType = activeVisitWrapper.getVisit().getVisitType();
+			model.addAttribute("currentVisitType", currentVisitType);
+		}
+
 		// get the visit types, ordered
-		List<VisitType> typesOrdered = Utils.getOrderedVisitTypes(visitTypes); 
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		List<VisitType> typesOrdered = visitTypeHelper.getOrderedVisitTypes(visitTypes); 
 
 		model.addAttribute("visitTypes", typesOrdered);
 	}
@@ -82,13 +84,16 @@ public class VisitTypeChangeFragmentController {
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedType") VisitType selectedType,
 			@RequestParam("visitId") Visit visit,
-			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
+			UiUtils uiUtils, 
+			UiSessionContext context, HttpServletRequest request) {
 
 		VisitType previousType = visit.getVisitType();
 		visit.setVisitType(selectedType);
 		visitService.saveVisit(visit);
 		Location loginLocation = context.getSessionLocation();
-		Utils.setEncounterBasedOnVisitType(visit, loginLocation, previousType);
+		
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		visitTypeHelper.setEncounterBasedOnVisitType(visit, loginLocation, previousType);
 
 		if (!(visit.getVisitType().equals(selectedType))) {
 			log.error("The visit type \""+selectedType+"\" could not be set for visit "+visit);

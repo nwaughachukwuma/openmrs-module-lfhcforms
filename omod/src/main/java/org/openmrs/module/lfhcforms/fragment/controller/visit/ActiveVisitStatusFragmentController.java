@@ -25,7 +25,7 @@ import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.utils.Utils;
+import org.openmrs.module.lfhcforms.utils.VisitHelper;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -67,7 +67,8 @@ public class ActiveVisitStatusFragmentController {
 					DateFormatUtils.format(activeVisit.getStartDatetime(), "dd MMM yyyy hh:mm a", Context.getLocale()));
 
 			// Retrieve color and short name of visit type
-			Map<String, Object> activeVisitAttr = Utils.getVisitColorAndShortName(activeVisit);
+			VisitHelper visitHelper = new VisitHelper();
+			Map<String, Object> activeVisitAttr = visitHelper.getVisitColorAndShortName(activeVisit);
 
 			model.addAttribute("activeVisitAttr", activeVisitAttr);
 		}

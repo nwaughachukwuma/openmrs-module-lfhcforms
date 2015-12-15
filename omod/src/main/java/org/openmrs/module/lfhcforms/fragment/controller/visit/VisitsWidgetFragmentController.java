@@ -13,15 +13,12 @@
  */
 package org.openmrs.module.lfhcforms.fragment.controller.visit;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.LocationAttribute;
-import org.openmrs.LocationAttributeType;
-import org.openmrs.VisitType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.context.AppContextModel;
 import org.openmrs.module.appframework.domain.AppDescriptor;
@@ -31,8 +28,7 @@ import org.openmrs.module.coreapps.contextmodel.PatientContextModel;
 import org.openmrs.module.coreapps.contextmodel.VisitContextModel;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.LFHCFormsConstants;
-import org.openmrs.module.lfhcforms.utils.Utils;
+import org.openmrs.module.lfhcforms.utils.VisitTypeHelper;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.InjectBeans;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -58,7 +54,7 @@ public class VisitsWidgetFragmentController {
 
 		// Patient ID is passed through config when the fragment is included
 		patientWrapper.setPatient((Context.getPatientService().getPatient((Integer) config.get("patientId") )));
-
+		
 		AppContextModel contextModel = sessionContext.generateAppContextModel();
 		contextModel.put("patient", new PatientContextModel(patientWrapper.getPatient()));
 		
@@ -94,8 +90,9 @@ public class VisitsWidgetFragmentController {
 			contextModel.put("visit", new VisitContextModel(recentVisit));
 			recentVisitsWithLinks.put(recentVisit, templateFactory.handlebars(visitUrl, contextModel));
 		}
-
-		Map<Integer, Map<String, Object>> recentVisitsWithAttr = Utils.getVisitColorAndShortName(recentVisits);
+		
+		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		Map<Integer, Map<String, Object>> recentVisitsWithAttr = visitTypeHelper.getVisitColorAndShortName(recentVisits);
 
 		model.addAttribute("recentVisitsWithAttr", recentVisitsWithAttr);
 		model.addAttribute("recentVisitsWithLinks", recentVisitsWithLinks);
