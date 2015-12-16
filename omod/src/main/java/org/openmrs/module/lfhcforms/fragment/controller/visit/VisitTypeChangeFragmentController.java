@@ -29,7 +29,6 @@ import org.openmrs.module.appui.AppUiConstants;
 import org.openmrs.module.appui.UiSessionContext;
 import org.openmrs.module.emrapi.adt.AdtService;
 import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
-import org.openmrs.module.lfhcforms.utils.VisitHelper;
 import org.openmrs.module.lfhcforms.utils.VisitTypeHelper;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -53,7 +52,9 @@ public class VisitTypeChangeFragmentController {
 	public void controller(FragmentModel model,
 			UiUtils ui,
 			@RequestParam ("patientId") Patient patient,
-			@SpringBean("adtService") AdtService adtService, UiSessionContext sessionContext) {
+			@SpringBean("adtService") AdtService adtService,
+			@SpringBean("visitTypeHelper") VisitTypeHelper visitTypeHelper,
+			UiSessionContext sessionContext) {
 
 		model.addAttribute("visitTypes", null);
 		model.addAttribute("currentVisitType", null);
@@ -69,7 +70,6 @@ public class VisitTypeChangeFragmentController {
 		}
 
 		// get the visit types, ordered
-		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
 		List<VisitType> typesOrdered = visitTypeHelper.getOrderedVisitTypes(visitTypes); 
 
 		model.addAttribute("visitTypes", typesOrdered);
@@ -81,6 +81,8 @@ public class VisitTypeChangeFragmentController {
 	 */
 	public FragmentActionResult change(@SpringBean("adtService") AdtService adtService,
 			@SpringBean("visitService") VisitService visitService,
+			@SpringBean("visitTypeHelper") VisitTypeHelper visitTypeHelper,
+			
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedType") VisitType selectedType,
 			@RequestParam("visitId") Visit visit,
@@ -92,7 +94,6 @@ public class VisitTypeChangeFragmentController {
 		visitService.saveVisit(visit);
 		Location loginLocation = context.getSessionLocation();
 		
-		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
 		visitTypeHelper.setEncounterBasedOnVisitType(visit, loginLocation, previousType);
 
 		if (!(visit.getVisitType().equals(selectedType))) {

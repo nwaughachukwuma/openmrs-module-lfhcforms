@@ -43,7 +43,9 @@ public class ActiveVisitStatusFragmentController {
 
 	public void controller(FragmentConfiguration config, @RequestParam("patientId") Patient patient,
 			FragmentModel model, UiUtils ui, UiSessionContext sessionContext,
-			@SpringBean("adtService") AdtService adtService, @InjectBeans PatientDomainWrapper wrapper) {
+			@SpringBean("adtService") AdtService adtService,
+			@SpringBean("visitHelper") VisitHelper visitHelper,
+			@InjectBeans PatientDomainWrapper wrapper) {
 
 		// checks if the config passes "activeVisit" attribute
 		VisitDomainWrapper activeVisit = (VisitDomainWrapper) config.getAttribute("activeVisit");
@@ -67,7 +69,6 @@ public class ActiveVisitStatusFragmentController {
 					DateFormatUtils.format(activeVisit.getStartDatetime(), "dd MMM yyyy hh:mm a", Context.getLocale()));
 
 			// Retrieve color and short name of visit type
-			VisitHelper visitHelper = new VisitHelper();
 			Map<String, Object> activeVisitAttr = visitHelper.getVisitColorAndShortName(activeVisit);
 
 			model.addAttribute("activeVisitAttr", activeVisitAttr);

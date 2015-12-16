@@ -86,13 +86,16 @@ public class VisitStartFragmentController {
 	 * Saves visit with a visit type provided by the view
 	 * 
 	 */
-	public FragmentActionResult create(@SpringBean("adtService") AdtService adtService,
+	public FragmentActionResult create(
 			@RequestParam("patientId") Patient patient,
 			@RequestParam("selectedType") VisitType selectedType, 
-			UiUtils uiUtils, UiSessionContext context, HttpServletRequest request) {
+			UiUtils uiUtils, UiSessionContext uiContext, HttpServletRequest request,
+			@SpringBean("adtService") AdtService adtService,
+			@SpringBean("visitService") VisitService visitService,
+			@SpringBean("visitHelper") VisitHelper visitHelper,
+			@SpringBean("visitTypeHelper") VisitTypeHelper visitTypeHelper) {
 
 		// Do not save if patient already has active visit, in any location
-		VisitHelper visitHelper = new VisitHelper();
 		List<Visit> activeVisits = visitHelper.getActiveVisits(patient, adtService);
 		if (activeVisits.size() != 0) {
 			log.warn("Patient already has active visits. " + activeVisits.toString());
@@ -100,12 +103,11 @@ public class VisitStartFragmentController {
 		}
 
 		// create the visit
-		Visit visit = adtService.ensureVisit(patient, new Date(), context.getSessionLocation());
+		Visit visit = adtService.ensureVisit(patient, new Date(), uiContext.getSessionLocation());
 		// set the visit type
 		visit.setVisitType(selectedType);
-		Context.getVisitService().saveVisit(visit);
-		Location loginLocation = context.getSessionLocation();
-		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
+		visitService.saveVisit(visit);
+		Location loginLocation = uiContext.getSessionLocation();
 		visitTypeHelper.setEncounterBasedOnVisitType(visit, loginLocation);
 
 
@@ -116,5 +118,5 @@ public class VisitStartFragmentController {
 		return new SuccessResult();
 	}
 
-	
+
 }

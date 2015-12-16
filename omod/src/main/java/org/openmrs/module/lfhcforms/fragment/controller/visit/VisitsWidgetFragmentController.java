@@ -50,6 +50,7 @@ public class VisitsWidgetFragmentController {
 			UiUtils ui,
 			UiSessionContext sessionContext,
 			@SpringBean("appframeworkTemplateFactory") TemplateFactory templateFactory,
+			@SpringBean("visitTypeHelper") VisitTypeHelper visitTypeHelper,
 			@InjectBeans PatientDomainWrapper patientWrapper) {
 
 		// Patient ID is passed through config when the fragment is included
@@ -91,7 +92,6 @@ public class VisitsWidgetFragmentController {
 			recentVisitsWithLinks.put(recentVisit, templateFactory.handlebars(visitUrl, contextModel));
 		}
 		
-		VisitTypeHelper visitTypeHelper = new VisitTypeHelper();
 		Map<Integer, Map<String, Object>> recentVisitsWithAttr = visitTypeHelper.getVisitColorAndShortName(recentVisits);
 
 		model.addAttribute("recentVisitsWithAttr", recentVisitsWithAttr);
