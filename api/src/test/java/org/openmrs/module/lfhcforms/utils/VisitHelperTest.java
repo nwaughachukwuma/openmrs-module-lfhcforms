@@ -1,8 +1,9 @@
 package org.openmrs.module.lfhcforms.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -11,80 +12,33 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openmrs.Encounter;
 import org.openmrs.Location;
 import org.openmrs.LocationAttribute;
 import org.openmrs.LocationAttributeType;
 import org.openmrs.Patient;
 import org.openmrs.Visit;
-import org.openmrs.VisitType;
-import org.openmrs.api.EncounterService;
-import org.openmrs.api.VisitService;
+import org.openmrs.module.emrapi.adt.AdtService;
+import org.openmrs.module.emrapi.visit.VisitDomainWrapper;
 
 public class VisitHelperTest {
 
 	private Location mockLocation;
 	private LocationAttributeType attrType;
-	private VisitService mockVisitService;
-	private EncounterService mockEncounterService;
-	private List<VisitType> types = new ArrayList<VisitType>();
-	private String property;
 	private Patient mockPatient;
-	private Encounter mockEncounter;
-	private VisitType mockVisitType;
-	private Visit spyVisit;
 	private VisitHelper visitHelper;
-	
+
 	@Before
 	public void setUp() {
 
 		mockLocation = mock(Location.class);
-		mockVisitService = mock(VisitService.class);
-		mockEncounterService = mock(EncounterService.class);
 		mockPatient = mock(Patient.class);
-		mockEncounter = mock(Encounter.class);
-		mockVisitType = mock(VisitType.class);
-		spyVisit = spy(new Visit());
 
 		attrType = new LocationAttributeType();
 		visitHelper = new VisitHelper();
-
-		property = "{ "
-				+ "\"1\":\""+ "44-44" + "\","
-				+ "\"2\":\""+ "33-33" + "\"," 
-				+ "\"3\":\""+ "11-11" +"\""
-				+ "}" ;
-
-		{
-			VisitType type = new VisitType("Outpatient","");
-			type.setUuid("11-11");
-			types.add(type);
-		}
-		{
-			VisitType type = new VisitType("Inpatient","");
-			type.setUuid("22-22");
-			types.add(type);
-		}
-		{
-			VisitType type = new VisitType("Outreach","");
-			type.setUuid("33-33");
-			types.add(type);
-		}
-		{
-			VisitType type = new VisitType("Emergency","");
-			type.setUuid("44-44");
-			types.add(type);
-		}
-
-		when(mockVisitService.getVisitTypeByUuid("11-11")).thenReturn(types.get(0));
-		when(mockVisitService.getVisitTypeByUuid("22-22")).thenReturn(types.get(1));
-		when(mockVisitService.getVisitTypeByUuid("33-33")).thenReturn(types.get(2));
-		when(mockVisitService.getVisitTypeByUuid("44-44")).thenReturn(types.get(3));
 	}
 
-	
+
 
 	@Test
 	public void shouldReturnMostRecentAttribute() {
@@ -135,5 +89,32 @@ public class VisitHelperTest {
 		assertNull(visitHelper.getMostRecentAttribute(mockLocation, attrType));
 	}
 
+	@Test
+	public void shouldReturnAllActiveVisits() {
+
+		List<Location> locations = new ArrayList<Location>();
+
+		Location loc1 = new Location();
+		Location loc2 = new Location();
+		Location loc3 = new Location();
+
+		locations.add(loc1);
+		locations.add(loc2);
+		locations.add(loc3);
+
+		VisitDomainWrapper vdw1 = mock(VisitDomainWrapper.class);
+		VisitDomainWrapper vdw2 = mock(VisitDomainWrapper.class);
+
+		AdtService adtService = mock(AdtService.class);
+
+		when(adtService.getAllLocationsThatSupportVisits()).thenReturn(locations);
+		when(adtService.getActiveVisit(mockPatient, loc1)).thenReturn(vdw1);
+		when(adtService.getActiveVisit(mockPatient, loc2)).thenReturn(vdw2);
+
+		List<Visit> activeVisits = visitHelper.getActiveVisits(mockPatient,adtService);
+
+		assertTrue(activeVisits.size() == 2);
+
+	}
 
 }

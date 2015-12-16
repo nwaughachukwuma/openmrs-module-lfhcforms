@@ -1,6 +1,6 @@
 package org.openmrs.module.lfhcforms.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openmrs.Encounter;
 import org.openmrs.EncounterType;
 import org.openmrs.Location;
-import org.openmrs.LocationAttributeType;
 import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.Visit;
@@ -27,8 +25,6 @@ import org.openmrs.api.VisitService;
 
 public class VisitTypeHelperTest {
 
-	private Location mockLocation;
-	private LocationAttributeType attrType;
 	private VisitService mockVisitService;
 	private EncounterService mockEncounterService;
 	private List<VisitType> types = new ArrayList<VisitType>();
@@ -43,7 +39,6 @@ public class VisitTypeHelperTest {
 	@Before
 	public void setUp() {
 
-		mockLocation = mock(Location.class);
 		mockVisitService = mock(VisitService.class);
 		mockEncounterService = mock(EncounterService.class);
 		mockPatient = mock(Patient.class);
@@ -51,8 +46,6 @@ public class VisitTypeHelperTest {
 		mockVisitType = mock(VisitType.class);
 		spyVisit = spy(new Visit());
 		visitTypeHelper = new VisitTypeHelper();
-
-		attrType = new LocationAttributeType();
 
 		property = "{ "
 				+ "\"1\":\""+ "44-44" + "\","
@@ -159,34 +152,5 @@ public class VisitTypeHelperTest {
 		// they should be added at the end of the List
 		List<VisitType> result = visitTypeHelper.getOrderedVisitTypes(types,property,mockVisitService);
 		assertTrue(result.get(3).equals(types.get(1)));
-	}
-
-	@Test
-	public void shouldReturnAllActiveVisits() {
-
-		List<Location> locations = new ArrayList<Location>();
-
-		Location loc1 = new Location();
-		Location loc2 = new Location();
-		Location loc3 = new Location();
-
-		locations.add(loc1);
-		locations.add(loc2);
-		locations.add(loc3);
-
-		// TODO: Unable to instantiate VisitDomainWrapper
-		//		VisitDomainWrapper vdw1 = mock(VisitDomainWrapper.class);
-		//		VisitDomainWrapper vdw2 = mock(VisitDomainWrapper.class);
-		//		
-		//		AdtService adtService = mock(AdtService.class);
-		//		
-		//		when(adtService.getAllLocationsThatSupportVisits()).thenReturn(locations);
-		//		when(adtService.getActiveVisit(mockPatient, loc1)).thenReturn(vdw1);
-		//		when(adtService.getActiveVisit(mockPatient, loc2)).thenReturn(vdw2);
-		//
-		//		List<Visit> activeVisits = Utils.getActiveVisits(mockPatient,adtService);
-		//		
-		//		assertTrue(activeVisits.size() == 2);
-
 	}
 }
