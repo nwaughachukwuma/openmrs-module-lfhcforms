@@ -6,18 +6,19 @@ SELECT
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
     TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(myperson.birthdate, INTERVAL @years YEAR), INTERVAL @months MONTH), visit.date_started) AS 'Days',
 	myperson.gender AS 'Gender',
-    IFNULL(myperson.father_name,"") AS 'Father\'s name',
-    IFNULL(myperson.mother_name,"") AS 'Mother\'s name',
-	CONVERT(IFNULL(myperson.phone,""), char) AS 'Phone',
-	IFNULL(myperson.city_village,"") AS 'Village',
-	IFNULL(myperson.county_district,"") AS 'District',
-	IFNULL(myperson.state_province,"") AS 'Province',
+    IFNULL(myperson.father_name, "") AS 'Father\'s name',
+    IFNULL(myperson.mother_name, "") AS 'Mother\'s name',
+	CONVERT(IFNULL(myperson.phone, ""), char) AS 'Phone',
+	IFNULL(myperson.city_village, "") AS 'Village',
+	IFNULL(myperson.county_district, "") AS 'District',
+	IFNULL(myperson.state_province, "") AS 'Province',
     myperson.ethnicity AS 'Ethnicity',
     complaints_diagnoses.complaints AS 'Presenting complaints',
 	complaints_diagnoses.diagnoses AS 'Diagnoses',
-	IFNULL(illness_days.number,"") AS 'Days sick',
+	IFNULL(illness_days.number, "") AS 'Days sick',
     visit_type.name AS 'Visit type',
-    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
+    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date',
+    IFNULL(DATE_FORMAT(visit.date_stopped,'%d-%m-%Y'), "") AS 'Visit end date'
 FROM
 (
 	SELECT
