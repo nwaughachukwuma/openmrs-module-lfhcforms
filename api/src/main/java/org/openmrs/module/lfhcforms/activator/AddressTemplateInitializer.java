@@ -24,6 +24,7 @@ import org.openmrs.LocationTag;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.DefaultResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 
@@ -60,9 +61,10 @@ public class AddressTemplateInitializer implements Initializer {
 		locationService.saveAddressTemplate(xml);
 		
 		// Renaming the location(s)
-		Location mainLocation = locationService.getLocationByUuid("aff27d58-a15c-49a6-9beb-d30dcfc0c66e");
+		Location mainLocation = locationService.getLocationByUuid(LFHCFormsConstants.LFHC_LOCATION_UUID);
 		if (mainLocation == null) {
 			mainLocation = new Location();
+			mainLocation.setUuid(LFHCFormsConstants.LFHC_LOCATION_UUID);
 			mainLocation.setTags(new HashSet<LocationTag>(locationService.getAllLocationTags()));
 		}
 		mainLocation.setName("Lao Friends Hospital for Children");
