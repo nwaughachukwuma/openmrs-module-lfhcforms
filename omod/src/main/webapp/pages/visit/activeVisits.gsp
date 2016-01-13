@@ -43,7 +43,7 @@ ui.includeCss("lfhcforms", "visit/activeVisits.css")
   <tbody>
     <% if (visitSummaries == null || (visitSummaries !=null && visitSummaries.size() == 0) ) { %>
       <tr>
-        <td colspan="4">${ ui.message("coreapps.none") }</td>
+        <td colspan="5">${ ui.message("coreapps.none") }</td>
       </tr>
     <% } %>
     <% visitSummaries.each { v ->
