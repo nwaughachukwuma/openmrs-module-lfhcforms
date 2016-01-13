@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'wong-baker-faces';
+    src:    url('../fonts/wong-baker-faces.eot?xe854k');
+    src:    url('../fonts/wong-baker-faces.eot?xe854k#iefix') format('embedded-opentype'),
+        url('../fonts/wong-baker-faces.ttf?xe854k') format('truetype'),
+        url('../fonts/wong-baker-faces.woff?xe854k') format('woff'),
+        url('../fonts/wong-baker-faces.svg?xe854k#wong-baker-faces') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-faces-"], [class*=" icon-faces-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'wong-baker-faces' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-faces-smile:before {
+    content: "\e900";
+}
+.icon-faces-sad:before {
+    content: "\e901";
+}
+.icon-faces-neutral:before {
+    content: "\e902";
+}
+

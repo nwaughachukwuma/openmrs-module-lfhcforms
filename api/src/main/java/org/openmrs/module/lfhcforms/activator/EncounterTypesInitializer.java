@@ -243,7 +243,28 @@ public class EncounterTypesInitializer implements Initializer {
 				es.saveEncounterType(encounterType);
 			}
 		}
-		
+		{
+			String name = "Homecare Regular Visit";
+			String desc = "";
+			String uuid = "4897af83-80b0-4ac3-bdd5-7cdf3467ff63"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
+		{
+			String name = "Homecare Pre-assessment";
+			String desc = "";
+			String uuid = "27c72549-481c-46be-ac32-5080669e2eef"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
 	}
 
 	/**

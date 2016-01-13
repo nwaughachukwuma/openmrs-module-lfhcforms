@@ -1,0 +1,461 @@
+<htmlform formUuid="84e61aee-7d7f-4dfb-b305-7d59b89b762e" formName="Homecare Regular Visit" formEncounterType="4897af83-80b0-4ac3-bdd5-7cdf3467ff63
+" formVersion="0.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="25"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
+
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="handleViewModeForTable">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			handleViewMode("84e61aee-7d7f-4dfb-b305-7d59b89b762e");
+		});
+	</script>
+</ifMode>
+
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+<section id="physical-assessment" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-regular-visit.section.physical-assessment">
+
+	<!-- Comfort Level -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />
+		</h3>
+		<p>
+			<span class="icon-faces-sad"/>
+			<span class="questionLabel"><uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />: </span>
+			<obs conceptId="159395" rows="6" cols="60"/>
+		</p>
+	</fieldset>
+
+
+	<!-- Appearance fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			Appearance
+		</legend>
+		<h3>
+			Appearance
+		</h3>
+		<p>
+			<obs id="sick" conceptId="CIEL:162741" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Very sick,Not very sick" size="3">
+				<controls>
+					<when value="CIEL:1065" thenDisplay="#very-sick" />
+				</controls>
+			</obs>
+			<ifMode mode="VIEW" include="false">
+				<span id="very-sick">
+					<font color="red"><strong> Take urgently to doctor</strong></font>
+				</span>
+			</ifMode>
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Days sick
+		</legend>
+		<h3>
+			Number of days sick
+		</h3>
+
+		<p>
+			<obs conceptId="CIEL:1553" id="duration" showUnits="true" />
+		</p>
+
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Previous admission
+			<!--<lookup expression="fn.getConcept('160029').name" /> -->
+		</legend>
+		<h3>
+			Hospital admission during last year
+		</h3>
+
+		<p>
+			<obs conceptId="CIEL:5703" id="previous-admission" style="yes_no_dropdown">
+				<controls>
+					<when value="true" thenDisplay="#previous-admission-yes" />
+				</controls>
+			</obs>
+		</p>
+		<span id="previous-admission-yes">
+			<p>
+				<span class="questionLabel">Number of times: </span>
+				<obs conceptId="CIEL:5704" />
+			</p>
+			<repeat>
+				<template>
+					<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
+						<span class="questionLabel">Where: </span>
+						<obs id="{n}" conceptId="CIEL:1273"/>
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</p>
+				</template>
+				<render n="401"/>
+				<render n="402"/>
+				<render n="403"/>
+				<render n="404"/>
+
+			</repeat>
+
+		</span>
+
+	</fieldset>
+	<fieldset field-separator=", ">
+		<legend>
+			Medication
+			<!--<lookup expression="fn.getConcept('160029').name" /> -->
+		</legend>
+		<h3>
+			Medication taking now
+		</h3>
+
+		<p>
+			<obs conceptId="CIEL:159367" id="medication-now" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" size="4">
+				<controls>
+					<when value="CIEL:1065" thenDisplay="#medication-now-all" />
+				</controls>
+			</obs>
+		</p>
+
+		<p>
+		</p>
+
+		<span id="medication-now-all">
+			<p>
+				<repeat>
+					<template>
+						<p id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
+							<span class="questionLabel">Medication Family </span>
+							<obs id="{n}" conceptId="CIEL:1193" />
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
+					</template>
+					<render n="101"/>
+					<render n="102"/>
+					<render n="103"/>
+					<render n="104"/>
+				</repeat>
+			</p>
+
+
+			<span id="medication-now-other">
+				<repeat>
+					<template>
+						<p id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
+							<span class="questionLabel">Other </span>
+							<obs id="{n}" conceptId="CIEL:160632" />
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
+					</template>
+					<render n="201"/>
+					<render n="202"/>
+					<render n="203"/>
+					<render n="204"/>
+				</repeat>
+
+			</span>
+		</span>
+	</fieldset>
+
+</section>
+
+
+
+<section id="newborn" sectionTag="section" headerStyle="title" headerCode="Newborn (&lt; 3 months old)">
+
+
+	<fieldset field-separator=", ">
+		<legend>
+			Gestation term
+		</legend>
+		<h3>
+			Full term gestation
+		</h3>
+		<!-- The following will use a different Concept if the patient is a Male or a female -->
+		<includeIf velocityTest="$patient.gender == 'F' ">
+			<p>
+				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+					<controls>
+						<when value="CIEL:1066" thenDisplay="#gestation-term" />
+					</controls>
+				</obs>
+			</p>
+		</includeIf>
+		<includeIf velocityTest="$patient.gender == 'M' ">
+			<p>
+				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
+					<controls>
+						<when value="CIEL:1066" thenDisplay="#gestation-term" />
+					</controls>
+				</obs>
+			</p>
+		</includeIf>
+		<span id="gestation-term">
+			<p>
+				<span class="questionLabel">Gestation term: </span>
+				<obs conceptId="CIEL:159926" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
+			</p>
+		</span>
+
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Maternal problems
+		</legend>
+		<h3>
+			Maternal problems before birth
+		</h3>
+		<p>
+			<obs id="gestation-problems" conceptId="1576" />
+		</p>
+
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Maternal medication
+		</legend>
+		<h3>
+			Maternal medication during pregnancy
+		</h3>
+		<p>
+			<repeat>
+				<template>
+					<p id="{n}-toggleContainer" templateBlockId="matMed" class="toggleContainer" style="display:none;">
+						<obs id="{n}" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</p>
+				</template>
+				<render n="501"/>
+				<render n="502"/>
+				<render n="503"/>
+				<render n="504"/>
+			</repeat>
+
+		</p>
+
+
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Birth weight
+		</legend>
+		<h3>
+			Birth weight
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5916" showUnits="true" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Birth length
+		</legend>
+		<h3>
+			Birth length
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1503" showUnits="true" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Birth HC
+		</legend>
+		<h3>
+			Birth head circumference
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5314"
+			showUnits="true" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Birth location
+		</legend>
+		<h3>
+			Birth location
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1572" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Birth attendant
+		</legend>
+		<h3>
+			Birth attendant
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1573" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Delivery route
+		</legend>
+		<h3>
+			Delivery route
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5630" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			Problems before birth
+		</legend>
+		<h3>
+			Newborn problems after birth
+		</h3>
+		<p>
+			<obs conceptId="CIEL:162134" />
+		</p>
+	</fieldset>
+
+	<fieldset field-separator=", ">
+		<legend>
+			BCG vaccine
+		</legend>
+		<h3>
+			BCG vaccine given
+		</h3>
+		<p>
+			<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067"/>
+
+		</p>
+	</fieldset>
+
+
+	<fieldset field-separator=", ">
+		<legend>
+			Hepatitis B vaccine
+		</legend>
+		<h3>
+			Hepatitis B vaccine given
+		</h3>
+		<small>** waiting for concept **</small>
+		<p>
+			<obs id="hepatitis-b" conceptId="1198" answerConceptIds="782,1066,1067">
+				<controls>
+					<when value="1066" thenDisplay="#hepatitis-b-no" />
+					<when value="1067" thenDisplay="#hepatitis-b-unknown" />
+				</controls>
+			</obs>
+		</p>
+		<span id="hepatitis-b-no">
+			<ifMode mode="VIEW" include="false">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</ifMode>
+		</span>
+
+		<span id="hepatitis-b-unknown">
+			<ifMode mode="VIEW" include="false">
+				<br />
+				<p>
+					<font color="red">Please notify doctor</font>
+				</p>
+			</ifMode>
+		</span>
+
+	</fieldset>
+
+
+
+	<fieldset field-separator=", ">
+		<legend>
+			Feeding history
+		</legend>
+		<h3>
+			Feeding history
+		</h3>
+		<!-- TODO: Display checkboxes instead of list -->
+		<p>
+			<obs id="feeding-history" conceptId="1151" style="checkbox">
+				<controls>
+					<when value="5254" thenDisplay="#feeding-history-formula" />
+				</controls>
+			</obs>
+		</p>
+		<span id="feeding-history-formula">
+			<br />
+			<p>
+				<obs id="feeding-history" conceptId="1151"/>
+			</p>
+		</span>
+
+	</fieldset>
+
+</section>
+
+<redirectOnSave url="/allergyui/allergies.page?patientId={{patient.id}}&amp;"/>
+
+<submit />
+
+</htmlform>
