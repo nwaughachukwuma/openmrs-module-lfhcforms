@@ -41,20 +41,20 @@ public class ActiveVisitStatusFragmentController {
 
 	protected static final Log log = LogFactory.getLog(ActiveVisitStatusFragmentController.class);
 
-	public void controller(FragmentConfiguration config, @RequestParam("patientId") Patient patient,
+	public void controller(FragmentConfiguration config,
 			FragmentModel model, UiUtils ui, UiSessionContext sessionContext,
 			@SpringBean("adtService") AdtService adtService,
 			@SpringBean("visitHelper") VisitHelper visitHelper,
 			@InjectBeans PatientDomainWrapper wrapper) {
 
-		// checks if the config passes "activeVisit" attribute
+		Patient patient = (Patient) config.getAttribute("patient");
+	
 		VisitDomainWrapper activeVisit = (VisitDomainWrapper) config.getAttribute("activeVisit");
-
-		// if not, retrieve activeVisit from the adtService
+		// if no activeVisit passed, retrieve activeVisit from the adtService
 		if (activeVisit == null) {
 			try {
 				Location visitLocation = adtService.getLocationThatSupportsVisits(sessionContext.getSessionLocation());
-				activeVisit = adtService.getActiveVisit(wrapper.getPatient(), visitLocation);
+				activeVisit = adtService.getActiveVisit(patient, visitLocation);
 			} catch (IllegalArgumentException ex) {
 				// location does not support visits
 			}
