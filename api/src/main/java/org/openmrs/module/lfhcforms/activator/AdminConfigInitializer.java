@@ -103,6 +103,7 @@ public class AdminConfigInitializer implements Initializer {
 		service.enableApp("referenceapplication.registrationapp.registerPatient");
 		service.enableApp("reportingui.reports");
 		service.enableApp("referenceapplication.vitals");
+		service.enableApp("coreapps.activeVisits");
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
 		service.enableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
