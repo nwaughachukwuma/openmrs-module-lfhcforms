@@ -14,8 +14,52 @@ formDisplayStyle="Simple"
 	<script type="text/javascript">
 		jQuery(document).ready(function(){
 			toggleContainers();
+
+			$(".wong-baker-faces").hover(
+				function() {
+					$(".wong-baker-faces").not(this).addClass("greyed");
+					$(this).removeClass("greyed");
+					$(this).addClass("hovered");
+				}, 
+				function() {
+					$(".wong-baker-faces").not(this).addClass("greyed");
+					$(this).removeClass("hovered");
+				});
+
+			$(".wong-baker-faces").click(function () {
+
+				$(".wong-baker-faces").addClass("greyed");
+
+				if ($(this).hasClass("selected")) {
+					$(".wong-baker-faces").removeClass("selected");
+					$(".wong-baker-faces").removeClass("greyed");
+					setValue("wb-score.value", "");	
+
+				} else  {
+					$(".wong-baker-faces").removeClass("selected");
+					setValue("wb-score.value", $(this).attr("value"));
+					$(this).addClass("selected");
+					$(this).removeClass("greyed");
+				}
+			})
 		});
 	</script>
+
+	<style type="text/css">
+		.wong-baker-faces {
+			opacity: 0.5;
+			font-size: x-large;
+		}
+		.hovered {
+			opacity: 1;
+		}
+		.selected {
+			opacity: 1;	
+		}
+		.greyed {		
+		}
+	</style>
+	
 </ifMode>
 
 <ifMode mode="VIEW">
@@ -66,10 +110,17 @@ formDisplayStyle="Simple"
 		<h3>
 			<uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />
 		</h3>
-		<p>
-			<span class="icon-faces-sad"/>
-			<span class="questionLabel"><uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />: </span>
-			<obs conceptId="159395" rows="6" cols="60"/>
+		<p style="margin-top:5%">
+			<span id="wb-smile" value="2" class="wong-baker-faces icon-faces-smile"/>
+			(2)
+			<span id="wb-neutral" value="4" class="wong-baker-faces icon-faces-neutral"/>
+			(4)
+			<span id="wb-sad" value="6" class="wong-baker-faces icon-faces-sad"/>
+			(6)
+		</p>
+		<p style="display:;">
+			<span id="wb-title">Wong baker score</span>
+			<obs id="wb-score" conceptId="CIEL:160287"/>
 		</p>
 	</fieldset>
 
@@ -211,250 +262,6 @@ formDisplayStyle="Simple"
 
 </section>
 
-
-
-<section id="newborn" sectionTag="section" headerStyle="title" headerCode="Newborn (&lt; 3 months old)">
-
-
-	<fieldset field-separator=", ">
-		<legend>
-			Gestation term
-		</legend>
-		<h3>
-			Full term gestation
-		</h3>
-		<!-- The following will use a different Concept if the patient is a Male or a female -->
-		<includeIf velocityTest="$patient.gender == 'F' ">
-			<p>
-				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159033,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
-					<controls>
-						<when value="CIEL:1066" thenDisplay="#gestation-term" />
-					</controls>
-				</obs>
-			</p>
-		</includeIf>
-		<includeIf velocityTest="$patient.gender == 'M' ">
-			<p>
-				<obs id="full-term-gestation" conceptId="CIEL:159926" answerConceptIds="CIEL:159034,CIEL:1066,CIEL:1067" answerLabels="Yes,No,Unknown">
-					<controls>
-						<when value="CIEL:1066" thenDisplay="#gestation-term" />
-					</controls>
-				</obs>
-			</p>
-		</includeIf>
-		<span id="gestation-term">
-			<p>
-				<span class="questionLabel">Gestation term: </span>
-				<obs conceptId="CIEL:159926" answerConceptIds="CIEL:156480,CIEL:156481,CIEL:156482,CIEL:156483,CIEL:156484,CIEL:156485,CIEL:156486,CIEL:156487,CIEL:156488,CIEL:156489,CIEL:156490,CIEL:156491,CIEL:156492,CIEL:156493,CIEL:156494,CIEL:156495,CIEL:156496,CIEL:156497,CIEL:156498" />
-			</p>
-		</span>
-
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Maternal problems
-		</legend>
-		<h3>
-			Maternal problems before birth
-		</h3>
-		<p>
-			<obs id="gestation-problems" conceptId="1576" />
-		</p>
-
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Maternal medication
-		</legend>
-		<h3>
-			Maternal medication during pregnancy
-		</h3>
-		<p>
-			<repeat>
-				<template>
-					<p id="{n}-toggleContainer" templateBlockId="matMed" class="toggleContainer" style="display:none;">
-						<obs id="{n}" conceptId="LFHC:1022" answerClasses="Drug" style="autocomplete"/>
-						<i class="addEntry icon-">&#xf055; Add</i>
-						<i class="removeEntry icon-">   &#xf056; Remove</i>
-					</p>
-				</template>
-				<render n="501"/>
-				<render n="502"/>
-				<render n="503"/>
-				<render n="504"/>
-			</repeat>
-
-		</p>
-
-
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Birth weight
-		</legend>
-		<h3>
-			Birth weight
-		</h3>
-		<p>
-			<obs conceptId="CIEL:5916" showUnits="true" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Birth length
-		</legend>
-		<h3>
-			Birth length
-		</h3>
-		<p>
-			<obs conceptId="CIEL:1503" showUnits="true" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Birth HC
-		</legend>
-		<h3>
-			Birth head circumference
-		</h3>
-		<p>
-			<obs conceptId="CIEL:5314"
-			showUnits="true" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Birth location
-		</legend>
-		<h3>
-			Birth location
-		</h3>
-		<p>
-			<obs conceptId="CIEL:1572" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Birth attendant
-		</legend>
-		<h3>
-			Birth attendant
-		</h3>
-		<p>
-			<obs conceptId="CIEL:1573" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Delivery route
-		</legend>
-		<h3>
-			Delivery route
-		</h3>
-		<p>
-			<obs conceptId="CIEL:5630" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			Problems before birth
-		</legend>
-		<h3>
-			Newborn problems after birth
-		</h3>
-		<p>
-			<obs conceptId="CIEL:162134" />
-		</p>
-	</fieldset>
-
-	<fieldset field-separator=", ">
-		<legend>
-			BCG vaccine
-		</legend>
-		<h3>
-			BCG vaccine given
-		</h3>
-		<p>
-			<obs id="bcg" conceptId="1570" answerConceptIds="1065,1066,1067"/>
-
-		</p>
-	</fieldset>
-
-
-	<fieldset field-separator=", ">
-		<legend>
-			Hepatitis B vaccine
-		</legend>
-		<h3>
-			Hepatitis B vaccine given
-		</h3>
-		<small>** waiting for concept **</small>
-		<p>
-			<obs id="hepatitis-b" conceptId="1198" answerConceptIds="782,1066,1067">
-				<controls>
-					<when value="1066" thenDisplay="#hepatitis-b-no" />
-					<when value="1067" thenDisplay="#hepatitis-b-unknown" />
-				</controls>
-			</obs>
-		</p>
-		<span id="hepatitis-b-no">
-			<ifMode mode="VIEW" include="false">
-				<br />
-				<p>
-					<font color="red">Please notify doctor</font>
-				</p>
-			</ifMode>
-		</span>
-
-		<span id="hepatitis-b-unknown">
-			<ifMode mode="VIEW" include="false">
-				<br />
-				<p>
-					<font color="red">Please notify doctor</font>
-				</p>
-			</ifMode>
-		</span>
-
-	</fieldset>
-
-
-
-	<fieldset field-separator=", ">
-		<legend>
-			Feeding history
-		</legend>
-		<h3>
-			Feeding history
-		</h3>
-		<!-- TODO: Display checkboxes instead of list -->
-		<p>
-			<obs id="feeding-history" conceptId="1151" style="checkbox">
-				<controls>
-					<when value="5254" thenDisplay="#feeding-history-formula" />
-				</controls>
-			</obs>
-		</p>
-		<span id="feeding-history-formula">
-			<br />
-			<p>
-				<obs id="feeding-history" conceptId="1151"/>
-			</p>
-		</span>
-
-	</fieldset>
-
-</section>
-
-<redirectOnSave url="/allergyui/allergies.page?patientId={{patient.id}}&amp;"/>
 
 <submit />
 
