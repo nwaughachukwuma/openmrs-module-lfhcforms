@@ -1,6 +1,5 @@
 <%
 def patient = config.patient
-    ui.includeJavascript("lfhcforms", "visit/disableVisitsSectionWidget.js")
     %>
 
     <div id="visits-with-visittype" class="info-section override-previous">

@@ -52,6 +52,8 @@ public class AdminConfigInitializer implements Initializer {
 		service.disableExtension("referenceapplication.realTime.simpleDischarge");
 		service.disableExtension("referenceapplication.realTime.simpleTransfer");
 
+		// Disabling RecentVisits widget on clinician facing dashboard
+		service.disableApp("coreapps.visits");
 		// Disabling the activeVisitStatus fragment
 		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
 		// Disabling the Coreapps Start Visit link extension (in the Overall Actions panel)
@@ -111,6 +113,7 @@ public class AdminConfigInitializer implements Initializer {
 		service.enableExtension("referenceapplication.realTime.simpleAdmission");
 		service.enableExtension("referenceapplication.realTime.simpleDischarge");
 		service.enableExtension("referenceapplication.realTime.simpleTransfer");
+		service.enableApp("coreapps.visits");
 
 	}
 }

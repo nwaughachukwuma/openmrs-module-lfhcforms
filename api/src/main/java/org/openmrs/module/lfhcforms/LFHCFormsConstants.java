@@ -2,6 +2,9 @@ package org.openmrs.module.lfhcforms;
 
 public class LFHCFormsConstants {
 
+	// Main Location UUID
+	public static final String LFHC_LOCATION_UUID = "aff27d58-a15c-49a6-9beb-d30dcfc0c66e";
+	
 	// Visit With Visit Type App
 	public static final String OUTREACH_COLOR = "BurlyWood";
 	public static final String OUTPATIENT_COLOR = "#3399ff";
