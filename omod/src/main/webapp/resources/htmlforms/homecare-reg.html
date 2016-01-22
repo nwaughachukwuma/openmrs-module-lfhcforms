@@ -125,141 +125,129 @@ formDisplayStyle="Simple"
 	</fieldset>
 
 
-	<!-- Appearance fieldset -->
+	<!-- General fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			Appearance
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
 		</legend>
 		<h3>
-			Appearance
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
 		</h3>
 		<p>
-			<obs id="sick" conceptId="CIEL:162741" answerConceptIds="CIEL:1065,CIEL:1066" answerLabels="Very sick,Not very sick" size="3">
-				<controls>
-					<when value="CIEL:1065" thenDisplay="#very-sick" />
-				</controls>
-			</obs>
-			<ifMode mode="VIEW" include="false">
-				<span id="very-sick">
-					<font color="red"><strong> Take urgently to doctor</strong></font>
-				</span>
-			</ifMode>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
 		</p>
 	</fieldset>
 
+	<!-- Respiratory fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			Days sick
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
 		</legend>
 		<h3>
-			Number of days sick
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
 		</h3>
-
 		<p>
-			<obs conceptId="CIEL:1553" id="duration" showUnits="true" />
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
 		</p>
-
 	</fieldset>
 
+	<!-- Cardiovascular fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			Previous admission
-			<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
 		</legend>
 		<h3>
-			Hospital admission during last year
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
 		</h3>
-
 		<p>
-			<obs conceptId="CIEL:5703" id="previous-admission" style="yes_no_dropdown">
-				<controls>
-					<when value="true" thenDisplay="#previous-admission-yes" />
-				</controls>
-			</obs>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
 		</p>
-		<span id="previous-admission-yes">
-			<p>
-				<span class="questionLabel">Number of times: </span>
-				<obs conceptId="CIEL:5704" />
-			</p>
-			<repeat>
-				<template>
-					<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
-						<span class="questionLabel">Where: </span>
-						<obs id="{n}" conceptId="CIEL:1273"/>
-						<i class="addEntry icon-">&#xf055; Add</i>
-						<i class="removeEntry icon-">   &#xf056; Remove</i>
-					</p>
-				</template>
-				<render n="401"/>
-				<render n="402"/>
-				<render n="403"/>
-				<render n="404"/>
-
-			</repeat>
-
-		</span>
-
 	</fieldset>
+
+	<!-- Digestive fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			Medication
-			<!--<lookup expression="fn.getConcept('160029').name" /> -->
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
 		</legend>
 		<h3>
-			Medication taking now
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
 		</h3>
-
 		<p>
-			<obs conceptId="CIEL:159367" id="medication-now" answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" size="4">
-				<controls>
-					<when value="CIEL:1065" thenDisplay="#medication-now-all" />
-				</controls>
-			</obs>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
 		</p>
-
-		<p>
-		</p>
-
-		<span id="medication-now-all">
-			<p>
-				<repeat>
-					<template>
-						<p id="{n}-toggleContainer" templateBlockId="medication" class="toggleContainer" style="display:none;">
-							<span class="questionLabel">Medication Family </span>
-							<obs id="{n}" conceptId="CIEL:1193" />
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-					</template>
-					<render n="101"/>
-					<render n="102"/>
-					<render n="103"/>
-					<render n="104"/>
-				</repeat>
-			</p>
-
-
-			<span id="medication-now-other">
-				<repeat>
-					<template>
-						<p id="{n}-toggleContainer" templateBlockId="medicatioOther" class="toggleContainer" style="display:none;">
-							<span class="questionLabel">Other </span>
-							<obs id="{n}" conceptId="CIEL:160632" />
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-					</template>
-					<render n="201"/>
-					<render n="202"/>
-					<render n="203"/>
-					<render n="204"/>
-				</repeat>
-
-			</span>
-		</span>
 	</fieldset>
 
+	<!-- Other fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
+		</p>
+	</fieldset>
+
+</section>
+
+<section id="medication" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-regular-visit.section.medication">
+	<!-- Medication fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.medication" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.medication" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
+		</p>
+	</fieldset>
+	
+	<!-- HIV/TB drug fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.hiv-tb-until" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.hiv-tb-until" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1222" />
+		</p>
+	</fieldset>
+</section>
+
+<section id="nutrition" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-regular-visit.section.nutrition">
+	<!-- Nutrition fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.nutrition" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.nutrition" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
+		</p>
+	</fieldset>
+</section>
+
+<section id="psycho-socio-financial-assessment" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-regular-visit.section.psycho-socio-financial-assessment">
+	<!-- Psycho socio-financial assessment fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.psycho-socio-financial-assessment" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-regular-visit.legend.psycho-socio-financial-assessment" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159395" cols="40" rows="5" />
+		</p>
+	</fieldset>
 </section>
 
 
