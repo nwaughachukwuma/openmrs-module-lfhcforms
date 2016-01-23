@@ -44,6 +44,7 @@ import org.openmrs.api.ConceptService;
 import org.openmrs.api.DuplicateConceptNameException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.lfhcforms.utils.DefaultResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 
@@ -56,9 +57,6 @@ import au.com.bytecode.opencsv.CSVReader;
 public class LFHCConceptsInitializer implements Initializer {
 	
 	protected static final Log log = LogFactory.getLog(LFHCConceptsInitializer.class);
-	
-	public final static String LFHC_CONCEPT_SOURCE = "LFHC";
-	public final static String CIEL_CONCEPT_SOURCE = "CIEL";
 	
 	protected final static char		CSV_DELIMITER		= '\t';
 	protected final static String	CSV_INNER_DELIMITER = ",";
@@ -210,10 +208,10 @@ public class LFHCConceptsInitializer implements Initializer {
 	 * @param cs The ConceptService used throughout the {@link Initializer#}
 	 */
 	protected void addConceptSources(final ConceptService cs) {
-		ConceptSource lfhcSource = cs.getConceptSourceByName(LFHC_CONCEPT_SOURCE);
+		ConceptSource lfhcSource = cs.getConceptSourceByName(LFHCFormsConstants.LFHC_CONCEPT_SOURCE);
 		if(lfhcSource == null) {
 			lfhcSource = new ConceptSource();
-			lfhcSource.setName(LFHC_CONCEPT_SOURCE);
+			lfhcSource.setName(LFHCFormsConstants.LFHC_CONCEPT_SOURCE);
 			lfhcSource.setDescription("Custom concepts defined at the LFHC.");
 			cs.saveConceptSource(lfhcSource);
 		}
@@ -292,7 +290,7 @@ public class LFHCConceptsInitializer implements Initializer {
 		if(mappedConcepts.size() == 0)
 			return;
 		
-		ConceptSource lfhcSource = cs.getConceptSourceByName(LFHC_CONCEPT_SOURCE);
+		ConceptSource lfhcSource = cs.getConceptSourceByName(LFHCFormsConstants.LFHC_CONCEPT_SOURCE);
 		
 		Map<String, Concept> conceptsToSave = new HashMap<String, Concept>(); 
 		Map<String, String> sets = new HashMap<String, String>();	// We hold the concept lists (sets or answers) until all concepts are created
@@ -312,7 +310,7 @@ public class LFHCConceptsInitializer implements Initializer {
 				log.warn("This mapped ID is not correctly formated: " + lfhcMappedId + ". Skipping through to next concept in the CSV source.");
 				continue;
 			}
-			Concept newConcept = cs.getConceptByMapping(lfhcId, LFHC_CONCEPT_SOURCE);
+			Concept newConcept = cs.getConceptByMapping(lfhcId, LFHCFormsConstants.LFHC_CONCEPT_SOURCE);
 			if(newConcept != null) {
 				log.info("Concept " + lfhcMappedId + " already exists. Skipping through to next concept in the CSV source.");
 				continue;
@@ -455,9 +453,9 @@ public class LFHCConceptsInitializer implements Initializer {
 				}
 				else
 				{	// CIEL
-					memberConcept = cs.getConceptByMapping(conceptId, CIEL_CONCEPT_SOURCE);
+					memberConcept = cs.getConceptByMapping(conceptId, LFHCFormsConstants.CIEL_CONCEPT_SOURCE);
 					if(memberConcept == null) {
-						log.warn("Concept '" + conceptToSave.getName() + "' " + CIEL_CONCEPT_SOURCE + " answer or set member concept [" + conceptId + "] not found. Answer or set member will be missing.");
+						log.warn("Concept '" + conceptToSave.getName() + "' " + LFHCFormsConstants.CIEL_CONCEPT_SOURCE + " answer or set member concept [" + conceptId + "] not found. Answer or set member will be missing.");
 					}
 				}
 				if(memberConcept != null) {

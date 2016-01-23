@@ -15,6 +15,7 @@ package org.openmrs.module.lfhcforms;
 
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -22,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.module.ModuleActivator;
 import org.openmrs.module.lfhcforms.activator.AddressTemplateInitializer;
 import org.openmrs.module.lfhcforms.activator.AdminConfigInitializer;
+import org.openmrs.module.lfhcforms.activator.AttributeTypesInitializer;
 import org.openmrs.module.lfhcforms.activator.EncounterTypesInitializer;
 import org.openmrs.module.lfhcforms.activator.HtmlFormsInitializer;
 import org.openmrs.module.lfhcforms.activator.Initializer;
@@ -29,6 +31,7 @@ import org.openmrs.module.lfhcforms.activator.LFHCConceptsInitializer;
 import org.openmrs.module.lfhcforms.activator.LFHCLegacyDataInitializer;
 import org.openmrs.module.lfhcforms.activator.PersonInitializer;
 import org.openmrs.module.lfhcforms.activator.ReportsInitializer;
+import org.openmrs.module.lfhcforms.activator.VisitTypesInitializer;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -51,10 +54,12 @@ public class LFHCFormsActivator implements ModuleActivator {
 		l.add(new AdminConfigInitializer());
 		l.add(new AddressTemplateInitializer());
 		l.add(new EncounterTypesInitializer());
+		l.add(new AttributeTypesInitializer());
 		l.add(new LFHCConceptsInitializer());
 		l.add(new HtmlFormsInitializer());
 		l.add(new ReportsInitializer());
 		l.add(new PersonInitializer());
+		l.add(new VisitTypesInitializer());
 		l.add(new LFHCLegacyDataInitializer());
 		return l;
 	}

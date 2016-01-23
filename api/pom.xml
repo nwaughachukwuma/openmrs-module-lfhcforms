@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>lfhcforms</artifactId>
-		<version>0.1.9-alpha</version>
+		<version>0.2.1</version>
 	</parent>
 
 	<artifactId>lfhcforms-api</artifactId>
@@ -59,7 +59,7 @@
 		<!-- End OpenMRS core -->
 
 		<dependency>
-			<groupId>org.openmrs.module</groupId>						
+			<groupId>org.openmrs.module</groupId>
 			<artifactId>reporting-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -71,6 +71,11 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>uiframework-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
@@ -91,9 +96,14 @@
 			<version>2.3</version>
 		</dependency>
 		<dependency>
-            <groupId>org.openmrs.module</groupId>
-            <artifactId>registrationcore-omod</artifactId>
-        </dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>registrationcore-omod</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>calculation-api</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

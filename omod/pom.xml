@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>lfhcforms</artifactId>
-		<version>0.1.9-alpha</version>
+		<version>0.2.1</version>
 	</parent>
 
 	<artifactId>lfhcforms-omod</artifactId>
@@ -15,128 +15,153 @@
 
 	<dependencies>
 
-		<!-- 
-		Add other dependencies from parent's pom: 
-		<dependency> 
-			<groupId>org.other.library</groupId> 
-			<artifactId>library-name</artifactId> 
-		</dependency> 
-	-->
+		<!-- Add other dependencies from parent's pom: <dependency> <groupId>org.other.library</groupId> 
+			<artifactId>library-name</artifactId> </dependency> -->
 
-	<!-- Begin OpenMRS modules -->
+		<!-- Begin OpenMRS modules -->
 
-	<dependency>
-		<groupId>${project.parent.groupId}</groupId>
-		<artifactId>${project.parent.artifactId}-api</artifactId>
-		<version>${project.parent.version}</version>
-	</dependency>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>${project.parent.artifactId}-api</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.openmrs.module</groupId>
-		<artifactId>uiframework-api</artifactId>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>uiframework-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>appui-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>appui-omod</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>appframework-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>coreapps-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>emrapi-omod</artifactId>
+		</dependency>
 
 
-	<!-- End OpenMRS modules -->
+		<!-- End OpenMRS modules -->
 
 
-	<!-- Begin OpenMRS core -->
+		<!-- Begin OpenMRS core -->
 
-	<dependency>
-		<groupId>org.openmrs.api</groupId>
-		<artifactId>openmrs-api</artifactId>
-		<type>jar</type>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.api</groupId>
+			<artifactId>openmrs-api</artifactId>
+			<type>jar</type>
+		</dependency>
 
-	<dependency>
-		<groupId>org.openmrs.web</groupId>
-		<artifactId>openmrs-web</artifactId>
-		<type>jar</type>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.web</groupId>
+			<artifactId>openmrs-web</artifactId>
+			<type>jar</type>
+		</dependency>
 
-	<dependency>
-		<groupId>org.openmrs.api</groupId>
-		<artifactId>openmrs-api</artifactId>
-		<type>test-jar</type>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.api</groupId>
+			<artifactId>openmrs-api</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 
-	<dependency>
-		<groupId>org.openmrs.web</groupId>
-		<artifactId>openmrs-web</artifactId>
-		<type>test-jar</type>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.web</groupId>
+			<artifactId>openmrs-web</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
 
-	<dependency>
-		<groupId>org.openmrs.test</groupId>
-		<artifactId>openmrs-test</artifactId>
-		<type>pom</type>
-		<scope>test</scope>
-	</dependency>
+		<dependency>
+			<groupId>org.openmrs.test</groupId>
+			<artifactId>openmrs-test</artifactId>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
 
-	<!-- End OpenMRS core -->
-	
-	<dependency>
-		<groupId>joda-time</groupId>
-		<artifactId>joda-time</artifactId>
-		<version>RELEASE</version>
-	</dependency>
-	<dependency>
-		<groupId>org.ocpsoft.prettytime</groupId>
-		<artifactId>prettytime</artifactId>
-		<version>RELEASE</version>
-		<type>jar</type>
-		<scope>provided</scope>
-	</dependency>
-	
-</dependencies>
+		<!-- End OpenMRS core -->
 
-<build>
-	<finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
-	<resources>
-		<resource>
-			<directory>src/main/resources</directory>
-			<filtering>true</filtering>
-		</resource>
-		<resource>
-			<directory>src/main/webapp</directory>
-			<filtering>false</filtering>
-			<excludes>
-				<exclude>resources</exclude>
-			</excludes>
-			<targetPath>web/module</targetPath>
-		</resource>
-		<resource>
-			<directory>src/main/webapp</directory>
-			<filtering>false</filtering>
-			<includes>
-				<include>resources</include>
-			</includes>
-			<targetPath>web/module</targetPath>
-		</resource>
-	</resources>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+			<version>RELEASE</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
 
-	<testResources>
-		<testResource>
-			<directory>src/test/resources</directory>
-			<filtering>true</filtering>
-		</testResource>
-		<testResource>
-			<directory>src/main/webapp/resources</directory>
-		</testResource>
-	</testResources>
+	</dependencies>
 
-	<pluginManagement>
-		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<configuration>
-					<includeEmptyDirs>true</includeEmptyDirs>
-				</configuration>
-			</plugin>
+	<build>
+		<finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>resources</exclude>
+				</excludes>
+				<targetPath>web/module</targetPath>
+			</resource>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>resources</include>
+				</includes>
+				<targetPath>web/module</targetPath>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/main/webapp/resources</directory>
+			</testResource>
+		</testResources>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<configuration>
+						<includeEmptyDirs>true</includeEmptyDirs>
+					</configuration>
+				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
-				only. It has no influence on the Maven build itself. -->
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>

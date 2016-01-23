@@ -6,17 +6,19 @@ SELECT
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
     TIMESTAMPDIFF(DAY, DATE_ADD(DATE_ADD(myperson.birthdate, INTERVAL @years YEAR), INTERVAL @months MONTH), visit.date_started) AS 'Days',
 	myperson.gender AS 'Gender',
-    IFNULL(myperson.father_name,"") AS 'Father\'s name',
-    IFNULL(myperson.mother_name,"") AS 'Mother\'s name',
-	CONVERT(IFNULL(myperson.phone,""), char) AS 'Phone',
-	IFNULL(myperson.city_village,"") AS 'Village',
-	IFNULL(myperson.county_district,"") AS 'District',
-	IFNULL(myperson.state_province,"") AS 'Province',
+    IFNULL(myperson.father_name, "") AS 'Father\'s name',
+    IFNULL(myperson.mother_name, "") AS 'Mother\'s name',
+	CONVERT(IFNULL(myperson.phone, ""), char) AS 'Phone',
+	IFNULL(myperson.city_village, "") AS 'Village',
+	IFNULL(myperson.county_district, "") AS 'District',
+	IFNULL(myperson.state_province, "") AS 'Province',
     myperson.ethnicity AS 'Ethnicity',
     complaints_diagnoses.complaints AS 'Presenting complaints',
 	complaints_diagnoses.diagnoses AS 'Diagnoses',
-	IFNULL(illness_days.number,"") AS 'Days sick',
-    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date'
+	IFNULL(illness_days.number, "") AS 'Days sick',
+    visit_type.name AS 'Visit type',
+    DATE_FORMAT(visit.date_started,'%d-%m-%Y') AS 'Visit start date',
+    IFNULL(DATE_FORMAT(visit.date_stopped,'%d-%m-%Y'), "") AS 'Visit end date'
 FROM
 (
 	SELECT
@@ -267,6 +269,11 @@ FROM
 	ORDER BY patient_id ASC, visit_id ASC
 )
 AS complaints_diagnoses
+	LEFT JOIN
+		(visit AS visits, visit_type)
+	ON
+		complaints_diagnoses.visit_id = visits.visit_id
+        AND visit_type.visit_type_id = visits.visit_type_id
 	LEFT JOIN
 		(
 			SELECT
@@ -528,6 +535,6 @@ AS complaints_diagnoses
         complaints_diagnoses.visit_id = illness_days.visit_id
 WHERE
     visit.date_started >= :startDate AND
-    DATE_SUB(visit.date_started, INTERVAL 1 DAY) <= :endDate -- Because :endDate is set at 00:00
+    visit.date_started < DATE_ADD(:endDate, INTERVAL 1 DAY) -- Because :endDate is set at 00:00
 ORDER BY visit.date_started DESC, myidentifier.identifier ASC
 ;

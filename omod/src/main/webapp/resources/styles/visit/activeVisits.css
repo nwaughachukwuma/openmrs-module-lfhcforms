@@ -1,0 +1,12 @@
+.disabled {
+	opacity: 0.4
+}
+.enabled {
+	opacity: 1
+}
+p.filters {
+	float: right;
+}
+.filter {
+	display:inline-block;
+}

@@ -1,0 +1,13 @@
+[
+    {
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.visitStart",
+        "extensionPointId": "patientDashboard.overallActions",
+        "type": "script",
+        "label": "coreapps.task.startVisit.label",
+        "script": "visit.showStartVisitWithVisitTypeDialog({{patient.patientId}})",
+        "icon": "icon-check-in",
+        "order": -20,
+        "require": "!visit && !patient.person.dead",
+        "requiredPrivilege": "Task: coreapps.createVisit"
+    }
+]

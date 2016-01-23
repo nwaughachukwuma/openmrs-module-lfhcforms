@@ -11,6 +11,7 @@ import org.openmrs.Patient;
 import org.openmrs.Person;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.ObsService;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
@@ -18,8 +19,6 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 
 public class FluidBalanceFragmentController {
 
-	protected static final String LFHC_SOURCE = "LFHC";
-	
 	public void controller(	FragmentModel model, @FragmentParam("patientId") Patient patient, UiUtils ui
 			,	@SpringBean("conceptService") ConceptService conceptService
 			,	@SpringBean("obsService") ObsService obsService
@@ -55,7 +54,7 @@ public class FluidBalanceFragmentController {
 		Period period = new Period(today6am, now);
 		double currentHours = period.getHours() + (double) period.getMinutes() / 60;
 		
-		Concept urineConcept = conceptService.getConceptByMapping("1168", LFHC_SOURCE);
+		Concept urineConcept = conceptService.getConceptByMapping("1168", LFHCFormsConstants.LFHC_CONCEPT_SOURCE);
 		double urineOutput = sumObservations(obsService, patient, today6am, now, Arrays.asList(urineConcept));
 		double averageUrineOutput = 0;
 		if(urineOutput > 0)
@@ -73,18 +72,18 @@ public class FluidBalanceFragmentController {
 		//	Total fluid balances
 		//
 		List<Concept> inputConcepts = Arrays.asList(
-				conceptService.getConceptByMapping("1004", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1005", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1171", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1172", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1006", LFHC_SOURCE)
+				conceptService.getConceptByMapping("1004", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1005", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1171", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1172", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1006", LFHCFormsConstants.LFHC_CONCEPT_SOURCE)
 				);
 		List<Concept> outputConcepts = Arrays.asList(
-				conceptService.getConceptByMapping("1168", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1169", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1001", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1002", LFHC_SOURCE),
-				conceptService.getConceptByMapping("1170", LFHC_SOURCE)
+				conceptService.getConceptByMapping("1168", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1169", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1001", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1002", LFHCFormsConstants.LFHC_CONCEPT_SOURCE),
+				conceptService.getConceptByMapping("1170", LFHCFormsConstants.LFHC_CONCEPT_SOURCE)
 				);
 		
 		double lastInput = sumObservations(obsService, patient, yesterday6am, today6am, inputConcepts);

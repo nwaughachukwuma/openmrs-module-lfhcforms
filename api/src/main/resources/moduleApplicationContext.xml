@@ -19,5 +19,9 @@
 
 	<!-- Add here beans related to the API context -->
 
-	
+	<bean id="visitHelper" class="org.openmrs.module.lfhcforms.utils.VisitHelper">
+	</bean>
+	<bean id="visitTypeHelper" class="org.openmrs.module.lfhcforms.utils.VisitTypeHelper">
+	</bean>
+
 </beans>

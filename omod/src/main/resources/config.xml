@@ -39,7 +39,9 @@
 		<require_module version="${registrationcoreVersion}">
 			org.openmrs.module.registrationcore
 		</require_module>
-		
+		<require_module version="${coreappsVersion}">
+			org.openmrs.module.coreapps
+		</require_module>
 	</require_modules>
 
 

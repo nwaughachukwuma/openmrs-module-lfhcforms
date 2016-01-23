@@ -2,21 +2,11 @@ package org.openmrs.module.lfhcforms.fragment.controller;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.openmrs.Patient;
 import org.openmrs.PersonAttribute;
-import org.openmrs.Visit;
-import org.openmrs.VisitType;
-import org.openmrs.api.VisitService;
-import org.openmrs.api.context.Context;
-import org.openmrs.api.LocationService;
-import org.openmrs.api.PatientService;
-import org.openmrs.ui.framework.SimpleObject;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.ui.framework.UiUtils;
-import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 public class RegistrationInfoFragmentController {
 
-	private String fatherNameUuid= "51c5e4f4-7e13-11e5-8bcf-feff819cdc9f";	
-	private String fatherOccupationUuid= "51c5e88c-7e13-11e5-8bcf-feff819cdc9f";	
-	private String motherNameUuid= "8d871d18-c2cc-11de-8d13-0010c6dffd0f";	
-	private String insuranceDetailsUuid = "5c6ee7c2-7e1b-11e5-8bcf-feff819cdc9f";
+	private String fatherNameUuid= LFHCFormsConstants.FATHER_NAME_UUID;	
+	private String fatherOccupationUuid= LFHCFormsConstants.FATHER_OCCUPATION_UUID;	
+	private String motherNameUuid= LFHCFormsConstants.MOTHER_NAME_UUID;	
+	private String insuranceDetailsUuid = LFHCFormsConstants.INSURANCE_DETAILS_UUID;
 
 
 	public void controller(	FragmentModel model, @RequestParam("patientId") Patient patient,

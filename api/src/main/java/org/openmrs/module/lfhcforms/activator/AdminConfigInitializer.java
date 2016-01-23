@@ -16,10 +16,12 @@ package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Installs and removes the address template for this module.
@@ -27,10 +29,7 @@ import org.openmrs.module.lfhcforms.LFHCFormsActivator;
  */
 public class AdminConfigInitializer implements Initializer {
 
-	public static final String PEWS_TIME_WINDOW_PROPERTY = "lfhcforms.pewsTimeWindowInMin";
-	public static final int PEWS_FALLBACK_TIMEWINDOW = 0;
-	public static final String PEWS_EXPIRY_PROPERTY = "lfhcforms.pewsExpiryInMin";
-	
+
 	protected static final Log log = LogFactory.getLog(AdminConfigInitializer.class);
 
 	/**
@@ -39,26 +38,59 @@ public class AdminConfigInitializer implements Initializer {
 	@Override
 	public synchronized void started() {
 		log.info("Setting custom admin configuration for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
-		
+
 		// Disabling the default Patient Registration app (page).
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.disableApp("referenceapplication.registrationapp.registerPatient");
-		service.disableApp("referenceapplication.vitals");
 		service.disableApp("reportingui.reports");
+
+		// Disable unwanted apps and extensions
+		service.disableApp("referenceapplication.vitals");
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
-		
+		service.disableExtension("referenceapplication.realTime.simpleAdmission");
+		service.disableExtension("referenceapplication.realTime.simpleDischarge");
+		service.disableExtension("referenceapplication.realTime.simpleTransfer");
+
+		// Disabling RecentVisits widget on clinician facing dashboard
+		service.disableApp("coreapps.visits");
+		// Disabling the activeVisitStatus fragment
+		service.disableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		// Disabling the Coreapps Start Visit link extension (in the Overall Actions panel)
+		service.disableExtension("org.openmrs.module.coreapps.createVisit");
+		service.disableApp("coreapps.activeVisits");
+
 		AdministrationService adminService = Context.getAdministrationService();
-		String pewsTime = adminService.getGlobalProperty(PEWS_TIME_WINDOW_PROPERTY);
+		String pewsTime = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY);
 		if(pewsTime == null) {
-			adminService.setGlobalProperty(PEWS_TIME_WINDOW_PROPERTY, (new Integer(PEWS_FALLBACK_TIMEWINDOW)).toString());
+			adminService.setGlobalProperty(LFHCFormsConstants.PEWS_TIME_WINDOW_PROPERTY, (new Integer(LFHCFormsConstants.PEWS_FALLBACK_TIMEWINDOW)).toString());
 		}
-		
-		String pewsExpiry = adminService.getGlobalProperty(PEWS_EXPIRY_PROPERTY);
+
+		String pewsExpiry = adminService.getGlobalProperty(LFHCFormsConstants.PEWS_EXPIRY_PROPERTY);
 		if(pewsExpiry == null) {
 			// The default is an empty String that won't convert to any integer.
 			// This triggers the default expiry time mechanism.
-			adminService.setGlobalProperty(PEWS_EXPIRY_PROPERTY, "");
+			adminService.setGlobalProperty(LFHCFormsConstants.PEWS_EXPIRY_PROPERTY, "");
+		}
+
+		// create visit type order property
+		String propertyName = LFHCFormsConstants.VISIT_TYPES_ORDER_PROPERTY;
+		if(adminService.getGlobalProperty(propertyName) == null) {
+
+			adminService.setGlobalProperty(propertyName,
+					"{ "
+							+ "\"1\":\""+ LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID + "\","
+							+ "\"2\":\""+ LFHCFormsConstants.EMERGENCY_VISIT_TYPE_UUID+ "\"," 
+							+ "\"3\":\""+ LFHCFormsConstants.INPATIENT_VISIT_TYPE_UUID +"\","
+							+ "\"4\":\""+ LFHCFormsConstants.OPERATING_THEATER_VISIT_TYPE_UUID +"\","
+							+ "\"5\":\""+ LFHCFormsConstants.OUTREACH_VISIT_TYPE_UUID +"\""
+							+ "}" 
+					);
+			GlobalProperty typesOrder = adminService.getGlobalPropertyObject(propertyName);
+			typesOrder.setDescription("Order in which the Visit Types should appear. A JSON-like format with \"order\" as key and \"VisitType UUID\" as value");
+			adminService.saveGlobalProperty(typesOrder);
+
+
 		}
 	}
 
@@ -71,8 +103,17 @@ public class AdminConfigInitializer implements Initializer {
 
 		AppFrameworkService service = Context.getService(AppFrameworkService.class);
 		service.enableApp("referenceapplication.registrationapp.registerPatient");
+		service.enableApp("reportingui.reports");
 		service.enableApp("referenceapplication.vitals");
+		service.enableApp("coreapps.activeVisits");
 		service.enableExtension("referenceapplication.realTime.vitals");
 		service.enableExtension("referenceapplication.realTime.simpleVisitNote");
+		service.enableExtension("org.openmrs.module.coreapps.patientHeader.secondLineFragments.activeVisitStatus");
+		service.enableExtension("org.openmrs.module.coreapps.createVisit");
+		service.enableExtension("referenceapplication.realTime.simpleAdmission");
+		service.enableExtension("referenceapplication.realTime.simpleDischarge");
+		service.enableExtension("referenceapplication.realTime.simpleTransfer");
+		service.enableApp("coreapps.visits");
+
 	}
 }

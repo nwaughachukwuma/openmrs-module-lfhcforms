@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 
 /**
  * Creation of new person attribute types that are used with the registration app.
@@ -38,7 +39,7 @@ public class PersonInitializer implements Initializer {
 		log.info("Setting 'person' configuration for " + LFHCFormsActivator.ACTIVATOR_MODULE_NAME);
 		
 		{
-			String uuid = "5c6ee7c2-7e1b-11e5-8bcf-feff819cdc9f";
+			String uuid = LFHCFormsConstants.INSURANCE_DETAILS_UUID;
 			PersonAttributeType type = Context.getPersonService().getPersonAttributeTypeByUuid(uuid);
 			if(type == null) {
 				type = new PersonAttributeType();
@@ -50,7 +51,7 @@ public class PersonInitializer implements Initializer {
 			Context.getPersonService().savePersonAttributeType(type);
 		}
 		{
-			String uuid = FATHER_NAME_ATTR_TYPE_UUID;
+			String uuid = LFHCFormsConstants.FATHER_NAME_UUID;
 			PersonAttributeType type = Context.getPersonService().getPersonAttributeTypeByUuid(uuid);
 			if(type == null) {
 				type = new PersonAttributeType();
@@ -62,7 +63,7 @@ public class PersonInitializer implements Initializer {
 			Context.getPersonService().savePersonAttributeType(type);
 		}
 		{
-			String uuid = "51c5e88c-7e13-11e5-8bcf-feff819cdc9f";
+			String uuid = LFHCFormsConstants.FATHER_OCCUPATION_UUID;
 			PersonAttributeType type = Context.getPersonService().getPersonAttributeTypeByUuid(uuid);
 			if(type == null) {
 				type = new PersonAttributeType();

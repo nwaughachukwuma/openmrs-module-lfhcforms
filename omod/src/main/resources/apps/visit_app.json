@@ -1,0 +1,67 @@
+[
+  {
+    "id": "lfhcforms.visit",
+    "label": "Visit With Visit Type",
+    "description": "App to extend support of visit with specific visit Type",
+    "icon": "icon-calendar",
+    "order": -1,
+    "extensions": [
+      {
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.secondColumnFragments.visitWidget",
+        "extensionPointId": "patientDashboard.secondColumnFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitsWidget"
+        }
+      },
+      {
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visit",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitStart"
+        }
+      },
+      {
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.activeVisitStatus",
+        "extensionPointId": "patientHeader.secondLineFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/activeVisitStatus"
+        }
+      },
+      {
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientDashboard.visitTypeChange",
+        "extensionPointId": "patientDashboard.includeFragments",
+        "extensionParams": {
+          "provider": "${project.parent.artifactId}",
+          "fragment": "visit/visitTypeChange"
+        }
+      },
+      {
+        "appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.visitActions.visitTypeChange",
+        "extensionPointId": "patientDashboard.visitActions",
+        "type": "script",
+        "label": "lfhcforms.app.visit.visittype.change.label",
+        "script": "visit.showChangeVisitTypeDialog({{visit.id}})",
+        "icon": "icon-signin",
+        "order": 250
+      },
+      {
+      	"appId": "lfhcforms.visit",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.activeVisitsHomepageLink",
+        "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+        "type": "link",
+        "label": "coreapps.activeVisits.app.label",
+        "url": "lfhcforms/visit/activeVisits.page?app=coreapps.activeVisits",
+        "icon": "icon-calendar",
+        "requiredPrivilege": "App: coreapps.activeVisits"
+      }
+    ]
+  }
+]
