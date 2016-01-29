@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.apache.commons.lang.WordUtils;
 /**
@@ -40,19 +38,16 @@ import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
-import org.openmrs.EncounterRole;
 import org.openmrs.EncounterType;
 import org.openmrs.GlobalProperty;
-import org.openmrs.Location;
 import org.openmrs.Obs;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifier;
-import org.openmrs.PatientIdentifierType;
 import org.openmrs.PersonAddress;
 import org.openmrs.PersonAttribute;
 import org.openmrs.PersonAttributeType;
 import org.openmrs.PersonName;
 import org.openmrs.Visit;
+import org.openmrs.VisitType;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.api.EncounterService;
@@ -63,6 +58,7 @@ import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.EmrApiProperties;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.registrationcore.api.RegistrationCoreService;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -83,6 +79,12 @@ public class LFHCLegacyDataInitializer implements Initializer {
 	
 	protected final static String	CSV_PATIENTS_PATH = "/.OpenMRS/BulkImportFiles/patients.csv";
 	protected final static String	CSV_VISITS_PATH = "/.OpenMRS/BulkImportFiles/visits.csv";
+	
+	protected static String OBS_CODED = "Coded";
+	protected static String OBS_NUM = "Numeric";
+	protected static String OBS_TEXT = "Text";
+	protected static String OBS_BOOL = "Boolean";
+	protected static String OBS_NA = "N/A";
 	
 //	protected final static long CPT_PROBLEM = "concept_source";
 	
@@ -107,7 +109,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 	protected final static String CSV_ENCOUNTER_DATE = "Encounter Date";
 	protected final static String CSV_QUESTION = "Question";
 	protected final static String CSV_ANSWER = "Answer";
-	protected final static int CSV_QUESTION_COUNT = 88;
+	protected final static int CSV_QUESTION_COUNT = 78;
 	
 	// Array of the minimal set of headers to be found in the import CSV.
 	protected final Set<String> patientsRequiredHeaders = new HashSet<String>();
@@ -194,117 +196,118 @@ public class LFHCLegacyDataInitializer implements Initializer {
 		//
 		// Processing the patients CSV
 		//
-		Map<String, Map<String, String>> mappedPatients = getMapFromCSVResource(CSV_PATIENTS_PATH, CSV_LEGACY_ID, patientsRequiredHeaders);
-		
-		final Map<String, PersonAttributeType> personAttributes = new HashMap<String, PersonAttributeType>() {{ 
-			put(CSV_PHONE, emrApiProperties.getTelephoneAttributeType());
-			put(CSV_FATHER_NAME, personService.getPersonAttributeTypeByUuid(PersonInitializer.FATHER_NAME_ATTR_TYPE_UUID) );
-			put(CSV_MOTHER_NAME, personService.getPersonAttributeTypeByUuid("8d871d18-c2cc-11de-8d13-0010c6dffd0f") );
-		}};
-		final PatientIdentifierType omrsIdentifierType = patientService.getPatientIdentifierTypeByUuid("05a29f94-c0ed-11e2-94be-8c13b969e334");
-		final PatientIdentifierType legacyIdentifierType = patientService.getPatientIdentifierTypeByUuid("8d79403a-c2cc-11de-8d13-0010c6dffd0f");
-		Location registrationDesk = locationService.getLocationByUuid("6351fcf4-e311-4a19-90f9-35667d99a8af");
-		EncounterType registrationEncounterType = encounterService.getEncounterTypeByUuid("3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c");
-		EncounterRole registrationEncounterRole = encounterService.getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66");
-		Concept ethnicityQuestion = conceptService.getConceptByMapping("912", "LFHC");	// Ethnicity
-		
-		Map<String, Integer> identifierMapping = new HashMap<String, Integer>();
-		for(Map<String, String> mappedPatient : mappedPatients.values()) {
-			
-			String identifier = mappedPatient.get(CSV_IDENTIFIER);
-			String legacyId = mappedPatient.get(CSV_LEGACY_ID);
-			
-			// Skipping already legacy ID that were already saved
-			if(legacyId.isEmpty() == false) {
-				List<Patient> foundPatients = patientService.getPatients(null, legacyId, new ArrayList<PatientIdentifierType>() {{ add(legacyIdentifierType); }}, true);
-				if(foundPatients.isEmpty() == false) {
-					log.warn(LOG_PREFIX + "Patient(s) found matching the legacy ID, skipping import for that line. Legacy ID: " + legacyId);
-					continue;
-				}
-			}
-			else {
-				log.error(LOG_PREFIX + "Could not import a patient with no legacy ID.");
-				continue;
-			}
-			
-			// Adding the legacy ID to existing patients.
-			if(identifier.isEmpty() == false) {
-				List<Patient> foundPatients = patientService.getPatients(null, identifier, new ArrayList<PatientIdentifierType>() {{ add(omrsIdentifierType); }}, true);
-				if(foundPatients.size() == 1) {
-					Patient foundPatient = foundPatients.get(0);
-					boolean canAddLegacyId = true;
-					for(PatientIdentifier idn : foundPatient.getIdentifiers()) {
-						if(idn.getIdentifierType().equals(legacyIdentifierType)) {
-							canAddLegacyId = false;	// If there is already an identifier of that type, we don't add one more.
-							log.warn(LOG_PREFIX + "A legacy ID was already provided to an existing patient. Legacy ID: " + legacyId + ", exisiting legacy ID: " + idn.toString());
-						}
-					}
-					if(canAddLegacyId) {
-						foundPatient.addIdentifier( new PatientIdentifier(legacyId, legacyIdentifierType, registrationDesk) );
-						foundPatient = patientService.savePatient(foundPatient);
-						log.warn(LOG_PREFIX + "Adding the legacy ID to an already existing patient. Legacy ID: " + legacyId);
-					}
-					continue;
-				}
-			}
-			
-			// Building the new patients from its CSV data
-			Patient patient = LFHCLegacyDataInitializer.getPatientFromMappedProperties(mappedPatient, personAttributes);
-						
-			// Encounters
-			if(patient.isVoided() == false) {
-
-				// Registration encounter
-				Encounter registrationEncounter = new Encounter();
-		        registrationEncounter.setPatient(patient);
-		        registrationEncounter.setEncounterType(registrationEncounterType);
-		        registrationEncounter.setLocation(registrationDesk);
-		        registrationEncounter.setProvider(registrationEncounterRole, emrApiProperties.getUnknownProvider());
-		        Date regDate = getDateFromString( mappedPatient.get(CSV_REG_DATE), CSV_DATE_FORMAT );
-		        registrationEncounter.setEncounterDatetime(regDate);
-		        
-		        // Ethnicity
-		        String ethnicityConceptStr = mappedPatient.get(CSV_ETHNICITY);
-		        if(ethnicityConceptStr.isEmpty() == false) {
-			        Concept ethnicityAnswer = getConceptFromConceptMapping(conceptService, mappedPatient.get(CSV_ETHNICITY));
-		        	if(ethnicityAnswer != null) {
-		        		Obs obs = new Obs();
-		        		obs.setConcept(ethnicityQuestion);
-		        		obs.setValueCoded(ethnicityAnswer);
-		        		registrationEncounter.addObs(obs);
-		        	}
-		        	else {
-		        		patient.setVoided(true);
-		        		log.error(LOG_PREFIX + "No concept could be mapped for the patient's ethnicity. Legacy ID: " + legacyId);
-		        	}
-		        }
-		        
-		        // If still good to go we save the patient and his/her registration encounter.
-		        if(patient.isVoided() == false) {
-		        	patient = registrationService.registerPatient(patient, null, null, registrationDesk);
-//		        	legacyId += "_" + UUID.randomUUID().toString().substring(0, 8);	// temp. avoiding duplicates
-		        	patient.addIdentifier( new PatientIdentifier(legacyId, legacyIdentifierType, registrationDesk) );
-		        	patient = patientService.savePatient(patient);
-		        	identifierMapping.put(legacyId, patient.getId());
-					registrationEncounter = encounterService.saveEncounter(registrationEncounter);
-				}
-			}
-		}
-		
-		if(true)
-			return;
+//		Map<String, Map<String, String>> mappedPatients = getMapFromCSVResource(CSV_PATIENTS_PATH, CSV_LEGACY_ID, patientsRequiredHeaders);
+//		
+//		final Map<String, PersonAttributeType> personAttributes = new HashMap<String, PersonAttributeType>() {{ 
+//			put(CSV_PHONE, emrApiProperties.getTelephoneAttributeType());
+//			put(CSV_FATHER_NAME, personService.getPersonAttributeTypeByUuid(PersonInitializer.FATHER_NAME_ATTR_TYPE_UUID) );
+//			put(CSV_MOTHER_NAME, personService.getPersonAttributeTypeByUuid("8d871d18-c2cc-11de-8d13-0010c6dffd0f") );
+//		}};
+//		final PatientIdentifierType omrsIdentifierType = patientService.getPatientIdentifierTypeByUuid("05a29f94-c0ed-11e2-94be-8c13b969e334");
+//		final PatientIdentifierType legacyIdentifierType = patientService.getPatientIdentifierTypeByUuid("8d79403a-c2cc-11de-8d13-0010c6dffd0f");
+//		Location registrationDesk = locationService.getLocationByUuid("6351fcf4-e311-4a19-90f9-35667d99a8af");
+//		EncounterType registrationEncounterType = encounterService.getEncounterTypeByUuid("3e3424bd-6e9d-4c9c-b3a4-f3fee751fe7c");
+//		EncounterRole registrationEncounterRole = encounterService.getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66");
+//		Concept ethnicityQuestion = conceptService.getConceptByMapping("912", "LFHC");	// Ethnicity
+//		
+//		Map<String, Integer> identifierMapping = new HashMap<String, Integer>();
+//		for(Map<String, String> mappedPatient : mappedPatients.values()) {
+//			
+//			String identifier = mappedPatient.get(CSV_IDENTIFIER);
+//			String legacyId = mappedPatient.get(CSV_LEGACY_ID);
+//			
+//			// Skipping already legacy ID that were already saved
+//			if(legacyId.isEmpty() == false) {
+//				List<Patient> foundPatients = patientService.getPatients(null, legacyId, new ArrayList<PatientIdentifierType>() {{ add(legacyIdentifierType); }}, true);
+//				if(foundPatients.isEmpty() == false) {
+//					log.warn(LOG_PREFIX + "Patient(s) found matching the legacy ID, skipping import for that line. Legacy ID: " + legacyId);
+//					continue;
+//				}
+//			}
+//			else {
+//				log.error(LOG_PREFIX + "Could not import a patient with no legacy ID.");
+//				continue;
+//			}
+//			
+//			// Adding the legacy ID to existing patients.
+//			if(identifier.isEmpty() == false) {
+//				List<Patient> foundPatients = patientService.getPatients(null, identifier, new ArrayList<PatientIdentifierType>() {{ add(omrsIdentifierType); }}, true);
+//				if(foundPatients.size() == 1) {
+//					Patient foundPatient = foundPatients.get(0);
+//					boolean canAddLegacyId = true;
+//					for(PatientIdentifier idn : foundPatient.getIdentifiers()) {
+//						if(idn.getIdentifierType().equals(legacyIdentifierType)) {
+//							canAddLegacyId = false;	// If there is already an identifier of that type, we don't add one more.
+//							log.warn(LOG_PREFIX + "A legacy ID was already provided to an existing patient. Legacy ID: " + legacyId + ", exisiting legacy ID: " + idn.toString());
+//						}
+//					}
+//					if(canAddLegacyId) {
+//						foundPatient.addIdentifier( new PatientIdentifier(legacyId, legacyIdentifierType, registrationDesk) );
+//						foundPatient = patientService.savePatient(foundPatient);
+//						log.warn(LOG_PREFIX + "Adding the legacy ID to an already existing patient. Legacy ID: " + legacyId);
+//					}
+//					continue;
+//				}
+//			}
+//			
+//			// Building the new patients from its CSV data
+//			Patient patient = LFHCLegacyDataInitializer.getPatientFromMappedProperties(mappedPatient, personAttributes);
+//						
+//			// Encounters
+//			if(patient.isVoided() == false) {
+//
+//				// Registration encounter
+//				Encounter registrationEncounter = new Encounter();
+//		        registrationEncounter.setPatient(patient);
+//		        registrationEncounter.setEncounterType(registrationEncounterType);
+//		        registrationEncounter.setLocation(registrationDesk);
+//		        registrationEncounter.setProvider(registrationEncounterRole, emrApiProperties.getUnknownProvider());
+//		        Date regDate = getDateFromString( mappedPatient.get(CSV_REG_DATE), CSV_DATE_FORMAT );
+//		        registrationEncounter.setEncounterDatetime(regDate);
+//		        
+//		        // Ethnicity
+//		        String ethnicityConceptStr = mappedPatient.get(CSV_ETHNICITY);
+//		        if(ethnicityConceptStr.isEmpty() == false) {
+//			        Concept ethnicityAnswer = getConceptFromConceptMapping(conceptService, mappedPatient.get(CSV_ETHNICITY));
+//		        	if(ethnicityAnswer != null) {
+//		        		Obs obs = new Obs();
+//		        		obs.setConcept(ethnicityQuestion);
+//		        		obs.setValueCoded(ethnicityAnswer);
+//		        		registrationEncounter.addObs(obs);
+//		        	}
+//		        	else {
+//		        		patient.setVoided(true);
+//		        		log.error(LOG_PREFIX + "No concept could be mapped for the patient's ethnicity. Legacy ID: " + legacyId);
+//		        	}
+//		        }
+//		        
+//		        // If still good to go we save the patient and his/her registration encounter.
+//		        if(patient.isVoided() == false) {
+//		        	patient = registrationService.registerPatient(patient, null, null, registrationDesk);
+////		        	legacyId += "_" + UUID.randomUUID().toString().substring(0, 8);	// temp. avoiding duplicates
+//		        	patient.addIdentifier( new PatientIdentifier(legacyId, legacyIdentifierType, registrationDesk) );
+//		        	patient = patientService.savePatient(patient);
+//		        	identifierMapping.put(legacyId, patient.getId());
+//					registrationEncounter = encounterService.saveEncounter(registrationEncounter);
+//				}
+//			}
+//		}
+//		
+//		if(true)
+//			return;
 		
 		//
 		// Processing the visits CSV
 		//
 		Map<String, Map<String, String>> mappedVisits = getMapFromCSVResource(CSV_VISITS_PATH, "", visitsRequiredHeaders);
 		EncounterType legacyEncounterType = encounterService.getEncounterTypeByUuid(EncounterTypesInitializer.LEGACY_ENCOUNTER_TYPE_UUID);
+		VisitType outPatientVisitType = visitService.getVisitTypeByUuid(LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID);
 		
 		for(Map<String, String> mappedVisit : mappedVisits.values()) {
 			String legacyId = mappedVisit.get(CSV_LEGACY_ID);
 			String visitDateString = mappedVisit.get(CSV_ENCOUNTER_DATE);
 			Date visitDate = getDateFromString(visitDateString, CSV_DATE_FORMAT);
-			Integer patientId = identifierMapping.get(legacyId);
+//			Integer patientId = identifierMapping.get(legacyId);
 			
 			List<Patient> patients = patientService.getPatients(legacyId);
 			if(patients.isEmpty()) {
@@ -319,53 +322,121 @@ public class LFHCLegacyDataInitializer implements Initializer {
 			Patient patient = patients.get(0);
 			
 			Set<Obs> obsSet = new HashSet<Obs>();
-			for(int i = 1; i <= CSV_QUESTION_COUNT; i++) {
+			for (int i = 1; i <= CSV_QUESTION_COUNT; i++) {
 				String questionKey = CSV_QUESTION + i;
 				String answerKey = CSV_ANSWER + i;
 				
 				String questionString = mappedVisit.get(questionKey);
-				Concept conceptQuestion = getConceptFromConceptMapping(conceptService, questionString);
-				if(conceptQuestion == null) {
-					obsSet.clear();
-					log.error(LOG_PREFIX + "No concept-question could be mapped for saving the following visit/encounter. Legacy ID: " + legacyId + ", visit date: " + visitDateString + ", mapping: " + questionString);
-					break;
-	        	}
 				String answerString = mappedVisit.get(answerKey);
-				if(questionString.isEmpty() && answerString.isEmpty()) {
+				final String rowInfo = "\nLegacy ID: " + legacyId + ", visit date: " + visitDateString + ", question: " + questionString + ", answer: " + answerString;
+				
+				// High-level checks.
+				if (questionString.isEmpty() && answerString.isEmpty()) {
 					continue;
 				}
-
-				// We have a question and an answer, filling the obs
-				Obs obs = new Obs();
-        		obs.setConcept(conceptQuestion);
-				Concept conceptAnswer = getConceptFromConceptMapping(conceptService, answerString);
-				if(conceptAnswer == null) {	// Then it is text or numeric
-					try {
-						obs.setValueNumeric(Double.parseDouble(answerString));
-					}
-					catch(NumberFormatException e) {
-						obs.setValueText(answerString);
-					}
+				if (questionString.isEmpty() || answerString.isEmpty()) {
+					log.error(LOG_PREFIX + "The question or the answer is missing for the following visit/encounter." + rowInfo);
+					obsSet.clear();
+					break;
+				}
+				
+				// Fetching the question-concept.
+				Concept conceptQuestion = getConceptFromConceptMapping(conceptService, questionString);
+				if (conceptQuestion == null) {
+					log.error(LOG_PREFIX + "No concept-question could be mapped for saving the following visit/encounter." + rowInfo);
+					obsSet.clear();
+					break;
 	        	}
-				else {
+
+				// Processing the answer.
+				String obsType = conceptQuestion.getDatatype().getName();
+				
+				Concept conceptAnswer = getConceptFromConceptMapping(conceptService, answerString);
+				boolean parsedToNumeric = false;
+				double numericValue = 0.0;
+				try {
+					numericValue = Double.parseDouble(answerString);
+					parsedToNumeric = true;
+				}
+				catch (NumberFormatException e) {
+				}
+				
+				Obs obs = new Obs();
+				obs.setConcept(conceptQuestion);
+				
+				if ( obsType.equals(OBS_CODED) ) {
+					if (conceptAnswer == null) {
+						log.error(LOG_PREFIX + "A non-coded answer was provided to a coded question." + rowInfo);
+						obsSet.clear();
+						break;
+		        	}
 					obs.setValueCoded(conceptAnswer);
+				}
+				else if ( obsType.equals(OBS_NUM) ) {
+					if (parsedToNumeric == false) {
+						log.error(LOG_PREFIX + "A non-numeric answer was provided to a numeric question." + rowInfo);
+						obsSet.clear();
+						break;
+					}
+					obs.setValueNumeric(numericValue);
+				}
+				else if ( obsType.equals(OBS_TEXT) ) {
+					if (conceptAnswer != null) {
+						log.error(LOG_PREFIX + "A coded answer was provided to a text question, this most likely most likely an error." + rowInfo);
+						obsSet.clear();
+						break;
+		        	}
+					if (parsedToNumeric == true) {
+						log.error(LOG_PREFIX + "A numeric answer was provided to a text question, this most likely most likely an error." + rowInfo);
+						obsSet.clear();
+						break;
+					}
+					obs.setValueText(answerString);
+				}
+				else if ( obsType.equals(OBS_BOOL) ) {
+					
+					if (conceptAnswer != null) {
+						answerString = conceptAnswer.getName(Locale.ENGLISH).getName();
+					}
+					
+					boolean res = false;
+					if (answerString.equalsIgnoreCase("yes") || answerString.equalsIgnoreCase("true") || answerString.equalsIgnoreCase("1") ) {
+						res = true;
+					}
+					else if (answerString.equalsIgnoreCase("no") || answerString.equalsIgnoreCase("false") || answerString.equalsIgnoreCase("0") ) {
+						res = false;
+					}
+					else {
+						log.error(LOG_PREFIX + "No boolean answer could be obtained for a boolean question." + rowInfo);
+						obsSet.clear();
+						break;
+					}
+					
+					obs.setValueBoolean(res);
+				}
+				else {
+					log.error(LOG_PREFIX + "The question datatype is not handled: '" + obsType + "'." + rowInfo);
+					obsSet.clear();
+					break;
 				}
         		obsSet.add(obs);
 			}
 			
-			if(obsSet.isEmpty() == false) {
+			if (obsSet.isEmpty() == false) {
 				final Encounter legacyEncounter = new Encounter();
 				legacyEncounter.setEncounterType(legacyEncounterType);
 				legacyEncounter.setEncounterDatetime(visitDate);
 				legacyEncounter.setPatient(patient);
 				legacyEncounter.setLocation(locationService.getDefaultLocation());
-				legacyEncounter.setObs(obsSet);
+				for (Obs obs : obsSet) {
+					legacyEncounter.addObs(obs);
+				}
 				
 				Visit visit = new Visit();
-				visit.setVisitType(emrApiProperties.getAtFacilityVisitType());
+				visit.setVisitType(outPatientVisitType);
 				visit.setPatient(legacyEncounter.getPatient());
 				visit.setStartDatetime(legacyEncounter.getEncounterDatetime());
-				visit.setStopDatetime(legacyEncounter.getEncounterDatetime());
+				visit.setStopDatetime((new DateTime(legacyEncounter.getEncounterDatetime())).plusHours(1).toDate());	// Visit duration is set here
 				visit.setLocation(legacyEncounter.getLocation());
 				visit.setEncounters(new HashSet<Encounter>() {{
 					add(legacyEncounter);
