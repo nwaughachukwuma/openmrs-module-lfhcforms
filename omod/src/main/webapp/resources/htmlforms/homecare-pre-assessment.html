@@ -1,0 +1,1108 @@
+<htmlform formUuid="d242c101-72bd-43c0-b87d-ae105b64eacb" formName="Homecare Pre-Assessment" formEncounterType="27c72549-481c-46be-ac32-5080669e2eef" formVersion="0.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="26"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
+
+<ifMode mode="VIEW" include="false">
+
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" id="handleViewMode">
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			handleViewMode("d242c101-72bd-43c0-b87d-ae105b64eacb");
+		});
+	</script>
+</ifMode>
+
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+
+<ifMode mode="VIEW" include="false">
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<!-- Retrieve concept Id from concept mapping (and define it as global variable) -->
+	<!-- Used for defaulting the value of the Diagnosis Classification to Primary and avoid hardcoding database id  -->
+	<lookup complexExpression="
+	#set( $defaultConcept = 0)
+	#set( $defaultConcept = $fn.getConcept('CIEL:159943'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var defaultConcept = ${defaultConcept};
+	&lt;/script>
+	" />
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+			$(".autoCompleteText").change(function (){
+				onchangeCustomFunction(this);
+			});
+
+			
+		});
+
+		function onchangeCustomFunction(element) {
+			if(!(typeof $(element) == "undefined")) {
+				var hiddenValue = $(element).closest("span").find("#"+$(element).attr("id")+"_hid").val();
+				//console.log("hiddenValue: " + hiddenValue);
+				if ( !((hiddenValue == "ERROR") || (hiddenValue == ""))) {
+					setValue($(element).closest("span").attr("id")+"-opt1.value", defaultConcept );
+				} else {
+					//console.log("in else");
+					setValue($(element).closest("span").attr("id")+"-opt1.value", "" );
+				}
+			}
+		}
+
+	</script>
+</ifMode>
+<ifMode mode="enter">
+
+	
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+
+
+</ifMode>
+<div class="hidden" id="who-when-where">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+<section id="physical-condition" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.physical-condition">
+
+	<!-- Diagnosis fieldset -->
+	<fieldset field-separator=", ">
+		<legend><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/></legend>
+		<h3><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/></h3>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="diagnosis" class="toggleContainer" style="display:none;">
+					<obsgroup groupingConceptId="CIEL:159947">
+						<p>
+							<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/> #{n}
+							<obs id="{n}" conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
+							<i class="addEntry icon-">&#xf055; Add</i>
+							<i class="removeEntry icon-">   &#xf056; Remove</i>
+						</p>
+						<details>
+							<summary>
+								<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-options"/>
+							</summary>
+							<p>
+								<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/>
+								<obs id="{n}-opt1" conceptId="CIEL:159946" />
+							</p>
+						</details>
+						<br/>
+					</obsgroup>
+				</div>
+			</template>
+			<render n="1"/>
+			<render n="2"/>
+			<render n="3"/>
+		</repeat>
+	</fieldset>
+
+
+	<!-- Medication fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.medications"/>
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.medications"/>
+		</h3>
+		<p>
+			<obs conceptId="CIEL:162165" cols="40" rows="5" />
+		</p>
+	</fieldset>
+
+	<!-- Adherence checked fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.adherence-checked" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.adherence-checked" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1224"/>
+		</p>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.poor-adherence-reason" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:160582" cols="40" rows="5" />
+		</p>
+	</fieldset>
+
+	<!-- Physiotherapy needed fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.physiotherapy" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.physiotherapy" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1235" />
+		</p>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.physiotherapy-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1300" cols="40" rows="5" />
+		</p>
+	</fieldset>
+
+	<!-- Intervention needed fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1303" />
+		</p>
+	</fieldset>
+
+	<!-- Intervention needed fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1303" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+<section id="nutrition" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.nutrition">
+
+	<!-- Diet fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.diet" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.diet" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1237" />
+		</p>
+	</fieldset>
+
+	<!-- Rice fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.rice" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.rice" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1238" />
+		</p>
+	</fieldset>
+
+	<!-- Meat fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.meat" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.meat" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1239" />
+		</p>
+	</fieldset>
+
+
+	<!-- fish fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fish" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fish" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1240" />
+		</p>
+	</fieldset>
+
+
+	<!-- vegetables fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.vegetables" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.vegetables" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1241" />
+		</p>
+	</fieldset>
+
+
+	<!-- fruits fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fruits" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fruits" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1242" />
+		</p>
+	</fieldset>
+	
+	<!-- preference fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.preference" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.preference" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1244" />
+		</p>
+	</fieldset>
+
+
+	<!-- Frequency fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.eating-frequency" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.eating-frequency" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1245" />
+		</p>
+	</fieldset>
+
+
+	<!-- who cooks ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.cook" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.cook" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1246" />
+		</p>
+	</fieldset>
+
+
+	<!-- Nutrition comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nutrition-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nutrition-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1295" />
+		</p>
+	</fieldset>
+
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1304" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+<section id="hygiene" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.hygiene">
+
+	<!-- Source of water fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-primary" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-primary" />
+		</h3>
+		<p>
+			<obs id="water-source" conceptId="CIEL:1511" answerConceptIds="CIEL:5610, CIEL:1509, LFHC:1250" >
+				<controls>
+					<when value="CIEL:1509" thenDisplay="#well-type"/>
+					<when value="LFHC:1250" thenDisplay="#water-other"/>
+				</controls>
+			</obs>
+		</p>
+		<span id="well-type">
+			<h3>
+				<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-well-type" />
+			</h3>
+			<p>
+				<obs conceptId="CIEL:1509" />
+			</p>
+		</span>
+		<span id="water-other">
+			<h3>
+				<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-other" />
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1250" cols="40" rows="5"/>
+			</p>
+		</span>
+	</fieldset>
+
+
+	<!-- pump fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-pump" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-pump" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1249" />
+		</p>
+	</fieldset>
+
+
+	<!-- distance fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-distance" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-distance" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1251" showUnits="true"/>
+		</p>
+	</fieldset>
+
+
+	<!-- treatment fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-treatment" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-treatment" />
+		</h3>
+		<repeat>
+			<template>
+				<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
+					<obs id="{n}" conceptId="CIEL:160316"/>
+					<i class="addEntry icon-">&#xf055; Add</i>
+					<i class="removeEntry icon-">   &#xf056; Remove</i>
+				</p>
+			</template>
+			<render n="401"/>
+			<render n="402"/>
+			<render n="403"/>
+		</repeat>		
+	</fieldset>	
+
+	<!-- latrine fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.latrine" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.latrine" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159741" />
+		</p>
+	</fieldset>	
+
+	<!-- ustensils fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.ustensils" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.ustensils" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1252" />
+		</p>
+	</fieldset>	
+
+	<!-- hygiene comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.hygiene-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.hygiene-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1301" clos="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1305" />
+		</p>
+	</fieldset>
+
+</section>
+
+<section id="family" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.family">
+
+	<!-- guardian care giver fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.guardian" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.guardian" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:160640" />
+		</p>
+	</fieldset>	
+
+	<!-- day time care giver fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.daytime-care-giver" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.daytime-care-giver" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1253" />
+		</p>
+	</fieldset>	
+
+	<!-- night time care giver fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nighttime-care-giver" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nighttime-care-giver" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1254" />
+		</p>
+	</fieldset>	
+
+	<!-- family comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.family-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.family-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1302" clos="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1306" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+<section id="phc" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.phc">
+
+	<!-- provider care giver fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.provider" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.provider" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1783" />
+		</p>
+	</fieldset>	
+
+	<!-- nearest center fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-center" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-center" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1811" />
+		</p>
+	</fieldset>	
+
+	<!-- nearest hospital fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-hospital" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-hospital" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1255" />
+		</p>
+	</fieldset>	
+
+	<!-- insurance fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.insurance" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.insurance" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1493" style="yes_no" />
+		</p>
+	</fieldset>	
+
+	<!-- go to health center fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.go-to-health-center" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.go-to-health-center" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1256" />
+		</p>
+	</fieldset>	
+
+	<!-- PHC comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.phc-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.phc-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1312" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1307" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+<section id="access" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.access">
+
+	<!-- Distance from LFHC fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.distance-lfhc" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.distance-lfhc" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1257" showUnits="true" />
+		</p>
+	</fieldset>	
+
+	<!-- time needed fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.time-lfhc" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.time-by-car" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1258" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.time-by-moto" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1259" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.time-by-foot" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1260" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.time-by-bus" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1261" showUnits="true" />
+		</p>
+
+	</fieldset>	
+
+	<!-- Road conditions fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.road-conditions" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.road-conditions" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1262" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+
+	<!-- PHC comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.phc-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.phc-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1313" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1311" />
+		</p>
+	</fieldset>
+
+</section>
+
+<section id="house-and-environment" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.house-and-environment">
+
+	<!-- Type fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-type" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-type" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1263" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- House ownership fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-ownership" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-own" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159473" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-rent" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1264" />
+		</p>
+	</fieldset>	
+
+	<!-- Number of rooms fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-rooms" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-rooms" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1475" />
+		</p>
+	</fieldset>	
+
+	<!-- Electricity fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.electricity" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.electricity" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5609" />
+		</p>
+	</fieldset>	
+
+	<!--  Neighbours fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.neighbours" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.neighbours" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1265" />
+		</p>
+	</fieldset>	
+
+	<!--  Planting fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.planting-space" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.planting-space" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1266" />
+		</p>
+	</fieldset>	
+
+	<!--  Bednets fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.bednets" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.bednets" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1903" />
+		</p>
+	</fieldset>	
+
+
+	<!-- House and environment comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.house-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1313" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1311" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+<section id="education" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.education">
+
+	<!-- School fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.school" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.school" />
+		</h3>
+		<p>
+			<obs id="in-school" conceptId="CIEL:5629" style="yes_no" >
+				<controls>
+				 <!-- when doesn't work with boolean values -->
+					<when value="true" thenDisplay="#no-school-reason" />
+				</controls>
+			</obs>
+		</p>
+		<span id="no-school-reason">
+			<h3>
+				<uimessage code="lfhcforms.homecare-pre-assessment.legend.not-in-school-reason" />
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1267" cols="40" rows="5" />
+			</p>
+		</span>
+	</fieldset>	
+
+	<!-- Years completed fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.school-years-completed" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.school-years-completed" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5607" showUnits="true" />
+		</p>
+	</fieldset>	
+
+	<!-- Siblings in school fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-siblings-in-school" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-siblings-in-school" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159763" />
+		</p>
+	</fieldset>	
+
+	<!-- Education comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.education-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.education-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1315" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1309" />
+		</p>
+	</fieldset>
+
+</section>
+
+<section id="others" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.others">
+
+	<!-- Financial score LFHC fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.lfhc-financial-score" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.lfhc-financial-score" />
+		</h3>
+		<p>
+		<obs conceptId="LFHC:1268" />
+		</p>
+	</fieldset>	
+
+	<!-- Government score fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.government-financial-score" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.government-financial-score" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1269" />
+		</p>
+	</fieldset>	
+
+	<!-- Cultural beliefs fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.cultural-beliefs" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.cultural-beliefs" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1270" />
+		</p>
+	</fieldset>	
+
+	<!-- Others comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.others-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.others-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1316" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Needs intervention ? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1310" />
+		</p>
+	</fieldset>
+
+</section>
+
+
+
+
+<submit/>
+
+
+</htmlform>
