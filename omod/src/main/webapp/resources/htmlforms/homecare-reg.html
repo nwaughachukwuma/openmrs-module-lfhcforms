@@ -134,6 +134,7 @@ formDisplayStyle="Simple"
 		<h3>
 			<uimessage code="lfhcforms.homecare-regular-visit.legend.comfort-level" />
 		</h3>
+		<ifMode mode="view" include="false">
 		<p style="margin-top:5%">
 			<p  class="wong-baker-faces icon-check-empty" value="0">
 				0
@@ -160,77 +161,78 @@ formDisplayStyle="Simple"
 				<img src="../../ms/uiframework/resource/lfhcforms/images/wong-baker-10.png" style="width:70px;"/> 
 			</p>
 		</p>
-		<p style="display:;">
-			<span id="wb-title">Wong baker score</span>
-			<obs id="wb-score" conceptId="CIEL:160287"/>
-		</p>
-	</fieldset>
+	</ifMode>
+	<p>
+		<span id="wb-title">Wong baker score</span>
+		<obs id="wb-score" conceptId="CIEL:160287"/>
+	</p>
+</fieldset>
 
 
-	<!-- General fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
-		</h3>
-		<p>
-			<obs conceptId="CIEL:1391" cols="40" rows="5" />
-		</p>
-	</fieldset>
+<!-- General fieldset -->
+<fieldset field-separator=", ">
+	<legend>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
+	</legend>
+	<h3>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.general" />
+	</h3>
+	<p>
+		<obs conceptId="CIEL:1391" cols="40" rows="5" />
+	</p>
+</fieldset>
 
-	<!-- Respiratory fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1291" cols="40" rows="5" />
-		</p>
-	</fieldset>
+<!-- Respiratory fieldset -->
+<fieldset field-separator=", ">
+	<legend>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
+	</legend>
+	<h3>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.respiratory" />
+	</h3>
+	<p>
+		<obs conceptId="LFHC:1291" cols="40" rows="5" />
+	</p>
+</fieldset>
 
-	<!-- Cardiovascular fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1177" cols="40" rows="5" />
-		</p>
-	</fieldset>
+<!-- Cardiovascular fieldset -->
+<fieldset field-separator=", ">
+	<legend>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
+	</legend>
+	<h3>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.cardiovascular" />
+	</h3>
+	<p>
+		<obs conceptId="LFHC:1177" cols="40" rows="5" />
+	</p>
+</fieldset>
 
-	<!-- Digestive fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1292" cols="40" rows="5" />
-		</p>
-	</fieldset>
+<!-- Digestive fieldset -->
+<fieldset field-separator=", ">
+	<legend>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
+	</legend>
+	<h3>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.digestive" />
+	</h3>
+	<p>
+		<obs conceptId="LFHC:1292" cols="40" rows="5" />
+	</p>
+</fieldset>
 
-	<!-- Other fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1293" cols="40" rows="5" />
-		</p>
-	</fieldset>
+<!-- Other fieldset -->
+<fieldset field-separator=", ">
+	<legend>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
+	</legend>
+	<h3>
+		<uimessage code="lfhcforms.homecare-regular-visit.legend.other" />
+	</h3>
+	<p>
+		<obs conceptId="LFHC:1293" cols="40" rows="5" />
+	</p>
+</fieldset>
 
 </section>
 

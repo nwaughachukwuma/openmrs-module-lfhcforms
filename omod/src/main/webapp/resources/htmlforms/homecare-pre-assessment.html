@@ -164,15 +164,23 @@ formDisplayStyle="Simple"
 							<i class="addEntry icon-">&#xf055; Add</i>
 							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
-						<details>
-							<summary>
-								<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-options"/>
-							</summary>
-							<p>
-								<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/>
-								<obs id="{n}-opt1" conceptId="CIEL:159946" />
-							</p>
-						</details>
+						<ifMode mode="view" include="false" >
+							<details>
+								<summary>
+									<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-options"/>
+								</summary>
+								<p>
+									<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/>
+									<obs id="{n}-opt1" conceptId="CIEL:159946" />
+								</p>
+							</details>
+						</ifMode>
+
+						<ifMode mode="view" >
+							<span class="questionLabel"><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/></span>
+							<obs id="{n}-opt1" conceptId="CIEL:159946" />
+						</ifMode>
+						
 						<br/>
 					</obsgroup>
 				</div>
@@ -232,19 +240,6 @@ formDisplayStyle="Simple"
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1300" cols="40" rows="5" />
-		</p>
-	</fieldset>
-
-	<!-- Intervention needed fieldset -->
-	<fieldset field-separator=", ">
-		<legend>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
-		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.intervention" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1303" />
 		</p>
 	</fieldset>
 
@@ -398,7 +393,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nutrition-comments" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1295" />
+			<obs conceptId="LFHC:1295" cols="40" rows="5"/>
 		</p>
 	</fieldset>
 
@@ -541,7 +536,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.hygiene-comments" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1301" clos="40" rows="5" />
+			<obs conceptId="LFHC:1301" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
@@ -610,7 +605,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.family-comments" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1302" clos="40" rows="5" />
+			<obs conceptId="LFHC:1302" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
@@ -630,7 +625,7 @@ formDisplayStyle="Simple"
 </section>
 
 
-<section id="phc" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.phc">
+<section id="phc" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.primary-health-care">
 
 	<!-- provider care giver fieldset -->
 	<fieldset field-separator=", ">
@@ -654,7 +649,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-center" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1811" />
+			<obs conceptId="CIEL:1811" showUnits="true" />
 		</p>
 	</fieldset>	
 
@@ -667,7 +662,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.nearest-hospital" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1255" />
+			<obs conceptId="LFHC:1255" showUnits="true" />
 		</p>
 	</fieldset>	
 
@@ -908,10 +903,10 @@ formDisplayStyle="Simple"
 	<!--  Bednets fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.bednets" />
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-bednets" />
 		</legend>
 		<h3>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.bednets" />
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.number-bednets" />
 		</h3>
 		<p>
 			<obs conceptId="CIEL:1903" />
@@ -961,7 +956,7 @@ formDisplayStyle="Simple"
 		<p>
 			<obs id="in-school" conceptId="CIEL:5629" style="yes_no" >
 				<controls>
-				 <!-- when doesn't work with boolean values -->
+					<!-- when doesn't work with boolean values -->
 					<when value="true" thenDisplay="#no-school-reason" />
 				</controls>
 			</obs>
@@ -1041,7 +1036,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.lfhc-financial-score" />
 		</h3>
 		<p>
-		<obs conceptId="LFHC:1268" />
+			<obs conceptId="LFHC:1268" />
 		</p>
 	</fieldset>	
 
@@ -1067,7 +1062,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.cultural-beliefs" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1270" />
+			<obs conceptId="LFHC:1270" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
