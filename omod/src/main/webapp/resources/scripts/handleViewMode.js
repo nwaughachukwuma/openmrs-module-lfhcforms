@@ -70,18 +70,45 @@ var handleViewMode = function (formUuid) {
 
 				$(currentSection).find("fieldset").each(function (indexF, currentFieldset) {
 
-					var hideFieldset = false;
-
 					$(currentFieldset).hide();
 
 					/* Show all non-empty obs */	
 					$(currentFieldset).find(".value").closest("fieldset").show();
 
 					/* Hide empty values */
+
+					
+					/* Hide a "p" if it has only empty values */
+					var emptySpan = -1;
+					var hideParagraph = false;
+
+					$(currentFieldset).find("span").each(function (indexS, span) {
+						if ($(span).hasClass(".emptyValue")) {
+							$(span).hide();
+							emptySpan = emptySpan + 1;
+						}
+
+						if (emptySpan == indexS) {
+							hideParagraph = true;
+						} else {
+							hideParagraph = false;
+						}
+
+						if (hideParagraph) {
+							$(span).closest("p").hide();
+						} else {
+							$(span).closest("p").show();				
+						}
+					})
+
+
 					var emptyValue = -1;
+					var hideFieldset = false;
+
 					$(currentFieldset).find(".value").each(function (indexV, element) {
 						/* Hide "p" section when value is empty */
 						if ($(element).text() == "") {
+
 							$(element).closest("p").hide();
 							$(element).closest("p").prev("h3").hide();
 							emptyValue= emptyValue+1;
@@ -131,44 +158,43 @@ var handleViewMode = function (formUuid) {
 							}
 						});
 
-});
+					});
 
-	/* hide the parent "p" section when Obs have emptyValue */
-	$(currentFieldset).find(".emptyValue").closest("p").hide();
+					
 
-	if (hideFieldset) {
-		$(currentFieldset).hide()
-	}
+					if (hideFieldset) {
+						$(currentFieldset).hide()
+					}
 
-	/* handle the "when" markup */
-	$(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
-		if ($(thenDisplay).text() == "") {
-			$(thenDisplay).closest("p").hide();
+					/* handle the "when" markup */
+					$(currentFieldset).find(".thenDisplay").find(".value").each(function (indexD, thenDisplay) {
+						if ($(thenDisplay).text() == "") {
+							$(thenDisplay).closest("p").hide();
+						}
+					});
+					i = i+1;
+
+					/* if all fieldsets of the current section are hidden, define an empty fieldset */
+					if ($(currentFieldset).css("display") == "none"){
+						emptyFieldset = emptyFieldset+1;
+					}
+
+					/*1 if all fieldsets are empty, define the hideSection */
+					if(emptyFieldset == indexF) {
+						hideSection = true;
+					} else {
+						hideSection = false;
+					}
+				});
+
+				if (hideSection) {
+					$(currentSection).hide()
+				}
+
+
+			});
 		}
 	});
-	i = i+1;
-
-	/* if all fieldsets of the current section are hidden, define an empty fieldset */
-	if ($(currentFieldset).css("display") == "none"){
-		emptyFieldset = emptyFieldset+1;
-	}
-
-	/*1 if all fieldsets are empty, define the hideSection */
-	if(emptyFieldset == indexF) {
-		hideSection = true;
-	} else {
-		hideSection = false;
-	}
-});
-
-	if (hideSection) {
-		$(currentSection).hide()
-	}
-
-
-});
-}
-});
 }
 
 var handleViewModeForTable = function  (formUuid) {
