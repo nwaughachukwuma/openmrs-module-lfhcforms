@@ -16,7 +16,7 @@
 	<dependencies>
 
 		<!-- Add other dependencies from parent's pom: <dependency> <groupId>org.other.library</groupId> 
-			<artifactId>library-name</artifactId> </dependency> -->
+		<artifactId>library-name</artifactId> </dependency> -->
 
 		<!-- Begin OpenMRS modules -->
 
@@ -161,7 +161,7 @@
 					</configuration>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -244,6 +244,27 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>1.2.0.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jsSrcDir>${project.basedir}/src/main/webapp/resources/scripts/livingConditionsScore</jsSrcDir>
+					<jsTestSrcDir>${project.basedir}/src/test/webapp/resources/scripts/</jsTestSrcDir>
+					<serverPort>7234</serverPort>
+					<skipTests>false</skipTests>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
