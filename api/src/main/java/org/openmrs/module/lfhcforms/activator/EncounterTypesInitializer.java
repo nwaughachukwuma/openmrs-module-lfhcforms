@@ -265,6 +265,17 @@ public class EncounterTypesInitializer implements Initializer {
 				es.saveEncounterType(encounterType);
 			}
 		}
+		{
+			String name = "Financial Assessment";
+			String desc = "";
+			String uuid = "4e8a589c-f025-44ed-8978-dded6478f3f0"; 
+			EncounterType encounterType = es.getEncounterTypeByUuid(uuid);
+			if(encounterType == null) {
+				encounterType = new EncounterType(name, desc);
+				encounterType.setUuid(uuid);
+				es.saveEncounterType(encounterType);
+			}
+		}
 	}
 
 	/**
