@@ -2,10 +2,10 @@
 .collapse .title {
 	color: rgb(0, 147, 132);
 	font-family: OpenSans, Arial, sans-serif;
-	font-size: 1.1em;
+	font-size: 1.25em;
 	font-weight: normal;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* Style to dispaly an "age when given" = "age given on time" */
@@ -13,9 +13,47 @@
 	color: green;
 }
 
-/* Style to display a space between an "h3" and a "p" */
-.collapse htmlform h3 {
-	display:inline;
+/* Styles to display nicer the form, in the encounter list */
+.collapse htmlform fieldset {
+    margin-bottom: 20px;
+    border-bottom: solid 1px #CCC;
+}
+
+.collapse htmlform p {
+    border-bottom: none;
+    vertical-align: top;
+    margin-top: 1px;
+}
+
+.collapse htmlform .toggleContainer {
+     border-style:solid;
+     border-width:thin;
+     border-color:#CCC;
+     margin-bottom:10px;
+     padding-left:10px;
+
+}
+
+.collapse htmlform h3.multiple {
+    display:block;
+}
+
+.collapse htmlform .questionLabel:after {
+    content: ":";
+}
+
+.collapse htmlform .indented, .collapse htmlform p.multiple {
+    margin-left: 20px;
+}
+
+.collapse htmlform legend.multiple {
+    color:#009384;
+    display:block;
+    margin-bottom:5px;
+}
+
+.collapse htmlform .emptyFieldset, .collapse htmlform .emptyValue {
+    display:none;
 }
 
 /* Style to improve display of select fields (ex: date and time fields)*/
