@@ -92,7 +92,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.interviewee" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1526" />
+			<obs conceptId="CIEL:1526"  cols="40" rows="1" />
 		</p>
 	</fieldset>	
 
@@ -118,7 +118,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.age" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1532" />
+			<obs conceptId="CIEL:1532" showUnits="true" />
 		</p>
 	</fieldset>	
 
@@ -157,62 +157,66 @@ formDisplayStyle="Simple"
 		</legend>
 		<repeat>
 			<template>
-				<div id="{n}-toggleContainer" templateBlockId="family-members" class="toggleContainer" style="display:none; border-style:solid; border-width:thin; margin-bottom:10px; padding-left:10px" >
-					<h3><uimessage code="lfhcforms.financial-assessment.legend.family-member" /> #{m} </h3>
+				<div id="{n}-toggleContainer" templateBlockId="family-members" class="toggleContainer" style="display:none;" >
+					<legend>
+						<uimessage code="lfhcforms.financial-assessment.legend.family-member" /> #{m}
+					</legend>
 					<obsgroup groupingConceptId="LFHC:1425">
+
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-name" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-name" />
-							</span>
 							<obs id="{n}" conceptId="CIEL:160750" />
 						</p>
+
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-gender" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-gender" />
-							</span>
 							<obs id="{n}-family-member-gender" conceptId="LFHC:1317"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-dob" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-dob" />
-							</span>
 							<obs id="{n}-family-member-dob" conceptId="CIEL:160751"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-relationship" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-relationship" />
-							</span>
 							<obs id="{n}-family-member-relationship" conceptId="CIEL:1560"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-health-status" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-health-status" />
-							</span>
 							<obs id="{n}-family-member-health-status" conceptId="LFHC:1318"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-education-level" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-education-level" />
-							</span>
 							<obs id="{n}-family-member-education-level" conceptId="CIEL:1712"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-employed-outside-home" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-employed-outside-home" />
-							</span>
 							<obs id="{n}-family-member-employed-outside-home" conceptId="CIEL:5608"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-job-type" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-job-type" />
-							</span>
 							<obs id="{n}-family-member-job-type" conceptId="CIEL:1542"/>
 						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-income" />
+						</h3>
 						<p>
-							<span class="questionLabel">
-								<uimessage code="lfhcforms.financial-assessment.legend.family-member-income" />
-							</span>
-							<obs id="{n}-family-member-income" conceptId="CIEL:159776"/>
+							<obs id="{n}-family-member-income" conceptId="CIEL:159776" showUnits="true"/>
 						</p>
 
 					</obsgroup>
@@ -298,50 +302,65 @@ formDisplayStyle="Simple"
 	<!-- Housing fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.housing" />
 		</legend>
-		<uimessage code="lfhcforms.financial-assessment.legend.housing" />
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.rapid-assessment" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1330" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.roof" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1336" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.wall" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1337" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.size" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1341" />
+			<obs conceptId="LFHC:1341" showUnits="true" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.floor" />
 		</h3>
 		<p>
 			<obs conceptId="CIEL:159387" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.toilet" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1344" />
 		</p>
+		
 		<h3>
+
 			<uimessage code="lfhcforms.financial-assessment.legend.energy-for-cooking" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1348" />
 		</p>
+		
 	</fieldset>	
 	<!-- Water source fieldset -->
 	<fieldset field-separator=", ">
@@ -370,10 +389,10 @@ formDisplayStyle="Simple"
 	<!-- Eletricity fund fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			<uimessage code="lfhcforms.financial-assessment.legend.eletricity" />
+			<uimessage code="lfhcforms.financial-assessment.legend.electricity" />
 		</legend>
 		<h3>
-			<uimessage code="lfhcforms.financial-assessment.legend.eletricity" />
+			<uimessage code="lfhcforms.financial-assessment.legend.electricity" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1359" />
@@ -438,7 +457,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.plant-cereals" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1377" />
+			<obs conceptId="LFHC:1377" showUnits="true" />
 		</p>
 	</fieldset>	
 	<!-- Cash/Income fieldset -->
@@ -450,7 +469,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.cash-income" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1378" />
+			<obs conceptId="LFHC:1378" showUnits="true" />
 		</p>
 	</fieldset>	
 	<!-- Owns a shop fieldset -->
@@ -516,7 +535,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.additional-financial-supports" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1382" />
+			<obs conceptId="LFHC:1382" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 	<!-- Health Insurance fieldset -->
@@ -528,7 +547,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.health-insurance" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1493" />
+			<obs conceptId="CIEL:1493" style="yes_no" />
 		</p>
 	</fieldset>	
 	<!-- Type of health insurance fieldset -->
@@ -554,14 +573,14 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.montly-cash-earnings" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1383" />
+			<obs conceptId="LFHC:1383" showUnits="true" />
 		</p>
 
 		<h3>
 			<uimessage code="lfhcforms.financial-assessment.legend.external-support" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1384" />
+			<obs conceptId="LFHC:1384" showUnits="true" />
 		</p>
 
 		<h3>
@@ -582,14 +601,14 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.expenses-average" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1386" />
+			<obs conceptId="LFHC:1386" showUnits="true" />
 		</p>
 
 		<h3>
 			<uimessage code="lfhcforms.financial-assessment.legend.paying-loan" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1387" />
+			<obs conceptId="LFHC:1387" showUnits="true" />
 		</p>
 	</fieldset>	
 
@@ -603,14 +622,14 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.debts-amount" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1388" />
+			<obs conceptId="LFHC:1388" showUnits="true" />
 		</p>
 
 		<h3>
 			<uimessage code="lfhcforms.financial-assessment.legend.debts-reason" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1389" />
+			<obs conceptId="LFHC:1389" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
@@ -623,7 +642,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.spent-for-teatment" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1390" />
+			<obs conceptId="LFHC:1390" showUnits="true"/>
 		</p>
 	</fieldset>	
 
@@ -646,12 +665,12 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.transports-details" />
 		</legend>
 
-		<obsgroup conceptId="LFHC:1393">
+		<obsgroup groupingConceptId="LFHC:1393">
 			<h3>
 				<uimessage code="lfhcforms.financial-assessment.legend.transports-cost" />
 			</h3>
 			<p>
-				<obs conceptId="LFHC:1392" />
+				<obs conceptId="LFHC:1392" showUnits="true" />
 			</p>
 			<h3>
 				<uimessage code="lfhcforms.financial-assessment.legend.transport-by" />
@@ -723,7 +742,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.other-support-provided" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1397" />
+			<obs conceptId="LFHC:1397" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
@@ -736,7 +755,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.amount-to-provide" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1398" />
+			<obs conceptId="LFHC:1398" showUnits="true" />
 		</p>
 	</fieldset>	
 
@@ -762,7 +781,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.no-support-reason" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1400" />
+			<obs conceptId="LFHC:1400" cols="40" rows="5" />
 		</p>
 	</fieldset>	
 
