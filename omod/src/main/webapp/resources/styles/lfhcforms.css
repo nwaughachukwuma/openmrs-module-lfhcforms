@@ -25,7 +25,7 @@
     margin-top: 1px;
 }
 
-.collapse htmlform section {
+.collapse htmlform section, .collapse htmlform div.section {
     margin-bottom: 10px;
     border: solid 1px;
     padding: 20px;
@@ -33,9 +33,6 @@
     padding-left: 30px;
 }
 .collapse htmlform .toggleContainer {
-   border-style:solid;
-   border-width:thin;
-   border-color:#CCC;
    margin-bottom:10px;
    padding-left:10px;
 
@@ -60,7 +57,7 @@
     font-size:0.9em;
 }
 
-.collapse htmlform .emptyFieldset, .collapse htmlform .emptyValue, .collapse htmlform .emptySection{
+.collapse htmlform .emptyFieldset, .collapse htmlform .emptyValue, .collapse htmlform .emptySection, .collapse htmlform .emptyTable {
     display:none;
 }
 
