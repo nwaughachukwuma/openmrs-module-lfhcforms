@@ -48,6 +48,7 @@
 
 .collapse htmlform .indented, .collapse htmlform p.multiple {
     margin-left: 20px;
+    display:block;
 }
 
 .collapse htmlform legend.multiple {
@@ -59,6 +60,25 @@
 
 .collapse htmlform .emptyFieldset, .collapse htmlform .emptyValue, .collapse htmlform .emptySection, .collapse htmlform .emptyTable {
     display:none;
+}
+
+/* Style to improve display Enter mode of SimpleUI forms */
+.simple-form-ui htmlform div.toggleContainer {
+    border: solid 1px;
+    padding: 20px;
+    margin-bottom:10px;
+}
+.simple-form-ui htmlform h3 {
+    font-size:1em;
+    margin:0px;
+    margin-left:5px;
+}
+.simple-form-ui htmlform section p {
+    margin-bottom: 5px;
+}
+
+.addRemoveButtons {
+     margin-left:80%
 }
 
 /* Style to improve display of select fields (ex: date and time fields)*/

@@ -28,20 +28,10 @@
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewModeForTable">
+	<script type="text/javascript" >
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
-
-			var formUuid="6021b82a-8f19-4308-a248-bc603ffaa880"
-
-			handleViewMode(formUuid);
-			handleViewModeForTable(formUuid);
-
-			$("htmlform").each(function (index, currentForm) {
-				if ($(currentForm).attr("formuuid") == formUuid) {
-					$("br").remove();
-				}
-			});
+			handleViewMode("6021b82a-8f19-4308-a248-bc603ffaa880");
 		});
 	</script>
 </ifMode>
@@ -196,7 +186,6 @@
 			<table class="tg">
 				<tbody>
 					<tr>
-
 						<td>
 							<h3>Drug dispensed:</h3>
 							<p>
@@ -206,8 +195,6 @@
 						</td>
 					</tr>
 					<tr>
-
-
 						<td>
 							<h3>Dose dispensed: </h3>
 							<p>
@@ -238,7 +225,6 @@
 			<font color="red">* required</font>
 			<br/>
 		</ifMode>
-
 
 	</section>
 </obsgroup>

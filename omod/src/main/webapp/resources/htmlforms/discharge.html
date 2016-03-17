@@ -20,12 +20,10 @@ formDisplayStyle="Simple"
 
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
-
+	<script type="text/javascript">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 			handleViewMode("cdc13a25-fe9e-43a5-85dd-7e2f31e8c860");
-			handleViewModeForTable("cdc13a25-fe9e-43a5-85dd-7e2f31e8c860");
 		});
 	</script>
 </ifMode>
@@ -49,7 +47,7 @@ formDisplayStyle="Simple"
 &lt;/script>" />
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -58,7 +56,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -66,7 +64,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -83,7 +81,6 @@ formDisplayStyle="Simple"
 		margin-left: 10px;
 	}
 </style>
-
 
 <section id="referrals" sectionTag="section" headerStyle="title" headerCode="Referrals">
 	<fieldset field-separator=", ">
@@ -211,69 +208,40 @@ formDisplayStyle="Simple"
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>Discharge diagnosis</legend>
-		<h3>Discharge diagnosis</h3>
 		<repeat>
 			<template>
-
 				<div id="{n}-toggleContainer" templateBlockId="discharge-diag" class="toggleContainer" style="display:none;">
 					<obsgroup groupingConceptId="CIEL:159947">
-						<table class="tg">
-							<tbody>
-								<tr>
-									<td>
-										Diagnosis classification
-									</td>
-									<td>
-										<p>
-											<obs id="{n}" conceptId="CIEL:159946"/>
-										</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Diagnosis
-									</td>
-									<td>
-										<p>
-											<obs conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
-										</p>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Diagnosis certainty
-									</td>
-									<td>
-										<p>
-											<obs conceptId="CIEL:159394" answerConceptIds="CIEL:159393,CIEL:159392"/>
-										</p>
-									</td>
-
-								</tr>
-								<tr>
-									<td colspan="2" style="text-align:right;">
-										<i class="addEntry icon-">&#xf055; Add</i>
-										<i class="removeEntry icon-">   &#xf056; Remove</i>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-
-
+					<legend>Diagnosis #{m}</legend>
+						<h3>
+							Diagnosis
+						</h3>
 						<p>
-
-
+							<obs conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
 						</p>
-
-						<br/>
-
+						<h3>
+							Diagnosis classification
+						</h3>
+						<p>
+							<obs id="{n}" conceptId="CIEL:159946"/>
+						</p>
+						<h3>		
+							Diagnosis certainty
+						</h3>
+						<p>
+							<obs conceptId="CIEL:159394" answerConceptIds="CIEL:159393,CIEL:159392"/>
+						</p>
+						<span class="addRemoveButtons" >
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
+						</span>
 					</obsgroup>
 				</div>
 
 			</template>
-			<render n="201"/>
-			<render n="202"/>
-			<render n="203"/>
+			<render n="201" m="1"/>
+			<render n="202" m="2" />
+			<render n="203" m="3" />
 		</repeat>
 
 	</fieldset>

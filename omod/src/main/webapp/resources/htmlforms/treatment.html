@@ -18,8 +18,7 @@ formDisplayStyle="Simple"
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
-
+	<script type="text/javascript" >
 		// JavaScript for VIEW mode
 		$(document).ready(function(){
 			handleViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
@@ -84,11 +83,8 @@ formDisplayStyle="Simple"
 >
 
 <ifMode mode="VIEW" include="false">
-	<script type="text/javascript" id="properViewMode">
-
-
+	<script type="text/javascript">
 		jQuery(document).ready(function(){
-
 			/* hide the 'seconds' time field */
 			$(".hfe-seconds").hide();
 		});
@@ -96,7 +92,7 @@ formDisplayStyle="Simple"
 </ifMode>
 
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -105,7 +101,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -113,7 +109,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -306,10 +302,10 @@ formDisplayStyle="Simple"
 							</p>
 						</obsgroup>
 					</div>
-					<p>
+					<span class="addRemoveButtons">
 						<i class="addEntry icon-">&#xf055; Add</i>
 						<i class="removeEntry icon-">   &#xf056; Remove</i>
-					</p>
+					</span>
 				</div>
 			</template>
 			<render n="501"/>
@@ -336,18 +332,19 @@ formDisplayStyle="Simple"
 			</obs>
 		</p>
 		<div id="btrans-yes" class="order">
-				<p>
-					<span class="questionLabel">Volume of blood to be administered</span>
-					<obs conceptId="LFHC:1211" showUnits="true" />
-				</p>
-				<p>
-					<span class="questionLabel">Type of transfusion fluid</span>
-					<obs conceptId="CIEL:161927" />
-				</p>
-				<p>
-					<span class="questionLabel">Duration of transfusion</span>
-					<obs conceptId="LFHC:1212" showUnits="true" />
-				</p>
+
+			<h3>Volume of blood to be administered</h3>
+			<p>
+				<obs conceptId="LFHC:1211" showUnits="true" />
+			</p>
+			<h3>Type of transfusion fluid</h3>
+			<p>
+				<obs conceptId="CIEL:161927" />
+			</p>
+			<h3>Duration of transfusion</h3>
+			<p>
+				<obs conceptId="LFHC:1212" showUnits="true" />
+			</p>
 		</div>
 	</fieldset>
 
@@ -390,11 +387,13 @@ formDisplayStyle="Simple"
 		<br/>
 		<span class="thenDisplay" id="feeding-plan">
 			<obsgroup groupingConceptId="CIEL:162046">
+				<h3>Feeding plan</h3>
 				<p>
-					<obs conceptId="CIEL:985" labelText="Feeding plan: "/>
+					<obs conceptId="CIEL:985" />
 				</p>
+				<h3>Comments</h3>
 				<p>
-					<obs conceptId="CIEL:160632" labelText="Comments: " rows="4" columns="60"/>
+					<obs conceptId="CIEL:160632" rows="4" columns="60"/>
 				</p>
 			</obsgroup>
 		</span>

@@ -20,7 +20,7 @@ formDisplayStyle="Simple"
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
+	<script type="text/javascript" >
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 			handleViewMode("c6a5a2c8-34c7-4494-9924-a02dbd6e22ff");
@@ -28,7 +28,7 @@ formDisplayStyle="Simple"
 	</script>
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -37,7 +37,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -45,7 +45,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -162,14 +162,12 @@ formDisplayStyle="Simple"
 						<uimessage code="lfhcforms.financial-assessment.legend.family-member" /> #{m}
 					</legend>
 					<obsgroup groupingConceptId="LFHC:1425">
-
 						<h3>
 							<uimessage code="lfhcforms.financial-assessment.legend.family-member-name" />
 						</h3>
 						<p>
 							<obs id="{n}" conceptId="CIEL:160750" />
 						</p>
-
 						<h3>
 							<uimessage code="lfhcforms.financial-assessment.legend.family-member-gender" />
 						</h3>
@@ -220,7 +218,7 @@ formDisplayStyle="Simple"
 						</p>
 
 					</obsgroup>
-					<span style="margin-left:80%" >
+					<span class="addRemoveButtons" >
 						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
 						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
 					</span>

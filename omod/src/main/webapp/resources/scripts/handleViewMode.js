@@ -14,6 +14,7 @@ var handleViewMode = function (formUuid) {
 			});
 
 			/* remove buttons */
+			$(".addRemoveButtons").hide();
 			$(currentForm).find('.addEntry').remove();
 			$(currentForm).find('.removeEntry').remove();
 

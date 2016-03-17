@@ -91,7 +91,7 @@ formDisplayStyle="Simple"
 
 
 </ifMode>
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -100,7 +100,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -108,7 +108,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -124,35 +124,28 @@ formDisplayStyle="Simple"
 	<!-- Diagnosis fieldset -->
 	<fieldset field-separator=", ">
 		<legend><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/></legend>
-		<h3><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/></h3>
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" templateBlockId="diagnosis" class="toggleContainer" style="display:none;">
 					<obsgroup groupingConceptId="CIEL:159947">
-						<p>
+						<h3>
 							<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis"/> #{n}
+						</h3>	
+						<p>
 							<obs id="{n}" conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
+							
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/>
+						</h3>
+						<p>
+
+							<obs id="{n}-opt1" conceptId="CIEL:159946" />
+						</p>
+						<span class="addRemoveButtons" >
 							<i class="addEntry icon-">&#xf055; Add</i>
 							<i class="removeEntry icon-">   &#xf056; Remove</i>
-						</p>
-						<ifMode mode="view" include="false" >
-							<details>
-								<summary>
-									<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-options"/>
-								</summary>
-								<p>
-									<uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/>
-									<obs id="{n}-opt1" conceptId="CIEL:159946" />
-								</p>
-							</details>
-						</ifMode>
-
-						<ifMode mode="view" >
-							<span class="questionLabel"><uimessage code="lfhcforms.homecare-pre-assessment.legend.diagnosis-classification"/></span>
-							<obs id="{n}-opt1" conceptId="CIEL:159946" />
-						</ifMode>
-						
-						<br/>
+						</span>
 					</obsgroup>
 				</div>
 			</template>
@@ -455,20 +448,20 @@ formDisplayStyle="Simple"
 		<legend>
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-treatment" />
 		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-treatment" />
-		</h3>
 		<repeat>
 			<template>
+				<h3>
+					<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-treatment" /> #{m}
+				</h3>
 				<p id="{n}-toggleContainer" templateBlockId="admission" class="toggleContainer" style="display:none;">
 					<obs id="{n}" conceptId="CIEL:160316"/>
 					<i class="addEntry icon-">&#xf055; Add</i>
 					<i class="removeEntry icon-">   &#xf056; Remove</i>
 				</p>
 			</template>
-			<render n="401"/>
-			<render n="402"/>
-			<render n="403"/>
+			<render n="401" m="1" />
+			<render n="402" m="2" />
+			<render n="403" m="3" />
 		</repeat>		
 	</fieldset>	
 
