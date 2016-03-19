@@ -23,7 +23,7 @@ formDisplayStyle="Simple"
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewModeForTable">
+	<script type="text/javascript">
 		// JavaScript for VIEW mode
 		jQuery(document).ready(function(){
 
@@ -58,7 +58,7 @@ formDisplayStyle="Simple"
 &lt;/script>" />
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -67,7 +67,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -75,7 +75,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -121,16 +121,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="3-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1120" style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="3-finding" conceptId="CIEL:1120">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#3-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".3-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-			<p id="3-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="3-finding-abnormal">Comments</h3>
+			<p class="3-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -144,17 +144,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="1-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1121" style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="1-finding" conceptId="CIEL:1121">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#1-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".1-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="1-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="1-finding-abnormal">Comments</h3>
+			<p class="1-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -168,17 +167,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="4-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1122"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="4-finding" conceptId="CIEL:1122">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#4-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".4-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="4-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="4-finding-abnormal">Comments</h3>
+			<p class="4-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -192,17 +190,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="5-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1123"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="5-finding" conceptId="CIEL:1123">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#5-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".5-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="5-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="5-finding-abnormal">Comments</h3>
+			<p class="5-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -216,16 +213,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="6-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1124"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="6-finding" conceptId="CIEL:1124">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#6-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".6-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-			<p id="6-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="6-finding-abnormal">Comments</h3>
+			<p class="6-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -239,17 +236,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="10-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1125" style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="10-finding" conceptId="CIEL:1125">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#10-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".10-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="10-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="10-finding-abnormal">Comments</h3>
+			<p class="10-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -263,17 +259,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="12-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1126"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="12-finding" conceptId="CIEL:1126">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#12-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".12-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="12-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="12-finding-abnormal">Comments</h3>
+			<p class="12-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -287,17 +282,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="7-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1127" style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="7-finding" conceptId="CIEL:1127">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#7-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".7-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="7-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="7-finding-abnormal">Comments</h3>
+			<p class="7-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -311,17 +305,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="8-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1128"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="8-finding" conceptId="CIEL:1128">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#8-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".8-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="8-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="8-finding-abnormal">Comments</h3>
+			<p class="8-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -335,17 +328,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="9-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1129"  style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="9-finding" conceptId="CIEL:1129">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#9-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".9-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="9-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="9-finding-abnormal">Comments</h3>
+			<p class="9-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>
@@ -359,17 +351,16 @@ formDisplayStyle="Simple"
 			<p style="display:none;">
 				<obs id="11-parent" conceptId="CIEL:1119" answerConceptId="CIEL:1130"   style="checkbox"/>
 			</p>
+			<h3>Results</h3>
 			<p>
-				<span class="questionLabel">Results: </span>
 				<obs class="result" id="11-finding" conceptId="CIEL:1130">
 					<controls>
-						<when value="CIEL:1116" thenDisplay="#11-finding-abnormal"/>
+						<when value="CIEL:1116" thenDisplay=".11-finding-abnormal"/>
 					</controls>
 				</obs>
 			</p>
-
-			<p id="11-finding-abnormal" >
-				<span class="questionLabel">Comments: </span>
+			<h3 class="11-finding-abnormal">Comments</h3>
+			<p class="11-finding-abnormal" >
 				<obs conceptId="CIEL:159395" rows="3" cols="30"/>
 			</p>
 		</obsgroup>

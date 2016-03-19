@@ -1,20 +1,18 @@
 <htmlform formUuid="52c43d9d-c3b6-4fda-8f6b-3590034e7c42" formName="Wound Details" formEncounterType="75a97fa9-4b04-4968-8f5b-041e5d0a3dae" formVersion="0.6"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.visitActions"
-	formOrder="18"
-	formIcon="icon-medkit"
-	formShowIf=""
-	formDisplayStyle="Simple"
-	>
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="18"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
 
 <ifMode mode="VIEW">
 	<script type="text/javascript" id="handleViewMode">
 		// JavaScript for VIEW mode
-		if(jQuery){
-			jQuery(document).ready(function(){
-				handleViewMode("52c43d9d-c3b6-4fda-8f6b-3590034e7c42");
-			});
-		}
+		jQuery(document).ready(function(){
+			handleViewMode("52c43d9d-c3b6-4fda-8f6b-3590034e7c42");
+		});
 	</script>
 </ifMode>
 
@@ -37,7 +35,7 @@
 &lt;/script>" />
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -46,7 +44,7 @@
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -54,7 +52,7 @@
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -76,7 +74,6 @@
 		<p>
 			<obs conceptId="LFHC:1030"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -88,7 +85,6 @@
 		<p>
 			<obs conceptId="LFHC:1031"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -100,7 +96,6 @@
 		<p>
 			<obs conceptId="LFHC:1032" showUnits="true"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -112,7 +107,6 @@
 		<p>
 			<obs conceptId="LFHC:1033" showUnits="true"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -124,7 +118,6 @@
 		<p>
 			<obs conceptId="LFHC:1034" showUnits="true"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -136,11 +129,10 @@
 		<p>
 			<obs conceptId="LFHC:1035" />
 		</p>
+		<h3>Type of exudate</h3>
 		<p>
-			<span class="questionLabel">Type of exudate</span>
 			<obs conceptId="LFHC:1037"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -152,7 +144,6 @@
 		<p>
 			<obs conceptId="LFHC:1040"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -164,7 +155,6 @@
 		<p>
 			<obs conceptId="LFHC:1041"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -176,7 +166,6 @@
 		<p>
 			<obs conceptId="LFHC:1042"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -188,7 +177,6 @@
 		<p>
 			<obs conceptId="CIEL:160716"/>
 		</p>
-
 	</fieldset>
 	<fieldset field-separator=", ">
 		<legend>
@@ -200,11 +188,8 @@
 		<p>
 			<obs conceptId="LFHC:1044"/>
 		</p>
-
 	</fieldset>
-
 </section>
-
 
 <submit/>
 

@@ -1,0 +1,792 @@
+<htmlform formUuid="c6a5a2c8-34c7-4494-9924-a02dbd6e22ff" formName="Financial Assessment" formEncounterType="4e8a589c-f025-44ed-8978-dded6478f3f0" formVersion="0.1"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="27"
+formIcon="icon-medkit"
+formShowIf=""
+formDisplayStyle="Simple"
+>
+
+<ifMode mode="VIEW" include="false">
+
+	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+			toggleContainers();
+		});
+	</script>
+
+</ifMode>
+
+<ifMode mode="VIEW">
+	<script type="text/javascript" >
+		// JavaScript for VIEW mode
+		jQuery(document).ready(function(){
+			handleViewMode("c6a5a2c8-34c7-4494-9924-a02dbd6e22ff");
+		});
+	</script>
+</ifMode>
+
+<div class="hidden" id="who-where-when">
+	<p id="who">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.provider" />
+		</label>
+		<span>
+			<encounterProvider default="currentUser" required="true" />
+		</span>
+	</p>
+	<p id="where">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.location" />
+		</label>
+		<span>
+			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
+		</span>
+	</p>
+	<p id="when">
+		<label>
+			<uimessage code="coreapps.patientDashBoard.date" />
+		</label>
+		<span>
+			<!-- Mandatory showTime="true" to set encounter date and time -->
+			<encounterDate id="encounterDate" default="now" showTime="true"/>
+		</span>
+	</p>
+</div>
+
+<ifMode mode="enter">
+
+	
+	<uiInclude provider="lfhcforms" javascript="changeEncounterDate.js"/>
+	
+	<lookup complexExpression="
+	#set($alertMessage = $fn.message('lfhcforms.pastencounter.alert'))
+	#set($successMessage = $fn.message('lfhcforms.pastencounter.success'))
+
+	&lt;script type=&quot;text/javascript&quot;>
+	var alertMessage = '${alertMessage}';
+	var successMessage = '${successMessage}';
+	jQuery(document).ready(function(){
+	var visitEndDate = new Date('${visit.stopDatetime}');
+	if ( Object.prototype.toString.call(visitEndDate) === '[object Date]' ) {
+	if (!( isNaN( visitEndDate.getTime() ) )) {  
+	changeEncounterDate(visitEndDate);
+}
+}
+});
+&lt;/script>" />
+
+
+</ifMode>
+
+<section id="family-situation" sectionTag="section" headerStyle="title" headerCode="lfhcforms.financial-assessment.section.family">
+
+	<!-- Interviewee fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.interviewee" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.interviewee" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1526"  cols="40" rows="1" />
+		</p>
+	</fieldset>	
+
+	<!-- Gender fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.gender" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.gender" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1533" />
+		</p>
+	</fieldset>	
+
+	<!-- Age fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.age" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.age" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1532" showUnits="true" />
+		</p>
+	</fieldset>	
+
+	<!-- Relationship fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.relationship" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.relationship" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1283" />
+		</p>
+	</fieldset>	
+
+
+	<!-- Occupation fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.occupation" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.occupation" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1542" />
+		</p>
+	</fieldset>	
+
+	<!-- Family members details fieldset -->
+	<fieldset field-separator=", ">
+
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.family-member-details" />
+		</legend>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="family-members" class="toggleContainer" style="display:none;" >
+					<legend>
+						<uimessage code="lfhcforms.financial-assessment.legend.family-member" /> #{m}
+					</legend>
+					<obsgroup groupingConceptId="LFHC:1425">
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-name" />
+						</h3>
+						<p>
+							<obs id="{n}" conceptId="CIEL:160750" />
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-gender" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-gender" conceptId="LFHC:1317"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-dob" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-dob" conceptId="CIEL:160751"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-relationship" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-relationship" conceptId="CIEL:1560"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-health-status" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-health-status" conceptId="LFHC:1318"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-education-level" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-education-level" conceptId="CIEL:1712"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-employed-outside-home" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-employed-outside-home" conceptId="CIEL:5608"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-job-type" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-job-type" conceptId="CIEL:1542"/>
+						</p>
+						<h3>
+							<uimessage code="lfhcforms.financial-assessment.legend.family-member-income" />
+						</h3>
+						<p>
+							<obs id="{n}-family-member-income" conceptId="CIEL:159776" showUnits="true"/>
+						</p>
+
+					</obsgroup>
+					<span class="addRemoveButtons" >
+						<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
+						<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
+					</span>
+				</div>
+
+			</template>
+			<render n="300" m="1"/>
+			<render n="301" m="2"/>
+			<render n="302" m="3"/>
+			<render n="303" m="4"/>
+			<render n="304" m="5"/>
+			<render n="305" m="6"/>
+			<render n="306" m="7"/>
+			<render n="307" m="8"/>
+			<render n="308" m="9"/>
+			<render n="309" m="10"/>
+		</repeat>
+	</fieldset>	
+
+</section>
+
+<section id="living-conditions" sectionTag="section" headerStyle="title" headerCode="lfhcforms.financial-assessment.section.living-conditions">
+
+	<!-- Health equity fund fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.hef" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.hef" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1319" />
+		</p>
+	</fieldset>	
+
+	<!-- Family fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.family" />
+		</legend>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.children" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1320" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.adults" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1321" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.number-of-persons" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:5611" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.gender-of-head" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1322" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.literacy-level-of-head" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1327" />
+		</p>
+	</fieldset>	
+
+	<!-- Housing fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.housing" />
+		</legend>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.rapid-assessment" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1330" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.roof" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1336" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.wall" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1337" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.size" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1341" showUnits="true" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.floor" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159387" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.toilet" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1344" />
+		</p>
+		
+		<h3>
+
+			<uimessage code="lfhcforms.financial-assessment.legend.energy-for-cooking" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1348" />
+		</p>
+		
+	</fieldset>	
+	<!-- Water source fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.water-source" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.water-source" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1511" />
+		</p>
+	</fieldset>	
+	<!-- Means of Transportation fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.transports" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.transports" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1349" />
+		</p>
+	</fieldset>	
+	<!-- Eletricity fund fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.electricity" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.electricity" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1359" />
+		</p>
+	</fieldset>	
+	<!-- Electronics fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.electronics" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.electronics" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1362" />
+		</p>
+	</fieldset>	
+
+	<!-- Animals fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.animals" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.animals" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1367" />
+		</p>
+	</fieldset>	
+	<!-- Agricultural material fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.agricultural-material" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.agricultural-material" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1373" />
+		</p>
+	</fieldset>	
+	<!-- Land fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.land" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.land" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1376" />
+		</p>
+	</fieldset>	
+
+	<!-- Plants cereals fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.plant-cereals" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.plant-cereals" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1377" showUnits="true" />
+		</p>
+	</fieldset>	
+	<!-- Cash/Income fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.cash-income" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.cash-income" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1378" showUnits="true" />
+		</p>
+	</fieldset>	
+	<!-- Owns a shop fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.own-shop" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.own-shop" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1379" />
+		</p>
+	</fieldset>	
+	<!-- Debt fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.debt" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.debt" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1380" />
+		</p>
+	</fieldset>	
+
+	<!-- Living conditions score fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.living-conditions-score" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.living-conditions-score" />
+		</h3>
+		<p>
+			<!-- Waiting for concept -->
+		</p>
+	</fieldset>	
+</section>
+
+
+<section id="financial-conditions" sectionTag="section" headerStyle="title" headerCode="lfhcforms.financial-assessment.section.financial-conditions">
+
+	<!-- Other social supports fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-social-supports" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-social-supports" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1381" />
+		</p>
+	</fieldset>	
+	<!-- Additional financial supports fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.additional-financial-supports" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.additional-financial-supports" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1382" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+	<!-- Health Insurance fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.health-insurance" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.health-insurance" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1493" style="yes_no" />
+		</p>
+	</fieldset>	
+	<!-- Type of health insurance fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.type-of-insurance" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.type-of-insurance" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:159356" />
+		</p>
+	</fieldset>	
+
+	<!-- Income per month fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.income" />
+		</legend>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.montly-cash-earnings" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1383" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.external-support" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1384" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.financial-needs-covered" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1385" />
+		</p>
+	</fieldset>	
+
+	<!-- Expenses per month fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.expenses" />
+		</legend>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.expenses-average" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1386" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.paying-loan" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1387" showUnits="true" />
+		</p>
+	</fieldset>	
+
+	<!-- Debts fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.debts" />
+		</legend>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.debts-amount" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1388" showUnits="true" />
+		</p>
+
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.debts-reason" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1389" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Expense for heatlh treatment fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.spent-for-teatment" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.spent-for-teatment" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1390" showUnits="true"/>
+		</p>
+	</fieldset>	
+
+	<!-- Does the family have enough food? fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.food-needs-covered" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.food-needs-covered" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1391" />
+		</p>
+	</fieldset>	
+
+	<!-- Cost/Means of transportation to LFHC fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.transports-details" />
+		</legend>
+
+		<obsgroup groupingConceptId="LFHC:1393">
+			<h3>
+				<uimessage code="lfhcforms.financial-assessment.legend.transports-cost" />
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1392" showUnits="true" />
+			</p>
+			<h3>
+				<uimessage code="lfhcforms.financial-assessment.legend.transport-by" />
+			</h3>
+			<p>
+				<obs conceptId="LFHC:1349" />
+			</p>
+		</obsgroup>
+	</fieldset>	
+
+	<!-- Poorer than others fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.poverty-level-compared" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.poverty-level-compared" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1394" />
+		</p>
+	</fieldset>	
+
+	<!-- Financial situation fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.financial-situation" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.financial-situation" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1395" />
+		</p>
+	</fieldset>	
+
+	<!-- Other comments fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-comments" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-comments" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1316" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- LFHC will provide: fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.lfhc-provide" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.lfhc-provide" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1396" />
+		</p>
+	</fieldset>	
+
+	<!-- Other support provided fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-support-provided" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.other-support-provided" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1397" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+	<!-- Amount to be provided fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.amount-to-provide" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.amount-to-provide" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1398" showUnits="true" />
+		</p>
+	</fieldset>	
+
+	<!-- Next review fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.next-review-date" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.next-review-date" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1399" />
+		</p>
+	</fieldset>	
+
+	<!-- LFHC will not provide the support because: fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.financial-assessment.legend.no-support-reason" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.financial-assessment.legend.no-support-reason" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1400" cols="40" rows="5" />
+		</p>
+	</fieldset>	
+
+</section>
+
+
+<submit/>
+
+
+</htmlform>

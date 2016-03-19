@@ -9,14 +9,12 @@ formDisplayStyle="Simple"
 
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="handleViewMode">
+	<script type="text/javascript" >
 		// JavaScript for VIEW mode
-		if(jQuery){
-			jQuery(document).ready(function(){
-				handleViewMode("592bddc7-9889-490b-b3fd-5795648b078a");
-			});
-		}
-	</script>
+		jQuery(document).ready(function(){
+			handleViewMode("592bddc7-9889-490b-b3fd-5795648b078a");
+		});
+</script>
 </ifMode>
 
 <ifMode mode="enter">
@@ -38,7 +36,7 @@ formDisplayStyle="Simple"
 &lt;/script>" />
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -47,7 +45,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -55,7 +53,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -76,96 +74,109 @@ formDisplayStyle="Simple"
 
 <section id="lines-tubes" sectionTag="section" headerStyle="title" headerCode="Lines and Tubes">
 	<fieldset field-separator=", ">
+		<legend>IVC #1</legend>
 		<obsgroup groupingConceptId="LFHC:1078">
-			<legend>IVC #1</legend>
-			<h3>IVC #1</h3>
+			<h3>Date inserted</h3>
 			<p>
-				<obs conceptId="LFHC:1063" labelText="Date inserted: "/>
+				<obs conceptId="LFHC:1063" />
 			</p>
+			<h3>Size</h3>
 			<p>
-				<obs conceptId="LFHC:1064" labelText="Size: " showUnits="true" />
+				<obs conceptId="LFHC:1064" showUnits="true" />
 			</p>
+			<h3>Site</h3>
 			<p>
-				<obs conceptId="LFHC:1065" labelText="Site: " />
+				<obs conceptId="LFHC:1065" />
 			</p>
+			<h3>Date removed</h3>
 			<p>
-				<obs conceptId="LFHC:1182" labelText="Date removed: "/>
+				<obs conceptId="LFHC:1182" />
 			</p>
 		</obsgroup>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<obsgroup groupingConceptId="LFHC:1079">
 			<legend>IVC #2</legend>
-			<h3>IVC #2</h3>
-			<p>
-				<obs conceptId="LFHC:1066" labelText="Date inserted: "/>
-			</p>
-			<p>
-				<obs conceptId="LFHC:1067" labelText="Size: " showUnits="true" />
-			</p>
-			<p>
-				<obs conceptId="LFHC:1068" labelText="Site: " />
-			</p>
-			<p>
-				<obs conceptId="LFHC:1183" labelText="Date removed: "/>
-			</p>
 
+			<h3>Date inserted</h3>
+			<p>
+				<obs conceptId="LFHC:1066" />
+			</p>
+			<h3>Size</h3>
+			<p>
+				<obs conceptId="LFHC:1067" showUnits="true" />
+			</p>
+			<h3>Site</h3>
+			<p>
+				<obs conceptId="LFHC:1068" />
+			</p>
+			<h3>Date removed</h3>
+			<p>
+				<obs conceptId="LFHC:1183" />
+			</p>
 		</obsgroup>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<obsgroup groupingConceptId="LFHC:1080">
 			<legend>IVC #3</legend>
-			<h3>IVC #3</h3>
+			<h3>Date inserted</h3>
 			<p>
-				<obs conceptId="LFHC:1069" labelText="Date inserted: "/>
+				<obs conceptId="LFHC:1069" />
 			</p>
+			<h3>Size</h3>
 			<p>
-				<obs conceptId="LFHC:1070" labelText="Size: " showUnits="true" />
+				<obs conceptId="LFHC:1070" showUnits="true" />
 			</p>
+			<h3>Site</h3>
 			<p>
-				<obs conceptId="LFHC:1071" labelText="Site: " />
+				<obs conceptId="LFHC:1071" />
 			</p>
+			<h3>Date removed</h3>
 			<p>
-				<obs conceptId="LFHC:1184" labelText="Date removed: "/>
+				<obs conceptId="LFHC:1184" />
 			</p>
 		</obsgroup>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<obsgroup groupingConceptId="LFHC:1081">
 			<legend>NG tube</legend>
-			<h3>NG tube</h3>
+			<h3>Date inserted</h3>
 			<p>
-				<obs conceptId="LFHC:1072" labelText="Date inserted: "/>
+				<obs conceptId="LFHC:1072" />
 			</p>
+			<h3>Site</h3>
 			<p>
-				<obs conceptId="LFHC:1073" labelText="Site: "  />
+				<obs conceptId="LFHC:1073" />
 			</p>
 		</obsgroup>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<obsgroup groupingConceptId="LFHC:1082">
 			<legend>Urinary catheter</legend>
-			<h3>Urinary catheter</h3>
+			<h3>Date inserted</h3>
 			<p>
-				<obs conceptId="LFHC:1074" labelText="Date inserted: "/>
+				<obs conceptId="LFHC:1074"/>
 			</p>
+			<h3>Size</h3>
 			<p>
-				<obs conceptId="LFHC:1075" labelText="Size: " showUnits="true" />
+				<obs conceptId="LFHC:1075" showUnits="true" />
 			</p>
 		</obsgroup>
 	</fieldset>
 	<fieldset field-separator=", ">
 		<obsgroup groupingConceptId="LFHC:1083">
 			<legend>Other tube</legend>
-			<h3>Other tube</h3>
+			<h3>Date inserted</h3>
 			<p>
-				<obs conceptId="LFHC:1076" labelText="Date inserted: "/>
+				<obs conceptId="LFHC:1076" />
 			</p>
+			<h3>Size</h3>
 			<p>
-				<obs conceptId="LFHC:1221" labelText="Size: " showUnits="true" />
+				<obs conceptId="LFHC:1221" showUnits="true" />
 			</p>
+			<h3>Site</h3>
 			<p>
-				<obs conceptId="LFHC:1077" labelText="Site: " />
+				<obs conceptId="LFHC:1077" />
 			</p>
 		</obsgroup>
 	</fieldset>

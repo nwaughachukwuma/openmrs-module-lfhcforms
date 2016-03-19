@@ -1,11 +1,12 @@
 /* Override the style when displaying HTML forms in VIEW mode in the Patient Dashboard */ 
-.collapse .title {
+.collapse htmlform .title {
 	color: rgb(0, 147, 132);
 	font-family: OpenSans, Arial, sans-serif;
-	font-size: 1.1em;
+	font-size: 1.25em;
 	font-weight: normal;
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: -10px;
 }
 
 /* Style to dispaly an "age when given" = "age given on time" */
@@ -13,9 +14,71 @@
 	color: green;
 }
 
-/* Style to display a space between an "h3" and a "p" */
-.collapse htmlform h3 {
-	display:inline;
+/* Styles to display nicer the form, in the encounter list */
+.collapse htmlform fieldset {
+    border: none;
+}
+
+.collapse htmlform p {
+    border-bottom: none;
+    vertical-align: top;
+    margin-top: 1px;
+}
+
+.collapse htmlform section, .collapse htmlform div.section {
+    margin-bottom: 10px;
+    border: solid 1px;
+    padding: 20px;
+    padding-top: 8px;
+    padding-left: 30px;
+}
+.collapse htmlform .toggleContainer {
+   margin-bottom:10px;
+   padding-left:10px;
+
+}
+
+.collapse htmlform h3.multiple {
+    display:block;
+}
+
+.collapse htmlform .questionLabel:after {
+    content: ":";
+}
+
+.collapse htmlform .indented, .collapse htmlform p.multiple {
+    margin-left: 20px;
+    display:block;
+}
+
+.collapse htmlform legend.multiple {
+    color:#009384;
+    display:block;
+    margin-bottom:5px;
+    font-size:0.9em;
+}
+
+.collapse htmlform .emptyFieldset, .collapse htmlform .emptyValue, .collapse htmlform .emptySection, .collapse htmlform .emptyTable {
+    display:none;
+}
+
+/* Style to improve display Enter mode of SimpleUI forms */
+.simple-form-ui htmlform div.toggleContainer {
+    border: solid 1px;
+    padding: 20px;
+    margin-bottom:10px;
+}
+.simple-form-ui htmlform h3 {
+    font-size:1em;
+    margin:0px;
+    margin-left:5px;
+}
+.simple-form-ui htmlform section p {
+    margin-bottom: 5px;
+}
+
+.addRemoveButtons {
+     margin-left:80%
 }
 
 /* Style to improve display of select fields (ex: date and time fields)*/

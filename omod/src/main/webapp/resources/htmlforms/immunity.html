@@ -94,7 +94,7 @@ formDisplayStyle="Simple"
 &lt;/script>" />
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -103,7 +103,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -111,7 +111,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -127,10 +127,10 @@ formDisplayStyle="Simple"
 		<legend>
 			Immunity
 		</legend>
-		<h3>
-			Is the patient Immunosuppressed ?
-		</h3>
 		<obsgroup groupingConceptId="LFHC:1105">
+			<h3>
+				Is the patient Immunosuppressed ?
+			</h3>
 			<p>
 				<obs id="immu-suppr" conceptId="LFHC:1177">
 					<controls>
@@ -138,9 +138,14 @@ formDisplayStyle="Simple"
 					</controls>
 				</obs>
 			</p>
-			<p id="immu-suppr-details">
-				<obs conceptId="LFHC:1104" labelText="Details: " rows="4" cols="50"></obs>
-			</p>
+			<span id="immu-suppr-details" > 
+				<h3>
+					Details
+				</h3>
+				<p>
+					<obs conceptId="LFHC:1104" rows="4" cols="50"></obs>
+				</p>
+			</span>
 		</obsgroup>
 
 	</fieldset>
@@ -158,7 +163,6 @@ formDisplayStyle="Simple"
 					<when value="CIEL:1065" thenDisplay="#loose-stools-yes"/>
 				</controls>
 			</obs>
-
 		</p>
 		<ifMode mode="VIEW" include="false">
 			<p>
@@ -199,28 +203,27 @@ formDisplayStyle="Simple"
 		<h3>
 			BCG (Tuberculosis)
 		</h3>
-
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span> <!-- the "obs" and the "Age when given" must be in the same span in order to be handle correctly by the jQuery view mode. -->
-					<p style="display:none">
-						<obs id="bcg" conceptId="CIEL:1198" answerConceptId="CIEL:886"/>
-					</p>
-					<p>
-						<ifMode mode="VIEW" include="false">
-							<span>Age when given: </span>
-						</ifMode>
-						<obs class="age" id="bcg-age" conceptId="LFHC:1102" showUnits="true"/>
-						<!-- The class "age" is used by the JS for onclick events -->
-						<!-- The "id" has to be prefixed by the obs "id" and suffixed by the "age" string -->
-					</p>
-				</span>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span> <!-- the "obs" and the "Age when given" must be in the same span in order to be handle correctly by the jQuery view mode. -->
+				<p style="display:none">
+					<obs id="bcg" conceptId="CIEL:1198" answerConceptId="CIEL:886"/>
+				</p>
+				<p>
+					<ifMode mode="VIEW" include="false">
+						<span>Age when given: </span>
+					</ifMode>
+					<obs class="age" id="bcg-age" conceptId="LFHC:1102" showUnits="true"/>
+					<!-- The class "age" is used by the JS for onclick events -->
+					<!-- The "id" has to be prefixed by the obs "id" and suffixed by the "age" string -->
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="bcg-ontime" name="bcg" type="checkbox" onTimeValue="0">Given on time (at birth)</input>
 					<!-- The "name" attribute has to be the same as the "id" of the "obs" if refers to. That allows to prefill the "Age when given" value and check the right "obs" -->
 				</p>
-			</obsgroup>
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -230,24 +233,24 @@ formDisplayStyle="Simple"
 		<h3>
 			Hepatitis B
 		</h3>
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span>
-					<p style="display:none">
-						<obs id="hep-b" conceptId="CIEL:1198" answerConceptId="CIEL:782"/>
-					</p>
-					<p>
-						<ifMode mode="VIEW" include="false">
-							<span>Age when given: </span>
-						</ifMode>
-						<obs class="age" id="hep-b-age" conceptId="LFHC:1102" showUnits="true"/>
-					</p>
-				</span>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<p style="display:none">
+					<obs id="hep-b" conceptId="CIEL:1198" answerConceptId="CIEL:782"/>
+				</p>
+				<p>
+					<ifMode mode="VIEW" include="false">
+						<span>Age when given: </span>
+					</ifMode>
+					<obs class="age" id="hep-b-age" conceptId="LFHC:1102" showUnits="true"/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="hep-b-ontime" name="hep-b" type="checkbox" onTimeValue="0">Given on time (at birth)</input>
 				</p>
-			</obsgroup>
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -257,56 +260,57 @@ formDisplayStyle="Simple"
 		<h3>
 			Diphteria  / Tetanus / Pertussis / Hepatitis B / Haemophilis influenza type b
 		</h3>
-
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span>
-					<ifMode mode="VIEW" include="false">
-						<span>Age when given: </span>
-					</ifMode>
-					<p style="display:none">
-						<obs id="1-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
-					</p>
-					<p>
-						<span>1st injection: </span>
-						<obs class="age" id="1-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<ifMode mode="VIEW" include="false">
+					<span>Age when given: </span>
+				</ifMode>
+				<p style="display:none">
+					<obs id="1-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
+				</p>
+				<p>
+					<span>1st injection: </span>
+					<obs class="age" id="1-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="1-dpt-ontime" name="1-dpt" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
+			</ifMode>
 
-				<span>
-					<p style="display:none">
-						<obs id="2-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
-					</p>
-					<p>
-						<span>2nd injection: </span>
-						<obs class="age" id="2-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+			<span>
+				<p style="display:none">
+					<obs id="2-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
+				</p>
+				<p>
+					<span>2nd injection: </span>
+					<obs class="age" id="2-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="2-dpt-ontime" name="2-dpt" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 
 				</p>
-
-				<span>
-					<p style="display:none">
-						<obs id="3-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
-					</p>
-					<p>
-						<span>3rd injection: </span>
-						<obs class="age" id="3-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
-					</p>
-				</span>
+			</ifMode>
+			<span>
+				<p style="display:none">
+					<obs id="3-dpt" conceptId="CIEL:1198" answerConceptId="CIEL:1685" />
+				</p>
+				<p>
+					<span>3rd injection: </span>
+					<obs class="age" id="3-dpt-age" conceptId="LFHC:1102" showUnits="true"/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="3-dpt-ontime" name="3-dpt" type="checkbox" onTimeValue="3.5">Given on time (14 weeks)</input>
 				</p>
-			</obsgroup>
-
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -316,55 +320,57 @@ formDisplayStyle="Simple"
 		<h3>
 			Oral Polio
 		</h3>
-		<span>
-
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span>
-					<ifMode mode="VIEW" include="false">
-						<span>Age when given: </span>
-					</ifMode>
-					<p style="display:none">
-						<obs id="1-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
-					</p>
-					<p>
-						<span>1st injection: </span>
-						<obs class="age" id="1-opv-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<ifMode mode="VIEW" include="false">
+					<span>Age when given: </span>
+				</ifMode>
+				<p style="display:none">
+					<obs id="1-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
+				</p>
+				<p>
+					<span>1st injection: </span>
+					<obs class="age" id="1-opv-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="1-opv-ontime" name="1-opv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-				<span >
-					<p style="display:none">
-						<obs id="2-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
-					</p>
+			</ifMode>
+			<span >
+				<p style="display:none">
+					<obs id="2-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
+				</p>
 
-					<p>
-						<span>2nd injection: </span>
-						<obs class="age" id="2-opv-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+				<p>
+					<span>2nd injection: </span>
+					<obs class="age" id="2-opv-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="2-opv-ontime" name="2-opv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-				<span >
-					<p style="display:none">
-						<obs id="3-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
-					</p>
+			</ifMode>
+			<span >
+				<p style="display:none">
+					<obs id="3-opv" conceptId="CIEL:1198" answerConceptId="CIEL:783" />
+				</p>
 
-					<p>
-						<span>3rd injection: </span>
-						<obs class="age" id="3-opv-age" conceptId="LFHC:1102" showUnits="true"/>
-					</p>
-				</span>
+				<p>
+					<span>3rd injection: </span>
+					<obs class="age" id="3-opv-age" conceptId="LFHC:1102" showUnits="true"/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="3-opv-ontime" name="3-opv" type="checkbox" onTimeValue="3.5">Given on time (14 weeks)</input>
 				</p>
-			</obsgroup>
-
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -374,53 +380,57 @@ formDisplayStyle="Simple"
 		<h3>
 			Pneumococcal
 		</h3>
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span>
-					<ifMode mode="VIEW" include="false">
-						<span>Age when given: </span>
-					</ifMode>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<ifMode mode="VIEW" include="false">
+					<span>Age when given: </span>
+				</ifMode>
 
-					<p style="display:none">
-						<obs id="1-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
-					</p>
-					<p>
-						<span>1st injection: </span>
-						<obs class="age" id="1-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+				<p style="display:none">
+					<obs id="1-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
+				</p>
+				<p>
+					<span>1st injection: </span>
+					<obs class="age" id="1-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="1-pcv-ontime" name="1-pcv" type="checkbox" onTimeValue="1.5">Given on time (6 weeks)</input>
 				</p>
-				<span>
-					<p style="display:none">
-						<obs id="2-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
-					</p>
-					<p>
-						<span>2nd injection: </span>
-						<obs class="age" id="2-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+			</ifMode>
+			<span>
+				<p style="display:none">
+					<obs id="2-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
+				</p>
+				<p>
+					<span>2nd injection: </span>
+					<obs class="age" id="2-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="2-pcv-ontime" name="2-pcv" type="checkbox" onTimeValue="2.5">Given on time (10 weeks)</input>
 				</p>
-				<span >
-					<p style="display:none">
-						<obs id="3-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
-					</p>
-					<p>
-						<span>3rd injection: </span>
-						<obs class="age" id="3-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
-						<br/>
-					</p>
-				</span>
+			</ifMode>
+			<span>
+				<p style="display:none">
+					<obs id="3-pcv" conceptId="CIEL:1198" answerConceptId="CIEL:82215" />
+				</p>
+				<p>
+					<span>3rd injection: </span>
+					<obs class="age" id="3-pcv-age" conceptId="LFHC:1102" showUnits="true"/>
+					<br/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="3-pcv-ontime" name="3-pcv" type="checkbox" onTimeValue="3.5">Given on time (14 weeks)</input>
 				</p>
-			</obsgroup>
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -430,28 +440,25 @@ formDisplayStyle="Simple"
 		<h3>
 			Measles, Rubella
 		</h3>
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span >
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<p style="display:none">
+					<obs id="mr" conceptId="CIEL:1198" answerConceptId="CIEL:162586" />
+				</p>
 
-					<p style="display:none">
-						<obs id="mr" conceptId="CIEL:1198" answerConceptId="CIEL:162586" />
-					</p>
-
-					<p>
-						<ifMode mode="VIEW" include="false">
-							<span>Age when given: </span>
-						</ifMode>
-						<obs class="age" id="mr-age" conceptId="LFHC:1102" showUnits="true"/>
-					</p>
-				</span>
-
+				<p>
+					<ifMode mode="VIEW" include="false">
+						<span>Age when given: </span>
+					</ifMode>
+					<obs class="age" id="mr-age" conceptId="LFHC:1102" showUnits="true"/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false" >
 				<p>
 					<input class="check" id="mr-ontime" name="mr" type="checkbox" onTimeValue="9">Given on time (9 months)</input>
 				</p>
-			</obsgroup>
-
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 
 	<fieldset>
@@ -461,25 +468,25 @@ formDisplayStyle="Simple"
 		<h3>
 			Tetanus toxoid / Diphtheria
 		</h3>
-		<span>
-			<obsgroup groupingConceptId="LFHC:1103">
-				<span >
-					<p style="display:none">
-						<obs id="td" conceptId="CIEL:1198" answerConceptId="CIEL:17" />
-					</p>
+		<obsgroup groupingConceptId="LFHC:1103">
+			<span>
+				<p style="display:none">
+					<obs id="td" conceptId="CIEL:1198" answerConceptId="CIEL:17" />
+				</p>
 
-					<p>
-						<ifMode mode="VIEW" include="false">
-							<span>Age when given: </span>
-						</ifMode>
-						<obs class="age" id="td-age" conceptId="LFHC:1102" showUnits="true"/>
-					</p>
-				</span>
+				<p>
+					<ifMode mode="VIEW" include="false">
+						<span>Age when given: </span>
+					</ifMode>
+					<obs class="age" id="td-age" conceptId="LFHC:1102" showUnits="true"/>
+				</p>
+			</span>
+			<ifMode mode="view" include="false">
 				<p>
 					<input class="check" id="td-ontime" name="td" type="checkbox" onTimeValue="180">Given on time (15-45 years)</input>
 				</p>
-			</obsgroup>
-		</span>
+			</ifMode>
+		</obsgroup>
 	</fieldset>
 </section>
 

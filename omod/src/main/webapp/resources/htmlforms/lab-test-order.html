@@ -50,28 +50,27 @@ formDisplayStyle="Simple"
 	<script type="text/javascript">
 
 		jQuery(document).ready(function(){
-	//alert("enter mode");
-	$(".checkAll").click(function () {
+			$(".checkAll").click(function () {
 
-		checked = $(this).prop("checked");
-		console.log("checked: "+checked);
+				checked = $(this).prop("checked");
+				console.log("checked: "+checked);
 
-		if (checked) {
-			console.log("is in checked loop");
-			$(this).closest("fieldset").find(".toCheck").find("input").each(function (index, currentChild)  {
-				$(currentChild).prop("checked", true);
-			});
-		}
-		if (!checked) {
-			console.log("is in unchecked loop");
-			$(this).closest("fieldset").find(".toCheck").find("input").each(function (index, currentChild)  {
-				$(currentChild).prop("checked", false);
-			});}
+				if (checked) {
+					console.log("is in checked loop");
+					$(this).closest("fieldset").find(".toCheck").find("input").each(function (index, currentChild)  {
+						$(currentChild).prop("checked", true);
+					});
+				}
+				if (!checked) {
+					console.log("is in unchecked loop");
+					$(this).closest("fieldset").find(".toCheck").find("input").each(function (index, currentChild)  {
+						$(currentChild).prop("checked", false);
+					});}
+				});
+
+			$(".hiddenObs").show();
+
 		});
-
-	$(".hiddenObs").show();
-
-});
 	</script>
 
 </ifMode>
@@ -110,7 +109,7 @@ formDisplayStyle="Simple"
 	</script>
 </ifMode>
 
-<div class="hidden" id="who-when-where">
+<div class="hidden" id="who-where-when">
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -119,7 +118,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -127,7 +126,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -141,7 +140,7 @@ formDisplayStyle="Simple"
 	<fieldset id="cbc-fieldset">
 		<!-- Complete Blood Count -->
 		<legend><uimessage code="lfhcforms.labtestorder.legend.completebloodcount"/></legend>
-		<h4><uimessage code="lfhcforms.labtestorder.legend.completebloodcount"/></h4>
+		<h3><uimessage code="lfhcforms.labtestorder.legend.completebloodcount"/></h3>
 
 		<ifMode mode="enter">
 			<div>
@@ -186,7 +185,7 @@ formDisplayStyle="Simple"
 	<fieldset id="ps-fieldset">
 		<!-- Peripheral Smear -->
 		<legend><uimessage code="lfhcforms.labtestorder.legend.periphearalsmear"/></legend>
-		<h4><uimessage code="lfhcforms.labtestorder.legend.periphearalsmear"/></h4>
+		<h3><uimessage code="lfhcforms.labtestorder.legend.periphearalsmear"/></h3>
 
 		<ifMode mode="enter">
 			<div>
@@ -237,7 +236,7 @@ formDisplayStyle="Simple"
 		<fieldset id="oh-fieldset">
 			<!-- Other Hematology -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.otherhematology"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.otherhematology"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.otherhematology"/></h3>
 
 			<ifMode mode="enter">
 				<div>
@@ -276,7 +275,7 @@ formDisplayStyle="Simple"
 		<fieldset id="oh-fieldset">
 			<!-- Routine Urianalysis -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.routineurianalysis"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.routineurianalysis"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.routineurianalysis"/></h3>
 
 			<ifMode mode="enter">
 				<div>
@@ -326,7 +325,7 @@ formDisplayStyle="Simple"
 		<fieldset id="ch-fieldset">
 			<!-- Chemistry -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.chemistry"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.chemistry"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.chemistry"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -371,7 +370,7 @@ formDisplayStyle="Simple"
 		<fieldset id="bg-fieldset">
 			<!-- Blood Gas -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.bloodgas"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.bloodgas"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.bloodgas"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -410,7 +409,7 @@ formDisplayStyle="Simple"
 		<fieldset id="co-fieldset">
 			<!-- Coagulation -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.coagulation"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.coagulation"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.coagulation"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -448,7 +447,7 @@ formDisplayStyle="Simple"
 		<fieldset id="bs-fieldset">
 			<!-- Bone Set -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.boneset"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.boneset"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.boneset"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -488,7 +487,7 @@ formDisplayStyle="Simple"
 		<fieldset id="lf-fieldset">
 			<!-- Liver Function -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.liverfunction"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.liverfunction"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.liverfunction"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -535,7 +534,7 @@ formDisplayStyle="Simple"
 		<fieldset id="ot-fieldset">
 			<!-- Other -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.other"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.other"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.other"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -587,7 +586,7 @@ formDisplayStyle="Simple"
 		<fieldset id="rt-fieldset">
 			<!-- Rapid Test -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.rapidtest"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.rapidtest"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.rapidtest"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -636,7 +635,7 @@ formDisplayStyle="Simple"
 		<fieldset id="tb-fieldset">
 			<!-- TB tests -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.tbtest"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.tbtest"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.tbtest"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -674,7 +673,7 @@ formDisplayStyle="Simple"
 		<fieldset id="th-fieldset">
 			<!-- Torch -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.torch"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.torch"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.torch"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -714,7 +713,7 @@ formDisplayStyle="Simple"
 		<fieldset id="lp-fieldset">
 			<!-- Lipid Profile -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.lipidprofile"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.lipidprofile"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.lipidprofile"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>
@@ -754,7 +753,7 @@ formDisplayStyle="Simple"
 		<fieldset id="cu-fieldset">
 			<!-- Culture -->
 			<legend><uimessage code="lfhcforms.labtestorder.legend.culture"/></legend>
-			<h4><uimessage code="lfhcforms.labtestorder.legend.culture"/></h4>
+			<h3><uimessage code="lfhcforms.labtestorder.legend.culture"/></h3>
 			<ifMode mode="enter">
 				<div>
 					<span>

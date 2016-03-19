@@ -66,15 +66,15 @@ formDisplayStyle="Simple"
 </ifMode>
 
 <ifMode mode="VIEW">
-	<script type="text/javascript" id="properViewMode">
+	<script type="text/javascript" >
 		// improve display of VIEW mode
 		jQuery(document).ready(function(){
-			properViewMode("3faa978f-8c89-4f8e-b29f-17fd11099ecf");
+			handleViewMode("3a6776bd-43ed-4844-a815-155068e65aca");
 		});
 	</script>
 </ifMode>
 
-<div class="hidden" id="who-when-where" >
+<div class="hidden" id="who-where-when" >
 	<p id="who">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.provider" />
@@ -83,7 +83,7 @@ formDisplayStyle="Simple"
 			<encounterProvider default="currentUser" required="true" />
 		</span>
 	</p>
-	<p id="when">
+	<p id="where">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.location" />
 		</label>
@@ -91,7 +91,7 @@ formDisplayStyle="Simple"
 			<encounterLocation default="SessionAttribute:emrContext.sessionLocationId" />
 		</span>
 	</p>
-	<p id="where">
+	<p id="when">
 		<label>
 			<uimessage code="coreapps.patientDashBoard.date" />
 		</label>
@@ -118,7 +118,7 @@ formDisplayStyle="Simple"
 		<ifMode mode="view" include="false">
 			<p style="margin-top:15px;">
 				<div class="status-container" id="blood-type-latest-wrapper">
-					<span id="blood-type-latest-title" style="display:none;"><i class="icon-">&#xf05a; </i>Latest blood typing test: </span>
+					<span id="blood-type-latest-title" style="display:none;"><i class="icon-">&#xf05a; </i>Latest blood typing test </span>
 					<strong>
 						<span id="blood-type-latest" style="display:none;"></span>
 					</strong>
@@ -127,7 +127,7 @@ formDisplayStyle="Simple"
 					</small>
 
 					<span id="blood-type-no-latest" >
-						<i class="icon-">&#xf071; </i>No blood typing found
+						<i class="icon-">&#xf071; </i>No blood typing found from previous Lab Tests
 					</span>
 				</div>
 			</p>
@@ -150,28 +150,28 @@ formDisplayStyle="Simple"
 	</fieldset>
 	<fieldset>
 		<legend>Start time</legend>
-		<h3>Transfusion start time:</h3>
+		<h3>Transfusion start time</h3>
 		<p>
 			<obs conceptId="LFHC:1214" />
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>Anticipated end time</legend>
-		<h3>Anticipated end time:</h3>
+		<h3>Anticipated end time</h3>
 		<p>
 			<obs conceptId="LFHC:1215" />
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>End time</legend>
-		<h3>Time transfusion stopped:</h3>
+		<h3>Time transfusion stopped</h3>
 		<p>
 			<obs conceptId="LFHC:1216" />
 		</p>
 	</fieldset>
 	<fieldset>
 		<legend>Volume</legend>
-		<h3>Volume of blood transfused:</h3>
+		<h3>Volume of blood transfused</h3>
 		<p>
 			<obs conceptId="LFHC:1217" showUnits="true" />
 		</p>
