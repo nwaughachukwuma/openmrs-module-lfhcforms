@@ -1,6 +1,6 @@
 {
 	"name":"lcsCalculationTable",
-	"description":"Holds a list of each question that is taken into account while calucation the Living Condition score. Each question has a scoreMap property that maps the possible answers with their associated score",
+	"description":"Holds a list of each question that is taken into account when calculating the Living Condition score. Each question has a scoreMap property that maps the possible answers to it with their associated score",
 	"questions": {
 		"LFHC:1000":{
 			"scoreMap": {
