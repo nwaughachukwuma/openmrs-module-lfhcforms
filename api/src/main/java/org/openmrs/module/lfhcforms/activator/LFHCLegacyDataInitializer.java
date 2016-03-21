@@ -35,6 +35,10 @@ import org.apache.commons.lang.WordUtils;
  */
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 import org.joda.time.DateTime;
 import org.openmrs.Concept;
 import org.openmrs.Encounter;
@@ -178,6 +182,25 @@ public class LFHCLegacyDataInitializer implements Initializer {
 		patientService = Context.getPatientService();
 		personService = Context.getPersonService();
 	}
+	
+	protected Logger getLogger() {
+		
+		String logFileName = "importVisits_" + new SimpleDateFormat("yyyy-MM-dd_hhmm'.txt'").format(new Date()) + ".log";
+		
+		Logger logger = Logger.getLogger(LFHCLegacyDataInitializer.class);
+		SimpleLayout layout = new SimpleLayout();    
+	    FileAppender appender = null;
+		try {
+			appender = new FileAppender(layout, logFileName, false);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    
+		logger.addAppender(appender);
+		logger.setLevel((Level) Level.DEBUG);
+
+		return logger;
+	}
 
 	/**
 	 * @see Initializer#started()
@@ -296,6 +319,8 @@ public class LFHCLegacyDataInitializer implements Initializer {
 //		if(true)
 //			return;
 		
+		Logger logger = getLogger();	// Custom logger for import error messages
+		
 		//
 		// Processing the visits CSV
 		//
@@ -311,11 +336,11 @@ public class LFHCLegacyDataInitializer implements Initializer {
 			
 			List<Patient> patients = patientService.getPatients(legacyId);
 			if(patients.isEmpty()) {
-				log.error(LOG_PREFIX + "No patient found for saving the following visit/encounter. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
+				logger.error("No patient found for saving the following visit/encounter. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
 				continue;
 			}
 			if(patients.size() > 1) {
-				log.error(LOG_PREFIX + patients.size() + " found matching the legacy ID. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
+				logger.error(patients.size() + " found matching the legacy ID. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
 				continue;
 			}
 			
@@ -335,7 +360,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 					continue;
 				}
 				if (questionString.isEmpty() || answerString.isEmpty()) {
-					log.error(LOG_PREFIX + "The question or the answer is missing for the following visit/encounter." + rowInfo);
+					logger.error("The question or the answer is missing for the following visit/encounter." + rowInfo);
 					obsSet.clear();
 					break;
 				}
@@ -343,7 +368,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				// Fetching the question-concept.
 				Concept conceptQuestion = getConceptFromConceptMapping(conceptService, questionString);
 				if (conceptQuestion == null) {
-					log.error(LOG_PREFIX + "No concept-question could be mapped for saving the following visit/encounter." + rowInfo);
+					logger.error("No concept-question could be mapped for saving the following visit/encounter." + rowInfo);
 					obsSet.clear();
 					break;
 	        	}
@@ -366,7 +391,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				
 				if ( obsType.equals(OBS_CODED) ) {
 					if (conceptAnswer == null) {
-						log.error(LOG_PREFIX + "A non-coded answer was provided to a coded question." + rowInfo);
+						logger.error("A non-coded answer was provided to a coded question." + rowInfo);
 						obsSet.clear();
 						break;
 		        	}
@@ -374,7 +399,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				}
 				else if ( obsType.equals(OBS_NUM) ) {
 					if (parsedToNumeric == false) {
-						log.error(LOG_PREFIX + "A non-numeric answer was provided to a numeric question." + rowInfo);
+						logger.error("A non-numeric answer was provided to a numeric question." + rowInfo);
 						obsSet.clear();
 						break;
 					}
@@ -382,12 +407,12 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				}
 				else if ( obsType.equals(OBS_TEXT) ) {
 					if (conceptAnswer != null) {
-						log.error(LOG_PREFIX + "A coded answer was provided to a text question, this most likely most likely an error." + rowInfo);
+						logger.error("A coded answer was provided to a text question, this most likely most likely an error." + rowInfo);
 						obsSet.clear();
 						break;
 		        	}
 					if (parsedToNumeric == true) {
-						log.error(LOG_PREFIX + "A numeric answer was provided to a text question, this most likely most likely an error." + rowInfo);
+						logger.error("A numeric answer was provided to a text question, this most likely most likely an error." + rowInfo);
 						obsSet.clear();
 						break;
 					}
@@ -407,7 +432,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 						res = false;
 					}
 					else {
-						log.error(LOG_PREFIX + "No boolean answer could be obtained for a boolean question." + rowInfo);
+						logger.error("No boolean answer could be obtained for a boolean question." + rowInfo);
 						obsSet.clear();
 						break;
 					}
@@ -415,7 +440,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 					obs.setValueBoolean(res);
 				}
 				else {
-					log.error(LOG_PREFIX + "The question datatype is not handled: '" + obsType + "'." + rowInfo);
+					logger.error("The question datatype is not handled: '" + obsType + "'." + rowInfo);
 					obsSet.clear();
 					break;
 				}
