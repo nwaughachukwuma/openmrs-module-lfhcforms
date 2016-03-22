@@ -10,11 +10,24 @@ formDisplayStyle="Simple"
 <ifMode mode="VIEW" include="false">
 
 	<uiInclude provider="lfhcforms" javascript="toggleContainers.js"/>
+	<uiInclude provider="lfhcforms" javascript="../livingConditionsScore/lcs.json"/>
+	<uiInclude provider="lfhcforms" javascript="livingConditionsScore/livingConditionsScore.js"/>
+
+	<uiInclude provider="lfhcforms" fragment="livingConditionsScore"/>
 
 	<script type="text/javascript">
 		jQuery(document).ready(function(){
 			toggleContainers();
+
+			jQuery(function() {
+				getField('LFHC:1319.value').change(function() {
+					console.log(getValue("LFHC:1319.value"));		
+				});
+			});
+
+
 		});
+
 	</script>
 
 </ifMode>
@@ -251,7 +264,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.financial-assessment.legend.hef" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1319" />
+			<obs id="LFHC:1319" conceptId="LFHC:1319" />
 		</p>
 	</fieldset>	
 

@@ -1,0 +1,41 @@
+{
+	"name":"lcsDefinitionTable",
+	"description":"Holds a list of each question that is taken into account while calculating the Living Condition score. Each question has then a scoreMap property that maps the possible answers with their associated score",
+	"questions": 
+		[
+			{
+				"conceptMapping":"LFHC:1000",
+				"scores":
+				[
+					{
+						"score": "0",
+						"value":"4",
+						"operator":">="
+					},
+					{
+						"score":"1",
+						"low": "0",
+						"high":"3"
+					}
+				]
+			},
+			{
+				"conceptMapping":"LFHC:1001",
+				"scores":
+				[
+					{
+						"score":"0",
+						"conceptMapping":"LFHC:1100"
+					},
+					{
+						"score": "1",
+						"conceptMapping":"LFHC:1101"
+					},
+					{
+						"score": "2",
+						"conceptMapping":"LFHC:1102"
+					}
+				]
+			}
+		]
+}
