@@ -1,5 +1,42 @@
 describe("Living Conditions Score Calculation", function() {
 
+	var json;
+
+	beforeEach(function () {
+		json = {
+			"name":"lcsCalculationTable",
+			"description":"Holds a list of each question that is taken into account when calculating the Living Condition score. Each question has a scoreMap property that maps the possible answers to it with their associated score",
+			"questions": {
+				"LFHC:1000":{
+					"score": {
+						"0": {
+							"value":"7",
+							"operator":">="
+						},
+						"1":{
+							"low": "2",
+							"high":"6"
+						},
+						"2": {
+							"value":"1"
+						},
+						"3": {
+							"value": "0"
+						}
+					}
+				},
+				"LFHC:1001":{
+					"score": {
+						"0":"LFHC:1100",
+						"1":"LFHC:1101",
+						"2":"LFHC:1102"
+					}
+				}
+			}
+		};	
+	});
+
+
 	it("should do basic score calculation", function() {
 		var input = {
 			"LFHC:1000":"1",

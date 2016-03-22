@@ -1,44 +1,5 @@
 /* JS functions to calculate the Living Conditions Score, based on a map provied as JSON file */
 
-// TODO: Retrieve this map from external resource
-var json = {
-	"name":"lcsCalculationTable",
-	"description":"Holds a list of each question that is taken into account while calucation the Living Condition score. Each question has then a scoreMap property that maps the possible answers with their associated score",
-	"questions": {
-		"LFHC:1000":{
-			"scoreMap": {
-				"0": {
-					"value":"7",
-					"operator":">="
-				},
-				"1":{
-					"low": "2",
-					"high":"6"
-				},
-				"2": {
-					"value":"1"
-				},
-				"3": {
-					"value": "0"
-				}
-			}
-		},
-		"LFHC:1001":{
-			"scoreMap": {
-				"0":"LFHC:1100",
-				"1":"LFHC:1101",
-				"2":"LFHC:1102"
-			}
-		}
-	}
-};
-
-var input = {
-	"LFHC:1000":"3",
-	"LFHC:1001":"LFHC:1102",
-}
-
-
 var calculateLCS = function (input, jsonMap) {
 
 	var score = null;
@@ -74,7 +35,7 @@ var calculateLCS = function (input, jsonMap) {
 
 		for (var question in jsonMap.questions ) {
 			
-			var scoreMap = jsonMap.questions[question].scoreMap;
+			var scoreMap = jsonMap.questions[question].score;
 
 			if (questionWithAnswer.question == question) {
 				hasConfig = true;
