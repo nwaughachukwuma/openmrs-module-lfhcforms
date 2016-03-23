@@ -10,19 +10,17 @@ import org.openmrs.Concept;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.lfhcforms.fragment.controller.LivingConditionsScoreFragmentController.LCSDefinition.Question;
 import org.openmrs.module.lfhcforms.fragment.controller.LivingConditionsScoreFragmentController.LCSDefinition.Score;
-import org.openmrs.module.lfhcforms.utils.DefaultResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.OmodResouceLoaderImpl;
 import org.openmrs.module.lfhcforms.utils.ResourceLoader;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 
 /**
- * Retrieves the conceptIDs of the LCS definition JSON and saves as a new resource
+ * Retrieves the conceptIDs of the LCS definition JSON and sends to the View
  * 
  * @author Romain Buisson
  */
 public class LivingConditionsScoreFragmentController {
-
 
 	protected static final Log log = LogFactory.getLog(LivingConditionsScoreFragmentController.class);
 	final ObjectMapper mapper = new ObjectMapper();
@@ -58,6 +56,25 @@ public class LivingConditionsScoreFragmentController {
 			this.questions = questions;
 		}
 
+		/**
+		 * Converts a LCSDefinition object into a JSON string
+		 * 
+		 * return json
+		 */
+		protected String getLCSDefinitionAsString() {
+
+			final ObjectMapper mapper = new ObjectMapper();
+
+			String json = "";
+
+			try {
+				json = mapper.writeValueAsString(this);
+			} catch (Exception e) {
+				log.error("There was an error converting the " + this + " into JSON string" , e);
+			}
+
+			return json;
+		}
 
 		public static class Question {
 
@@ -149,6 +166,7 @@ public class LivingConditionsScoreFragmentController {
 	}
 
 	/**
+	 * 
 	 * @param resourceLoader
 	 * @param resourcePath
 	 * @return The JSON String defining the Living Conditions Score (lcsDefinition.json).
@@ -166,7 +184,7 @@ public class LivingConditionsScoreFragmentController {
 	}
 
 	/**
-	 * Unmarshalls the lcsDefinition JSON into a lcsDefinition Java Object {@link lcsDefinition#}.
+	 * Unmarshalls the lcsDefinition JSON into a LCSDefinition Java Object {@link lcsDefinition#}.
 	 * @param json
 	 */
 	protected LCSDefinition getLCSDefinition(String json) {
@@ -183,58 +201,66 @@ public class LivingConditionsScoreFragmentController {
 	}
 
 
-	protected String getLCSDefinitionAsString(LCSDefinition lcsDefinition) {
 
-		String json = "";
-
-		try {
-			json = mapper.writeValueAsString(lcsDefinition);
-		} catch (Exception e) {
-			log.error("There was an error converting the " + lcsDefinition + " into JSON string" , e);
-		}
-
-		return json;
-	}
-
-
+	/**
+	 * Controller to retrieve ConceptIds based on ConceptMappings
+	 * 
+	 * @param model
+	 * @param conceptService
+	 */
 	public void controller(FragmentModel model,
 			@SpringBean("conceptService") ConceptService conceptService)	{
-
-
 
 		String json = getLCSJson(new OmodResouceLoaderImpl("lfhcforms"), "livingConditionsScore/lcsDefinition.json");
 		LCSDefinition lcsDefinition = getLCSDefinition(json);
 
-		LCSDefinition lcsDefinitionWithIds = retrieveIdsFromMappings(lcsDefinition, conceptService);
-		String lcsDefJSON = getLCSDefinitionAsString(lcsDefinitionWithIds);
+		LCSDefinition lcsDefinitionWithIds = retrieveConceptIds(lcsDefinition, conceptService);
+		String lcsDefJSON = lcsDefinitionWithIds.getLCSDefinitionAsString();
 
 		model.put("lcsDefinition",lcsDefJSON);
 
 	}
 
-	private LCSDefinition retrieveIdsFromMappings(LCSDefinition lcsDefinitionWithMappings, ConceptService conceptService) {
+	/**
+	 * Returns a new LCSDefinitionObject that has ConceptIds
+	 * 
+	 * @param lcsDefinitionWithMappings
+	 * @param conceptService
+	 * @return lcsDefinitonWithIds
+	 */
+	protected LCSDefinition retrieveConceptIds(LCSDefinition lcsDefinitionWithMappings, ConceptService conceptService) {
 
 		LCSDefinition lcsDefWithIds = new LCSDefinition();
 		lcsDefWithIds = lcsDefinitionWithMappings;
 
 		for (Question question : lcsDefWithIds.getQuestions()) {
 
-			String[] splitMapping = question.getConceptMapping().split(":");
-			Concept concept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
+			if (question.getConceptMapping() != null && question.getConceptMapping() != "") {
 
-			if (concept != null ) {
-				
-				question.setConceptId(concept.getConceptId().toString());
+				String[] splitMapping = question.getConceptMapping().split(":");
+				Concept questionConcept = null;
 
-				for (Score score : question.getScores())  {
+				if (splitMapping.length == 1) {
+					log.error("Malformed JSON configuration file: livingConditionsScore/lcsDefinition.json \n "
+							+ "One of the questions seems to have no valid mapping" );
+				} else {
+					questionConcept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
+				}
 
-					String conceptMapping = score.getConceptMapping();
+				if (questionConcept != null ) {
 
-					if (score.getConceptMapping() != null && score.getConceptMapping() != "") {
-						splitMapping = conceptMapping.split(":");
-						concept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
+					question.setConceptId(questionConcept.getConceptId().toString());
 
-						score.setConceptId(concept.getConceptId().toString());
+					for (Score score : question.getScores())  {
+
+						String conceptMapping = score.getConceptMapping();
+
+						if (score.getConceptMapping() != null && score.getConceptMapping() != "") {
+							splitMapping = conceptMapping.split(":");
+							Concept answerConcept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
+
+							score.setConceptId(answerConcept.getConceptId().toString());
+						}
 					}
 				}
 			}
