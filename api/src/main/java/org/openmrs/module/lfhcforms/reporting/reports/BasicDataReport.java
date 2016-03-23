@@ -63,7 +63,7 @@ public class BasicDataReport extends BaseReportManager {
 		final ResourceLoader loader = new DefaultResouceLoaderImpl();
 		String sql = "";
 		try {
-			sql = loader.getResourceAsSting(SQL_RESOURCE_PATH, "UTF-8");
+			sql = loader.getResourceAsString(SQL_RESOURCE_PATH, "UTF-8");
 		}
 		catch (IOException e) {
 			log.error("Could not load resource file '" + SQL_RESOURCE_PATH + ".", e);

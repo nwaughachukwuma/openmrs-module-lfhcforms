@@ -7,5 +7,5 @@ public interface ResourceLoader {
 
 	InputStream getResourceAsStream(String resourcePath);
 	
-	String getResourceAsSting(String resourcePath, String encoding) throws IOException;
+	String getResourceAsString(String resourcePath, String encoding) throws IOException;
 }

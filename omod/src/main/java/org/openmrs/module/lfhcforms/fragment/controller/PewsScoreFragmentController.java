@@ -202,7 +202,7 @@ public class PewsScoreFragmentController {
 
 		String json = "";
 		try {
-			json = resourceLoader.getResourceAsSting(resourcePath, "UTF-8");
+			json = resourceLoader.getResourceAsString(resourcePath, "UTF-8");
 		} catch (IOException e) {
 			log.error("There was an error loading " + resourcePath, e);
 		}

@@ -19,7 +19,7 @@ public class DefaultResouceLoaderImpl implements ResourceLoader {
 	}
 
 	@Override
-	public String getResourceAsSting(String resourcePath, String encoding) throws IOException {
+	public String getResourceAsString(String resourcePath, String encoding) throws IOException {
 		return IOUtils.toString(this.getResourceAsStream(resourcePath), encoding); 
 	}
 }

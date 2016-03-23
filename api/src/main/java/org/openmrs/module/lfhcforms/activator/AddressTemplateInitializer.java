@@ -53,7 +53,7 @@ public class AddressTemplateInitializer implements Initializer {
 		final ResourceLoader loader = new DefaultResouceLoaderImpl();
 		String xml = "";
 		try {
-			xml = loader.getResourceAsSting(XML_RESOURCE_PATH, "UTF-8");
+			xml = loader.getResourceAsString(XML_RESOURCE_PATH, "UTF-8");
 		}
 		catch (IOException e) {
 			log.error("Could not load resource file '" + XML_RESOURCE_PATH + ".", e);

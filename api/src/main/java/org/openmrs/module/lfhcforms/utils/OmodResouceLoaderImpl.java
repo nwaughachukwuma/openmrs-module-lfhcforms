@@ -35,7 +35,7 @@ public class OmodResouceLoaderImpl implements ResourceLoader {
 	}
 
 	@Override
-	public String getResourceAsSting(String resourcePath, String encoding) throws IOException {
+	public String getResourceAsString(String resourcePath, String encoding) throws IOException {
 		return resourceFactory.getResourceAsString(providerName, resourcePath);
 	}
 }
