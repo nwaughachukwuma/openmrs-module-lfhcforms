@@ -1,10 +1,9 @@
 /* JS functions to calculate the Living Conditions Score, based on a map provied as JSON file */
 
-var calculateLCS = function (input, jsonMap) {
+var calculateLCS = function (input, json) {
 
 	var score = null;
 	var lcs = {};	
-
 
 	/* Work the input to create object */
 
@@ -33,23 +32,24 @@ var calculateLCS = function (input, jsonMap) {
 		var questionWithAnswer = userInput[input];
 		var hasConfig = false;
 
-		for (var question in jsonMap.questions ) {
+		for (var q in json.questions ) {
 			
-			var scoreMap = jsonMap.questions[question].score;
+			var question = json.questions[q];
+			var scoreList = question.scores;
 
-			if (questionWithAnswer.question == question) {
+			if (questionWithAnswer.question == question.conceptMapping) {
+				
 				hasConfig = true;
 				var questionScore;
+
 				if (questionWithAnswer.isNumeric) {
-					questionScore = getScoreFromNumeric(questionWithAnswer.answer, scoreMap);
+					questionScore = getScoreFromNumeric(questionWithAnswer.answer, scoreList);
 				} else {
-					questionScore = getScoreFromConcept(questionWithAnswer.answer, scoreMap);
+					questionScore = getScoreFromConcept(questionWithAnswer.answer, scoreList);
 				}
-				// console.log(question + ": " + questionScore);
 				if (questionScore) {
 					score = questionScore *1 + score;
 				} else {
-					// console.warn("Score value for answer " + questionWithAnswer.answer + " (question " + question + ") is not found in configuration file")
 					lcs.value = null;
 					lcs.error="1";
 					return lcs;
@@ -58,7 +58,6 @@ var calculateLCS = function (input, jsonMap) {
 		}
 
 		if (!hasConfig) {
-			// console.warn("question " + questionWithAnswer.question + " is not found in configuration file")
 			lcs.value = null;
 			lcs.error="2";
 			return lcs;
@@ -71,7 +70,6 @@ var calculateLCS = function (input, jsonMap) {
 }
 
 var getScoreFromNumeric = function (userAnswer, answersScore) {
-	//// console.log('is numeric');
 
 	var score = null;
 
@@ -79,49 +77,48 @@ var getScoreFromNumeric = function (userAnswer, answersScore) {
 
 		var aS = answersScore[currentScore];
 		var match = false;
-		// console.log(aS);
 
 		switch (aS.operator) {
 
 			case "<=": 
 			if (userAnswer <= aS.value*1) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + aS.operator + aS.value + ")");
 				match = true;
 			}
 			break;
 
 			case ">=":
 			if (userAnswer >= aS.value*1) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + aS.operator + aS.value + ")");
 				match = true;
 			}
 			break;
 
 			case "<":
 			if (userAnswer < aS.value*1) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + aS.operator + aS.value + ")");
 				match = true;
 			}
 			break;
 
 			case ">":
 			if (userAnswer > aS.value*1) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + aS.operator + aS.value + ")");
 				match = true;
 			}
 			break;
 
-			default:
+			case "=":
 			if (userAnswer == aS.value*1) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + "=" + aS.value + ")");
 				match = true;
 			}
+			break;
 
+			case undefined:
+			if (userAnswer == aS.value*1) {
+				match = true;
+			}
+			break;
 		}
 
 		if (aS.high && aS.low) {
 			if (userAnswer >= aS.low && userAnswer <= aS.high ) {
-				// console.log("Score: "+ currentScore + " (" +userAnswer + ' in [' + aS.low +"-"+ aS.high + "])");
 				match = true;
 			}
 
@@ -135,16 +132,13 @@ var getScoreFromNumeric = function (userAnswer, answersScore) {
 }
 
 var getScoreFromConcept = function (userAnswer, answersScore) {
-	// console.log('is concept');
 	var score = null;
 	for (var currentScore in answersScore){
-		// console.log(answersScore[currentScore]);
-		
-		if (userAnswer === answersScore[currentScore]) {
+		var aS = answersScore[currentScore];
+
+		if (userAnswer === aS.conceptMapping) {
 			score = currentScore;
 		}
 	} 
 	return score;
 }
-
-
