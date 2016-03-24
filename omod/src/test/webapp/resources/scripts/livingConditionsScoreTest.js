@@ -10,10 +10,11 @@ describe("Living Conditions Score Calculation", function() {
 			[
 			{
 				"conceptMapping":"LFHC:1000",
+				"isNumeric":"true",
 				"scores":
 				[
 				{
-					"score": "0",
+					"score": "0",	
 					"value":"4",
 				},
 				{
@@ -30,19 +31,23 @@ describe("Living Conditions Score Calculation", function() {
 			},
 			{
 				"conceptMapping":"LFHC:1001",
+				"isNumeric":"false",
 				"scores":
 				[
 				{
 					"score":"0",
-					"conceptMapping":"LFHC:1100"
+					"conceptMapping":"LFHC:1100",
+					"conceptId":"1100"
 				},
 				{
 					"score": "1",
-					"conceptMapping":"LFHC:1101"
+					"conceptMapping":"LFHC:1101",
+					"conceptId":"1101"
 				},
 				{
 					"score": "2",
-					"conceptMapping":"LFHC:1102"
+					"conceptMapping":"LFHC:1102",
+					"conceptId":"1102"
 				}
 				]
 			}
@@ -54,7 +59,7 @@ describe("Living Conditions Score Calculation", function() {
 	it("should do basic score calculation", function() {
 		var input = {
 			"LFHC:1000":"1",
-			"LFHC:1001":"LFHC:1101"
+			"LFHC:1001":"1101"
 		}
 
 		var score = calculateLCS(input,json);
@@ -84,7 +89,7 @@ describe("Living Conditions Score Calculation", function() {
 
 	it("should return error code 1 when answer is not found", function() {
 		var input = {
-			"LFHC:1001":"LFHC:9999"
+			"LFHC:1001":"9999"
 		}
 
 		var score = calculateLCS(input,json);

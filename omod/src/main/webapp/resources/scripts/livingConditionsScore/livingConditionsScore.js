@@ -15,12 +15,6 @@ var calculateLCS = function (input, json) {
 		questionWithAnswer.question = individualInput;
 		questionWithAnswer.answer = input[individualInput];
 
-		if ((questionWithAnswer.answer.indexOf(":")) > 0) {
-			questionWithAnswer.isNumeric = false;
-		} else {
-			questionWithAnswer.isNumeric = true;
-		}
-
 		userInput.push(questionWithAnswer);
 	}
 
@@ -42,11 +36,12 @@ var calculateLCS = function (input, json) {
 				hasConfig = true;
 				var questionScore;
 
-				if (questionWithAnswer.isNumeric) {
+				if (question.isNumeric == "true") {
 					questionScore = getScoreFromNumeric(questionWithAnswer.answer, scoreList);
 				} else {
 					questionScore = getScoreFromConcept(questionWithAnswer.answer, scoreList);
 				}
+
 				if (questionScore) {
 					score = questionScore *1 + score;
 				} else {
@@ -118,7 +113,7 @@ var getScoreFromNumeric = function (userAnswer, answersScore) {
 		}
 
 		if (aS.high && aS.low) {
-			if (userAnswer >= aS.low && userAnswer <= aS.high ) {
+			if (userAnswer >= aS.low*1 && userAnswer <= aS.high*1 ) {
 				match = true;
 			}
 
@@ -135,9 +130,9 @@ var getScoreFromConcept = function (userAnswer, answersScore) {
 	var score = null;
 	for (var currentScore in answersScore){
 		var aS = answersScore[currentScore];
-
-		if (userAnswer === aS.conceptMapping) {
-			score = currentScore;
+debugger;
+		if (userAnswer === aS.conceptId) {
+			score = aS.score;
 		}
 	} 
 	return score;

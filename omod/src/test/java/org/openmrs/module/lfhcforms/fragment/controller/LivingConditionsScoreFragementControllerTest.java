@@ -76,6 +76,7 @@ public class LivingConditionsScoreFragementControllerTest {
 		when(mockAnswerConcept.getConceptId()).thenReturn(5678);
 
 		question1.setConceptMapping("LFHC:1000");
+		question1.setIsNumeric("true");
 
 		score0Q1.setScore("0");
 		score0Q1.setConceptMapping("LFHC:1100");
@@ -111,24 +112,6 @@ public class LivingConditionsScoreFragementControllerTest {
 	}
 
 	@Test
-	public void shouldNotTryToAddConceptIdWhenConceptMappingIsNotFoundInScore() {
-
-		when(mockConceptService.getConceptByMapping("1000", "LFHC")).thenReturn(mockQuestionConcept);
-		when(mockQuestionConcept.getConceptId()).thenReturn(1234);
- 
-		question1.setConceptMapping("LFHC:1000");
-		
-		// empty the current scores list and fill it with our mock instead
-		scoresQ1.clear();
-		scoresQ1.add(mockScore0Q1);
-
-		controller.retrieveConceptIds(lcsDefinition, mockConceptService);
-
-		// Verify that the setConceptId method is never called
-		verify(mockScore0Q1, never()).setConceptId(Mockito.anyString());
-	}
-
-	@Test
 	public void shouldNotTryToAddConceptIdWhenConceptMappingIsNotFoundInQuestion() {
 
 		when(mockConceptService.getConceptByMapping("1000", "LFHC")).thenReturn(mockQuestionConcept);
@@ -156,5 +139,23 @@ public class LivingConditionsScoreFragementControllerTest {
 
 	}
 
+	@Test
+	public void shouldNotTryToAddConceptIdWhenConceptMappingIsNotFoundInScore() {
+
+		when(mockConceptService.getConceptByMapping("1000", "LFHC")).thenReturn(mockQuestionConcept);
+		when(mockQuestionConcept.getConceptId()).thenReturn(1234);
+ 
+		question1.setConceptMapping("LFHC:1000");
+		question1.setIsNumeric("true");
+		
+		// empty the current scores list and fill it with our mock instead
+		scoresQ1.clear();
+		scoresQ1.add(mockScore0Q1);
+
+		controller.retrieveConceptIds(lcsDefinition, mockConceptService);
+
+		// Verify that the setConceptId method is never called
+		verify(mockScore0Q1, never()).setConceptId(Mockito.anyString());
+	}
 
 }

@@ -78,10 +78,18 @@ public class LivingConditionsScoreFragmentController {
 
 		public static class Question {
 
+			public String getIsNumeric() {
+				return isNumeric;
+			}
+			public void setIsNumeric(String isNumeric) {
+				this.isNumeric = isNumeric;
+			}
 			public Question() {};
 
 			private String conceptMapping = "";
 			private String conceptId = "";
+			private String isNumeric = "";
+			
 			private ArrayList<Score> scores = new ArrayList<Score>();
 
 			public String getConceptMapping() {
@@ -259,9 +267,15 @@ public class LivingConditionsScoreFragmentController {
 							splitMapping = conceptMapping.split(":");
 							Concept answerConcept = conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]);
 
-							score.setConceptId(answerConcept.getConceptId().toString());
+							if (answerConcept == null) {
+								log.error("Unable to retrieve ConceptId for ConceptMapping " + score.getConceptMapping());
+							} else {
+								score.setConceptId(answerConcept.getConceptId().toString());
+							}
 						}
 					}
+				} else {
+					log.error("Unable to retrieve ConceptId for ConceptMapping " + question.getConceptMapping());
 				}
 			}
 		}
