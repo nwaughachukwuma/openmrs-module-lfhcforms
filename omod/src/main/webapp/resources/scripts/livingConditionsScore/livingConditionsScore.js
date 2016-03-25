@@ -130,7 +130,7 @@ var getScoreFromConcept = function (userAnswer, answersScore) {
 	var score = null;
 	for (var currentScore in answersScore){
 		var aS = answersScore[currentScore];
-debugger;
+
 		if (userAnswer === aS.conceptId) {
 			score = aS.score;
 		}

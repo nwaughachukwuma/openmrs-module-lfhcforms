@@ -281,7 +281,7 @@
       ]
     },
     {
-      "conceptMapping": "LFHC:1348",
+      "conceptMapping": "LFHC:1347",
       "isNumeric":"false",
       "scores": [
         {
@@ -374,7 +374,7 @@
         },
         {
           "score": "1",
-          "conceptMapping": "CIEL:163309"
+          "conceptMapping": "LFHC:1350"
         },
         {
           "score": "2",
@@ -482,7 +482,7 @@
         },
         {
           "score": "0",
-          "conceptMapping": "CIEL:163328"
+          "conceptMapping": "LFHC:1368"
         },
         {
           "score": "1",
@@ -521,7 +521,7 @@
       ]
     },
     {
-      "conceptMapping": "LFHC:1341",
+      "conceptMapping": "LFHC:1377",
       "isNumeric":"true",
       "scores": [
         {
@@ -579,7 +579,7 @@
     },
     {
       "conceptMapping": "LFHC:1379",
-      "isNumeric":"true",
+      "isNumeric":"false",
       "scores": [
         {
           "score": "0",
