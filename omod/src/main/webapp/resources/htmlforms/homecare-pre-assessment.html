@@ -501,7 +501,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.latrine" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:159741" />
+			<obs conceptId="CIEL:159741" answerConceptIds="CIEL:159578, CIEL:159580, CIEL:159579, CIEL:159577, CIEL:159742, CIEL:1107" />
 		</p>
 	</fieldset>	
 
@@ -672,7 +672,7 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.insurance" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1493" style="yes_no" />
+			<obs conceptId="LFHC:1452" />
 		</p>
 	</fieldset>	
 
@@ -951,10 +951,10 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.school" />
 		</h3>
 		<p>
-			<obs id="in-school" conceptId="CIEL:5629" style="yes_no" >
+			<obs id="in-school" conceptId="LFHC:1451" >
 				<controls>
 					<!-- when doesn't work with boolean values -->
-					<when value="true" thenDisplay="#no-school-reason" />
+					<when value="CIEL:1066" thenDisplay="#no-school-reason" />
 				</controls>
 			</obs>
 		</p>

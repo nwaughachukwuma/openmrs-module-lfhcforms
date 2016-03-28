@@ -156,3 +156,25 @@ h2[class^="section-title-"] {
     padding-top: 1%;
     padding-bottom: 1%;
 }
+
+/* Style for Living Condition Score in HTML form */
+.simple-form-ui htmlform #lcs-obs {
+    display: none;
+}
+.simple-form-ui htmlform #lcs-wrapper {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.simple-form-ui htmlform #lcs-value {
+    font-size: 2em;
+}
+.simple-form-ui htmlform #lcs-message-wrapper {
+    display:block;
+}
+
+.simple-form-ui htmlform .icon-info-sign {
+ font-size: 1.3em;   
+}
+
+
+
