@@ -238,6 +238,19 @@ formDisplayStyle="Simple"
 		</p>
 	</fieldset>
 
+	<!-- Infant Feeding method fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.infant-feeding-method" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.infant-feeding-method" />
+		</h3>
+		<p>
+			<obs conceptId="CIEL:1151" />
+		</p>
+	</fieldset>
+
 	<!-- Rice fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
@@ -260,18 +273,32 @@ formDisplayStyle="Simple"
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.meat" />
 		</h3>
 		<p>
-			<obs conceptId="LFHC:1239" />
+			<obs conceptId="LFHC:1401" />
 		</p>
 	</fieldset>
 
 
-	<!-- fish fieldset -->
+	<!-- Fish fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fish" />
 		</legend>
 		<h3>
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.fish" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1239" />
+		</p>
+	</fieldset>
+
+
+	<!-- Eggs fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.eggs" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.eggs" />
 		</h3>
 		<p>
 			<obs conceptId="LFHC:1240" />
@@ -591,16 +618,22 @@ formDisplayStyle="Simple"
 
 <section id="phc" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.primary-health-care">
 
-	<!-- provider care giver fieldset -->
+<!-- Primary Provider center fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.provider" />
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.primary-provider" />
 		</legend>
 		<h3>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.provider" />
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.primary-provider-name" />
 		</h3>
 		<p>
-			<obs conceptId="CIEL:1783" />
+			<obs conceptId="LFHC:1444" />
+		</p>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.primary-provider-number" />
+		</h3>
+		<p>
+			<obs conceptId="LFHC:1445" />
 		</p>
 	</fieldset>	
 
@@ -1058,10 +1091,6 @@ formDisplayStyle="Simple"
 
 </section>
 
-
-
-
 <submit/>
-
 
 </htmlform>
