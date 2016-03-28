@@ -21,6 +21,13 @@ formDisplayStyle="Simple"
 
 			var input = {};
 
+			setLCS({
+				"value":"",
+				"error":"",
+				"complete":"false"
+			}
+			);
+
 			$(".lcs").change(function consolidateLCSInputs () { 
 				var obsField = 0;
 				var questionConceptMapping;
@@ -40,27 +47,55 @@ formDisplayStyle="Simple"
 
 				if (obsField == 0) {
 					console.error("The observation has no 'span.obs-field' element.\n This is most likely due to the fact that no 'id' is set to the '&lt;obs>' tag of your HTML Form Entry form.\n Hint: You must set the 'id' to be the concept mapping of the obs itself");
-				}
-				if (obsField > 1) {
+				} else if (obsField > 1) {
 					console.error("There is more than one 'span.obs-field' element in your 'p.lcs' element.\n This is most likely due to the fact that there is more than one '&lt;obs>' tag in a single 'p' in your HTML Form Entry form.\n Hint: it is not supported to add more than one 'obs' per 'p' yet");
 				} else {
 					input[questionConceptMapping] = answerConceptId;
 					if (answerConceptId == "") { delete input[questionConceptMapping]};
 					//console.log(input);
 
+					var setScore = true;
 					score = calculateLCS(input, lcsDefinition);
+					
 					console.log(score);
 					if (score.value == null) {
 						console.error("Living Conditions Score not computed");
+						setScore = false;
 					}
 					if (score.error == "1"  &amp;&amp; score.value == null) {
 						console.error("Unable to find score for answer "+ answerConceptId + " of question "+ questionConceptMapping +" in lcsDefinition.json file");
+						setScore = false;
 					}
 					if (score.error == "2" &amp;&amp; score.value == null) {
 						console.error("Unable to find question " + questionConceptMapping + " in lcsDefinition.json file");
+						setScore = false;
+					}
+					if (score.complete == "false" &amp;&amp; score.value != null ) {
+						console.warn("Living score computed but not complete: Please answer all the questions");
+						setScore = true;
+					}
+
+					if (setScore) {
+						setLCS(score);	
 					}
 				}
 			});
+
+			function setLCS (score) {
+				console.log(score);
+
+				if (score.complete == "false") {
+					$("#lcs-message").text(lcsNotCompleteMessage);
+				} else {
+
+					$("#lcs-message").text("");
+
+					setValue("lcs-obs.value", score.value);
+
+					$("#lcs-value").text(score.value);
+					$("#lcs-message").text(lcsVeryLowMessage);
+				}
+			}
 
 		});
 
@@ -127,6 +162,14 @@ formDisplayStyle="Simple"
 });
 &lt;/script>" />
 
+<lookup complexExpression="
+#set($lcsVeryLowMessage = $fn.message('lfhcforms.financial-assessment.lcs-very-low'))
+#set($lcsNotCompleteMessage = $fn.message('lfhcforms.financial-assessment.lcs-not-complete'))
+
+&lt;script type=&quot;text/javascript&quot;>
+var lcsVeryLowMessage = '${lcsVeryLowMessage}';
+var lcsNotCompleteMessage = '${lcsNotCompleteMessage}';
+&lt;/script>" />
 
 </ifMode>
 
@@ -547,13 +590,20 @@ formDisplayStyle="Simple"
 	<!-- Living conditions score fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			<uimessage code="lfhcforms.financial-assessment.legend.living-conditions-score" />
+			<uimessage code="lfhcforms.financial-assessment.legend.living-conditions-score-upper" />
 		</legend>
 		<h3>
 			<uimessage code="lfhcforms.financial-assessment.legend.living-conditions-score" />
 		</h3>
-		<p class="lcs">
-			<!-- Waiting for concept -->
+		<p id="lcs-wrapper">
+			<obs id="lcs-obs" conceptId="LFHC:1450" />
+			<ifMode mode="view" include="false">
+				<span id="lcs-value"></span>
+				<span id="lcs-message-wrapper">
+					<i class="icon-info-sign"/>
+					<span id="lcs-message"></span>
+				</span>
+			</ifMode>
 		</p>
 	</fieldset>	
 </section>

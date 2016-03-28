@@ -67,6 +67,23 @@ describe("Living Conditions Score Calculation", function() {
 		expect(score.value).toBe(2);
 	});
 
+	it("should set complete when all questions have been answered", function() {
+		var input = {
+			"LFHC:1000":"1"
+		}
+
+		var score = calculateLCS(input,json);
+
+		expect(score.complete).toBe("false");
+
+		// complete the input set
+		input["LFHC:1001"] = "1101";
+
+		score = calculateLCS(input,json);
+
+		expect(score.complete).toBe("true");
+	});
+
 	it("should handle range ('high' and 'low' properties)", function() {
 		var input = {
 			"LFHC:1000":"2"

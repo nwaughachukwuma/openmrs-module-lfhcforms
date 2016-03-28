@@ -5,6 +5,10 @@ var calculateLCS = function (input, json) {
 	var score = null;
 	var lcs = {};	
 
+	lcs.complete = "";
+	lcs.value = "";
+	lcs.error = "";
+
 	/* Work the input to create object */
 
 	var userInput = [];
@@ -21,9 +25,13 @@ var calculateLCS = function (input, json) {
 
 	/* Compare input to provided map */
 
-	for (var input in userInput) {
+	// Iterate through each user input
 
-		var questionWithAnswer = userInput[input];
+	var count = 0;
+
+	for (var entry in userInput) {
+
+		var questionWithAnswer = userInput[entry];
 		var hasConfig = false;
 
 		for (var q in json.questions ) {
@@ -33,6 +41,8 @@ var calculateLCS = function (input, json) {
 
 			if (questionWithAnswer.question == question.conceptMapping) {
 				
+				count = count + 1;
+
 				hasConfig = true;
 				var questionScore;
 
@@ -61,6 +71,13 @@ var calculateLCS = function (input, json) {
 
 	lcs.value = score;
 	lcs.error="0";
+
+	if (json.questions.length == count) {
+		lcs.complete = "true";
+	} else {
+		lcs.complete = "false";
+	}
+
 	return lcs;
 }
 
