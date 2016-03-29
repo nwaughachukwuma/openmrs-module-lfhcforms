@@ -86,12 +86,14 @@ formDisplayStyle="Simple"
 
 				if (score.complete == "false") {
 					$("#lcs-message").text(lcsNotCompleteMessage);
+					setValue("lcs-obs.vaule", "");
+					$("#lcs-value").text("");
+
 				} else {
 
 					$("#lcs-message").text("");
-
+	
 					setValue("lcs-obs.value", score.value);
-
 					$("#lcs-value").text(score.value);
 					$("#lcs-message").text(lcsVeryLowMessage);
 				}
