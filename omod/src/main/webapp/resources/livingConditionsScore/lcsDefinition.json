@@ -40,6 +40,11 @@
     "scores": [
     {
       "score": "0",
+      "value": "0",
+      "operator":"="
+    },
+    {
+      "score": "0",
       "value": "1",
       "operator":"="
     },
@@ -81,6 +86,10 @@
     "conceptMapping": "LFHC:1326",
     "isNumeric":"false",
     "scores": [
+    {
+      "score": "0",
+      "conceptMapping": "CIEL:1067"
+    },
     {
       "score": "0",
       "conceptMapping": "LFHC:1324"
@@ -127,6 +136,10 @@
     "scores": [
     {
       "score": "0",
+      "conceptMapping": "CIEL:1067"
+    },
+    {
+      "score": "0",
       "conceptMapping": "LFHC:1331"
     },
     {
@@ -151,6 +164,10 @@
     "conceptMapping": "LFHC:1337",
     "isNumeric":"false",
     "scores": [
+    {
+      "score": "0",
+      "conceptMapping": "CIEL:1107"
+    },
     {
       "score": "0",
       "conceptMapping": "LFHC:1332"
