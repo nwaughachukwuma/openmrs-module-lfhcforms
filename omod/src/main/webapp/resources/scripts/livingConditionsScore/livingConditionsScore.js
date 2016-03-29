@@ -5,7 +5,7 @@ var calculateLCS = function (input, json) {
 	var score = null;
 	var lcs = {};	
 
-	lcs.complete = "";
+	lcs.isComplete = "";
 	lcs.value = "";
 	lcs.error = "";
 
@@ -73,9 +73,9 @@ var calculateLCS = function (input, json) {
 	lcs.error="0";
 
 	if (json.questions.length == count) {
-		lcs.complete = "true";
+		lcs.isComplete = "true";
 	} else {
-		lcs.complete = "false";
+		lcs.isComplete = "false";
 	}
 
 	return lcs;

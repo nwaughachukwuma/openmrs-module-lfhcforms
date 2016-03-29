@@ -70,7 +70,7 @@ formDisplayStyle="Simple"
 						console.error("Unable to find question " + questionConceptMapping + " in lcsDefinition.json file");
 						setScore = false;
 					}
-					if (score.complete == "false" &amp;&amp; score.value != null ) {
+					if (score.isComplete == "false" &amp;&amp; score.value != null ) {
 						console.warn("Living score computed but not complete: Please answer all the questions");
 						setScore = true;
 					}
@@ -84,7 +84,7 @@ formDisplayStyle="Simple"
 			function setLCS (score) {
 				console.log(score);
 
-				if (score.complete == "false") {
+				if (score.isComplete == "false") {
 					$("#lcs-message").text(lcsNotCompleteMessage);
 					setValue("lcs-obs.vaule", "");
 					$("#lcs-value").text("");
