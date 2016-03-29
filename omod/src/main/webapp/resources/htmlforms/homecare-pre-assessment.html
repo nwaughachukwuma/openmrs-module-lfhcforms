@@ -410,35 +410,49 @@ formDisplayStyle="Simple"
 	<!-- Source of water fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-primary" />
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-source" />
 		</legend>
-		<h3>
-			<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-primary" />
-		</h3>
-		<p>
-			<obs id="water-source" conceptId="CIEL:1511" answerConceptIds="CIEL:5610, CIEL:1509, LFHC:1250" >
-				<controls>
-					<when value="CIEL:1509" thenDisplay="#well-type"/>
-					<when value="LFHC:1250" thenDisplay="#water-other"/>
-				</controls>
-			</obs>
-		</p>
-		<span id="well-type">
-			<h3>
-				<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-well-type" />
-			</h3>
-			<p>
-				<obs conceptId="CIEL:1509" />
-			</p>
-		</span>
-		<span id="water-other">
-			<h3>
-				<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-other" />
-			</h3>
-			<p>
-				<obs conceptId="LFHC:1250" cols="40" rows="5"/>
-			</p>
-		</span>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="water-source" class="toggleContainer" style="display:none;">
+					<h3>
+						<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-source" />
+					</h3>
+					<p>
+						<obs id="{n}" conceptId="CIEL:1511" answerConceptIds="CIEL:5610, CIEL:1509, LFHC:1250" >
+							<controls>
+								<when value="CIEL:1509" thenDisplay="#{n}-well-type"/>
+								<when value="LFHC:1250" thenDisplay="#{n}-water-other"/>
+							</controls>
+						</obs>
+					</p>
+					<span id="{n}-well-type">
+						<h3>
+							<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-well-type" />
+						</h3>
+						<p>
+							<obs conceptId="CIEL:1509" />
+						</p>
+					</span>
+					<span id="{n}-water-other">
+						<h3>
+							<uimessage code="lfhcforms.homecare-pre-assessment.legend.water-other" />
+						</h3>
+						<p>
+							<obs conceptId="LFHC:1250" cols="40" rows="5"/>
+						</p>
+					</span>
+					<span class="addRemoveButtons" >
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</span>
+				</div>
+			</template>
+			<render n="501"/>
+			<render n="502"/>
+			<render n="503"/>
+		</repeat>
+
 	</fieldset>
 
 
@@ -618,7 +632,7 @@ formDisplayStyle="Simple"
 
 <section id="phc" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.primary-health-care">
 
-<!-- Primary Provider center fieldset -->
+	<!-- Primary Provider center fieldset -->
 	<fieldset field-separator=", ">
 		<legend>
 			<uimessage code="lfhcforms.homecare-pre-assessment.legend.primary-provider" />
@@ -1091,6 +1105,24 @@ formDisplayStyle="Simple"
 
 </section>
 
+<section id="map-house" sectionTag="section" headerStyle="title" headerCode="lfhcforms.homecare-pre-assessment.section.map-house">
+	<!-- Map of patient fieldset -->
+	<fieldset field-separator=", ">
+		<legend>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.map-house" />
+		</legend>
+		<h3>
+			<uimessage code="lfhcforms.homecare-pre-assessment.legend.map-house" />
+		</h3>
+		<p>
+		<ifMode mode="view" include="false">
+			<uimessage code="lfhcforms.homecare-pre-assessment.map-link" />
+		</ifMode>
+			<obs conceptId="LFHC:1453" cols="55" rows="1" />
+		</p>
+	</fieldset>
+
+</section>
 <submit/>
 
 </htmlform>
