@@ -90,7 +90,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 	protected static String OBS_BOOL = "Boolean";
 	protected static String OBS_NA = "N/A";
 	
-//	protected final static long CPT_PROBLEM = "concept_source";
+	protected final static String OPD_LOCATION_UUID = "58c57d25-8d39-41ab-8422-108a0c277d98";
 	
 	/*
 	 * Required headers that MUST be found on the CSV files to be imported.
@@ -185,7 +185,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 	
 	protected Logger getLogger() {
 		
-		String logFileName = "importVisits_" + new SimpleDateFormat("yyyy-MM-dd_hhmm'.txt'").format(new Date()) + ".log";
+		String logFileName = "importVisits_" + new SimpleDateFormat("yyyy-MM-dd_hhmm").format(new Date()) + ".log";
 		
 		Logger logger = Logger.getLogger(LFHCLegacyDataInitializer.class);
 		SimpleLayout layout = new SimpleLayout();    
@@ -452,7 +452,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				legacyEncounter.setEncounterType(legacyEncounterType);
 				legacyEncounter.setEncounterDatetime(visitDate);
 				legacyEncounter.setPatient(patient);
-				legacyEncounter.setLocation(locationService.getDefaultLocation());
+				legacyEncounter.setLocation( locationService.getLocationByUuid(OPD_LOCATION_UUID) );
 				for (Obs obs : obsSet) {
 					legacyEncounter.addObs(obs);
 				}
