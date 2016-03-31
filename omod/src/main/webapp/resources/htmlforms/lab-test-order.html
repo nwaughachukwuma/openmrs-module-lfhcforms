@@ -80,11 +80,23 @@ formDisplayStyle="Simple"
 
 		jQuery(document).ready(function(){
 			$(".toCheck").closest("p").hide();
-			$(".toCheck").each(function (index, currentObs) {
-				checked =  null;
-				if (getValue($(currentObs).attr('id')+".value")) {
-					currentValue = getValue($(currentObs).attr('id')+".value");
-					$(currentObs).closest(".hiddenObs").show();
+			$(".comments").hide();
+
+			$("fieldset").each(function (index, currentFieldset) {
+				var emptyFieldset = true;
+				$(currentFieldset).find(".toCheck").each(function (index, currentObs) {
+					checked =  null;
+					if (getValue($(currentObs).attr('id')+".value")) {
+						emptyFieldset = false;
+						currentValue = getValue($(currentObs).attr('id')+".value");
+						$(currentObs).closest(".hiddenObs").show();
+					}
+				});
+
+				// This is a code to add a comments field if any of the above tests are ordered
+				if (!emptyFieldset) {
+					console.log($(currentFieldset).find(".comments"));
+					$(currentFieldset).find(".comments").show();
 				}
 			});
 
@@ -171,15 +183,15 @@ formDisplayStyle="Simple"
 					</ifMode>
 				</div>
 			</template>
-			<render n="100" m="CIEL:1015" u="true" />
-			<render n="101" m="CIEL:21" u="true" />
-			<render n="102" m="CIEL:1017" u="true" />
+			<render n="100" m="LFHC:1406" u="true" />
+			<render n="101" m="LFHC:1405" u="true" />
+			<render n="102" m="LFHC:1407" u="true" />
 			<render n="103" m="CIEL:1018" u="true" />
 			<render n="104" m="CIEL:851" u="true" />
-			<render n="105" m="CIEL:729" u="true" />
-			<render n="106" m="CIEL:679" u="true" />
+			<render n="105" m="LFHC:1408" u="true" />
+			<render n="106" m="LFHC:1404" u="true" />
 			<render n="107" m="CIEL:1016" u="true" />
-			<render n="108" m="CIEL:678" u="true" />
+			<render n="108" m="LFHC:1403" u="true" />
 		</repeat>
 	</fieldset>
 	<fieldset id="ps-fieldset">
@@ -219,14 +231,14 @@ formDisplayStyle="Simple"
 			</template>
 			<render n="201" m="CIEL:1022" u="true"/>
 			<render n="202" m="CIEL:1330" u="true"/>
-			<render n="203" m="CIEL:1021" u="true"/>
+			<render n="203" m="LFHC:1411" u="true"/>
 			<render n="204" m="CIEL:952" u="true"/>
 			<render n="205" m="CIEL:1332" u="true"/>
-			<render n="206" m="CIEL:1024" u="true"/>
+			<render n="206" m="LFHC:1409" u="true"/>
 			<render n="207" m="LFHC:1190 " u="true"/>
 			<render n="208" m="CIEL:1023" u="true"/>
 			<render n="209" m="CIEL:1333" u="true"/>
-			<render n="210" m="CIEL:1025" u="true"/>
+			<render n="210" m="LFHC:1410" u="true"/>
 			<render n="211" m="CIEL:1327" u="true"/>
 			<render n="212" m="LFHC:1127" u="true"/>
 			<render n="213" m="LFHC:1428" u="true"/>
@@ -235,7 +247,19 @@ formDisplayStyle="Simple"
 			<!--Commenting because the concept is N/A type. Waiting for client to correct
 			<render n="212" m="CIEL:161424" u="true"/>-->
 		</repeat>
+
+		<!-- This is a code to add a comments field if any of the above tests are ordered -->
+		<ifMode mode="enter" include="false">
+			<span class="comments">
+				<h3><lookup expression="fn.getConcept('LFHC:1430').name"/></h3>
+				<p>
+					<obs conceptId="LFHC:1430" cols="40" rows="5" />
+				</p>
+			</span>
+		</ifMode>
+
 	</fieldset>
+
 	<fieldset id="oh-fieldset">
 		<!-- Other Hematology -->
 		<legend><uimessage code="lfhcforms.labtestorder.legend.otherhematology"/></legend>
@@ -315,7 +339,7 @@ formDisplayStyle="Simple"
 			<render n="401" m="CIEL:162101" u="false" />
 			<render n="402" m="LFHC:1442" u="false" />
 			<render n="403" m="LFHC:1441" u="false" />
-			<render n="404" m="CIEL:161442" u="false" />
+			<render n="404" m="LFH:1431" u="false" />
 			<render n="405" m="LFHC:1440" u="false" />
 			<render n="406" m="CIEL:1875" u="false" />
 			<render n="407" m="CIEL:162096" u="false" />
@@ -323,10 +347,20 @@ formDisplayStyle="Simple"
 			<render n="409" m="CIEL:161438" u="false" />
 			<render n="410" m="CIEL:161439" u="false" />
 			<render n="411" m="CIEL:161441" u="false" />
-			<render n="412" m="CIEL:56" u="false" />
 			<render n="413" m="LFHC:1439" u="false" />
-			
+			<render n="414" m="LFHC:1443" u="false" />
 		</repeat>
+
+		<!-- This is a code to add a comments field if any of the above tests are ordered -->
+		<ifMode mode="enter" include="false">
+			<span class="comments">
+				<h3><lookup expression="fn.getConcept('LFHC:1454').name"/></h3>
+				<p>
+					<obs conceptId="LFHC:1454" cols="40" rows="5" />
+				</p>
+			</span>
+		</ifMode>
+
 	</fieldset>
 	<fieldset id="ch-fieldset">
 		<!-- Chemistry -->
@@ -362,8 +396,8 @@ formDisplayStyle="Simple"
 					</ifMode>
 				</div>
 			</template>
-			<render n="500" m="CIEL:887" u="true" />
-			<render n="501" m="CIEL:160912" u="true" />
+			<render n="500" m="LFHC:1412" u="true" />
+			<render n="501" m="LFHC:1413" u="true" />
 			<render n="502" m="CIEL:1132" u="true" />
 			<render n="503" m="CIEL:1133" u="true" />
 			<render n="504" m="CIEL:1134" u="true" />
@@ -429,55 +463,55 @@ formDisplayStyle="Simple"
 			</div>
 		</ifMode>
 		<!--  The following section is not using 'repeat' and 'template' tags because the label of one concept has to be handled differently -->
-				<div class="hiddenObs" style="display:none;">
+		<div class="hiddenObs" style="display:none;">
 
-					<p>
-						<obs id="700" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161482"/>
-					</p>
-					<ifMode mode="enter" include="false">
-						<p>
-							<ifMode mode="edit">
-								<span class="questionLabel"><lookup expression="fn.getConcept('CIEL:161482').name"/></span>
-							</ifMode>
-							<ifMode mode="view">
-								:
-							</ifMode>
-							<obs conceptId="CIEL:161482"  showUnits="false"/>
-						</p>
+			<p>
+				<obs id="700" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161482"/>
+			</p>
+			<ifMode mode="enter" include="false">
+				<p>
+					<ifMode mode="edit">
+						<span class="questionLabel"><lookup expression="fn.getConcept('CIEL:161482').name"/></span>
 					</ifMode>
-				</div>
-				<div class="hiddenObs" style="display:none;">
-					<p>
-						<obs id="701" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161153" answerLabel="aPTT"/>
-					</p>
-					<ifMode mode="enter" include="false">
-						<p>
-							<ifMode mode="edit">
-								<span class="questionLabel">aPTT</span>
-							</ifMode>
-							<ifMode mode="view">
-								:
-							</ifMode>
-							<obs conceptId="CIEL:161153" answerConceptId="CIEL:161153" answerLabel="aPTT" showUnits="true"/>
-						</p>
+					<ifMode mode="view">
+						:
 					</ifMode>
-				</div>
-				<div class="hiddenObs" style="display:none;">
-					<p>
-						<obs id="702" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161433"/>
-					</p>
-					<ifMode mode="enter" include="false">
-						<p>
-							<ifMode mode="edit">
-								<span class="questionLabel"><lookup expression="fn.getConcept('CIEL:161433').name"/></span>
-							</ifMode>
-							<ifMode mode="view">
-								:
-							</ifMode>
-							<obs conceptId="CIEL:161433"  showUnits="true"/>
-						</p>
+					<obs conceptId="CIEL:161482"  showUnits="false"/>
+				</p>
+			</ifMode>
+		</div>
+		<div class="hiddenObs" style="display:none;">
+			<p>
+				<obs id="701" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161153" answerLabel="aPTT"/>
+			</p>
+			<ifMode mode="enter" include="false">
+				<p>
+					<ifMode mode="edit">
+						<span class="questionLabel">aPTT</span>
 					</ifMode>
-				</div>
+					<ifMode mode="view">
+						:
+					</ifMode>
+					<obs conceptId="CIEL:161153" answerConceptId="CIEL:161153" answerLabel="aPTT" showUnits="true"/>
+				</p>
+			</ifMode>
+		</div>
+		<div class="hiddenObs" style="display:none;">
+			<p>
+				<obs id="702" class="toCheck" conceptId="LFHC:1276" answerConceptId="CIEL:161433"/>
+			</p>
+			<ifMode mode="enter" include="false">
+				<p>
+					<ifMode mode="edit">
+						<span class="questionLabel"><lookup expression="fn.getConcept('CIEL:161433').name"/></span>
+					</ifMode>
+					<ifMode mode="view">
+						:
+					</ifMode>
+					<obs conceptId="CIEL:161433"  showUnits="true"/>
+				</p>
+			</ifMode>
+		</div>
 	</fieldset>
 	<fieldset id="bs-fieldset">
 		<!-- Bone Set -->
@@ -513,8 +547,8 @@ formDisplayStyle="Simple"
 					</ifMode>
 				</div>
 			</template>
-			<render n="800" m="CIEL:161154" u="true"/>
-			<render n="801" m="CIEL:159643" u="true"/>
+			<render n="800" m="LFHC:1426" u="true"/>
+			<render n="801" m="LFHC:1416" u="true"/>
 			<render n="802" m="CIEL:159497" u="true"/>
 			<render n="803" m="LFHC:1194" u="true"/>
 		</repeat>
@@ -560,8 +594,8 @@ formDisplayStyle="Simple"
 			<render n="904" m="CIEL:653" u="true" />
 			<render n="905" m="CIEL:1014" u="true" />
 			<render n="906" m="CIEL:785" u="true" />
-			<render n="907" m="CIEL:717" u="true" />
-			<render n="908" m="CIEL:848" u="true" />
+			<render n="907" m="LFHC:1415" u="true" />
+			<render n="908" m="LFHC:1414" u="true" />
 			<render n="909" m="CIEL:1013" u="true" />
 			<render n="910" m="CIEL:1299" u="true" />
 		</repeat>
@@ -601,19 +635,19 @@ formDisplayStyle="Simple"
 				</div>
 			</template>
 			<render n="1000" m="CIEL:159362" u="false" />
-			<render n="1001" m="CIEL:161511" u="true" />
-			<render n="1002" m="CIEL:159828" u="true" />
+			<render n="1001" m="LFHC:1419" u="true" />
+			<render n="1002" m="LFHC:1420" u="true" />
 			<render n="1003" m="CIEL:160226" u="false" />
-			<render n="1004" m="CIEL:159825" u="true" />
+			<render n="1004" m="LFHC:1421" u="true" />
 			<render n="1005" m="CIEL:161500" u="true" />
 			<render n="1006" m="CIEL:855" u="true" />
 			<render n="1007" m="CIEL:159644" u="true" />
 			<render n="1008" m="CIEL:5497" u="true" />
 			<render n="1009" m="CIEL:856" u="false" />
 			<render n="1010" m="CIEL:730" u="true" />
-			<render n="1011" m="CIEL:161505" u="true" />
+			<render n="1011" m="LFHC:1422" u="true" />
 			<render n="1012" m="CIEL:161503" u="true" />
-			<render n="1013" m="CIEL:161504" u="true" />
+			<render n="1013" m="LFHC:1423" u="true" />
 			<render n="1014" m="CIEL:304" u="false" />
 			<render n="1015" m="CIEL:161449" u="false" />
 		</repeat>
