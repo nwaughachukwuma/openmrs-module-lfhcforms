@@ -91,7 +91,7 @@ formDisplayStyle="Simple"
 
 				} else {
 					$("#lcs-message").text("");
-	
+
 					setValue("lcs-obs.value", score.value);
 					$("#lcs-value").text(score.value);
 					$("#lcs-message").text(lcsVeryLowMessage);
@@ -823,12 +823,29 @@ var lcsNotCompleteMessage = '${lcsNotCompleteMessage}';
 		<legend>
 			<uimessage code="lfhcforms.financial-assessment.legend.lfhc-provide" />
 		</legend>
-		<h3>
-			<uimessage code="lfhcforms.financial-assessment.legend.lfhc-provide" />
-		</h3>
-		<p>
-			<obs conceptId="LFHC:1396" />
-		</p>
+		<repeat>
+			<template>
+				<div id="{n}-toggleContainer" templateBlockId="lfhc-will-provide" class="toggleContainer" style="display:none;">
+					<h3>
+						<uimessage code="lfhcforms.financial-assessment.legend.lfhc-provide" />
+					</h3>
+					<p>
+						<obs id="{n}" conceptId="LFHC:1396" />
+					</p>
+					<span class="addRemoveButtons" >
+						<i class="addEntry icon-">&#xf055; Add</i>
+						<i class="removeEntry icon-">   &#xf056; Remove</i>
+					</span>
+				</div>
+			</template>
+			<render n="101"/>
+			<render n="102"/>
+			<render n="103"/>
+			<render n="104"/>
+			<render n="105"/>
+		</repeat>
+
+
 	</fieldset>	
 
 	<!-- Other support provided fieldset -->
