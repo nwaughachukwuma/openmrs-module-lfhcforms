@@ -330,7 +330,7 @@ formDisplayStyle="Simple"
 							<ifMode mode="view">
 								:
 							</ifMode>
-							<obs conceptId="{m}" showUnits="{u}" />
+							<obs conceptId="{m}" showUnits="{u}" cols="{c}" rows="{r}" />
 						</p>
 					</ifMode>
 				</div>
@@ -349,19 +349,10 @@ formDisplayStyle="Simple"
 			<render n="411" m="CIEL:161441" u="false" />
 			<render n="413" m="LFHC:1439" u="false" />
 			<render n="414" m="LFHC:1443" u="false" />
+			<render n="414" m="LFHC:1454" u="false" c="40" r="5" />
 		</repeat>
-
-		<!-- This is a code to add a comments field if any of the above tests are ordered -->
-		<ifMode mode="enter" include="false">
-			<span class="comments">
-				<h3><lookup expression="fn.getConcept('LFHC:1454').name"/></h3>
-				<p>
-					<obs conceptId="LFHC:1454" cols="40" rows="5" />
-				</p>
-			</span>
-		</ifMode>
-
 	</fieldset>
+	
 	<fieldset id="ch-fieldset">
 		<!-- Chemistry -->
 		<legend><uimessage code="lfhcforms.labtestorder.legend.chemistry"/></legend>
@@ -865,7 +856,10 @@ formDisplayStyle="Simple"
 			<render n="1506" m="CIEL:161484" u="false" />
 			<render n="1507" m="CIEL:161485" u="false" />
 			<render n="1508" m="CIEL:161454" u="false" />
-			
+			<render n="1509" m="LFHC:1277" u="false" />
+			<render n="1510" m="LFHC:1278" u="false" />
+			<render n="1511" m="LFHC:1279" u="false" />
+			<render n="1512" m="LFHC:1281" u="false" />			
 		</repeat>
 	</fieldset>
 
