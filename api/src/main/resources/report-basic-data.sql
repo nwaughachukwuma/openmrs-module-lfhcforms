@@ -536,5 +536,5 @@ AS complaints_diagnoses
 WHERE
     visit.date_started >= :startDate AND
     visit.date_started < DATE_ADD(:endDate, INTERVAL 1 DAY) -- Because :endDate is set at 00:00
-ORDER BY visit.date_started DESC, myidentifier.identifier ASC
+ORDER BY visit.date_started DESC, omrs_identifier.identifier ASC
 ;
