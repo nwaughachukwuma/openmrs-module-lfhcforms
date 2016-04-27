@@ -1,6 +1,6 @@
 SELECT
 	DATE_FORMAT(myregistration.date,'%d-%m-%Y') AS 'Registration date',
-	CONVERT(myidentifier.identifier, char) AS 'Identifier',
+	CONVERT(omrs_identifier.identifier, char) AS 'Identifier',
 	myperson.full_name AS 'Full name',
     @years := TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Years',
     @months := TIMESTAMPDIFF(MONTH, myperson.birthdate, visit.date_started) - 12 * TIMESTAMPDIFF(YEAR, myperson.birthdate, visit.date_started) AS 'Months',
@@ -130,9 +130,9 @@ FROM
 									ON
 										concept.class_id = concept_class.concept_class_id
 								WHERE 
-									concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f'
+									concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f' -- Diagnosis concept class
 							)
-							AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474'
+							-- AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474' -- Diagnosis encounter type
 					)
 					AS visit
 					GROUP BY visit.visit_id
@@ -452,17 +452,27 @@ AS complaints_diagnoses
 		
 			FROM
 				patient_identifier
+                LEFT JOIN
+					patient_identifier_type
+				ON
+					patient_identifier.identifier_type = patient_identifier_type.patient_identifier_type_id
 			WHERE
 				patient_identifier.date_created = (	SELECT
 														MAX(pi2.date_created)
 													FROM
 														patient_identifier pi2
+                                                        LEFT JOIN
+															patient_identifier_type pit2
+														ON
+															pi2.identifier_type = pit2.patient_identifier_type_id
 													WHERE
-														pi2.patient_id = patient_identifier.patient_id 	)
+														pi2.patient_id = patient_identifier.patient_id 	
+                                                        AND pit2.uuid = '05a29f94-c0ed-11e2-94be-8c13b969e334'	)
+				AND patient_identifier_type.uuid = '05a29f94-c0ed-11e2-94be-8c13b969e334' -- OpenMRS identifier type
         )
-        AS myidentifier
+        AS omrs_identifier
 	ON
-		complaints_diagnoses.patient_id = myidentifier.patient_id
+		complaints_diagnoses.patient_id = omrs_identifier.patient_id
 	LEFT JOIN
 		visit
 	ON
@@ -526,5 +536,5 @@ AS complaints_diagnoses
 WHERE
     visit.date_started >= :startDate AND
     visit.date_started < DATE_ADD(:endDate, INTERVAL 1 DAY) -- Because :endDate is set at 00:00
-ORDER BY visit.date_started DESC, myidentifier.identifier ASC
+ORDER BY visit.date_started DESC, omrs_identifier.identifier ASC
 ;
