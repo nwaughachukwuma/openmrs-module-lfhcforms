@@ -58,6 +58,7 @@ import org.openmrs.api.EncounterService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.PatientService;
 import org.openmrs.api.PersonService;
+import org.openmrs.api.ProviderService;
 import org.openmrs.api.VisitService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.emrapi.EmrApiProperties;
@@ -128,6 +129,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 	private VisitService visitService;
 	private PatientService patientService;
 	private PersonService personService;
+	private ProviderService providerService;
 		
 	public LFHCLegacyDataInitializer() {
 		patientsRequiredHeaders.add(CSV_REG_DATE);
@@ -181,6 +183,7 @@ public class LFHCLegacyDataInitializer implements Initializer {
 		visitService = Context.getVisitService();
 		patientService = Context.getPatientService();
 		personService = Context.getPersonService();
+		providerService = Context.getProviderService();
 	}
 	
 	protected Logger getLogger() {
@@ -328,48 +331,54 @@ public class LFHCLegacyDataInitializer implements Initializer {
 		EncounterType legacyEncounterType = encounterService.getEncounterTypeByUuid(EncounterTypesInitializer.LEGACY_ENCOUNTER_TYPE_UUID);
 		VisitType outPatientVisitType = visitService.getVisitTypeByUuid(LFHCFormsConstants.OUTPATIENT_VISIT_TYPE_UUID);
 		
+		Concept conceptDiagnoses = getConceptFromConceptMapping(conceptService, "CIEL:159947");
+		Concept conceptDiagnosisOrder = getConceptFromConceptMapping(conceptService, "CIEL:159946");
+		Concept conceptPrimaryDiagnosis = getConceptFromConceptMapping(conceptService, "CIEL:159943");
+		
 		for(Map<String, String> mappedVisit : mappedVisits.values()) {
 			String legacyId = mappedVisit.get(CSV_LEGACY_ID);
 			String visitDateString = mappedVisit.get(CSV_ENCOUNTER_DATE);
 			Date visitDate = getDateFromString(visitDateString, CSV_DATE_FORMAT);
-//			Integer patientId = identifierMapping.get(legacyId);
+
+			final String rowLoggerInfo = "\nLegacy ID: " + legacyId + ", visit date: " + visitDateString;
 			
 			List<Patient> patients = patientService.getPatients(legacyId);
 			if(patients.isEmpty()) {
-				logger.error("No patient found for saving the following visit/encounter. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
+				logger.error("No patient found for saving the following visit/encounter." + rowLoggerInfo);
 				continue;
 			}
 			if(patients.size() > 1) {
-				logger.error(patients.size() + " found matching the legacy ID. Legacy ID: " + legacyId + ", visit date: " + visitDateString);
+				logger.error(patients.size() + " found matching the legacy ID." + rowLoggerInfo);
 				continue;
 			}
 			
 			Patient patient = patients.get(0);
 			
 			Set<Obs> obsSet = new HashSet<Obs>();
+			Set<Obs> obsDiagnoses = new HashSet<Obs>();	// Diagnoses are gathered differently to be correctly handled by the UI
+			
 			for (int i = 1; i <= CSV_QUESTION_COUNT; i++) {
 				String questionKey = CSV_QUESTION + i;
 				String answerKey = CSV_ANSWER + i;
 				
 				String questionString = mappedVisit.get(questionKey);
 				String answerString = mappedVisit.get(answerKey);
-				final String rowInfo = "\nLegacy ID: " + legacyId + ", visit date: " + visitDateString + ", question: " + questionString + ", answer: " + answerString;
+				
+				final String obsLoggerInfo = rowLoggerInfo + ", question: " + questionString + ", answer: " + answerString;
 				
 				// High-level checks.
 				if (questionString.isEmpty() && answerString.isEmpty()) {
 					continue;
 				}
 				if (questionString.isEmpty() || answerString.isEmpty()) {
-					logger.error("The question or the answer is missing for the following visit/encounter." + rowInfo);
-					obsSet.clear();
+					logger.error("The question or the answer is missing for the following visit/encounter." + obsLoggerInfo);
 					break;
 				}
 				
 				// Fetching the question-concept.
 				Concept conceptQuestion = getConceptFromConceptMapping(conceptService, questionString);
 				if (conceptQuestion == null) {
-					logger.error("No concept-question could be mapped for saving the following visit/encounter." + rowInfo);
-					obsSet.clear();
+					logger.error("No concept-question could be mapped for saving the following visit/encounter." + obsLoggerInfo);
 					break;
 	        	}
 
@@ -391,29 +400,25 @@ public class LFHCLegacyDataInitializer implements Initializer {
 				
 				if ( obsType.equals(OBS_CODED) ) {
 					if (conceptAnswer == null) {
-						logger.error("A non-coded answer was provided to a coded question." + rowInfo);
-						obsSet.clear();
+						logger.error("A non-coded answer was provided to a coded question." + obsLoggerInfo);
 						break;
 		        	}
 					obs.setValueCoded(conceptAnswer);
 				}
 				else if ( obsType.equals(OBS_NUM) ) {
 					if (parsedToNumeric == false) {
-						logger.error("A non-numeric answer was provided to a numeric question." + rowInfo);
-						obsSet.clear();
+						logger.error("A non-numeric answer was provided to a numeric question." + obsLoggerInfo);
 						break;
 					}
 					obs.setValueNumeric(numericValue);
 				}
 				else if ( obsType.equals(OBS_TEXT) ) {
 					if (conceptAnswer != null) {
-						logger.error("A coded answer was provided to a text question, this most likely most likely an error." + rowInfo);
-						obsSet.clear();
+						logger.error("A coded answer was provided to a text question, this most likely most likely an error." + obsLoggerInfo);
 						break;
 		        	}
 					if (parsedToNumeric == true) {
-						logger.error("A numeric answer was provided to a text question, this most likely most likely an error." + rowInfo);
-						obsSet.clear();
+						logger.error("A numeric answer was provided to a text question, this most likely most likely an error." + obsLoggerInfo);
 						break;
 					}
 					obs.setValueText(answerString);
@@ -432,42 +437,74 @@ public class LFHCLegacyDataInitializer implements Initializer {
 						res = false;
 					}
 					else {
-						logger.error("No boolean answer could be obtained for a boolean question." + rowInfo);
-						obsSet.clear();
+						logger.error("No boolean answer could be obtained for a boolean question." + obsLoggerInfo);
 						break;
 					}
 					
 					obs.setValueBoolean(res);
 				}
 				else {
-					logger.error("The question datatype is not handled: '" + obsType + "'." + rowInfo);
-					obsSet.clear();
+					logger.error("The question datatype is not handled: '" + obsType + "'." + obsLoggerInfo);
 					break;
 				}
-        		obsSet.add(obs);
+				if (questionString.equals("CIEL:1284")) {	// Diagnoses are saved through an obs group
+					if ((conceptDiagnoses == null) || (conceptDiagnosisOrder == null) || (conceptPrimaryDiagnosis == null)) {
+						logger.error("Some of the needed concepts for recording diagnoses are missing." + rowLoggerInfo);
+						break;
+					}
+					
+					obsDiagnoses.add(obs);
+				}
+				else {
+					obsSet.add(obs);
+				}
 			}
 			
-			if (obsSet.isEmpty() == false) {
+			//
+			//	The legacy encounter: set up and adding obs
+			//
+			{
 				final Encounter legacyEncounter = new Encounter();
 				legacyEncounter.setEncounterType(legacyEncounterType);
 				legacyEncounter.setEncounterDatetime(visitDate);
 				legacyEncounter.setPatient(patient);
+				// Setting the unknown encounter role and provider
+				legacyEncounter.setProvider(encounterService.getEncounterRoleByUuid("a0b03050-c99b-11e0-9572-0800200c9a66"), providerService.getUnknownProvider());
 				legacyEncounter.setLocation( locationService.getLocationByUuid(OPD_LOCATION_UUID) );
 				for (Obs obs : obsSet) {
 					legacyEncounter.addObs(obs);
 				}
+				for (Obs obs : obsDiagnoses) {
+					
+					Obs obsGroup = new Obs();
+					obsGroup.setConcept(conceptDiagnoses);
+					
+					Obs obsDiagnosisOrder = new Obs();
+					obsDiagnosisOrder.setConcept(conceptDiagnosisOrder);
+					obsDiagnosisOrder.setValueCoded(conceptPrimaryDiagnosis);
+
+					obsGroup.addGroupMember(obsDiagnosisOrder);	// Setting the all set of diagnoses as 'primary diagnoses'.
+					obsGroup.addGroupMember(obs);
+					
+					legacyEncounter.addObs(obsGroup);
+				}
 				
-				Visit visit = new Visit();
-				visit.setVisitType(outPatientVisitType);
-				visit.setPatient(legacyEncounter.getPatient());
-				visit.setStartDatetime(legacyEncounter.getEncounterDatetime());
-				visit.setStopDatetime((new DateTime(legacyEncounter.getEncounterDatetime())).plusHours(1).toDate());	// Visit duration is set here
-				visit.setLocation(legacyEncounter.getLocation());
-				visit.setEncounters(new HashSet<Encounter>() {{
-					add(legacyEncounter);
-				}});
-				
-				visitService.saveVisit(visit);
+				// 
+				//	The legacy visit (made of one legacy encounter)
+				//
+				if (false == legacyEncounter.getAllObs().isEmpty()) {
+					Visit visit = new Visit();
+					visit.setVisitType(outPatientVisitType);
+					visit.setPatient(legacyEncounter.getPatient());
+					visit.setStartDatetime(legacyEncounter.getEncounterDatetime());
+					visit.setStopDatetime((new DateTime(legacyEncounter.getEncounterDatetime())).plusHours(1).toDate());	// Visit duration is set here
+					visit.setLocation(legacyEncounter.getLocation());
+					visit.setEncounters(new HashSet<Encounter>() {{
+						add(legacyEncounter);
+					}});
+					
+					visitService.saveVisit(visit);
+				}
 			}
 		}
 	}
