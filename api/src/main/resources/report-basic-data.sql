@@ -132,7 +132,7 @@ FROM
 								WHERE 
 									concept_class.uuid = '8d4918b0-c2cc-11de-8d13-0010c6dffd0f' -- Diagnosis concept class
 							)
-							-- AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474' -- Diagnosis encounter type
+							AND myencounter.encounter_type_uuid = '3dbd13da-f210-4f20-a5b4-536a92e81474' -- Diagnosis encounter type
 					)
 					AS visit
 					GROUP BY visit.visit_id
