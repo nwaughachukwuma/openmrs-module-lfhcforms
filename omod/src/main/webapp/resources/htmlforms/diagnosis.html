@@ -1,10 +1,10 @@
 <htmlform formUuid="90344e16-94ff-4ecf-b9c2-71930aab8c67" formName="Diagnosis" formEncounterType="3dbd13da-f210-4f20-a5b4-536a92e81474" formVersion="0.6"
-	formAddMetadata="yes"
-	formUILocation="patientDashboard.visitActions"
-	formOrder="11"
-	formIcon="icon-stethoscope"
-	formShowIf=""
-	formDisplayStyle="Simple"
+formAddMetadata="yes"
+formUILocation="patientDashboard.visitActions"
+formOrder="11"
+formIcon="icon-stethoscope"
+formShowIf=""
+formDisplayStyle="Simple"
 >
 
 <ifMode mode="VIEW" include="false">
@@ -13,11 +13,14 @@
 	<!-- Retrieve concept Id from concept mapping (and define it as global variable) -->
 	<!-- Used for defaulting the value of the Diagnosis Classification to Primary and avoid hardcoding database id  -->
 	<lookup complexExpression="
-	#set( $defaultConcept = 0)
-	#set( $defaultConcept = $fn.getConcept('CIEL:159943'))
+	#set( $defaultDiagnosisCalssification = 0)
+	#set( $defaultDiagnosisCalssification = $fn.getConcept('CIEL:159943'))
+	#set( $defaultDiagnosisCertainty = 0)
+	#set( $defaultDiagnosisCertainty = $fn.getConcept('CIEL:159392'))
 
 	&lt;script type=&quot;text/javascript&quot;>
-	var defaultConcept = ${defaultConcept};
+	var defaultDiagnosisCalssification = ${defaultDiagnosisCalssification};
+	var defaultDiagnosisCertainty = ${defaultDiagnosisCertainty};
 	&lt;/script>
 	" />
 
@@ -34,7 +37,7 @@
 				var hiddenValue = $(element).closest("span").find("#"+$(element).attr("id")+"_hid").val();
 				//console.log("hiddenValue: " + hiddenValue);
 				if ( !((hiddenValue == "ERROR") || (hiddenValue == ""))) {
-					setValue($(element).closest("span").attr("id")+"-opt1.value", defaultConcept );
+					setValue($(element).closest("span").attr("id")+"-opt1.value", defaultDiagnosisCalssification );
 				} else {
 					//console.log("in else");
 					setValue($(element).closest("span").attr("id")+"-opt1.value", "" );
@@ -99,27 +102,32 @@
 <section id="diagnosis" sectionTag="section" headerStyle="title" headerCode="Diagnosis">
 	<fieldset field-separator=", ">
 		<legend>Diagnoses</legend>
-		<h3>Diagnoses</h3>
 		<repeat>
 			<template>
 				<div id="{n}-toggleContainer" templateBlockId="diagnosis" class="toggleContainer" style="display:none;">
 					<obsgroup groupingConceptId="CIEL:159947">
+						<h3>
+							Diagnosis
+						</h3>
 						<p>
-							Diagnosis #{n}
 							<obs id="{n}" conceptId="CIEL:1284" answerClasses="Diagnosis" style="autocomplete"/>
-							<i class="addEntry icon-">&#xf055; Add</i>
-							<i class="removeEntry icon-">   &#xf056; Remove</i>
 						</p>
-						<details>
-							<summary>
-								Options
-							</summary>
-							<p>
-								Diagnosis classification
-								<obs id="{n}-opt1" conceptId="CIEL:159946" />
-							</p>
-						</details>
-						<br/>
+						<h3>
+							Diagnosis classification
+						</h3>
+						<p>
+							<obs id="{n}-opt1" conceptId="CIEL:159946" />
+						</p>
+						<h3>
+							Diagnosis certainty							
+						</h3>
+						<p>
+							<obs id="{n}-opt2" conceptId="CIEL:159394" answerConceptIds="CIEL:159393,CIEL:159392"/>
+						</p>
+						<span class="addRemoveButtons" >
+							<i id="{n}-addEntry" class="addEntry icon-">&#xf055; <uimessage code="lfhcforms.button.add" /></i>
+							<i id="{n}-removeEntry" class="removeEntry icon-">   &#xf056; <uimessage code="lfhcforms.button.remove" /></i>
+						</span>
 					</obsgroup>
 				</div>
 			</template>
