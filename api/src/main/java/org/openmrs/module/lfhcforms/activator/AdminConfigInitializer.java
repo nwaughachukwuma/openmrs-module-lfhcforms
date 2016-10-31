@@ -46,6 +46,7 @@ public class AdminConfigInitializer implements Initializer {
 
 		// Disable unwanted apps and extensions
 		service.disableApp("referenceapplication.vitals");
+		service.disableExtension("referenceapplication.defaultEncounterTemplate");
 		service.disableExtension("referenceapplication.realTime.vitals");
 		service.disableExtension("referenceapplication.realTime.simpleVisitNote");
 		service.disableExtension("referenceapplication.realTime.simpleAdmission");

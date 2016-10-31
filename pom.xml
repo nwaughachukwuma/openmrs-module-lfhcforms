@@ -4,7 +4,7 @@
 
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>lfhcforms</artifactId>
-	<version>0.2.3</version>
+	<version>0.2.4-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>LFHC Forms Module</name>
 	<url>https://github.com/mekomsolutions/openmrs-module-lfhcforms</url>

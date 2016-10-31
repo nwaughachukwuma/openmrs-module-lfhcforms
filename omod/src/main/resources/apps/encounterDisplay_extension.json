@@ -1,0 +1,151 @@
+[
+{
+    "id": "lfhcforms.encounterTemplate",
+    "extensionPointId": "org.openmrs.referenceapplication.encounterTemplate",
+    "type": "fragment",
+    "extensionParams": {
+        "templateId": "defaultEncounterTemplate",
+        "templateFragmentProviderName": "coreapps",
+        "templateFragmentId": "patientdashboard/encountertemplate/defaultEncounterTemplate",
+        "supportedEncounterTypes": {
+                "d7151f82-c1f3-4152-a605-2f9ea7414a79": { // Visit Note
+                    "icon": "icon-stethoscope",
+                    "editable": true
+                    },
+                "67a71486-1a54-468f-ac3e-7091a9a79584": { // Vitals
+                    "icon": "icon-vitals",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true
+                    },
+                "e22e39fd-7db2-45e7-80f1-60fa0d5a4378": { // Admission
+                    "icon": "icon-signin",
+                    "editable": true
+                    },
+                "7b68d557-85ef-4fc8-b767-4fa4f5eb5c23": { // Transfer
+                    "icon": "icon-random",
+                    "editable": true
+                    },
+                // Custom Encounter types
+                "49e7bc6c-bfbd-40dc-8164-45d82c55b5f9": { // Clinical Notes
+                    "icon": "icon-group",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "3dbd13da-f210-4f20-a5b4-536a92e81474": { // Diagnosis
+                    "icon": "icon-stethoscope",
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "301e0396-2069-4085-919e-5a7b423b54f8": { // Diagnostic Imaging Order
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editable": true              
+                    },
+                "181820aa-88c9-479b-9077-af92f5364329": { // Discharge
+                    "icon": "icon-group",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true
+                    },
+                "ef469ea5-8b79-4a64-a1c8-ce3e09b4e703": { // Dispense Medication
+                    "icon": "icon-plus-sign-alt",
+                    "displayWithHtmlForm": true,
+                    "editable": true              
+                    },
+                "9f5c90b2-03e0-4374-8534-6c32ea71f3ab": { // Fluid Balance
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "a9702711-f39c-4a91-ad96-88c1213b12b7": { // History
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "e864f775-d1d0-4936-85df-557ad5c44ae1": { // Immunity and Infection
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "c88f3763-77a4-4e57-a42f-eef996b03b98": { // IPD Nurse
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                 "39deb891-8dc6-451b-9361-dbf564f27250": { // Lab Test
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "934aad8b-250d-450b-9cb3-ca5f01841f61": { // Lines and Tubes
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },  
+                "3c462397-7840-4890-ae78-d123d9fd138b": { // Medication Order
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                 "c7700650-63a6-4893-976e-7a7a0cc43b04": { // OPD Nurse
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "0d9203a9-c1a1-4358-832d-2fc91373558e": { // Physical Exam
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "feacdb57-4388-4b39-8840-2ff063bfab34": { // Treatment
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "5235f7da-194e-4278-afbd-a473bb430857": { // Triage
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "75a97fa9-4b04-4968-8f5b-041e5d0a3dae": { // Wound Details
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "4a4e04a0-1424-4fb1-bebb-ba6bb16dd628": { // Neurovascular Observation
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                "10c20ebf-1af2-4ddf-bdaa-219fe8ff930b": { // Nurse Blood Transfusion
+                    "icon": "icon-medkit",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                    },
+                 "89886052-4a6b-4b74-a71b-4b87094b02cb": { // Doctor Blood Transfusion
+                    "icon": "icon-stethoscope",
+                    "displayWithHtmlForm": true,
+                    "editUrl": "htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{patientId}}&encounterId={{encounterId}}&",
+                    "editable": true              
+                }
+                
+            }
+        }
+    }
+]
