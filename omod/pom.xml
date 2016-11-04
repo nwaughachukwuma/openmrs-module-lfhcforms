@@ -61,6 +61,11 @@
 			<artifactId>emrapi-omod</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.openmrs.module</groupId>
+			<artifactId>webservices.rest-omod</artifactId>
+		</dependency>
+
 
 		<!-- End OpenMRS modules -->
 
@@ -107,7 +112,7 @@
 			<artifactId>joda-time</artifactId>
 			<version>RELEASE</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
