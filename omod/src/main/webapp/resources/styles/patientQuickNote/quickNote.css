@@ -1,0 +1,11 @@
+form {
+	overflow: visible!important;
+}
+
+.editable-input {
+	width: 100%!important;
+}
+
+.quickNote {
+	margin-top: 10px;
+}
