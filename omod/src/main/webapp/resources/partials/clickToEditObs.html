@@ -1,0 +1,5 @@
+<div ng-hide="firstLoading" class="clickToEditObs">
+	<span id="textEditField" onhide="toggleRemoveButton()" onshow="toggleRemoveButton()" editable-text="note.text" onaftersave="updateObs()" >{{ note.text || msgs[module.getProvider() + ".clickToEditObs.empty"] }}</span>
+	<a ng-show="showRemoveButton" class="icon-remove" ng-click="deleteObs()"></a>
+	<i ng-show="showSpinner" class="icon-spinner icon-spin icon-1x"></i>
+</div>

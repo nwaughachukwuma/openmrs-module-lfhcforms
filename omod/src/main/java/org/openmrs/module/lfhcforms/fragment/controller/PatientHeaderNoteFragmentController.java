@@ -34,11 +34,11 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
  *
  */
 
-public class PatientQuickNoteFragmentController {
+public class PatientHeaderNoteFragmentController {
 
 	protected final Log log = LogFactory.getLog(getClass());
 
-	protected final String QUICK_NOTE_CONCEPT_MAPPING = "CIEL:9999";
+	protected final String PATIENT_HEADER_NOTE_CONCEPT_MAPPING = "CIEL:9999";
 
 	public void controller(
 			FragmentModel model,
@@ -51,7 +51,7 @@ public class PatientQuickNoteFragmentController {
 		Map<String, Object> jsonConfig = new HashMap<String, Object>();
 		Patient patient = patientWrapper.getPatient();
 
-		String[] splitMapping = QUICK_NOTE_CONCEPT_MAPPING.split(":");
+		String[] splitMapping = PATIENT_HEADER_NOTE_CONCEPT_MAPPING.split(":");
 
 		jsonConfig.put("patient", ConversionUtil.convertToRepresentation(patient, Representation.REF));
 		jsonConfig.put("concept", ConversionUtil.convertToRepresentation(

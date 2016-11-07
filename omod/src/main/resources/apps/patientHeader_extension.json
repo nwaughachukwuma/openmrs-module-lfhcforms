@@ -8,11 +8,11 @@
         }
     },
     {
-        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.patientQuickNote",
+        "id": "${project.parent.groupId}.${project.parent.artifactId}.patientHeader.secondLineFragments.patientHeaderNote",
         "extensionPointId": "patientHeader.secondLineFragments",
         "extensionParams": {
             "provider": "${project.parent.artifactId}",
-            "fragment": "patientQuickNote"
+            "fragment": "patientHeaderNote"
         }
     }
 ]
