@@ -56,4 +56,8 @@ public class LFHCFormsConstants {
 	// a JSON like object property to set visit types order
 	public final static String VISIT_TYPES_ORDER_PROPERTY = "lfhcforms.visit.visittype.order";
 	
+	// the patient header note concept UUID and global property name
+	public static final String CONCEPT_PATIENT_HEADER_NOTE_UUID = "f5bc6e7d-a48a-4cc5-8e52-f56fbc4e4cb9";
+	public static final String CONCEPT_PATIENT_HEADER_NOTE_PROPERTY_NAME = "lfhcforms.conceptPatientHeaderNote";
+
 }

@@ -18,9 +18,12 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.Concept;
 import org.openmrs.Patient;
+import org.openmrs.api.AdministrationService;
 import org.openmrs.api.ConceptService;
 import org.openmrs.module.emrapi.patient.PatientDomainWrapper;
+import org.openmrs.module.lfhcforms.LFHCFormsConstants;
 import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.representation.Representation;
 import org.openmrs.ui.framework.UiUtils;
@@ -38,24 +41,29 @@ public class PatientHeaderNoteFragmentController {
 
 	protected final Log log = LogFactory.getLog(getClass());
 
-	protected final String PATIENT_HEADER_NOTE_CONCEPT_MAPPING = "CIEL:9999";
-
 	public void controller(
 			FragmentModel model,
 			@FragmentParam("patient") PatientDomainWrapper patientWrapper,
 			@SpringBean("conceptService") ConceptService conceptService,
+			@SpringBean("adminService") AdministrationService adminService,
 			UiUtils ui
 			)
 
 	{
 		Map<String, Object> jsonConfig = new HashMap<String, Object>();
 		Patient patient = patientWrapper.getPatient();
-
-		String[] splitMapping = PATIENT_HEADER_NOTE_CONCEPT_MAPPING.split(":");
-
+		String conceptUuid = adminService.getGlobalProperty(LFHCFormsConstants.CONCEPT_PATIENT_HEADER_NOTE_PROPERTY_NAME);
+		Concept concept = conceptService.getConceptByUuid(conceptUuid);
+		
+		if (concept == null) {
+			log.error("Could not load the Patient Header Note concept. The most probable cause is that the UUID provided in the \""+ 
+					LFHCFormsConstants.CONCEPT_PATIENT_HEADER_NOTE_PROPERTY_NAME +"\" global property" +
+					" doesn't match with any existing concept. Verify that this value is correct." +
+					" (UUID:" + conceptUuid +")");
+		}
+		
 		jsonConfig.put("patient", ConversionUtil.convertToRepresentation(patient, Representation.REF));
-		jsonConfig.put("concept", ConversionUtil.convertToRepresentation(
-				conceptService.getConceptByMapping(splitMapping[1], splitMapping[0]), Representation.REF));
+		jsonConfig.put("concept", ConversionUtil.convertToRepresentation(concept, Representation.REF));
 
 		model.addAttribute("patient", patient);
 		model.addAttribute("jsonConfig", ui.toJson(jsonConfig));

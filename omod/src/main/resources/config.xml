@@ -68,6 +68,14 @@
 	</messages>
 	<!-- /Internationalization -->
 
+	<!-- Global Properties -->
+	<globalProperty>
+		<property>${project.parent.artifactId}.conceptPatientHeaderNote</property>
+		<defaultValue>f5bc6e7d-a48a-4cc5-8e52-f56fbc4e4cb9</defaultValue>
+		<description>
+			UUID of the concept used for the 'PatientHeaderNote' question
+		</description>
+	</globalProperty>
 
 	<!-- Privileges -->
 

@@ -1,5 +1,7 @@
 package org.openmrs.module.lfhcforms.activator;
 
+import java.util.Locale;
+
 /**
  * The contents of this file are subject to the OpenMRS Public License
  * Version 1.0 (the "License"); you may not use this file except in
@@ -16,8 +18,14 @@ package org.openmrs.module.lfhcforms.activator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.ConceptClass;
+import org.openmrs.ConceptComplex;
+import org.openmrs.ConceptDatatype;
+import org.openmrs.ConceptDescription;
+import org.openmrs.ConceptName;
 import org.openmrs.GlobalProperty;
 import org.openmrs.api.AdministrationService;
+import org.openmrs.api.ConceptService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.appframework.service.AppFrameworkService;
 import org.openmrs.module.lfhcforms.LFHCFormsActivator;
@@ -92,6 +100,29 @@ public class AdminConfigInitializer implements Initializer {
 			adminService.saveGlobalProperty(typesOrder);
 
 
+		}
+
+		// Create the Patient Header Note concept
+		{
+			final String name = "Patient Header Note";
+			final String desc = "Concept to save a quick note/alert about the patient";
+			final String uuid = LFHCFormsConstants.CONCEPT_PATIENT_HEADER_NOTE_UUID;
+
+			ConceptService conceptService = Context.getConceptService();
+
+			if (null == conceptService.getConceptByUuid(uuid)) {
+
+				ConceptComplex conceptComplex = new ConceptComplex();
+				conceptComplex.setUuid(uuid);
+				ConceptName conceptName = new ConceptName(name, Locale.ENGLISH);
+				conceptComplex.setFullySpecifiedName(conceptName);
+				conceptComplex.setPreferredName(conceptName);
+				conceptComplex.setConceptClass( conceptService.getConceptClassByUuid(ConceptClass.QUESTION_UUID) );
+				conceptComplex.setDatatype( conceptService.getConceptDatatypeByUuid(ConceptDatatype.TEXT_UUID) );
+				conceptComplex.addDescription(new ConceptDescription(desc, Locale.ENGLISH));
+
+				conceptService.saveConcept(conceptComplex);
+			}
 		}
 	}
 
